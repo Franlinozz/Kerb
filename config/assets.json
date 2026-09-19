@@ -1,0 +1,938 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-19T06:41:39.891Z",
+  "chainId": 196,
+  "loanAsset": "USDG",
+  "discovery": {
+    "issuer": "xstocks",
+    "targets": [
+      "BRK.Bx/USDG",
+      "HKEXCx/USDG",
+      "COINx/xETH",
+      "KUAIx/USDG",
+      "ICEx/USDG",
+      "MIXUx/USDG",
+      "KOx/USDG",
+      "SHEINx/USDG",
+      "BMNRx/xETH",
+      "SLVx/USDC"
+    ],
+    "feeTiers": [
+      100,
+      500,
+      3000,
+      10000
+    ],
+    "factory": "0x4B2ab38DBF28D31D467aA8993f6c2585981D6804",
+    "quoteCandidates": [
+      "USDG",
+      "xETH",
+      "USDC"
+    ]
+  },
+  "quoteTokens": {
+    "USDG": {
+      "symbol": "USDG",
+      "address": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "decimals": 6,
+      "note": "Global Dollar (Paxos), ARCHITECTURE.md section 2"
+    },
+    "xETH": {
+      "symbol": "xETH",
+      "address": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+      "decimals": 18,
+      "note": "OKX Wrapped ETH on X Layer, per web3.okx.com token page"
+    },
+    "USDC": {
+      "symbol": "USDC",
+      "address": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+      "decimals": 6,
+      "note": "USDC on X Layer; the address the SLVx and COINx pools actually use"
+    }
+  },
+  "fx": [
+    {
+      "source": "pyth",
+      "id": "0x19d75fde7fee50fe67753fdc825e583594eb2f51ae84e114a5246c4ab23aff4c",
+      "symbol": "FX.USD/HKD",
+      "currency": "HKD"
+    },
+    {
+      "source": "yahoo",
+      "id": "HKD=X",
+      "symbol": "FX.USD/HKD",
+      "currency": "HKD"
+    }
+  ],
+  "routes": [
+    {
+      "from": "xETH",
+      "to": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "79574104530982731",
+        "explorer": "https://www.oklink.com/xlayer/address/0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5"
+      }
+    },
+    {
+      "from": "USDC",
+      "to": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40",
+        "fee": 100,
+        "tickSpacing": 1,
+        "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "token1": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "1059421063435361",
+        "explorer": "https://www.oklink.com/xlayer/address/0xbB9a35F790EA6eA9763b99e885f33BCF95860d40"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "BRK.Bx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "91709abe-7c7d-430f-8c44-05402d2f03fc",
+      "isin": "CH1436219260",
+      "token": {
+        "symbol": "BRK.Bx",
+        "address": "0x12992613fDd35aBe95DEc5a4964331b1ee23B50d",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wBRK.Bx",
+        "address": "0xC3A8D2e18D33e0800F84cb4ca6529D18fAd225df",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x34Fa7515d3364648F558aa876F73feC12e2bA507",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "token1": "0xC3A8D2e18D33e0800F84cb4ca6529D18fAd225df",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "127666204815354914",
+        "explorer": "https://www.oklink.com/xlayer/address/0x34Fa7515d3364648F558aa876F73feC12e2bA507"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0x34Fa7515d3364648F558aa876F73feC12e2bA507",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "token1": "0xC3A8D2e18D33e0800F84cb4ca6529D18fAd225df",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "127666204815354914",
+          "explorer": "https://www.oklink.com/xlayer/address/0x34Fa7515d3364648F558aa876F73feC12e2bA507"
+        }
+      ],
+      "underlying": {
+        "symbol": "BRK.B",
+        "isin": "US0846707026",
+        "currency": "USD",
+        "listingCountry": "US",
+        "market": "XNYS",
+        "exchangeTimezone": "America/New_York",
+        "tradingHoursMode": "TwentyFourFive"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:BRK.Bx",
+          "symbol": "BRK.Bx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0xe21c688b7fc65b4606a50f3635f466f6986db129bf16979875d160f9c508e8c7",
+          "symbol": "Equity.US.BRK-B/USD",
+          "currency": "USD"
+        },
+        {
+          "source": "yahoo",
+          "id": "BRK-B",
+          "symbol": "BRK-B",
+          "currency": "USD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0x12992613fDd35aBe95DEc5a4964331b1ee23B50d",
+        "wrapper": "https://www.oklink.com/xlayer/token/0xC3A8D2e18D33e0800F84cb4ca6529D18fAd225df",
+        "pool": "https://www.oklink.com/xlayer/address/0x34Fa7515d3364648F558aa876F73feC12e2bA507"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/BRK.Bx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XNYS from issuer exchange MIC. Independent reference Equity.US.BRK-B/USD."
+    },
+    {
+      "symbol": "HKEXCx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "986f5002-0e83-4dc7-b7cb-b273614bc4fa",
+      "isin": "CH1580497548",
+      "token": {
+        "symbol": "HKEXCx",
+        "address": "0x64c1C1A6453Abb3ebBFC69e3E8f8e75953ABd46a",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wHKEXCx",
+        "address": "0xDFc060b4dE44Fb88998b695aA59169643DED10ea",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x293A6167Bed3A474b99f450dE817BC4474087Ed4",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "token1": "0xDFc060b4dE44Fb88998b695aA59169643DED10ea",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "206189211533389420",
+        "explorer": "https://www.oklink.com/xlayer/address/0x293A6167Bed3A474b99f450dE817BC4474087Ed4"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0x293A6167Bed3A474b99f450dE817BC4474087Ed4",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "token1": "0xDFc060b4dE44Fb88998b695aA59169643DED10ea",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "206189211533389420",
+          "explorer": "https://www.oklink.com/xlayer/address/0x293A6167Bed3A474b99f450dE817BC4474087Ed4"
+        }
+      ],
+      "underlying": {
+        "symbol": "388",
+        "isin": "HK0388045442",
+        "currency": "HKD",
+        "listingCountry": "HK",
+        "market": "XHKG",
+        "exchangeTimezone": "Asia/Hong_Kong",
+        "tradingHoursMode": "Regular"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:HKEXCx",
+          "symbol": "HKEXCx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0x1f7983cbd3c3f592b0990c80c6d3c217d09379770b557a7544c47be185562707",
+          "symbol": "Equity.HK.0388/HKD",
+          "currency": "HKD"
+        },
+        {
+          "source": "yahoo",
+          "id": "0388.HK",
+          "symbol": "0388.HK",
+          "currency": "HKD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0x64c1C1A6453Abb3ebBFC69e3E8f8e75953ABd46a",
+        "wrapper": "https://www.oklink.com/xlayer/token/0xDFc060b4dE44Fb88998b695aA59169643DED10ea",
+        "pool": "https://www.oklink.com/xlayer/address/0x293A6167Bed3A474b99f450dE817BC4474087Ed4"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/HKEXCx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XHKG from issuer exchange MIC. Independent reference Equity.HK.0388/HKD."
+    },
+    {
+      "symbol": "COINx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "1b933287-362c-4e9c-b8a6-31eb31406bb7",
+      "isin": "CH1436219708",
+      "token": {
+        "symbol": "COINx",
+        "address": "0x364f210f430eC2448Fc68A49203040F6124096F0",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wCOINx",
+        "address": "0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "xETH",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x70131C43684B9Ba44677345f9b05f16E2b555edF",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+        "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+        "quote": "xETH",
+        "liquidityAtDiscovery": "1661347163633123064980",
+        "explorer": "https://www.oklink.com/xlayer/address/0x70131C43684B9Ba44677345f9b05f16E2b555edF"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0x70131C43684B9Ba44677345f9b05f16E2b555edF",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+          "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "quote": "xETH",
+          "liquidityAtDiscovery": "1661347163633123064980",
+          "explorer": "https://www.oklink.com/xlayer/address/0x70131C43684B9Ba44677345f9b05f16E2b555edF"
+        },
+        {
+          "dex": "uniswap-v3",
+          "address": "0xFD69Fd884BD7c35DF86D2eC80ae74Cbe774C00ab",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+          "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "169380577128",
+          "explorer": "https://www.oklink.com/xlayer/address/0xFD69Fd884BD7c35DF86D2eC80ae74Cbe774C00ab"
+        },
+        {
+          "dex": "uniswap-v3",
+          "address": "0x91db1a80bd51FcBD30c6BFa398EEe0De24eE2663",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+          "token1": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+          "quote": "USDC",
+          "liquidityAtDiscovery": "16582700605816914",
+          "explorer": "https://www.oklink.com/xlayer/address/0x91db1a80bd51FcBD30c6BFa398EEe0De24eE2663"
+        }
+      ],
+      "underlying": {
+        "symbol": "COIN",
+        "isin": "US19260Q1076",
+        "currency": "USD",
+        "listingCountry": "US",
+        "market": "XNAS",
+        "exchangeTimezone": "America/New_York",
+        "tradingHoursMode": "TwentyFourFive"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:COINx",
+          "symbol": "COINx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0xfee33f2a978bf32dd6b662b65ba8083c6773b494f8401194ec1870c640860245",
+          "symbol": "Equity.US.COIN/USD",
+          "currency": "USD"
+        },
+        {
+          "source": "yahoo",
+          "id": "COIN",
+          "symbol": "COIN",
+          "currency": "USD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0x364f210f430eC2448Fc68A49203040F6124096F0",
+        "wrapper": "https://www.oklink.com/xlayer/token/0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+        "pool": "https://www.oklink.com/xlayer/address/0x70131C43684B9Ba44677345f9b05f16E2b555edF"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/COINx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XNAS from issuer exchange MIC. Independent reference Equity.US.COIN/USD."
+    },
+    {
+      "symbol": "KUAIx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "3f727750-1d10-4bc8-bbdb-651f9bb64b33",
+      "isin": "CH1588657986",
+      "token": {
+        "symbol": "KUAIx",
+        "address": "0xFA8a6a57Fc83e416cF45b04b7b92B4f48Da9e7B8",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wKUAIx",
+        "address": "0x096369B9b197bCbF669a3bC827Aa119d80d891E4",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x9D5d95416412643004af849e012c894D4689a0f2",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x096369B9b197bCbF669a3bC827Aa119d80d891E4",
+        "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "665461299471375805",
+        "explorer": "https://www.oklink.com/xlayer/address/0x9D5d95416412643004af849e012c894D4689a0f2"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0x9D5d95416412643004af849e012c894D4689a0f2",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x096369B9b197bCbF669a3bC827Aa119d80d891E4",
+          "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "665461299471375805",
+          "explorer": "https://www.oklink.com/xlayer/address/0x9D5d95416412643004af849e012c894D4689a0f2"
+        }
+      ],
+      "underlying": {
+        "symbol": "1024",
+        "isin": "KYG532631028",
+        "currency": "HKD",
+        "listingCountry": "HK",
+        "market": "XHKG",
+        "exchangeTimezone": "Asia/Hong_Kong",
+        "tradingHoursMode": "Regular"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:KUAIx",
+          "symbol": "KUAIx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0x6c1cfa413bf864a8887a74319e7e1c6df33656971f0393a5e7afac87d95b0839",
+          "symbol": "Equity.HK.1024/HKD",
+          "currency": "HKD"
+        },
+        {
+          "source": "yahoo",
+          "id": "1024.HK",
+          "symbol": "1024.HK",
+          "currency": "HKD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0xFA8a6a57Fc83e416cF45b04b7b92B4f48Da9e7B8",
+        "wrapper": "https://www.oklink.com/xlayer/token/0x096369B9b197bCbF669a3bC827Aa119d80d891E4",
+        "pool": "https://www.oklink.com/xlayer/address/0x9D5d95416412643004af849e012c894D4689a0f2"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/KUAIx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XHKG from issuer exchange MIC. Independent reference Equity.HK.1024/HKD."
+    },
+    {
+      "symbol": "ICEx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "59e6bb35-1060-4968-853a-44e71ecad2c3",
+      "isin": "CH1580493125",
+      "token": {
+        "symbol": "ICEx",
+        "address": "0xDe916B8089Cbd5E52551Bd933c3eA2eA5C903465",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wICEx",
+        "address": "0xbDff6dD4CEc5eEaFf1E21D65863431E79755eA13",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "token1": "0xbDff6dD4CEc5eEaFf1E21D65863431E79755eA13",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "62806784943732944",
+        "explorer": "https://www.oklink.com/xlayer/address/0x8D0167755eD35c534FE59DCf5a49EC6aed56736f"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "token1": "0xbDff6dD4CEc5eEaFf1E21D65863431E79755eA13",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "62806784943732944",
+          "explorer": "https://www.oklink.com/xlayer/address/0x8D0167755eD35c534FE59DCf5a49EC6aed56736f"
+        }
+      ],
+      "underlying": {
+        "symbol": "ICE",
+        "isin": "US45866F1049",
+        "currency": "USD",
+        "listingCountry": "US",
+        "market": "XNYS",
+        "exchangeTimezone": "America/New_York",
+        "tradingHoursMode": "TwentyFourFive"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:ICEx",
+          "symbol": "ICEx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0xb2e33e4daa44d9b0c0783ededd335520a0f7eeed7608ff60c93c7c2294b2d813",
+          "symbol": "Equity.US.ICE/USD",
+          "currency": "USD"
+        },
+        {
+          "source": "yahoo",
+          "id": "ICE",
+          "symbol": "ICE",
+          "currency": "USD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0xDe916B8089Cbd5E52551Bd933c3eA2eA5C903465",
+        "wrapper": "https://www.oklink.com/xlayer/token/0xbDff6dD4CEc5eEaFf1E21D65863431E79755eA13",
+        "pool": "https://www.oklink.com/xlayer/address/0x8D0167755eD35c534FE59DCf5a49EC6aed56736f"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/ICEx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XNYS from issuer exchange MIC. Independent reference Equity.US.ICE/USD."
+    },
+    {
+      "symbol": "MIXUx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "6c97fa02-6d45-46b6-8064-1690358a6b1f",
+      "isin": "CH1588658307",
+      "token": {
+        "symbol": "MIXUx",
+        "address": "0x8Fa39Ff32B316E2296630aA05BDD6A4a2e4b7598",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wMIXUx",
+        "address": "0x1Bac76a12d8EccA6dBF4B0A146Da8870d50F04c9",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x1Bac76a12d8EccA6dBF4B0A146Da8870d50F04c9",
+        "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "232713480200447327",
+        "explorer": "https://www.oklink.com/xlayer/address/0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x1Bac76a12d8EccA6dBF4B0A146Da8870d50F04c9",
+          "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "232713480200447327",
+          "explorer": "https://www.oklink.com/xlayer/address/0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8"
+        }
+      ],
+      "underlying": {
+        "symbol": "2097",
+        "isin": "CNE100006T36",
+        "currency": "HKD",
+        "listingCountry": "HK",
+        "market": "XHKG",
+        "exchangeTimezone": "Asia/Hong_Kong",
+        "tradingHoursMode": "Regular"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:MIXUx",
+          "symbol": "MIXUx",
+          "currency": "USD"
+        },
+        {
+          "source": "yahoo",
+          "id": "2097.HK",
+          "symbol": "2097.HK",
+          "currency": "HKD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0x8Fa39Ff32B316E2296630aA05BDD6A4a2e4b7598",
+        "wrapper": "https://www.oklink.com/xlayer/token/0x1Bac76a12d8EccA6dBF4B0A146Da8870d50F04c9",
+        "pool": "https://www.oklink.com/xlayer/address/0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/MIXUx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XHKG from issuer exchange MIC. No independent Pyth feed found."
+    },
+    {
+      "symbol": "KOx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "69e03621-9876-4fec-a3b4-3f8e0025a776",
+      "isin": "CH1436219419",
+      "token": {
+        "symbol": "KOx",
+        "address": "0xdCC1a2699441079dA889B1F49e12B69cC791129b",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wKOx",
+        "address": "0xE4784B45415AAc58b289f9373314261c788C91e8",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0x273DA512f76129ED59a2D93D68dFe198423a3114",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "token1": "0xE4784B45415AAc58b289f9373314261c788C91e8",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "184959125440040068",
+        "explorer": "https://www.oklink.com/xlayer/address/0x273DA512f76129ED59a2D93D68dFe198423a3114"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0x273DA512f76129ED59a2D93D68dFe198423a3114",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "token1": "0xE4784B45415AAc58b289f9373314261c788C91e8",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "184959125440040068",
+          "explorer": "https://www.oklink.com/xlayer/address/0x273DA512f76129ED59a2D93D68dFe198423a3114"
+        }
+      ],
+      "underlying": {
+        "symbol": "KO",
+        "isin": "US1912161007",
+        "currency": "USD",
+        "listingCountry": "US",
+        "market": "XNYS",
+        "exchangeTimezone": "America/New_York",
+        "tradingHoursMode": "TwentyFourFive"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:KOx",
+          "symbol": "KOx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0x9aa471dccea36b90703325225ac76189baf7e0cc286b8843de1de4f31f9caa7d",
+          "symbol": "Equity.US.KO/USD",
+          "currency": "USD"
+        },
+        {
+          "source": "yahoo",
+          "id": "KO",
+          "symbol": "KO",
+          "currency": "USD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0xdCC1a2699441079dA889B1F49e12B69cC791129b",
+        "wrapper": "https://www.oklink.com/xlayer/token/0xE4784B45415AAc58b289f9373314261c788C91e8",
+        "pool": "https://www.oklink.com/xlayer/address/0x273DA512f76129ED59a2D93D68dFe198423a3114"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/KOx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XNYS from issuer exchange MIC. Independent reference Equity.US.KO/USD."
+    },
+    {
+      "symbol": "SHEINx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "341369bb-2b95-494c-8829-76638cc23e18",
+      "isin": "CH1588660667",
+      "token": {
+        "symbol": "SHEINx",
+        "address": "0x4d0ba049C430a7a80a61E7EBdF50b6dAac6c3Bd6",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wSHEINx",
+        "address": "0xff637d2d435D6745Df3faf61272B1216e7e8b727",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDG",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0xF1ef85ce4691E94a32064b59E766c42183B44497",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+        "token1": "0xff637d2d435D6745Df3faf61272B1216e7e8b727",
+        "quote": "USDG",
+        "liquidityAtDiscovery": "356577625735397273",
+        "explorer": "https://www.oklink.com/xlayer/address/0xF1ef85ce4691E94a32064b59E766c42183B44497"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0xF1ef85ce4691E94a32064b59E766c42183B44497",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "token1": "0xff637d2d435D6745Df3faf61272B1216e7e8b727",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "356577625735397273",
+          "explorer": "https://www.oklink.com/xlayer/address/0xF1ef85ce4691E94a32064b59E766c42183B44497"
+        }
+      ],
+      "underlying": {
+        "symbol": "625",
+        "isin": "KYG237451052",
+        "currency": "HKD",
+        "listingCountry": "HK",
+        "market": "XHKG",
+        "exchangeTimezone": "Asia/Hong_Kong",
+        "tradingHoursMode": "Regular"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:SHEINx",
+          "symbol": "SHEINx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0xef48a5d3ec9e8cd26feb8262e35272e3713433cdaa1671b979cc0a810332c1ee",
+          "symbol": "Equity.HK.0625/HKD",
+          "currency": "HKD"
+        },
+        {
+          "source": "yahoo",
+          "id": "0625.HK",
+          "symbol": "0625.HK",
+          "currency": "HKD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0x4d0ba049C430a7a80a61E7EBdF50b6dAac6c3Bd6",
+        "wrapper": "https://www.oklink.com/xlayer/token/0xff637d2d435D6745Df3faf61272B1216e7e8b727",
+        "pool": "https://www.oklink.com/xlayer/address/0xF1ef85ce4691E94a32064b59E766c42183B44497"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/SHEINx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XHKG from issuer exchange MIC. Independent reference Equity.HK.0625/HKD."
+    },
+    {
+      "symbol": "BMNRx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "b9e5c63e-e682-4efe-a1e3-3230b715af08",
+      "isin": "CH1173294385",
+      "token": {
+        "symbol": "BMNRx",
+        "address": "0xaeB681B69E5094E04d11BCeF51A71358A374C3ED",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wBMNRx",
+        "address": "0xdaD5623B32C81AeAa75478fcfe934e9e97018c58",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "xETH",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0xdaD5623B32C81AeAa75478fcfe934e9e97018c58",
+        "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+        "quote": "xETH",
+        "liquidityAtDiscovery": "7890218536364216329494",
+        "explorer": "https://www.oklink.com/xlayer/address/0xcd5a3694a98986598D1F73A27438ba4BBbfa729b"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0xdaD5623B32C81AeAa75478fcfe934e9e97018c58",
+          "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+          "quote": "xETH",
+          "liquidityAtDiscovery": "7890218536364216329494",
+          "explorer": "https://www.oklink.com/xlayer/address/0xcd5a3694a98986598D1F73A27438ba4BBbfa729b"
+        },
+        {
+          "dex": "uniswap-v3",
+          "address": "0xf05577E469d04Cc8FD84A79C1fE5661b3394cC0e",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+          "token1": "0xdaD5623B32C81AeAa75478fcfe934e9e97018c58",
+          "quote": "USDG",
+          "liquidityAtDiscovery": "132479792464580",
+          "explorer": "https://www.oklink.com/xlayer/address/0xf05577E469d04Cc8FD84A79C1fE5661b3394cC0e"
+        }
+      ],
+      "underlying": {
+        "symbol": "BMNR",
+        "isin": "US09175A2069",
+        "currency": "USD",
+        "listingCountry": "US",
+        "market": "XNYS",
+        "exchangeTimezone": "America/New_York",
+        "tradingHoursMode": "TwentyFourFive"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:BMNRx",
+          "symbol": "BMNRx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0x54e2e127c93950de5a710100fd1cd387aba1ec8920850efdb05da5fee57d2e32",
+          "symbol": "Equity.US.BMNR/USD",
+          "currency": "USD"
+        },
+        {
+          "source": "yahoo",
+          "id": "BMNR",
+          "symbol": "BMNR",
+          "currency": "USD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0xaeB681B69E5094E04d11BCeF51A71358A374C3ED",
+        "wrapper": "https://www.oklink.com/xlayer/token/0xdaD5623B32C81AeAa75478fcfe934e9e97018c58",
+        "pool": "https://www.oklink.com/xlayer/address/0xcd5a3694a98986598D1F73A27438ba4BBbfa729b"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/BMNRx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market XNYS from issuer exchange MIC. Independent reference Equity.US.BMNR/USD."
+    },
+    {
+      "symbol": "SLVx",
+      "status": "resolved",
+      "issuer": "xstocks",
+      "issuerId": "c579b8aa-ecc3-47ac-bcc6-708988c30ecc",
+      "isin": "CH1500008508",
+      "token": {
+        "symbol": "SLVx",
+        "address": "0x4833e7f4f0460f4B72A3a5879A6C9841bCC5B58B",
+        "decimals": 18
+      },
+      "wrapper": {
+        "symbol": "wSLVx",
+        "address": "0xB842EacB35Fd9c1bEDA53749072Ef22823f2cA8c",
+        "decimals": 18,
+        "version": "v2"
+      },
+      "poolToken": "wrapper",
+      "quoteToken": "USDC",
+      "pool": {
+        "dex": "uniswap-v3",
+        "address": "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6",
+        "fee": 500,
+        "tickSpacing": 10,
+        "token0": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+        "token1": "0xB842EacB35Fd9c1bEDA53749072Ef22823f2cA8c",
+        "quote": "USDC",
+        "liquidityAtDiscovery": "55122263264295135",
+        "explorer": "https://www.oklink.com/xlayer/address/0xd510189E8b3684A101e0552835f3B6C2dE4af4a6"
+      },
+      "venues": [
+        {
+          "dex": "uniswap-v3",
+          "address": "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6",
+          "fee": 500,
+          "tickSpacing": 10,
+          "token0": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+          "token1": "0xB842EacB35Fd9c1bEDA53749072Ef22823f2cA8c",
+          "quote": "USDC",
+          "liquidityAtDiscovery": "55122263264295135",
+          "explorer": "https://www.oklink.com/xlayer/address/0xd510189E8b3684A101e0552835f3B6C2dE4af4a6"
+        }
+      ],
+      "underlying": {
+        "symbol": "SLV",
+        "isin": "US46428Q1094",
+        "currency": "USD",
+        "listingCountry": "US",
+        "market": "ARCX",
+        "exchangeTimezone": "America/New_York",
+        "tradingHoursMode": "TwentyFourFive"
+      },
+      "references": [
+        {
+          "source": "xstocks",
+          "id": "xstocks:price-data:SLVx",
+          "symbol": "SLVx",
+          "currency": "USD"
+        },
+        {
+          "source": "pyth",
+          "id": "0x6fc08c9963d266069cbd9780d98383dabf2668322a5bef0b9491e11d67e5d7e7",
+          "symbol": "Equity.US.SLV/USD",
+          "currency": "USD"
+        },
+        {
+          "source": "yahoo",
+          "id": "SLV",
+          "symbol": "SLV",
+          "currency": "USD"
+        }
+      ],
+      "explorer": {
+        "token": "https://www.oklink.com/xlayer/token/0x4833e7f4f0460f4B72A3a5879A6C9841bCC5B58B",
+        "wrapper": "https://www.oklink.com/xlayer/token/0xB842EacB35Fd9c1bEDA53749072Ef22823f2cA8c",
+        "pool": "https://www.oklink.com/xlayer/address/0xd510189E8b3684A101e0552835f3B6C2dE4af4a6"
+      },
+      "verifiedAt": "2026-09-19T06:41:39.891Z",
+      "verifiedAtBlock": "71031063",
+      "sourceNote": "Token and wrapperV2 from xStocks public API /assets/SLVx (XLayer deployment); pool from UniswapV3Factory.getPool and confirmed onchain (token0, token1, fee, tickSpacing, slot0, liquidity, factory) at block 71031063. Market ARCX from issuer exchange MIC. Independent reference Equity.US.SLV/USD."
+    }
+  ]
+}
