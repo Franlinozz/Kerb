@@ -1,0 +1,124 @@
+{
+  "label": "COINx/USDG",
+  "symbol0": "wCOINx",
+  "symbol1": "USDG",
+  "decimals0": 18,
+  "decimals1": 6,
+  "capturedAtBlock": "71032125",
+  "snapshot": {
+    "kind": "uniswap-v3-pool-snapshot",
+    "version": 1,
+    "chainId": 196,
+    "pool": "0xFD69Fd884BD7c35DF86D2eC80ae74Cbe774C00ab",
+    "blockNumber": "71032125",
+    "blockHash": "0x59467175b1df892d36155e026ba489a1884bf7f90a279d01f32c9ffef83c1b4b",
+    "blockTimestamp": "1789801161",
+    "token0": "0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+    "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+    "fee": 500,
+    "tickSpacing": 10,
+    "sqrtPriceX96": "1100463390364951180677589",
+    "tick": -223699,
+    "liquidity": "169380577128",
+    "observationCardinality": 1,
+    "twap": {
+      "windowSec": 900,
+      "tickCumulatives": [
+        "-803938789835",
+        "-804140118935"
+      ]
+    },
+    "coveredTicks": {
+      "lower": -232960,
+      "upper": -212481
+    },
+    "bitmapWords": {
+      "lower": -91,
+      "upper": -84
+    },
+    "ticks": [
+      {
+        "tick": -226010,
+        "liquidityNet": "169380577128",
+        "liquidityGross": "169380577128"
+      },
+      {
+        "tick": -222980,
+        "liquidityNet": "-169380577128",
+        "liquidityGross": "169380577128"
+      }
+    ]
+  },
+  "quoterV2": [
+    {
+      "zeroForOne": true,
+      "amountIn": "51833193733932520",
+      "amountOut": "256792",
+      "sqrtPriceX96After": "4295128740",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": true,
+      "amountIn": "5183319373393252084",
+      "amountOut": "256792",
+      "sqrtPriceX96After": "4295128740",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": true,
+      "amountIn": "25916596866966260422",
+      "amountOut": "256792",
+      "sqrtPriceX96After": "4295128740",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": true,
+      "amountIn": "103666387467865041689",
+      "amountOut": "256792",
+      "sqrtPriceX96After": "4295128740",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": true,
+      "amountIn": "310999162403595125068",
+      "amountOut": "256792",
+      "sqrtPriceX96After": "4295128740",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": false,
+      "amountIn": "10000000",
+      "amountOut": "430175928052793",
+      "sqrtPriceX96After": "1461446703485210103287273052203988822378723970341",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": false,
+      "amountIn": "1000000000",
+      "amountOut": "430175928052793",
+      "sqrtPriceX96After": "1461446703485210103287273052203988822378723970341",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": false,
+      "amountIn": "5000000000",
+      "amountOut": "430175928052793",
+      "sqrtPriceX96After": "1461446703485210103287273052203988822378723970341",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": false,
+      "amountIn": "20000000000",
+      "amountOut": "430175928052793",
+      "sqrtPriceX96After": "1461446703485210103287273052203988822378723970341",
+      "ticksCrossed": 1
+    },
+    {
+      "zeroForOne": false,
+      "amountIn": "60000000000",
+      "amountOut": "430175928052793",
+      "sqrtPriceX96After": "1461446703485210103287273052203988822378723970341",
+      "ticksCrossed": 1
+    }
+  ]
+}

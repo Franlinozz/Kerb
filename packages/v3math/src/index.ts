@@ -1,2 +1,4 @@
-// @kerb/v3math: implemented in a later phase (see BUILD_PLAN.md).
-export {};
+export * from "./core.js";
+export * from "./swap.js";
+export * from "./depth.js";
+export * from "./aggregate.js";
