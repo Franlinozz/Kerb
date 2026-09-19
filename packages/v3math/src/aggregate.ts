@@ -56,3 +56,23 @@ export function crosscheck(simulated: DecString, quoted: DecString, max: DecStri
   const flag = delta.gt(dec(max));
   return { source, simulated, quoted, delta: toDecString(delta, 18), flag, used: toDecString(flag ? Decimal.min(s, q) : s) };
 }
+
+/**
+ * Capacity implied by an observed quote curve (e.g. OKX DEX sell quotes at the ladder):
+ * largest notional whose impact is <= i, linearly interpolated between observed points
+ * and never extrapolated past the last observed notional. Deterministic, labelled Computed.
+ */
+export function capacityFromCurve(points: { notional: DecString; impact: DecString }[], impactTarget: DecString): DecString {
+  const i = dec(impactTarget);
+  const pts = [...points].map((p) => ({ n: dec(p.notional), m: dec(p.impact) })).sort((a, b) => a.n.comparedTo(b.n));
+  let prev = { n: new Decimal(0), m: new Decimal(0) };
+  for (const p of pts) {
+    if (p.m.gt(i)) {
+      if (p.m.eq(prev.m)) return toDecString(prev.n, 6, Decimal.ROUND_FLOOR);
+      const t = i.minus(prev.m).div(p.m.minus(prev.m));
+      return toDecString(Decimal.max(prev.n, prev.n.plus(p.n.minus(prev.n).mul(t))), 6, Decimal.ROUND_FLOOR);
+    }
+    prev = p;
+  }
+  return toDecString(prev.n, 6, Decimal.ROUND_FLOOR);
+}

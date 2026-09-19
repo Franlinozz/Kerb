@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Decimal, dec, type DecString } from "@kerb/types";
-import { aggregate, capacityAt, crosscheck, impactCurve, pathMidPrice, quotePath, venueDepth, type Leg } from "../src/index.js";
+import { aggregate, capacityAt, capacityFromCurve, crosscheck, impactCurve, pathMidPrice, quotePath, venueDepth, type Leg } from "../src/index.js";
 import { fixture, venue } from "./fixtures.js";
 
 const kox = fixture("KOx/USDG");
@@ -113,4 +113,12 @@ describe("cross-check (KTS-0.1 5.4)", () => {
     expect(r.used).toBe(used);
     expect(dec(r.used).lte(Decimal.max(dec(s), dec(q)))).toBe(true);
   });
+});
+
+describe("capacityFromCurve", () => {
+  const pts = [{ notional: "1000", impact: "0.002" }, { notional: "10000", impact: "0.008" }, { notional: "25000", impact: "0.02" }] as { notional: DecString; impact: DecString }[];
+  it.each([["0.01", "12500"], ["0.008", "10000"], ["0.001", "500"], ["0.05", "25000"]])("C(%s) = %s", (i, want) => {
+    expect(capacityFromCurve(pts, i as DecString)).toBe(want);
+  });
+  it("empty curve gives zero", () => expect(capacityFromCurve([], "0.01" as DecString)).toBe("0"));
 });
