@@ -1,0 +1,8 @@
+{
+  "blockNumber": "71031393",
+  "blockHash": "0xc4f57dbd80aa585df0967372830f32eab81f97ece0d8500ac9a0fc762299ad49",
+  "multiplier": "1",
+  "wrapperAssetsPerShare": "1",
+  "paused": null,
+  "raw": "{\"blockHash\":\"0xc4f57dbd80aa585df0967372830f32eab81f97ece0d8500ac9a0fc762299ad49\",\"blockNumber\":\"71031393\",\"calls\":{\"multiplier()\":\"1000000000000000000\",\"paused()\":\"error:ContractFunctionExecutionError\",\"totalSupply()\":\"90716661626852131842000\",\"wrapper.convertToAssets(1e18)\":\"1000000000000000000\"},\"chainId\":196,\"token\":\"0x4833e7f4f0460f4B72A3a5879A6C9841bCC5B58B\",\"wrapper\":\"0xB842EacB35Fd9c1bEDA53749072Ef22823f2cA8c\"}"
+}

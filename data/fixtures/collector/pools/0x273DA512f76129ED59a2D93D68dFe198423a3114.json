@@ -1,0 +1,304 @@
+{
+  "kind": "uniswap-v3-pool-snapshot",
+  "version": 1,
+  "chainId": 196,
+  "pool": "0x273DA512f76129ED59a2D93D68dFe198423a3114",
+  "blockNumber": "71031393",
+  "blockHash": "0xc4f57dbd80aa585df0967372830f32eab81f97ece0d8500ac9a0fc762299ad49",
+  "blockTimestamp": "1789800429",
+  "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+  "token1": "0xE4784B45415AAc58b289f9373314261c788C91e8",
+  "fee": 500,
+  "tickSpacing": 10,
+  "sqrtPriceX96": "8342161880998829957278322578397446",
+  "tick": 231301,
+  "liquidity": "184959125440040068",
+  "observationCardinality": 32,
+  "twap": {
+    "windowSec": 900,
+    "tickCumulatives": [
+      "577529834604",
+      "577738005504"
+    ]
+  },
+  "coveredTicks": {
+    "lower": 225280,
+    "upper": 235519
+  },
+  "bitmapWords": {
+    "lower": 88,
+    "upper": 91
+  },
+  "ticks": [
+    {
+      "tick": 227740,
+      "liquidityNet": "356989314740",
+      "liquidityGross": "356989314740"
+    },
+    {
+      "tick": 228890,
+      "liquidityNet": "7257765736",
+      "liquidityGross": "7257765736"
+    },
+    {
+      "tick": 229270,
+      "liquidityNet": "34519268092657",
+      "liquidityGross": "34519268092657"
+    },
+    {
+      "tick": 229300,
+      "liquidityNet": "163911858272687",
+      "liquidityGross": "163911858272687"
+    },
+    {
+      "tick": 229520,
+      "liquidityNet": "2955760045315612",
+      "liquidityGross": "2955760045315612"
+    },
+    {
+      "tick": 229610,
+      "liquidityNet": "664757759851",
+      "liquidityGross": "664757759851"
+    },
+    {
+      "tick": 229910,
+      "liquidityNet": "31029358955099",
+      "liquidityGross": "31029358955099"
+    },
+    {
+      "tick": 229930,
+      "liquidityNet": "1353803965408",
+      "liquidityGross": "1353803965408"
+    },
+    {
+      "tick": 229970,
+      "liquidityNet": "154361360421123",
+      "liquidityGross": "154361360421123"
+    },
+    {
+      "tick": 230070,
+      "liquidityNet": "948002926346",
+      "liquidityGross": "948002926346"
+    },
+    {
+      "tick": 230180,
+      "liquidityNet": "-34519268092657",
+      "liquidityGross": "34519268092657"
+    },
+    {
+      "tick": 230500,
+      "liquidityNet": "878079491413467",
+      "liquidityGross": "878079491413467"
+    },
+    {
+      "tick": 230590,
+      "liquidityNet": "561755907770928",
+      "liquidityGross": "561755907770928"
+    },
+    {
+      "tick": 230640,
+      "liquidityNet": "6366499353225980",
+      "liquidityGross": "6366499353225980"
+    },
+    {
+      "tick": 230650,
+      "liquidityNet": "16489766725550204",
+      "liquidityGross": "16489766725550204"
+    },
+    {
+      "tick": 230760,
+      "liquidityNet": "10560870228249626",
+      "liquidityGross": "10560870228249626"
+    },
+    {
+      "tick": 230780,
+      "liquidityNet": "18423392274103134",
+      "liquidityGross": "18423392274103134"
+    },
+    {
+      "tick": 230790,
+      "liquidityNet": "4961837086389676",
+      "liquidityGross": "4961837086389676"
+    },
+    {
+      "tick": 230830,
+      "liquidityNet": "5158044338826737",
+      "liquidityGross": "5158044338826737"
+    },
+    {
+      "tick": 230840,
+      "liquidityNet": "2226453286398658",
+      "liquidityGross": "2226453286398658"
+    },
+    {
+      "tick": 230850,
+      "liquidityNet": "37884904665840",
+      "liquidityGross": "37884904665840"
+    },
+    {
+      "tick": 230870,
+      "liquidityNet": "441425067050714",
+      "liquidityGross": "441425067050714"
+    },
+    {
+      "tick": 230930,
+      "liquidityNet": "261713494418705",
+      "liquidityGross": "261713494418705"
+    },
+    {
+      "tick": 231020,
+      "liquidityNet": "11473940779801",
+      "liquidityGross": "11473940779801"
+    },
+    {
+      "tick": 231110,
+      "liquidityNet": "7489542180258100",
+      "liquidityGross": "7489542180258100"
+    },
+    {
+      "tick": 231250,
+      "liquidityNet": "80487162241485438",
+      "liquidityGross": "80487162241485438"
+    },
+    {
+      "tick": 231260,
+      "liquidityNet": "758275227893384",
+      "liquidityGross": "758275227893384"
+    },
+    {
+      "tick": 231270,
+      "liquidityNet": "26536556256863074",
+      "liquidityGross": "26536556256863074"
+    },
+    {
+      "tick": 231410,
+      "liquidityNet": "-22915626951168",
+      "liquidityGross": "22915626951168"
+    },
+    {
+      "tick": 231480,
+      "liquidityNet": "-703468416473908",
+      "liquidityGross": "703468416473908"
+    },
+    {
+      "tick": 231500,
+      "liquidityNet": "-5663030936752072",
+      "liquidityGross": "5663030936752072"
+    },
+    {
+      "tick": 231650,
+      "liquidityNet": "-10560870228249626",
+      "liquidityGross": "10560870228249626"
+    },
+    {
+      "tick": 231740,
+      "liquidityNet": "-5419757833245442",
+      "liquidityGross": "5419757833245442"
+    },
+    {
+      "tick": 231770,
+      "liquidityNet": "-16489766725550204",
+      "liquidityGross": "16489766725550204"
+    },
+    {
+      "tick": 231810,
+      "liquidityNet": "-4961837086389676",
+      "liquidityGross": "4961837086389676"
+    },
+    {
+      "tick": 231840,
+      "liquidityNet": "-11473940779801",
+      "liquidityGross": "11473940779801"
+    },
+    {
+      "tick": 231870,
+      "liquidityNet": "-441425067050714",
+      "liquidityGross": "441425067050714"
+    },
+    {
+      "tick": 231890,
+      "liquidityNet": "-37884904665840",
+      "liquidityGross": "37884904665840"
+    },
+    {
+      "tick": 231900,
+      "liquidityNet": "-2226453286398658",
+      "liquidityGross": "2226453286398658"
+    },
+    {
+      "tick": 232090,
+      "liquidityNet": "-758275227893384",
+      "liquidityGross": "758275227893384"
+    },
+    {
+      "tick": 232110,
+      "liquidityNet": "-18423392274103134",
+      "liquidityGross": "18423392274103134"
+    },
+    {
+      "tick": 232150,
+      "liquidityNet": "-102599165563903663",
+      "liquidityGross": "102599165563903663"
+    },
+    {
+      "tick": 232190,
+      "liquidityNet": "-855163864462299",
+      "liquidityGross": "855163864462299"
+    },
+    {
+      "tick": 232200,
+      "liquidityNet": "-4424552934444849",
+      "liquidityGross": "4424552934444849"
+    },
+    {
+      "tick": 232220,
+      "liquidityNet": "-561755907770928",
+      "liquidityGross": "561755907770928"
+    },
+    {
+      "tick": 232550,
+      "liquidityNet": "-2955760045315612",
+      "liquidityGross": "2955760045315612"
+    },
+    {
+      "tick": 232640,
+      "liquidityNet": "-664757759851",
+      "liquidityGross": "664757759851"
+    },
+    {
+      "tick": 232940,
+      "liquidityNet": "-31029358955099",
+      "liquidityGross": "31029358955099"
+    },
+    {
+      "tick": 232960,
+      "liquidityNet": "-1353803965408",
+      "liquidityGross": "1353803965408"
+    },
+    {
+      "tick": 233010,
+      "liquidityNet": "-154361360421123",
+      "liquidityGross": "154361360421123"
+    },
+    {
+      "tick": 233110,
+      "liquidityNet": "-948002926346",
+      "liquidityGross": "948002926346"
+    },
+    {
+      "tick": 233470,
+      "liquidityNet": "-7257765736",
+      "liquidityGross": "7257765736"
+    },
+    {
+      "tick": 233890,
+      "liquidityNet": "-163911858272687",
+      "liquidityGross": "163911858272687"
+    },
+    {
+      "tick": 234560,
+      "liquidityNet": "-7489542180258100",
+      "liquidityGross": "7489542180258100"
+    }
+  ]
+}

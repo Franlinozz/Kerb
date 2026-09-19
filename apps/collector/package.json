@@ -1,0 +1,26 @@
+{
+  "name": "@kerb/collector",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "start": "tsx src/main.ts",
+    "discover": "tsx scripts/discover.ts",
+    "capture-fixtures": "tsx scripts/capture-fixtures.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "gaps": "tsx scripts/gaps.ts"
+  },
+  "dependencies": {
+    "@kerb/adapters": "workspace:*",
+    "@kerb/types": "workspace:*",
+    "drizzle-orm": "^0.44.5",
+    "postgres": "^3.4.7",
+    "viem": "^2.45.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.4"
+  }
+}

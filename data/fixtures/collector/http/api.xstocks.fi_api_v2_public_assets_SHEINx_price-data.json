@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/SHEINx/price-data",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:49:27.543Z",
+  "body": "{\"quote\":null}",
+  "latencyMs": 20113
+}

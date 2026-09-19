@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/KOx/multiplier?network=XLayer",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:49:04.770Z",
+  "body": "{\"currentMultiplier\":1.0225601246249238,\"newMultiplier\":0,\"activationDateTime\":0,\"reason\":null}",
+  "latencyMs": 316
+}

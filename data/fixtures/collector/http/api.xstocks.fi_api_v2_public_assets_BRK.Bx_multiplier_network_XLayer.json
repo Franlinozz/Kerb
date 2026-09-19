@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/BRK.Bx/multiplier?network=XLayer",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:47:35.044Z",
+  "body": "{\"currentMultiplier\":1,\"newMultiplier\":0,\"activationDateTime\":0,\"reason\":null}",
+  "latencyMs": 174
+}

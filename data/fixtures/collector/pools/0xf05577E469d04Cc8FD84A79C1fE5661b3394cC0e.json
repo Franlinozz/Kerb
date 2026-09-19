@@ -1,0 +1,104 @@
+{
+  "kind": "uniswap-v3-pool-snapshot",
+  "version": 1,
+  "chainId": 196,
+  "pool": "0xf05577E469d04Cc8FD84A79C1fE5661b3394cC0e",
+  "blockNumber": "71031393",
+  "blockHash": "0xc4f57dbd80aa585df0967372830f32eab81f97ece0d8500ac9a0fc762299ad49",
+  "blockTimestamp": "1789800429",
+  "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+  "token1": "0xdaD5623B32C81AeAa75478fcfe934e9e97018c58",
+  "fee": 500,
+  "tickSpacing": 10,
+  "sqrtPriceX96": "15572872261485579698311658211619541",
+  "tick": 243786,
+  "liquidity": "132479792464580",
+  "observationCardinality": 32,
+  "twap": {
+    "windowSec": 900,
+    "tickCumulatives": [
+      "610377066789",
+      "610596474189"
+    ]
+  },
+  "coveredTicks": {
+    "lower": 238080,
+    "upper": 248319
+  },
+  "bitmapWords": {
+    "lower": 93,
+    "upper": 96
+  },
+  "ticks": [
+    {
+      "tick": 242130,
+      "liquidityNet": "1238226127136",
+      "liquidityGross": "1238226127136"
+    },
+    {
+      "tick": 242250,
+      "liquidityNet": "126921374550791",
+      "liquidityGross": "126921374550791"
+    },
+    {
+      "tick": 242980,
+      "liquidityNet": "1028226289308",
+      "liquidityGross": "1028226289308"
+    },
+    {
+      "tick": 243100,
+      "liquidityNet": "1639341110305",
+      "liquidityGross": "1639341110305"
+    },
+    {
+      "tick": 243280,
+      "liquidityNet": "1581265870408",
+      "liquidityGross": "1581265870408"
+    },
+    {
+      "tick": 243460,
+      "liquidityNet": "71358516632",
+      "liquidityGross": "71358516632"
+    },
+    {
+      "tick": 244260,
+      "liquidityNet": "43977663608666",
+      "liquidityGross": "43977663608666"
+    },
+    {
+      "tick": 245160,
+      "liquidityNet": "-1238226127136",
+      "liquidityGross": "1238226127136"
+    },
+    {
+      "tick": 246010,
+      "liquidityNet": "-1028226289308",
+      "liquidityGross": "1028226289308"
+    },
+    {
+      "tick": 246130,
+      "liquidityNet": "-1639341110305",
+      "liquidityGross": "1639341110305"
+    },
+    {
+      "tick": 246170,
+      "liquidityNet": "-126921374550791",
+      "liquidityGross": "126921374550791"
+    },
+    {
+      "tick": 246180,
+      "liquidityNet": "-43977663608666",
+      "liquidityGross": "43977663608666"
+    },
+    {
+      "tick": 246310,
+      "liquidityNet": "-1581265870408",
+      "liquidityGross": "1581265870408"
+    },
+    {
+      "tick": 246490,
+      "liquidityNet": "-71358516632",
+      "liquidityGross": "71358516632"
+    }
+  ]
+}

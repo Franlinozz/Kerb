@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/BMNRx/multiplier?network=XLayer",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:49:48.521Z",
+  "body": "{\"currentMultiplier\":1,\"newMultiplier\":0,\"activationDateTime\":0,\"reason\":null}",
+  "latencyMs": 200
+}

@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/ICEx/price-data",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:48:41.668Z",
+  "body": "{\"quote\":156.015}",
+  "latencyMs": 113
+}

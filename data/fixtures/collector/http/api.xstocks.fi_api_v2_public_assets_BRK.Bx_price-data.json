@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/BRK.Bx/price-data",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:47:35.318Z",
+  "body": "{\"quote\":510.15}",
+  "latencyMs": 139
+}

@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/ICEx/multiplier?network=XLayer",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:48:41.215Z",
+  "body": "{\"currentMultiplier\":1.002319949012,\"newMultiplier\":0,\"activationDateTime\":0,\"reason\":null}",
+  "latencyMs": 142
+}

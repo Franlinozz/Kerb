@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/KUAIx/price-data",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:48:19.911Z",
+  "body": "{\"quote\":null}",
+  "latencyMs": 20100
+}

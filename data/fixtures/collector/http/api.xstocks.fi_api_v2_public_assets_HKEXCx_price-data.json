@@ -1,0 +1,7 @@
+{
+  "url": "https://api.xstocks.fi/api/v2/public/assets/HKEXCx/price-data",
+  "status": 200,
+  "fetchedAt": "2026-09-19T06:47:37.304Z",
+  "body": "{\"quote\":null}",
+  "latencyMs": 20159
+}

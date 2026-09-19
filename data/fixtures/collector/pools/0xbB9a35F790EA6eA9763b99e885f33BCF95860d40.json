@@ -1,0 +1,59 @@
+{
+  "kind": "uniswap-v3-pool-snapshot",
+  "version": 1,
+  "chainId": 196,
+  "pool": "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40",
+  "blockNumber": "71031393",
+  "blockHash": "0xc4f57dbd80aa585df0967372830f32eab81f97ece0d8500ac9a0fc762299ad49",
+  "blockTimestamp": "1789800429",
+  "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+  "token1": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+  "fee": 100,
+  "tickSpacing": 1,
+  "sqrtPriceX96": "79231910982485385323215026665",
+  "tick": 0,
+  "liquidity": "1059421063435361",
+  "observationCardinality": 1,
+  "twap": {
+    "windowSec": 900,
+    "tickCumulatives": [
+      "2663482",
+      "2663482"
+    ]
+  },
+  "coveredTicks": {
+    "lower": -3584,
+    "upper": 3583
+  },
+  "bitmapWords": {
+    "lower": -14,
+    "upper": 13
+  },
+  "ticks": [
+    {
+      "tick": -11,
+      "liquidityNet": "1001809603944985",
+      "liquidityGross": "1001809603944985"
+    },
+    {
+      "tick": -7,
+      "liquidityNet": "47515",
+      "liquidityGross": "47515"
+    },
+    {
+      "tick": -1,
+      "liquidityNet": "57611458442950",
+      "liquidityGross": "57611458442950"
+    },
+    {
+      "tick": 2,
+      "liquidityNet": "-57611458490465",
+      "liquidityGross": "57611458490465"
+    },
+    {
+      "tick": 9,
+      "liquidityNet": "-1001809603944985",
+      "liquidityGross": "1001809603944985"
+    }
+  ]
+}
