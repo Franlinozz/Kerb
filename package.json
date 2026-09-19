@@ -1,0 +1,38 @@
+{
+  "name": "kerb",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Kerb: the market-time risk layer for tokenized securities, on X Layer",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@10.18.0",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "lint": "eslint .",
+    "chain:ping": "pnpm --filter @kerb/adapters chain:ping",
+    "discover": "pnpm --filter @kerb/collector discover",
+    "collector": "pnpm --filter @kerb/collector start",
+    "db:generate": "pnpm --filter @kerb/collector db:generate",
+    "db:migrate": "pnpm --filter @kerb/collector db:migrate",
+    "forge:build": "cd contracts && forge build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^22.18.0",
+    "eslint": "^9.36.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.0",
+    "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
