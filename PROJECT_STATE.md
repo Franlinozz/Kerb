@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 19 Sep 2026 07:00 UTC, end of phase 0.
+Last updated: 19 Sep 2026, end of phase 1.
 
 ---
 
@@ -9,7 +9,7 @@ Last updated: 19 Sep 2026 07:00 UTC, end of phase 0.
 
 | Item | Status |
 |---|---|
-| Phase | 0 complete, 1 next |
+| Phase | 1 complete, 2 next |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | not deployed |
@@ -69,7 +69,7 @@ Market codes and underlying identifiers must be confirmed by the adapter against
 | Subsystem | Rung | Note |
 |---|---|---|
 | Reference price | 2 (issuer data) plus a third-party check | xStocks price-data (returns quote:null for 7 of 10 on weekends) plus Yahoo chart as an independent Observed reference. Pyth Hermes now requires an API key (401); Chainlink Data Streams needs credentials |
-| Executable depth | not yet computed | Pool state and ticks recorded every 60s; tick-walk arrives in phase 1 |
+| Executable depth | 2 | Exact tick-walk on the real pools (matches QuoterV2 to the wei); OKX DEX cross-check implemented but credentials not provided, so cross-check unavailable |
 | Loan asset on testnet | | |
 | Credit market deployment | | |
 | Corporate action data | 1 partial + 2 | xStocks multiplier endpoint gives current, next and activation time; full corporate-actions endpoint needs an API key. Onchain multiplier() and wrapper convertToAssets polled every 10m |
@@ -119,6 +119,11 @@ One line each, every time the build departs from the plan.
 | 19 Sep | ARCHITECTURE.md does not spell out the AssetAdapter interface; it is derived from KTS-0.1 section 3.1 plus the halt flags from 4.2 | Gap in the spec |
 | 19 Sep | Raw payload blobs are stored gzipped in Postgres (`blobs`, id `keccak256:0x...`) until IPFS pinning (K-14) | Smallest thing that records today |
 | 19 Sep | Extra tables `obs_source_error` and `collector_cycles` (append-only) | Failures must be recorded, and gaps must be measurable |
+| 19 Sep | Collector tick coverage raised from +/-30% to +/-60% of spot at 07:2x UTC; earlier snapshots cover +/-30% | Large-notional curve points were ambiguous (range end vs no liquidity) |
+| 19 Sep | Dust venues (own C(1%) below `minVenueC1` = 100 USDG) are excluded before aggregation, with the reason recorded | Otherwise a dust pool triggers the 0.8 fragmentation factor and lowers depth below the best single venue (seen on BMNRx) |
+| 19 Sep | `nextWeakening` is defined as the next exit from the main (regular) session; `nextReferenceClosed` is reported separately | KTS-0.1 section 9 sample mixes the two; the cure deadline in the section 13 worked example is the regular close |
+| 19 Sep | Default cure windows: US and XCOM 3600s, XHKG 1800s (so the HK lunch Last Call fits inside the 150-minute morning) | Configuration, versioned with the calendar |
+| 19 Sep | Calendar covers 2025-12-01 to 2027-12-31 and refuses outside it. HK 2027 lunar dates are derived, not yet externally cross-checked | Pyth's HK schedule only lists 2026 |
 | 19 Sep | One row with mode='test' in obs_source_error from verifying the append-only trigger; it cannot be deleted by design | Trigger verification |
 
 ---
@@ -135,3 +140,23 @@ One line each, every time the build departs from the plan.
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 1 CHECKPOINT (19 Sep 2026)
+Built: packages/v3math exact tick-walk (QuoterV2-exact), C(i) bisection, multi-hop + aggregation; OKX DEX cross-check client; packages/calendar XNYS/XNAS/ARCX/XHKG/XCOM 2026-27 + Clock resolver; apps/engine depth assembly + depth-report
+Evidence: 365 tests (types 14, calendar 132, adapters 13, v3math 192, collector 6, engine 8); data/reports/phase1-depth-2026-09-19.txt; C(1%) USDG: BRK.Bx 27663, KOx 16864, HKEXCx 12808, KUAIx 12600, BMNRx 12455, MIXUx 11072, COINx 8449, SHEINx 7526, ICEx 7273, SLVx 4063
+Rung: depth 2 (no OKX DEX credentials); reference 2 + Yahoo; corporate actions 1-partial + 2
+Deviations: see section 7 (dust venues, coverage +/-60%, nextWeakening definition, cure windows, calendar coverage)
+Blocked: OKX DEX API credentials (operator)
+Next: phase 2
+```
+
+```
+PHASE 0 CHECKPOINT (19 Sep 2026)
+Built: workspace scaffold, types, chain config + chain:ping, asset discovery (10/10 resolved), XStocksAdapter, append-only collector live under PM2 with /health
+Evidence: first live observation 2026-09-19T06:37:30Z; 15 pools/min, 11 Yahoo + 3 xStocks prices/30s, 20 multiplier rows/10m; commits e2ba73e..5b90786
+Rung: reference 2 (+ Yahoo third-party), depth not yet computed, corporate actions 1-partial + 2
+Deviations: late start (no data Fri 20:00 to Sat 06:37 UTC), wrapper pools, SLVx on ARCX, Pyth needs key
+Blocked: none
+Next: phase 1
+```

@@ -6,7 +6,7 @@ import {
 import { canonicalJson, fromUnits } from "@kerb/types";
 import type { Providers } from "./types.js";
 
-export const POOL_RANGE_PCT = 0.3;
+export const POOL_RANGE_PCT = 0.6;
 export const TWAP_WINDOW_SEC = 900;
 const WAD = 10n ** 18n;
 

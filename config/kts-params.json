@@ -1,0 +1,25 @@
+{
+  "kts": "0.1",
+  "paramsVersion": "2026-09-19.2",
+  "depth": {
+    "ladder": [
+      "1000",
+      "2500",
+      "5000",
+      "10000",
+      "25000",
+      "50000",
+      "100000",
+      "250000"
+    ],
+    "impactTargets": [
+      "0.005",
+      "0.01",
+      "0.03"
+    ],
+    "fragmentationFactorMulti": "0.8",
+    "stalenessMaxSec": 300,
+    "crosscheckMax": "0.25",
+    "minVenueC1": "100"
+  }
+}

@@ -66,9 +66,22 @@ importers:
 
   apps/engine:
     dependencies:
+      '@kerb/adapters':
+        specifier: workspace:*
+        version: link:../../packages/adapters
+      '@kerb/calendar':
+        specifier: workspace:*
+        version: link:../../packages/calendar
       '@kerb/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@kerb/v3math':
+        specifier: workspace:*
+        version: link:../../packages/v3math
+    devDependencies:
+      '@kerb/collector':
+        specifier: workspace:*
+        version: link:../collector
 
   apps/indexer:
     dependencies:
@@ -113,6 +126,13 @@ importers:
       '@kerb/types':
         specifier: workspace:*
         version: link:../types
+    devDependencies:
+      '@kerb/adapters':
+        specifier: workspace:*
+        version: link:../adapters
+      viem:
+        specifier: ^2.45.0
+        version: 2.56.8(typescript@5.9.3)
 
 packages:
 

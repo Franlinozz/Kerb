@@ -22,5 +22,9 @@
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.4"
+  },
+  "exports": {
+    "./db": "./src/db/client.ts",
+    "./schema": "./src/db/schema.ts"
   }
 }
