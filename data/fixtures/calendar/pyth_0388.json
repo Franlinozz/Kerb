@@ -1,0 +1,20 @@
+{
+ "source": "hermes.pyth.network/v2/price_feeds",
+ "capturedAt": "2026-09-19",
+ "id": "1f7983cbd3c3f592b0990c80c6d3c217d09379770b557a7544c47be185562707",
+ "attributes": {
+  "asset_type": "Equity",
+  "description": "HONG KONG EXCHANGES & CLEARING / HONG KONG DOLLAR",
+  "display_symbol": "HKEX",
+  "nasdaq_symbol": "0388",
+  "quote_currency": "HKD",
+  "schedule": "Asia/Hong_Kong;0930-1200&1300-1600,0930-1200&1300-1600,0930-1200&1300-1600,0930-1200&1300-1600,0930-1200&1300-1600,C,C;0101/C,0216/0930-1200,0217/C,0218/C,0219/C,0403/C,0406/C,0407/C,0501/C,0525/C,0619/C,0701/C,1001/C,1019/C,1224/0930-1200,1225/C,1231/0930-1200",
+  "symbol": "Equity.HK.0388/HKD",
+  "min_channel": "fixed_rate@200ms"
+ },
+ "market_hours": {
+  "is_open": false,
+  "next_open": 1789954200,
+  "next_close": 1789963200
+ }
+}

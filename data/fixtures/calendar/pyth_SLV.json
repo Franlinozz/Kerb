@@ -1,0 +1,20 @@
+{
+ "source": "hermes.pyth.network/v2/price_feeds",
+ "capturedAt": "2026-09-19",
+ "id": "6fc08c9963d266069cbd9780d98383dabf2668322a5bef0b9491e11d67e5d7e7",
+ "attributes": {
+  "asset_type": "Equity",
+  "description": "ISHARES SILVER TRUST",
+  "display_symbol": "SLV",
+  "nasdaq_symbol": "SLV",
+  "quote_currency": "USD",
+  "schedule": "America/New_York;0930-1600,0930-1600,0930-1600,0930-1600,0930-1600,C,C;0907/C,1126/C,1127/0930-1300,1224/0930-1300,1225/C,0101/C,0118/C,0215/C,0326/C,0531/C,0618/C,0705/C",
+  "symbol": "Equity.US.SLV/USD",
+  "min_channel": "fixed_rate@200ms"
+ },
+ "market_hours": {
+  "is_open": false,
+  "next_open": 1789997400,
+  "next_close": 1790020800
+ }
+}

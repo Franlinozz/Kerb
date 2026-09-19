@@ -1,0 +1,19 @@
+{
+ "source": "hermes.pyth.network/v2/price_feeds",
+ "capturedAt": "2026-09-19",
+ "id": "f2fb02c32b055c805e7238d628e5e9dadef274376114eb1f012337cabe93871e",
+ "attributes": {
+  "asset_type": "Metal",
+  "description": "SILVER / US DOLLAR",
+  "display_symbol": "XAGUSD",
+  "quote_currency": "USD",
+  "schedule": "America/New_York;0000-1700&1800-2400,0000-1700&1800-2400,0000-1700&1800-2400,0000-1700&1800-2400,0000-1700,C,1800-2400;0119/0000-1430&1800-2400,0216/0000-1430&1800-2400,0402/0000-1700,0403/C,0525/0000-1430&1800-2400,0619/0000-1300,0703/0000-1300,0907/0000-1430&1800-2400,1126/0000-1430&1800-2400,1127/0000-1445,1224/0000-1345,1225/C,1231/0000-1700,0101/C",
+  "symbol": "Metal.XAG/USD",
+  "min_channel": "fixed_rate@200ms"
+ },
+ "market_hours": {
+  "is_open": false,
+  "next_open": 1789941600,
+  "next_close": 1790024400
+ }
+}
