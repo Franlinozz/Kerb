@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/Theme";
+import { Providers } from "@/components/Providers";
+import { ConnectButton } from "@/components/Wallet";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
+        <Providers>
         <header className="site-head">
           <div className="wrap site-head-inner">
             <Link href="/" className="brand" aria-label="Kerb home">
@@ -35,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
                 </Link>
               ))}
             </nav>
+            <ConnectButton />
             <ThemeToggle />
           </div>
         </header>
@@ -51,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
             </p>
           </div>
         </footer>
+        </Providers>
       </body>
     </html>
   );

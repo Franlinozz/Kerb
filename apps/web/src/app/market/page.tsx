@@ -4,6 +4,9 @@ import { RegimeTag } from "@/components/Regime";
 import { Field, Prov, Value } from "@/components/Value";
 import { SourceTrouble } from "@/components/States";
 import { PositionLookup } from "@/components/PositionLookup";
+import { BorrowPanel } from "@/components/BorrowPanel";
+import { CurePanel } from "@/components/CurePanel";
+import { ChainGuard } from "@/components/Wallet";
 import { explorerAddress, getCreditMarket, REGIME_BY_INDEX, CREDIT_CHAIN_ID } from "@/lib/api";
 import { group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
 
@@ -156,9 +159,24 @@ export default async function MarketPage(): Promise<React.ReactElement> {
                   </div>
                 </Field>
               </dl>
+              <ChainGuard>
+                <BorrowPanel market={m} collateral={c} />
+              </ChainGuard>
             </div>
           ))
         )}
+      </section>
+
+      <section className="section">
+        <h2>Cure a position</h2>
+        <p className="section-note">
+          Cure is permissionless: any address may bring a position back to its Carry target while Last Call is
+          open, and is paid a bonus in collateral for doing it. Kerb runs no privileged keeper, which is why this
+          is here for anyone to use.
+        </p>
+        <ChainGuard>
+          <CurePanel market={m} collaterals={m.collaterals} />
+        </ChainGuard>
       </section>
 
       <section className="section">

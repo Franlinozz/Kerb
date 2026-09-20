@@ -277,3 +277,31 @@ dl { margin: 0; }
 .lookup button:disabled { opacity: 0.5; cursor: default; }
 
 @media (max-width: 560px) { .lookup { flex-direction: column; align-items: stretch; } .lookup input { width: 100%; } }
+
+/* ---------------------------------------------------------------- wallet */
+.wallet { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; }
+
+/* ---------------------------------------------------------------- action panels */
+.panel { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; margin-top: 12px; background: var(--surface-raised); }
+.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin: 10px 0; }
+.row-actions label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; }
+.row-actions input, .row-actions select {
+  font: inherit; font-size: 0.85rem; color: var(--text); background: var(--surface);
+  border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 7px 9px; width: 20ch;
+}
+.row-actions input.mono { width: min(44ch, 100%); }
+.row-actions button {
+  font: inherit; font-size: 0.82rem; color: var(--text); background: var(--surface);
+  border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 8px 14px; cursor: pointer;
+}
+.row-actions button:hover:not(:disabled) { border-color: var(--text-faint); }
+.row-actions button:disabled { opacity: 0.45; cursor: default; }
+.modes { border: 0; padding: 0; margin: 0; display: flex; gap: 12px; align-items: baseline; }
+.modes legend { float: left; width: 100%; font-size: 0.78rem; margin-bottom: 4px; }
+.modes label { flex-direction: row; gap: 4px; align-items: baseline; font-size: 0.85rem; }
+
+.confirm { border: 1px solid var(--line-strong); border-left-width: 3px; border-left-color: var(--tone-normal); border-radius: var(--radius); padding: 10px 13px; margin: 12px 0; }
+.confirm-blocked { border-left-color: var(--danger); }
+.confirm-row { display: grid; grid-template-columns: 210px 1fr; gap: 10px; padding: 4px 0; font-size: 0.86rem; align-items: baseline; }
+.confirm-warn { color: var(--accent-lastcall); font-size: 0.84rem; margin-top: 8px; }
+@media (max-width: 760px) { .confirm-row { grid-template-columns: 1fr; gap: 2px; } }
