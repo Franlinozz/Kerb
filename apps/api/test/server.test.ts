@@ -98,6 +98,30 @@ describe("API", () => {
     }
   });
 
+
+  it("declares loan-asset decimals for depth and ceilings, not WAD", async () => {
+    // These are posted in loan-asset units. Declaring 18 here would be a 1e12 error in every
+    // SDK consumer: the board says 11,187.63 and /v1/terms must agree with it.
+    const r = await app.inject({ method: "GET", url: "/v1/terms/196/KOx" });
+    const body = r.json() as {
+      debtCeiling: { raw: string; decimals: number };
+      executableDepth1: { raw: string; decimals: number };
+      creditMark: { decimals: number };
+      loanAsset: { symbol: string; decimals: number };
+    };
+    expect(body.loanAsset.decimals).toBe(6);
+    expect(body.debtCeiling.decimals).toBe(6);
+    expect(body.executableDepth1.decimals).toBe(6);
+    // The mark and the ratios stay WAD.
+    expect(body.creditMark.decimals).toBe(18);
+    expect(fromUnits(BigInt(body.debtCeiling.raw), body.debtCeiling.decimals)).toBe("11187.632812");
+
+    const board = await app.inject({ method: "GET", url: "/v1/board?chain=196" });
+    const row = (board.json() as { rows: { symbol: string; debtCeiling: { value: string } }[] }).rows
+      .find((x) => x.symbol === "KOx");
+    expect(row?.debtCeiling.value).toBe(fromUnits(BigInt(body.debtCeiling.raw), body.debtCeiling.decimals));
+  });
+
   it("GET /v1/terms says usable=false once the report passes the freshness window", async () => {
     const stale = buildServer({ sql: fakeSql(), now: () => NOW + 1_000_000 });
     const b = (await stale.inject({ method: "GET", url: "/v1/terms/196/KOx" })).json();

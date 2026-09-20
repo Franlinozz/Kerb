@@ -1,0 +1,272 @@
+/**
+ * Server-side reads of the Kerb API.
+ *
+ * Every page renders on the server from the same public API a judge can curl. A source that is
+ * down returns a typed failure, never a placeholder number: AGENTS.md rule 1.
+ */
+import type { ProvenanceLabel } from "./format";
+
+const BASE = process.env["KERB_API_INTERNAL"] ?? "http://127.0.0.1:8720";
+export const PUBLIC_API = process.env["KERB_API_PUBLIC"] ?? "https://api.usekerb.xyz";
+export const CHAIN_ID = Number(process.env["KERB_CHAIN_ID"] ?? 196);
+
+export type Regime =
+  | "DEEP" | "NORMAL" | "THIN" | "PRE_TRANSITION"
+  | "REFERENCE_CLOSED" | "ACTION" | "HALTED" | "STALE" | "RECOVERY";
+
+export interface RawValue { raw: string; decimals: number; label: ProvenanceLabel }
+
+/** Every board value is already a decimal string and carries where it came from. */
+export interface BoardValue {
+  value: string | null;
+  label: ProvenanceLabel;
+  source?: string;
+  observedAt?: string | null;
+  inputsHash?: string;
+  tx?: string;
+}
+
+export interface BoardRow {
+  symbol: string;
+  underlying: { symbol: string; market: string; currency: string };
+  pool: { address: string; quote: string; fee: number; explorer: string };
+  status: "live" | "no report" | "stale";
+  regime: BoardValue & { value: Regime | null };
+  creditMark: BoardValue;
+  executableDepth1: BoardValue;
+  carryLTV: BoardValue;
+  sessionMaxLTV: BoardValue;
+  debtCeiling: BoardValue;
+  coverageRatio: BoardValue;
+  reportAgeSec: number | null;
+  poolObservedAt: string | null;
+  poolObservationAgeSec: number | null;
+}
+
+export interface Board {
+  chainId: number;
+  loanAsset: string;
+  generatedAt: string;
+  contracts: { KerbClock: string | null; KerbTerms: string | null; explorer?: string };
+  rows: BoardRow[];
+  sources?: { name: string; lastObservedAt: string | null; ageSec: number | null; healthy: boolean }[];
+}
+
+export interface Transition {
+  type: string;
+  at: string;
+  atMs: number;
+  from: string;
+  to: string;
+  weakening: boolean;
+}
+
+export interface ClockSegment {
+  kind: "PRE" | "REGULAR" | "LUNCH" | "POST" | "CLOSED";
+  reason: string;
+  startsAt: string;
+  endsAt: string;
+  names: string[];
+}
+
+export interface Clock {
+  chainId: number;
+  symbol: string;
+  market: string;
+  timezone: string;
+  at: string;
+  label: ProvenanceLabel;
+  clock: {
+    calendarVersion: string;
+    session: { kind: ClockSegment["kind"]; reason: string; startedAt: string; endsAt: string; names: string[] };
+    inMainSession: boolean;
+    referenceClosed: boolean;
+    nextTransition: Transition;
+    nextWeakening: Transition;
+    nextReferenceClosed: Transition;
+    cureWindow: { lengthSec: number; opensAt: string; closesAt: string; open: boolean };
+    horizonHours: string;
+  };
+  window: { from: string; to: string };
+  segments: ClockSegment[];
+}
+
+export interface Terms {
+  chainId: number;
+  assetId: string;
+  symbol: string | null;
+  observedAt: string;
+  ageSec: number;
+  usable: boolean;
+  regime: { value: Regime; index: number; label: ProvenanceLabel };
+  creditMark: RawValue;
+  carryLTV: RawValue;
+  sessionMaxLTV: RawValue;
+  debtCeiling: RawValue;
+  executableDepth1: RawValue;
+  loanAsset: { symbol: string; decimals: number };
+  inputsHash: string;
+  tx: string;
+  contracts: { clock?: string; terms?: string };
+  history: { observedAt: string; regime: Regime; carryLTV: string; sessionMaxLTV: string; debtCeiling: string; executableDepth1: string; creditMark: string; tx: string }[];
+}
+
+export interface Health {
+  status: string;
+  now: string;
+  observations: { poolRows: number; lastObservedAt: string | null; ageSec: number | null };
+  posts: { chainId: number; count: number; lastAt: string | null }[];
+}
+
+/** A read either succeeded or it did not. The UI renders the difference. */
+export type Read<T> = { ok: true; data: T } | { ok: false; status: number; error: string };
+
+async function read<T>(path: string, revalidateSec = 0): Promise<Read<T>> {
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      signal: AbortSignal.timeout(12_000),
+      ...(revalidateSec > 0 ? { next: { revalidate: revalidateSec } } : { cache: "no-store" as const }),
+    });
+    if (!res.ok) {
+      const body = (await res.json().catch(() => ({}))) as { error?: string };
+      return { ok: false, status: res.status, error: body.error ?? `API returned ${res.status}` };
+    }
+    return { ok: true, data: (await res.json()) as T };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return { ok: false, status: 0, error: msg.includes("timed out") || msg.includes("aborted") ? "the Kerb API did not answer in time" : msg };
+  }
+}
+
+export const getBoard = (chainId = CHAIN_ID): Promise<Read<Board>> => read<Board>(`/v1/board?chain=${chainId}`);
+export const getClock = (symbol: string, chainId = CHAIN_ID): Promise<Read<Clock>> =>
+  read<Clock>(`/v1/clock/${chainId}/${encodeURIComponent(symbol)}`);
+export const getTerms = (symbol: string, chainId = CHAIN_ID): Promise<Read<Terms>> =>
+  read<Terms>(`/v1/terms/${chainId}/${encodeURIComponent(symbol)}`);
+export const getHealth = (): Promise<Read<Health>> => read<Health>("/health");
+
+export const explorerTx = (hash: string, chainId = CHAIN_ID): string =>
+  `${chainId === 196 ? "https://www.oklink.com/xlayer" : "https://www.oklink.com/x-layer-testnet"}/tx/${hash}`;
+export const explorerAddress = (addr: string, chainId = CHAIN_ID): string =>
+  `${chainId === 196 ? "https://www.oklink.com/xlayer" : "https://www.oklink.com/x-layer-testnet"}/address/${addr}`;
+
+export interface CurvePoint {
+  notional: string;
+  amountIn: string;
+  amountOut: string;
+  midPrice: string;
+  realisedPrice: string;
+  impact: string;
+  filled: boolean;
+  exhaustedReason: string;
+  legImpacts?: string[];
+}
+
+export interface Venue {
+  path: string[];
+  pools: string[];
+  midPrice: string;
+  curve: CurvePoint[];
+  C_0_5: { notional: string; impact: string; censored: boolean };
+  C_1: { notional: string; impact: string; censored: boolean };
+  C_3: { notional: string; impact: string; censored: boolean };
+}
+
+export interface MarkComponent {
+  value: string;
+  label: ProvenanceLabel;
+  sources: string[];
+  usedSources?: string[];
+  excluded?: { source: string; reason: string }[];
+  basis?: string;
+  twapWindowSec?: number | null;
+}
+
+export interface Report {
+  assetSymbol: string;
+  asset?: unknown;
+  chainId: number;
+  observedAt: string;
+  engineVersion: string;
+  paramsVersion: string;
+  regime: Regime;
+  mark: {
+    creditMark: string;
+    band: [string, string];
+    dispersion: string;
+    dispersionBreach: boolean;
+    haircut: string;
+    quoteAssumption: string;
+    reference: MarkComponent;
+    pool: MarkComponent;
+  };
+  depth: {
+    /** Aggregate capacities are plain decimal strings; the per-venue ones are objects. */
+    C_0_5: string;
+    C_1: string;
+    C_3: string;
+    C_1_simulated?: string;
+    venues: Venue[];
+    excluded: { path: string[]; pools: string[]; reason: string }[];
+    fragmentationFactor: string;
+    censored?: boolean;
+    quoteCurve?: { notional: string; impact: string }[];
+    /**
+     * Either the cross-check ran, or it could not. Rung 2 is a real answer with a reason,
+     * not a missing field, so the two shapes are modelled separately.
+     */
+    crosscheck?:
+      | { source: string; simulated: string; quoted: string; delta: string; flag: boolean; used: string; status?: undefined }
+      | { source: string; status: "unavailable"; reason: string; rung: number }
+      | null;
+  };
+  capacity: {
+    LT: string; carryLTV: string; sessionMaxLTV: string; stressLTVWeak: string; stressLTVCure: string;
+    debtCeiling: string; maxPositionDebt: string; coverageRatioAtCeiling: string; clamped: string[];
+  };
+  stress: {
+    horizonHoursWeak: string; horizonHoursCure: string; sessionsWeak: number; sessionsCure: number;
+    quantile: string; gapQuantileWeak: string; gapQuantileCure: string; volScaler: string;
+    impactAtReferenceSize: string; liquidationBonus: string; buffer: string;
+    historySufficient: boolean; seriesDigest: string;
+  };
+  underlying: { symbol: string; market: string; multiplier: string };
+  provenance?: { label: ProvenanceLabel; note: string };
+  inputsHash: string;
+  inputsCidV1Raw: string;
+  bundleBytes: number;
+}
+
+export const getReport = (symbol: string, chainId = CHAIN_ID): Promise<Read<Report>> =>
+  read<Report>(`/v1/report/${chainId}/${encodeURIComponent(symbol)}`);
+
+export interface Proof {
+  generatedAt: string;
+  build: {
+    repo: string;
+    firstCommitAt: string | null;
+    latestCommitAt: string | null;
+    commits: number;
+    commitsPerDay: { date: string; count: number }[];
+    buildPeriodMarkdown: string | null;
+    tests: {
+      startedAt: string; finishedAt: string; commit: string;
+      typescript: { passed: number; suitesWithFailures: number; command: string };
+      solidity: { passed: number; failed: number; command: string };
+    } | null;
+  };
+  onchain: {
+    deployments: { key: string; chainId: number; contract: string; address: string; block: string | null; deployedAt: string | null; verification: string | null; verificationUrl: string | null; explorer: string }[];
+    latestPosts: { chainId: number; symbol: string | null; observedAt: string; tx: string; explorer: string; gasUsed: string | null; builderCode: string[] | null }[];
+    postCounts: { chainId: number; count: number }[];
+  };
+  data: {
+    sources: { source: string; lastObservedAt: string | null; ageSec: number | null; rows: number }[];
+    totals: { table: string; rows: number }[];
+    latestBundle: { symbol: string | null; inputsHash: string; cid: string | null; pinStatus: string | null; gateway: string | null } | null;
+  };
+  risk: { report: { symbol: string | null; observedAt: string; inputsHash: string; cid: string | null; recomputeCommand: string } | null };
+  limitations: { subsystem: string; rung: string; note: string }[];
+}
+
+export const getProof = (): Promise<Read<Proof>> => read<Proof>("/v1/proof");

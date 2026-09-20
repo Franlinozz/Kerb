@@ -1,6 +1,26 @@
 {
   "name": "@kerb/web",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Next.js app. Owned by the frontend agent; scaffolded empty in phase 0."
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3300",
+    "build": "next build",
+    "start": "next start -p 3300",
+    "typecheck": "tsc -p tsconfig.json",
+    "shoot": "tsx scripts/screenshots.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@kerb/sdk": "workspace:*",
+    "next": "15.5.25",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "playwright": "^1.63.0",
+    "vitest": "^3.2.7"
+  }
 }

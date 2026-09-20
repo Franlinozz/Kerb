@@ -10,9 +10,13 @@ import { loadAssets, repoRoot, resolvedAssets } from "@kerb/adapters";
 import { assetId as toAssetId, regimeName } from "@kerb/types";
 import { connect, type Sql } from "@kerb/collector/db";
 import { loadDeployments } from "@kerb/attester";
+import { resolveClock, timeline, type Segment } from "@kerb/calendar";
+import { buildBundle, computeReport, engineConfig, identifyBundle, loadParams } from "@kerb/engine";
+import { buildProof, decodeLatestBuilderCode } from "./proof.js";
 import { buildBoard, type Board } from "./board.js";
 
 export const BOARD_CACHE_MS = 15_000;
+export const REPORT_CACHE_MS = 60_000;
 const REPORT_DIR = process.env["KERB_REPORT_DIR"] ?? resolve(repoRoot(), "data/reports/kts");
 
 export interface ServerDeps {
@@ -43,10 +47,22 @@ function safeReportPath(id: string, suffix: string): string | null {
   return existsSync(p) ? p : null;
 }
 
+
+/** Accept a symbol, a token address, or an assetId. Returns the configured asset when there is one. */
+function findAsset(asset: string): ReturnType<typeof resolvedAssets>[number] | null {
+  const all = resolvedAssets(loadAssets());
+  const needle = asset.toLowerCase();
+  return all.find((a) => a.symbol.toLowerCase() === needle)
+    ?? all.find((a) => a.token.address.toLowerCase() === needle)
+    ?? all.find((a) => toAssetId(196, a.token.address).toLowerCase() === needle)
+    ?? null;
+}
+
 export function buildServer(deps: ServerDeps): FastifyInstance {
   const app = Fastify({ logger: false, disableRequestLogging: true });
   const now = deps.now ?? ((): number => Date.now());
   const cache = new Map<number, CacheEntry>();
+  const reportCache = new Map<string, { at: number; body: unknown }>();
 
   void app.register(cors, { origin: true, methods: ["GET", "HEAD", "OPTIONS"] });
 
@@ -112,6 +128,9 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       FROM terms_reports WHERE chain_id = ${chainId} AND lower(asset_id) = ${id} ORDER BY observed_at DESC LIMIT 50`;
 
     const ageSec = Math.round((now() - new Date(r.observed_at).getTime()) / 1000);
+    const assetCfg = loadAssets();
+    const loanAsset = assetCfg.loanAsset;
+    const loanDecimals = assetCfg.quoteTokens[loanAsset]?.decimals ?? 18;
     return {
       chainId,
       assetId: r.asset_id,
@@ -120,11 +139,14 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       ageSec,
       usable: ageSec <= 900 && r.regime !== 7 && r.regime !== 6,
       regime: { value: regimeName(r.regime), index: r.regime, label: "Attested" },
+      // Marks and ratios are WAD. Depth and ceilings are posted in loan-asset units, which for
+      // USDG is 6 decimals, not 18: declaring the wrong scale here is a 1e12 error in the SDK.
       creditMark: { raw: r.credit_mark, decimals: 18, label: "Attested" },
       carryLTV: { raw: r.carry_ltv, decimals: 18, label: "Attested" },
       sessionMaxLTV: { raw: r.session_max_ltv, decimals: 18, label: "Attested" },
-      debtCeiling: { raw: r.debt_ceiling, decimals: 18, label: "Attested" },
-      executableDepth1: { raw: r.executable_depth1, decimals: 18, label: "Attested" },
+      debtCeiling: { raw: r.debt_ceiling, decimals: loanDecimals, label: "Attested" },
+      executableDepth1: { raw: r.executable_depth1, decimals: loanDecimals, label: "Attested" },
+      loanAsset: { symbol: loanAsset, decimals: loanDecimals },
       inputsHash: r.inputs_hash,
       tx: r.tx_hash,
       contracts: contractsFor(chainId),
@@ -134,6 +156,114 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
         creditMark: h.credit_mark, tx: h.tx_hash,
       })),
     };
+  });
+
+
+  /**
+   * The Clock for one asset: the session it is in now, the transitions ahead, the Last Call
+   * window, and the session geometry of the surrounding week for the Session Strip.
+   * Computed by the same resolver the onchain KerbClock is equivalence-tested against.
+   */
+  app.get("/v1/clock/:chain/:asset", async (req, reply) => {
+    const { chain, asset } = req.params as { chain: string; asset: string };
+    const q = req.query as { from?: string; to?: string };
+    const chainId = Number(chain);
+    if (!Number.isFinite(chainId)) return reply.status(400).send({ error: "bad chain" });
+    const found = findAsset(asset);
+    if (!found) return reply.status(404).send({ error: "unknown asset" });
+
+    const atMs = now();
+    const fromMs = q.from ? Date.parse(q.from) : atMs - 3 * 86_400_000;
+    const toMs = q.to ? Date.parse(q.to) : atMs + 4 * 86_400_000;
+    if (!Number.isFinite(fromMs) || !Number.isFinite(toMs) || toMs <= fromMs) {
+      return reply.status(400).send({ error: "bad window" });
+    }
+    if (toMs - fromMs > 31 * 86_400_000) return reply.status(400).send({ error: "window too long" });
+
+    let clock;
+    let segments: Segment[];
+    try {
+      clock = resolveClock({ market: found.underlying.market, atMs });
+      segments = timeline(found.underlying.market, fromMs, toMs);
+    } catch (err) {
+      // Outside calendar coverage is a real answer, not a 500.
+      return reply.status(422).send({ error: err instanceof Error ? err.message : "clock unavailable" });
+    }
+
+    return {
+      chainId,
+      symbol: found.symbol,
+      market: found.underlying.market,
+      timezone: found.underlying.exchangeTimezone,
+      at: new Date(atMs).toISOString(),
+      label: "Computed" as const,
+      clock,
+      window: { from: new Date(fromMs).toISOString(), to: new Date(toMs).toISOString() },
+      segments: segments.map((g) => ({
+        kind: g.kind,
+        reason: g.reason,
+        startsAt: new Date(g.startMs).toISOString(),
+        endsAt: new Date(g.endMs).toISOString(),
+        names: g.names,
+      })),
+    };
+  });
+
+
+  /**
+   * The full Market-Time Report for one asset, recomputed from the observations on hand: the
+   * impact curve venue by venue, every component of the Credit Mark with its provenance, the
+   * stress statistics and the capacity that falls out of them. Cached briefly because the
+   * computation reads the observation store, not because the answer is approximate.
+   */
+  app.get("/v1/report/:chain/:asset", async (req, reply) => {
+    const { chain, asset } = req.params as { chain: string; asset: string };
+    const chainId = Number(chain);
+    if (!Number.isFinite(chainId)) return reply.status(400).send({ error: "bad chain" });
+    const found = findAsset(asset);
+    if (!found) return reply.status(404).send({ error: "unknown asset" });
+
+    const key = `${chainId}:${found.symbol}`;
+    const hit = reportCache.get(key);
+    if (hit && now() - hit.at < REPORT_CACHE_MS) {
+      void reply.header("x-kerb-cache", "hit");
+      return hit.body;
+    }
+
+    try {
+      const params = loadParams();
+      const bundle = await buildBundle(deps.sql, found.symbol, params, {});
+      const cfg = engineConfig(params, found.symbol, bundle.market.cureWindowSec);
+      const report = computeReport(bundle, cfg);
+      const id = identifyBundle(bundle);
+      const body = { ...report, inputsHash: id.inputsHash, inputsCidV1Raw: id.cidV1Raw, bundleBytes: id.bytes, label: "Computed" as const };
+      reportCache.set(key, { at: now(), body });
+      void reply.header("x-kerb-cache", "miss");
+      return body;
+    } catch (err) {
+      // A report that cannot be computed says why. It never falls back to an older number.
+      const message = err instanceof Error ? err.message : "report unavailable";
+      return reply.status(422).send({ error: message, symbol: found.symbol });
+    }
+  });
+
+
+  /**
+   * Everything needed to check Kerb against reality: the build period, the chain, the observation
+   * store, a report with the command that recomputes it, and the degradation rung of each subsystem.
+   */
+  app.get("/v1/proof", async (_req, reply) => {
+    const proof = await buildProof(deps.sql, now());
+    // Decode the Builder Code from a real transaction rather than repeating the configured value.
+    const first = proof.onchain.latestPosts[0];
+    if (first) {
+      const rpc = first.chainId === 196
+        ? process.env["KERB_RPC_MAINNET"] ?? "https://rpc.xlayer.tech"
+        : process.env["KERB_RPC_TESTNET"] ?? "https://testrpc.xlayer.tech";
+      first.builderCode = await decodeLatestBuilderCode(rpc, first.tx);
+    }
+    void reply.header("cache-control", "public, max-age=15");
+    return proof;
   });
 
   app.get("/v1/reports/:id", async (req, reply) => {
