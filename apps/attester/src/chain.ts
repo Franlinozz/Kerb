@@ -29,7 +29,9 @@ export function loadDeployments(): Record<string, Deployment> {
 export function saveDeployment(key: string, d: Deployment): void {
   const all = loadDeployments();
   all[key] = d;
-  writeFileSync(deploymentsPath(), `${JSON.stringify(all, null, 2)}\n`);
+  // Constructor args may be bigints, which JSON cannot serialise: record them as decimal strings.
+  const json = JSON.stringify(all, (_k, v: unknown) => (typeof v === "bigint" ? v.toString() : v), 2);
+  writeFileSync(deploymentsPath(), `${json}\n`);
 }
 
 export function deploymentOf(chainId: number, name: string): Deployment {

@@ -78,5 +78,90 @@
       "url": "https://repo.sourcify.dev/contracts/full_match/196/0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5/",
       "note": "OKLink source verification needs an OKLink API key (operator)"
     }
+  },
+  "1952:MockUSDG": {
+    "chainId": 1952,
+    "name": "MockUSDG",
+    "address": "0x91fcf99262214c32f6fe342d94c7b0dfb2dba679",
+    "deployedAtBlock": "41483601",
+    "deployedAt": "2026-09-20T22:13:58.424Z",
+    "txHash": "0xc8091a0e6dfe3fec313a6802d3cc5ab3982573215851f7e8e6ff3ed5f2f1df24",
+    "args": [
+      "1000000000000"
+    ],
+    "verified": false,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x91fcf99262214c32f6fe342d94c7b0dfb2dba679"
+  },
+  "1952:KerbClockDemo": {
+    "chainId": 1952,
+    "name": "KerbClockDemo",
+    "address": "0xd2483b2d8bd759f87fadb21117498a5db36bcb0f",
+    "deployedAtBlock": "41483604",
+    "deployedAt": "2026-09-20T22:14:01.406Z",
+    "txHash": "0x443866c66a408ce37de90534ccc0d479b59271a7571ed11272247b4c91bb1f02",
+    "args": [
+      "3600",
+      "3000",
+      "2400",
+      "1789942438"
+    ],
+    "verified": false,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0xd2483b2d8bd759f87fadb21117498a5db36bcb0f"
+  },
+  "1952:KerbMirror:KOx": {
+    "chainId": 1952,
+    "name": "KerbMirror",
+    "address": "0x11827f0f59d516e3778951fde36bd0d961af4a16",
+    "deployedAtBlock": "41483608",
+    "deployedAt": "2026-09-20T22:14:04.844Z",
+    "txHash": "0x567b1c1590b82165388a9fccc2e78f1f29425c44d94c17928cf39e94536f913d",
+    "args": [
+      "KOx",
+      "KOx",
+      "10000000000000000000000"
+    ],
+    "verified": false,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x11827f0f59d516e3778951fde36bd0d961af4a16"
+  },
+  "1952:KerbMirror:HKEXCx": {
+    "chainId": 1952,
+    "name": "KerbMirror",
+    "address": "0x80da4036ee45e6d66a27dba415a4ce23eb9360f2",
+    "deployedAtBlock": "41483611",
+    "deployedAt": "2026-09-20T22:14:08.129Z",
+    "txHash": "0x78973131b2a46f81e1c9592d34aa2349553e8d2a07dcb5730decfca90b1adf96",
+    "args": [
+      "HKEXCx",
+      "HKEXCx",
+      "10000000000000000000000"
+    ],
+    "verified": false,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x80da4036ee45e6d66a27dba415a4ce23eb9360f2"
+  },
+  "1952:KerbCredit": {
+    "chainId": 1952,
+    "name": "KerbCredit",
+    "address": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+    "deployedAtBlock": "41483834",
+    "deployedAt": "2026-09-20T22:17:50.990Z",
+    "txHash": "0x81ad44965a2b7772b3c280aa281a8b917c28d3853cceed93fcd95bc5166fdc7e",
+    "args": [
+      "0x91fcf99262214c32f6fe342d94c7b0dfb2dba679",
+      6,
+      "0x5a4942f55e37994370745ef984a21321edb75f7e",
+      "0xd2483b2d8bd759f87fadb21117498a5db36bcb0f",
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2",
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2",
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2",
+      [
+        "10000000000000000",
+        "40000000000000000",
+        "600000000000000000",
+        "800000000000000000",
+        "100000000000000000"
+      ]
+    ],
+    "verified": false,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0xa1314645cd6c07e651359aba540e2600090b98a8"
   }
 }

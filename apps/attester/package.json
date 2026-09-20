@@ -16,7 +16,11 @@
     "start": "tsx src/main.ts",
     "status": "tsx scripts/status.ts",
     "evidence": "tsx scripts/evidence.ts",
-    "backfill-posts": "tsx scripts/backfill-posts.ts"
+    "backfill-posts": "tsx scripts/backfill-posts.ts",
+    "deploy-credit": "tsx scripts/deploy-credit.ts",
+    "list-collateral": "tsx scripts/list-collateral.ts",
+    "lifecycle": "tsx scripts/lifecycle.ts",
+    "relay-mirrors": "tsx scripts/relay-mirrors.ts"
   },
   "dependencies": {
     "@kerb/adapters": "workspace:*",
