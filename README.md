@@ -32,3 +32,18 @@ KERB_LIVE=1 DATABASE_URL=... pnpm collector
 ## Attribution
 
 viem (MIT), decimal.js (MIT), drizzle-orm (Apache-2.0), postgres.js (Unlicense), tsx (MIT), Vitest (MIT), TypeScript (Apache-2.0), ESLint (MIT), Foundry forge-std (MIT/Apache-2.0). Data sources: xStocks public API, X Layer RPC, Uniswap v3 contracts on X Layer, Yahoo Finance chart endpoint (third-party reference, no SLA).
+
+## Verify a Kerb report yourself
+
+Every Market-Time Report pins its complete input bundle to IPFS and puts the keccak256 of those
+canonical bytes on chain with the report. Take the `inputsHash` from any `TermsPosted` event and:
+
+```
+pnpm --filter @kerb/engine kerb verify <inputsHash>
+```
+
+That resolves the CID the bundle was pinned under, fetches the bytes from a public IPFS gateway,
+checks they hash to that CID, recomputes every number from them, and prints the recomputed values
+next to the ones on chain. A value the attester clamped tighter into the onchain guardrails is
+reported as clamped, not as a mismatch: the contract is allowed to be more conservative than the
+engine, never less.
