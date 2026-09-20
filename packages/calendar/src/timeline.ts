@@ -23,8 +23,12 @@ export function market(code: MarketCode): MarketSpec {
   return MARKETS[code];
 }
 
+function covered(date: string): boolean {
+  return date >= COVERAGE.from && date <= COVERAGE.to;
+}
+
 function assertCovered(date: string): void {
-  if (date < COVERAGE.from || date > COVERAGE.to) throw new Error(`calendar does not cover ${date}; refusing to guess`);
+  if (!covered(date)) throw new Error(`calendar does not cover ${date}; refusing to guess`);
 }
 
 interface DaySessions {
@@ -32,11 +36,14 @@ interface DaySessions {
   dow: number;
   override: DayOverride | undefined;
   segs: Segment[];
+  outOfCoverage: boolean;
 }
 
 function daySessions(spec: MarketSpec, y: number, m: number, d: number, dow: number): DaySessions {
   const date = ymd(y, m, d);
-  assertCovered(date);
+  // Padding days outside the covered range contribute nothing; the caller asserts coverage
+  // for the instant actually being resolved, so nothing beyond the range is ever guessed.
+  if (!covered(date)) return { date, dow, override: undefined, segs: [], outOfCoverage: true };
   const override = spec.overrides[date];
   const tpl = override ? override.sessions : (spec.weekly[dow] ?? []);
   const reason: Segment["reason"] = override ? override.reason : "SESSION";
@@ -48,7 +55,7 @@ function daySessions(spec: MarketSpec, y: number, m: number, d: number, dow: num
     dates: [date],
     names: override ? [override.name] : [],
   })) as Segment[];
-  return { date, dow, override, segs };
+  return { date, dow, override, segs, outOfCoverage: false };
 }
 
 /**
@@ -58,13 +65,17 @@ function daySessions(spec: MarketSpec, y: number, m: number, d: number, dow: num
  */
 export function timeline(code: MarketCode, fromMs: number, toMs: number): Segment[] {
   const spec = market(code);
-  const start = localParts(spec.tz, fromMs - 2 * DAY_MS);
+  assertCovered(ymd(localParts(spec.tz, fromMs).y, localParts(spec.tz, fromMs).m, localParts(spec.tz, fromMs).d));
+  // Pad generously: a long holiday weekend can leave several days with no session at all,
+  // and every instant in [fromMs, toMs) must still land inside a segment.
+  const PAD_DAYS = 6;
+  const start = localParts(spec.tz, fromMs - PAD_DAYS * DAY_MS);
   const days: DaySessions[] = [];
   for (let i = 0; ; i++) {
     const c = addDays(start.y, start.m, start.d, i);
     const ds = daySessions(spec, c.y, c.m, c.d, c.dow);
     days.push(ds);
-    if (localToUtc(spec.tz, c.y, c.m, c.d, 0) > toMs + 2 * DAY_MS) break;
+    if (localToUtc(spec.tz, c.y, c.m, c.d, 0) > toMs + PAD_DAYS * DAY_MS) break;
   }
   const sessions = days.flatMap((d) => d.segs).filter((s) => s.endMs > s.startMs).sort((a, b) => a.startMs - b.startMs);
   const out: Segment[] = [];
@@ -80,7 +91,11 @@ export function timeline(code: MarketCode, fromMs: number, toMs: number): Segmen
     if (idle.length) return { reason: "WEEKEND", dates: idle.map((d) => d.date), names: [] };
     return { reason: "OVERNIGHT", dates: [], names: [] };
   };
-  let cursor = sessions[0]?.startMs ?? fromMs;
+  // Start at the beginning of the generated range, not at the first session, so a closed
+  // stretch that begins before any session in the window is still emitted.
+  const firstDay = days[0] as DaySessions;
+  const [fy, fm, fd] = firstDay.date.split("-").map(Number) as [number, number, number];
+  let cursor = Math.min(localToUtc(spec.tz, fy, fm, fd, 0), sessions[0]?.startMs ?? fromMs);
   for (const sg of sessions) {
     if (sg.startMs > cursor) out.push({ kind: "CLOSED", startMs: cursor, endMs: sg.startMs, ...closedExplained(cursor, sg.startMs) });
     const last = out[out.length - 1];
@@ -96,6 +111,9 @@ export function timeline(code: MarketCode, fromMs: number, toMs: number): Segmen
 }
 
 export function segmentAt(code: MarketCode, tsMs: number): Segment {
+  const spec = market(code);
+  const p = localParts(spec.tz, tsMs);
+  assertCovered(ymd(p.y, p.m, p.d));
   const seg = timeline(code, tsMs - DAY_MS, tsMs + DAY_MS).find((s) => s.startMs <= tsMs && tsMs < s.endMs);
   if (!seg) throw new Error(`no segment for ${code} at ${new Date(tsMs).toISOString()}`);
   return seg;

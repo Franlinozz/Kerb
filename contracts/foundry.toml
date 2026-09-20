@@ -5,7 +5,10 @@ libs = ["lib"]
 solc_version = "0.8.28"
 evm_version = "cancun"
 optimizer = true
+via_ir = true
 optimizer_runs = 200
+remappings = ["@openzeppelin/=lib/openzeppelin-contracts/"]
+fs_permissions = [{ access = "read", path = "../data/fixtures" }]
 
 [fuzz]
 runs = 1000
