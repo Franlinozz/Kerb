@@ -299,6 +299,31 @@ contract KerbTermsTest is Test {
         terms.setAdmin(stranger);
     }
 
+    function test_timelockCanHandOverToAnotherTimelock() public {
+        address newTimelock = makeAddr("newTimelock");
+        vm.prank(timelock);
+        terms.setTimelock(newTimelock);
+        assertEq(terms.timelock(), newTimelock);
+
+        // The old holder loses the role immediately.
+        vm.prank(timelock);
+        vm.expectRevert(KerbTerms.NotTimelock.selector);
+        terms.setGuardrails(ASSET, _rails());
+
+        vm.prank(newTimelock);
+        terms.setGuardrails(ASSET, _rails());
+    }
+
+    function test_onlyTimelockMayHandOverAndNeverToZero() public {
+        vm.prank(admin);
+        vm.expectRevert(KerbTerms.NotTimelock.selector);
+        terms.setTimelock(stranger);
+
+        vm.prank(timelock);
+        vm.expectRevert(KerbTerms.ZeroAddress.selector);
+        terms.setTimelock(address(0));
+    }
+
     function test_guardrailsRejectAnLtvCeilingAboveLt() public {
         KerbTerms.Guardrails memory bad = _rails();
         bad.ltvMax = 0.7e18; // above LT

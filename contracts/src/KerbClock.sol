@@ -85,7 +85,9 @@ contract KerbClock {
 
     // ---------------------------------------------------------------- storage
 
-    address public immutable timelock;
+    /// @dev Set at deployment to the bootstrap admin so calendars and guardrails can be loaded,
+    ///      then handed to the real timelock by the timelock itself. Only it can move the role on.
+    address public timelock;
     address public admin;
 
     mapping(bytes8 => MarketCalendar) private _calendars;
@@ -111,10 +113,12 @@ contract KerbClock {
     event AttesterSet(address indexed attester, bool allowed);
     event HaltSet(bytes32 indexed assetId, bool halted, uint64 expiry);
     event AdminSet(address indexed admin);
+    event TimelockSet(address indexed timelock);
 
     // ---------------------------------------------------------------- errors
 
     error NotTimelock();
+    error ZeroAddress();
     error NotAdmin();
     error NotAttester();
     error UnknownMarket(bytes8 marketCode);
@@ -142,12 +146,21 @@ contract KerbClock {
     }
 
     constructor(address timelock_, address admin_) {
+        if (timelock_ == address(0) || admin_ == address(0)) revert ZeroAddress();
         timelock = timelock_;
         admin = admin_;
         emit AdminSet(admin_);
+        emit TimelockSet(timelock_);
     }
 
     // ---------------------------------------------------------------- admin
+
+    /// @notice Hand the timelocked role to another address. Only the current holder may do it.
+    function setTimelock(address newTimelock) external onlyTimelock {
+        if (newTimelock == address(0)) revert ZeroAddress();
+        timelock = newTimelock;
+        emit TimelockSet(newTimelock);
+    }
 
     function setAdmin(address newAdmin) external onlyTimelock {
         admin = newAdmin;

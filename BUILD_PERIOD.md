@@ -25,3 +25,8 @@ Planning documents were committed on 18 Sep. Product code starts on 19 Sep. One 
 | 20 Sep | K-13 | KTS capacity: stress capacity, debtCeiling = k*C(1%), position cap, Carry and Session Max at their two horizons, guardrail clamping recorded |
 | 20 Sep | K-13 | Regime machine with the KTS 4.2 resolution order and the 4.3 tighten-fast loosen-slow asymmetry |
 | 20 Sep | K-14 | Input bundles: canonical JSON, keccak256 inputsHash, deterministic IPFS CIDv1, Pinata pinning when configured; `kerb report` and `kerb verify` |
+| 20 Sep | K-15 | `contracts/KerbClock.sol`: onchain calendars, holidays, asset-to-market mapping, expiring halt flags, session and transition views; equivalence with the TypeScript resolver on 1,000 timestamps across XNYS and XHKG |
+| 20 Sep | K-16 | `contracts/KerbTerms.sol`: EIP-712 signed reports, attester set, absolute guardrails, monotonic observedAt, tighten-fast loosen-slow, `effectiveTerms` usability; every revert path in AGENTS.md section 9 tested |
+| 20 Sep | K-17 | Deployed KerbClock and KerbTerms to X Layer testnet (1952), source verified on Sourcify (exact match), calendars and guardrails loaded onchain |
+| 20 Sep | K-18 | `apps/attester`: builds the report, pins the bundle, signs EIP-712 with the attester key, posts with the poster key every 5 minutes and on every regime change, skips unchanged reports, holds increases during the loosen cooldown, hard-stops on low gas |
+| 20 Sep | K-18 | Builder Codes (ERC-8021): data suffix on every transaction Kerb sends, plus a decoder and a round-trip test; decoded from real onchain calldata |

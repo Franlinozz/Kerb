@@ -190,8 +190,13 @@ export function computeReport(b: InputBundle, cfg: EngineConfig): Report {
   const preliminaryMark = computeMark(markInput);
 
   // ---- regime (KTS-0.1 section 4)
+  // Age of the inputs the mark actually used. A source that is down or returns no quote is
+  // excluded by the mark and recorded there; it must not by itself force the asset STALE
+  // while another independent reference is fresh. If nothing is fresh the mark throws first.
+  const usedSources = new Set(preliminaryMark.reference.usedSources);
   const sourceMaxAgeSec = Math.max(
-    ...b.references.map((r) => (at - r.observedAtMs) / 1000),
+    ...b.references.filter((r) => usedSources.has(r.source)).map((r) => (at - r.observedAtMs) / 1000),
+    ...b.fx.filter((f) => usedSources.has(f.source)).map((f) => (at - f.observedAtMs) / 1000),
     ...b.venues.map((v) => (at - v.observedAtMs) / 1000),
   );
   const res = resolveRegime({

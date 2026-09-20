@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 20 Sep 2026, end of phase 2.
+Last updated: 20 Sep 2026, end of phase 3.
 
 ---
 
@@ -9,11 +9,11 @@ Last updated: 20 Sep 2026, end of phase 2.
 
 | Item | Status |
 |---|---|
-| Phase | 2 complete, 3 next |
+| Phase | 3 complete, 4 next |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | not deployed |
-| Testnet credit plane | not deployed |
+| Testnet credit plane | KerbClock and KerbTerms live on X Layer testnet, attester posting every 5 min under PM2 (`kerb-attester`). KerbCredit not yet built |
 | Web | not started |
 | Kerb Desk (OKX AI) | not started, P1 |
 | Participation route | undecided, deadline 24 Sep |
@@ -27,8 +27,8 @@ Last updated: 20 Sep 2026, end of phase 2.
 |---|---|---|---|
 | KerbClock | X Layer mainnet 196 | | |
 | KerbTerms | X Layer mainnet 196 | | |
-| KerbClock | X Layer testnet 1952 | | |
-| KerbTerms | X Layer testnet 1952 | | |
+| KerbClock | X Layer testnet 1952 | [0x6c1de992e3219980138d7e51b67ecc523618bc5c](https://www.oklink.com/x-layer-testnet/address/0x6c1de992e3219980138d7e51b67ecc523618bc5c) (block 41420913) | Sourcify exact match |
+| KerbTerms | X Layer testnet 1952 | [0x5a4942f55e37994370745ef984a21321edb75f7e](https://www.oklink.com/x-layer-testnet/address/0x5a4942f55e37994370745ef984a21321edb75f7e) (block 41420914) | Sourcify exact match |
 | KerbCredit | X Layer testnet 1952 | | |
 | KerbClockDemo | X Layer testnet 1952 | | |
 | kKOx mirror | X Layer testnet 1952 | | |
@@ -36,7 +36,7 @@ Last updated: 20 Sep 2026, end of phase 2.
 | USDG | X Layer mainnet | 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8 | yes |
 | USDG | X Layer testnet | 0xF0863D7A29a55d0c4263c11bFac754312ff078DF | yes |
 | Builder Code (mainnet) | dev portal | | |
-| Builder Code (testnet) | registerAuto on 0x00a3b805dbf39e5d54f9d09c130ff2132b4a0a21 | | |
+| Builder Code | suffix `kerb` attached to every Kerb transaction (decoded onchain) | registry 0x00a3b805dbf39e5d54f9d09c130ff2132b4a0a21 | registration PENDING: permissioned, needs the OKX developer portal |
 | Repo | | github.com/Franlinozz/Kerb | yes |
 | App | | https://userkerb.xyz (DNS not yet pointed) | |
 | API | | | |
@@ -119,6 +119,11 @@ One line each, every time the build departs from the plan.
 | 19 Sep | ARCHITECTURE.md does not spell out the AssetAdapter interface; it is derived from KTS-0.1 section 3.1 plus the halt flags from 4.2 | Gap in the spec |
 | 19 Sep | Raw payload blobs are stored gzipped in Postgres (`blobs`, id `keccak256:0x...`) until IPFS pinning (K-14) | Smallest thing that records today |
 | 19 Sep | Extra tables `obs_source_error` and `collector_cycles` (append-only) | Failures must be recorded, and gaps must be measurable |
+| 20 Sep | Contracts deployed with `timelock` set to the deployer so calendars and guardrails could be loaded, then handed over with `setTimelock`. The role is no longer immutable | A real timelock cannot load 60+ calendar entries behind a delay during a hackathon; the handover path is tested |
+| 20 Sep | XNAS, ARCX and XCOM share the XNYS calendar onchain (identical sessions and holidays). Each asset's true MIC is still reported offchain | Avoids storing the same 25 holidays three times |
+| 20 Sep | Source verification is on Sourcify (exact match), not OKLink | OKLink's verification API needs an API key the operator has not supplied |
+| 20 Sep | The Builder Code registry has no `registerAuto`; the real entry point is `register(string,address,address)` and it is permissioned | Verified onchain; the code `kerb` is unregistered but valid, and the ERC-8021 suffix is attached regardless |
+| 20 Sep | STALE is decided from the age of the sources the mark actually used, not the oldest source of any kind | The xStocks feed returns no quote at weekends; it must not force every US asset STALE while an independent reference is fresh |
 | 20 Sep | Historical bar data comes from Yahoo and is NOT redistributed: bundles pin derived stress statistics plus a keccak digest of the series (data/SOURCES.md) | Yahoo's terms do not permit redistribution; a licensed source needs an operator-supplied key |
 | 20 Sep | BMNRx, MIXUx and SHEINx have less than five years of history (SHEINx listed Sep 2026, 14 bars). They use the most conservative gap quantile available and report historySufficient=false | The instruments have not existed for five years; Kerb does not invent history |
 | 20 Sep | The Credit Mark is a two-pass computation: pass one measures dispersion with a zero haircut, pass two applies the resolved regime's haircut | KTS 6 needs the regime and KTS 4.2 rule 2 needs the dispersion |
@@ -147,6 +152,21 @@ One line each, every time the build departs from the plan.
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 3 CHECKPOINT (20 Sep 2026)
+Built: KerbClock + KerbTerms (X Layer testnet, Sourcify verified), calendars and guardrails loaded onchain,
+       attester posting under PM2, ERC-8021 Builder Code suffix on every transaction
+Evidence: 42 contract tests. Clock equivalence: 1,000 timestamps across XNYS and XHKG, contract == TypeScript.
+          KerbClock 0x6c1de992e3219980138d7e51b67ecc523618bc5c, KerbTerms 0x5a4942f55e37994370745ef984a21321edb75f7e.
+          44 TermsPosted transactions in the first 2.66h; Builder Code "kerb" decoded from calldata
+          (tail 6b657262040080218021802180218021802180218021).
+          Gas: ~0.00076 OKB/day, poster 0x1b9587AD7e0bd6E1AC3588799999C62d0f0f0816 holds 0.0299 OKB (~39 days).
+Rung: depth 2, reference 2 + Yahoo, IPFS CID computed but unpinned, Builder Code suffix attached but unregistered
+Deviations: see section 7 (timelock handover, shared US calendar, Sourcify, registerAuto, STALE source rule)
+Blocked: OKX DEX credentials, Pinata JWT, OKLink API key, Builder Code portal registration, mainnet deploy approval
+Next: phase 4
+```
 
 ```
 PHASE 2 CHECKPOINT (20 Sep 2026)

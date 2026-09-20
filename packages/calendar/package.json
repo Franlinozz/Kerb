@@ -11,7 +11,8 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "equivalence-fixture": "tsx scripts/equivalence-fixture.ts"
+    "equivalence-fixture": "tsx scripts/equivalence-fixture.ts",
+    "export-onchain-config": "tsx scripts/export-onchain-config.ts"
   },
   "dependencies": {
     "@kerb/types": "workspace:*"

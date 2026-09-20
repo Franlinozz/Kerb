@@ -7,7 +7,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { MARKETS, segmentAt, timeline, transitions, type SessionKind } from "../src/index.js";
+import { MARKETS, segmentAt, transitions, type SessionKind } from "../src/index.js";
 import type { MarketCode } from "@kerb/types";
 
 const MARKET_LIST: MarketCode[] = ["XNYS", "XHKG"];
@@ -16,7 +16,6 @@ const TRANSITION: Record<string, number> = {
   NONE: 0, PRE_OPEN: 1, SESSION_OPEN: 2, LUNCH_BREAK: 3, LUNCH_END: 4, SESSION_CLOSE: 5, EARLY_CLOSE: 6, POST_CLOSE: 7,
   SESSION_BREAK: 0, SESSION_END: 0,
 };
-const DAY = 86_400;
 const hm = (s: string): number => {
   const [h, m] = s.split(":").map(Number) as [number, number];
   return h * 60 + m;

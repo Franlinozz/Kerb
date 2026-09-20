@@ -1,0 +1,891 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-20T04:46:46.810Z",
+  "calendarVersion": "kerb-calendar@0.1.0",
+  "note": "Sessions in local wall-clock minutes. kind: 0 CLOSED, 1 LUNCH, 2 PRE, 3 POST, 4 REGULAR. A holiday is an override with no sessions.",
+  "alias": {
+    "XNAS": "XNYS",
+    "ARCX": "XNYS",
+    "XCOM": "XNYS"
+  },
+  "markets": [
+    {
+      "code": "XNYS",
+      "tz": "America/New_York",
+      "utcOffsetMin": -300,
+      "dstRule": 1,
+      "dstOffsetMin": 60,
+      "coverageFromDay": 20423,
+      "coverageToDay": 21183,
+      "cureWindowSec": 3600,
+      "weekly": [
+        [],
+        [
+          {
+            "startMin": 240,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 1200,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 240,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 1200,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 240,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 1200,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 240,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 1200,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 240,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 1200,
+            "kind": 3
+          }
+        ],
+        []
+      ],
+      "overrides": [
+        {
+          "date": "2025-12-24",
+          "day": 20446,
+          "name": "Christmas Eve",
+          "reason": "EARLY_CLOSE",
+          "sessions": [
+            {
+              "startMin": 240,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 780,
+              "kind": 4
+            },
+            {
+              "startMin": 780,
+              "endMin": 1020,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2025-12-25",
+          "day": 20447,
+          "name": "Christmas Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-01-01",
+          "day": 20454,
+          "name": "New Year's Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-01-19",
+          "day": 20472,
+          "name": "Martin Luther King Jr. Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-02-16",
+          "day": 20500,
+          "name": "Washington's Birthday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-04-03",
+          "day": 20546,
+          "name": "Good Friday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-05-25",
+          "day": 20598,
+          "name": "Memorial Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-06-19",
+          "day": 20623,
+          "name": "Juneteenth",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-07-03",
+          "day": 20637,
+          "name": "Independence Day (observed)",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-09-07",
+          "day": 20703,
+          "name": "Labor Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-11-26",
+          "day": 20783,
+          "name": "Thanksgiving Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-11-27",
+          "day": 20784,
+          "name": "Day after Thanksgiving",
+          "reason": "EARLY_CLOSE",
+          "sessions": [
+            {
+              "startMin": 240,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 780,
+              "kind": 4
+            },
+            {
+              "startMin": 780,
+              "endMin": 1020,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2026-12-24",
+          "day": 20811,
+          "name": "Christmas Eve",
+          "reason": "EARLY_CLOSE",
+          "sessions": [
+            {
+              "startMin": 240,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 780,
+              "kind": 4
+            },
+            {
+              "startMin": 780,
+              "endMin": 1020,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2026-12-25",
+          "day": 20812,
+          "name": "Christmas Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-01-01",
+          "day": 20819,
+          "name": "New Year's Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-01-18",
+          "day": 20836,
+          "name": "Martin Luther King Jr. Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-02-15",
+          "day": 20864,
+          "name": "Washington's Birthday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-03-26",
+          "day": 20903,
+          "name": "Good Friday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-05-31",
+          "day": 20969,
+          "name": "Memorial Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-06-18",
+          "day": 20987,
+          "name": "Juneteenth (observed)",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-07-05",
+          "day": 21004,
+          "name": "Independence Day (observed)",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-09-06",
+          "day": 21067,
+          "name": "Labor Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-11-25",
+          "day": 21147,
+          "name": "Thanksgiving Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-11-26",
+          "day": 21148,
+          "name": "Day after Thanksgiving",
+          "reason": "EARLY_CLOSE",
+          "sessions": [
+            {
+              "startMin": 240,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 780,
+              "kind": 4
+            },
+            {
+              "startMin": 780,
+              "endMin": 1020,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2027-12-24",
+          "day": 21176,
+          "name": "Christmas Day (observed)",
+          "reason": "HOLIDAY",
+          "sessions": []
+        }
+      ]
+    },
+    {
+      "code": "XHKG",
+      "tz": "Asia/Hong_Kong",
+      "utcOffsetMin": 480,
+      "dstRule": 0,
+      "dstOffsetMin": 0,
+      "coverageFromDay": 20423,
+      "coverageToDay": 21183,
+      "cureWindowSec": 1800,
+      "weekly": [
+        [],
+        [
+          {
+            "startMin": 540,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 720,
+            "kind": 4
+          },
+          {
+            "startMin": 720,
+            "endMin": 780,
+            "kind": 1
+          },
+          {
+            "startMin": 780,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 970,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 540,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 720,
+            "kind": 4
+          },
+          {
+            "startMin": 720,
+            "endMin": 780,
+            "kind": 1
+          },
+          {
+            "startMin": 780,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 970,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 540,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 720,
+            "kind": 4
+          },
+          {
+            "startMin": 720,
+            "endMin": 780,
+            "kind": 1
+          },
+          {
+            "startMin": 780,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 970,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 540,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 720,
+            "kind": 4
+          },
+          {
+            "startMin": 720,
+            "endMin": 780,
+            "kind": 1
+          },
+          {
+            "startMin": 780,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 970,
+            "kind": 3
+          }
+        ],
+        [
+          {
+            "startMin": 540,
+            "endMin": 570,
+            "kind": 2
+          },
+          {
+            "startMin": 570,
+            "endMin": 720,
+            "kind": 4
+          },
+          {
+            "startMin": 720,
+            "endMin": 780,
+            "kind": 1
+          },
+          {
+            "startMin": 780,
+            "endMin": 960,
+            "kind": 4
+          },
+          {
+            "startMin": 960,
+            "endMin": 970,
+            "kind": 3
+          }
+        ],
+        []
+      ],
+      "overrides": [
+        {
+          "date": "2025-12-24",
+          "day": 20446,
+          "name": "Christmas Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2025-12-25",
+          "day": 20447,
+          "name": "Christmas Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2025-12-26",
+          "day": 20448,
+          "name": "The first weekday after Christmas Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2025-12-31",
+          "day": 20453,
+          "name": "New Year's Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2026-01-01",
+          "day": 20454,
+          "name": "The first day of January",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-02-16",
+          "day": 20500,
+          "name": "Lunar New Year's Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2026-02-17",
+          "day": 20501,
+          "name": "Lunar New Year's Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-02-18",
+          "day": 20502,
+          "name": "The second day of Lunar New Year",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-02-19",
+          "day": 20503,
+          "name": "The third day of Lunar New Year",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-04-03",
+          "day": 20546,
+          "name": "Good Friday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-04-06",
+          "day": 20549,
+          "name": "The day following Ching Ming Festival",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-04-07",
+          "day": 20550,
+          "name": "The day following Easter Monday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-05-01",
+          "day": 20574,
+          "name": "Labour Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-05-25",
+          "day": 20598,
+          "name": "The day following the Birthday of the Buddha",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-06-19",
+          "day": 20623,
+          "name": "Tuen Ng Festival",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-07-01",
+          "day": 20635,
+          "name": "HKSAR Establishment Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-10-01",
+          "day": 20727,
+          "name": "National Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-10-19",
+          "day": 20745,
+          "name": "The day following Chung Yeung Festival",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-12-24",
+          "day": 20811,
+          "name": "Christmas Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2026-12-25",
+          "day": 20812,
+          "name": "Christmas Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2026-12-31",
+          "day": 20818,
+          "name": "New Year's Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2027-01-01",
+          "day": 20819,
+          "name": "The first day of January",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-02-05",
+          "day": 20854,
+          "name": "Lunar New Year's Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2027-02-08",
+          "day": 20857,
+          "name": "The third day of Lunar New Year",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-02-09",
+          "day": 20858,
+          "name": "The fourth day of Lunar New Year",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-03-26",
+          "day": 20903,
+          "name": "Good Friday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-03-29",
+          "day": 20906,
+          "name": "Easter Monday",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-04-05",
+          "day": 20913,
+          "name": "Ching Ming Festival",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-05-13",
+          "day": 20951,
+          "name": "The Birthday of the Buddha",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-06-09",
+          "day": 20978,
+          "name": "Tuen Ng Festival",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-07-01",
+          "day": 21000,
+          "name": "HKSAR Establishment Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-09-16",
+          "day": 21077,
+          "name": "The day following the Chinese Mid-Autumn Festival",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-10-01",
+          "day": 21092,
+          "name": "National Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-10-08",
+          "day": 21099,
+          "name": "Chung Yeung Festival",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-12-24",
+          "day": 21176,
+          "name": "Christmas Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        },
+        {
+          "date": "2027-12-27",
+          "day": 21179,
+          "name": "The first weekday after Christmas Day",
+          "reason": "HOLIDAY",
+          "sessions": []
+        },
+        {
+          "date": "2027-12-31",
+          "day": 21183,
+          "name": "New Year's Eve",
+          "reason": "HALF_DAY",
+          "sessions": [
+            {
+              "startMin": 540,
+              "endMin": 570,
+              "kind": 2
+            },
+            {
+              "startMin": 570,
+              "endMin": 720,
+              "kind": 4
+            },
+            {
+              "startMin": 720,
+              "endMin": 730,
+              "kind": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

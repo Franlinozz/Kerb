@@ -51,7 +51,9 @@ contract KerbTerms is EIP712 {
 
     // ---------------------------------------------------------------- storage
 
-    address public immutable timelock;
+    /// @dev Set at deployment to the bootstrap admin so calendars and guardrails can be loaded,
+    ///      then handed to the real timelock by the timelock itself. Only it can move the role on.
+    address public timelock;
     address public admin;
 
     mapping(address => bool) public isAttester;
@@ -77,10 +79,12 @@ contract KerbTerms is EIP712 {
     event GuardrailsUpdated(bytes32 indexed assetId, Guardrails guardrails);
     event AttesterSet(address indexed attester, bool allowed);
     event AdminSet(address indexed admin);
+    event TimelockSet(address indexed timelock);
 
     // ---------------------------------------------------------------- errors
 
     error NotTimelock();
+    error ZeroAddress();
     error NotAdmin();
     error UnknownAsset(bytes32 assetId);
     error BadSignature();
@@ -104,12 +108,21 @@ contract KerbTerms is EIP712 {
     }
 
     constructor(address timelock_, address admin_) EIP712("Kerb Terms", "0.1") {
+        if (timelock_ == address(0) || admin_ == address(0)) revert ZeroAddress();
         timelock = timelock_;
         admin = admin_;
         emit AdminSet(admin_);
+        emit TimelockSet(timelock_);
     }
 
     // ---------------------------------------------------------------- admin
+
+    /// @notice Hand the timelocked role to another address. Only the current holder may do it.
+    function setTimelock(address newTimelock) external onlyTimelock {
+        if (newTimelock == address(0)) revert ZeroAddress();
+        timelock = newTimelock;
+        emit TimelockSet(newTimelock);
+    }
 
     function setAdmin(address newAdmin) external onlyTimelock {
         admin = newAdmin;

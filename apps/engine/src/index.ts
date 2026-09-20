@@ -6,3 +6,5 @@ export * from "./capacity.js";
 export * from "./bundle.js";
 export * from "./report.js";
 export * from "./params.js";
+export * from "./build.js";
+export * from "./pin.js";

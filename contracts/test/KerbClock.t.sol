@@ -108,6 +108,18 @@ contract KerbClockTest is Test {
         assertEq(uint256(kind), uint256(KerbClock.SessionKind.CLOSED));
     }
 
+    function test_timelockHandover() public {
+        address newTimelock = makeAddr("newTimelock");
+        vm.prank(timelock);
+        clock.setTimelock(newTimelock);
+        assertEq(clock.timelock(), newTimelock);
+        vm.prank(timelock);
+        vm.expectRevert(KerbClock.NotTimelock.selector);
+        clock.setAssetMarket(ASSET, XNYS, 60);
+        vm.prank(newTimelock);
+        clock.setAssetMarket(ASSET, XNYS, 60);
+    }
+
     function test_refusesTimestampsOutsideCoverage() public {
         vm.expectRevert();
         clock.sessionAt(ASSET, 1_700_000_000); // 2023, before coverage

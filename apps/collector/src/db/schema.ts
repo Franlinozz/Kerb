@@ -165,3 +165,31 @@ export const refDailyBars = pgTable(
   },
   (t) => [uniqueIndex("ref_daily_bars_key").on(t.source, t.symbol, t.date)],
 );
+
+/** Every Terms transaction Kerb sends. Append-only, the basis of /proof's onchain section. */
+export const termsPosts = pgTable(
+  "terms_posts",
+  {
+    id: bigserial("id", { mode: "bigint" }).primaryKey(),
+    ts: timestamp("ts", { withTimezone: true }).notNull().defaultNow(),
+    chainId: integer("chain_id").notNull(),
+    assetId: text("asset_id").notNull(),
+    symbol: text("symbol").notNull(),
+    txHash: text("tx_hash").notNull(),
+    blockNumber: bigint("block_number", { mode: "bigint" }).notNull(),
+    observedAt: timestamp("observed_at", { withTimezone: true }).notNull(),
+    regime: integer("regime").notNull(),
+    creditMark: numeric("credit_mark").notNull(),
+    carryLtv: numeric("carry_ltv").notNull(),
+    sessionMaxLtv: numeric("session_max_ltv").notNull(),
+    debtCeiling: numeric("debt_ceiling").notNull(),
+    executableDepth1: numeric("executable_depth1").notNull(),
+    inputsHash: text("inputs_hash").notNull(),
+    bundleCid: text("bundle_cid").notNull(),
+    pinStatus: text("pin_status").notNull(),
+    gasUsed: bigint("gas_used", { mode: "bigint" }).notNull(),
+    feeWei: numeric("fee_wei").notNull(),
+    clamped: jsonb("clamped"),
+  },
+  (t) => [uniqueIndex("terms_posts_tx").on(t.txHash), index("terms_posts_symbol_ts").on(t.symbol, t.ts)],
+);

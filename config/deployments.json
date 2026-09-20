@@ -1,0 +1,42 @@
+{
+  "1952:KerbClock": {
+    "chainId": 1952,
+    "name": "KerbClock",
+    "address": "0x6c1de992e3219980138d7e51b67ecc523618bc5c",
+    "deployedAtBlock": "41420913",
+    "deployedAt": "2026-09-20T04:49:09.381Z",
+    "txHash": "0x4ff3e60ff9427198129b5d1ff40bb195afec04e6b46ae3cd29ba7f9415b49e6a",
+    "args": [
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2",
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x6c1de992e3219980138d7e51b67ecc523618bc5c",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/1952/0x6c1de992e3219980138d7e51b67ecc523618bc5c/",
+      "note": "OKLink source verification needs an OKLink API key (operator)"
+    }
+  },
+  "1952:KerbTerms": {
+    "chainId": 1952,
+    "name": "KerbTerms",
+    "address": "0x5a4942f55e37994370745ef984a21321edb75f7e",
+    "deployedAtBlock": "41420914",
+    "deployedAt": "2026-09-20T04:49:11.128Z",
+    "txHash": "0x43a141903b528ed180061a4fda4b3ba9e50e08db722045f7877105d6d03f2704",
+    "args": [
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2",
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x5a4942f55e37994370745ef984a21321edb75f7e",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/1952/0x5a4942f55e37994370745ef984a21321edb75f7e/",
+      "note": "OKLink source verification needs an OKLink API key (operator)"
+    }
+  }
+}
