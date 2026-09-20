@@ -5,7 +5,7 @@
  *
  * Numeric values are stored as NUMERIC and read back as strings, never floats.
  */
-import { bigint, bigserial, customType, index, integer, jsonb, numeric, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { bigint, bigserial, customType, index, integer, jsonb, numeric, pgTable, primaryKey, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 const bytea = customType<{ data: Buffer; driverData: Buffer }>({ dataType: () => "bytea" });
 
@@ -205,4 +205,85 @@ export const termsPosts = pgTable(
     clamped: jsonb("clamped"),
   },
   (t) => [uniqueIndex("terms_posts_tx").on(t.txHash), index("terms_posts_symbol_ts").on(t.symbol, t.ts)],
+);
+
+/** Indexer progress. Derived state: rewritable, which is how a reorg is unwound. */
+export const indexerCursor = pgTable(
+  "indexer_cursor",
+  {
+    chainId: integer("chain_id").notNull(),
+    name: text("name").notNull(),
+    lastBlock: bigint("last_block", { mode: "bigint" }).notNull(),
+    lastBlockHash: text("last_block_hash").notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.chainId, t.name] })],
+);
+
+/** Decoded chain events, unique per (chain, tx, logIndex) so redelivery is a no-op. */
+export const chainEvents = pgTable(
+  "chain_events",
+  {
+    id: bigserial("id", { mode: "bigint" }).primaryKey(),
+    chainId: integer("chain_id").notNull(),
+    address: text("address").notNull(),
+    event: text("event").notNull(),
+    blockNumber: bigint("block_number", { mode: "bigint" }).notNull(),
+    blockHash: text("block_hash").notNull(),
+    blockTs: timestamp("block_ts", { withTimezone: true }).notNull(),
+    txHash: text("tx_hash").notNull(),
+    logIndex: integer("log_index").notNull(),
+    assetId: text("asset_id"),
+    args: jsonb("args").notNull(),
+    indexedAt: timestamp("indexed_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("chain_events_unique").on(t.chainId, t.txHash, t.logIndex),
+    index("chain_events_block").on(t.chainId, t.blockNumber),
+    index("chain_events_asset").on(t.chainId, t.assetId, t.blockNumber),
+  ],
+);
+
+/** Terms as they exist onchain, projected from TermsPosted. */
+export const termsReports = pgTable(
+  "terms_reports",
+  {
+    id: bigserial("id", { mode: "bigint" }).primaryKey(),
+    chainId: integer("chain_id").notNull(),
+    assetId: text("asset_id").notNull(),
+    symbol: text("symbol"),
+    observedAt: timestamp("observed_at", { withTimezone: true }).notNull(),
+    regime: integer("regime").notNull(),
+    creditMark: numeric("credit_mark").notNull(),
+    carryLtv: numeric("carry_ltv").notNull(),
+    sessionMaxLtv: numeric("session_max_ltv").notNull(),
+    debtCeiling: numeric("debt_ceiling").notNull(),
+    executableDepth1: numeric("executable_depth1").notNull(),
+    inputsHash: text("inputs_hash").notNull(),
+    attester: text("attester").notNull(),
+    txHash: text("tx_hash").notNull(),
+    blockNumber: bigint("block_number", { mode: "bigint" }).notNull(),
+    blockHash: text("block_hash").notNull(),
+  },
+  (t) => [
+    uniqueIndex("terms_reports_unique").on(t.chainId, t.txHash, t.assetId),
+    index("terms_reports_asset_ts").on(t.chainId, t.assetId, t.observedAt),
+  ],
+);
+
+/** Regime transitions, derived from consecutive posted reports for an asset. */
+export const regimeEvents = pgTable(
+  "regime_events",
+  {
+    id: bigserial("id", { mode: "bigint" }).primaryKey(),
+    chainId: integer("chain_id").notNull(),
+    assetId: text("asset_id").notNull(),
+    symbol: text("symbol"),
+    fromRegime: integer("from_regime"),
+    toRegime: integer("to_regime").notNull(),
+    observedAt: timestamp("observed_at", { withTimezone: true }).notNull(),
+    txHash: text("tx_hash").notNull(),
+    blockNumber: bigint("block_number", { mode: "bigint" }).notNull(),
+  },
+  (t) => [uniqueIndex("regime_events_unique").on(t.chainId, t.txHash, t.assetId)],
 );

@@ -1,11 +1,17 @@
 {
   "name": "@kerb/sdk",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": { ".": "./src/index.ts" },
-  "scripts": { "typecheck": "tsc -p tsconfig.json", "test": "vitest run --passWithNoTests" },
-  "dependencies": { "@kerb/types": "workspace:*" }
+  "description": "Read Kerb Terms: the market-time risk layer for tokenized securities on X Layer",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": { "@kerb/types": "workspace:*" },
+  "peerDependencies": { "viem": "^2.45.0" },
+  "peerDependenciesMeta": { "viem": { "optional": true } }
 }

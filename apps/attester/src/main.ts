@@ -71,7 +71,11 @@ async function postOne(symbol: string): Promise<"posted" | "skipped"> {
 
   const regimeChanged = previous !== null && previous.regime !== t.regime;
   const firstEver = previous === null;
-  if (!firstEver && !regimeChanged && withinEpsilon(previous, t, epsilonBps)) {
+  // effectiveTerms stops being usable once the posted report passes maxReportAgeSec, so a
+  // heartbeat goes out well before that even when nothing moved.
+  const postedAgeSec = previous === null ? Infinity : Math.floor(Date.now() / 1000) - Number(previous.observedAt);
+  const heartbeatDue = postedAgeSec > g.maxReportAgeSec / 2;
+  if (!firstEver && !regimeChanged && !heartbeatDue && withinEpsilon(previous, t, epsilonBps)) {
     lastRegime.set(symbol, t.regime);
     return "skipped";
   }
@@ -105,7 +109,7 @@ async function postOne(symbol: string): Promise<"posted" | "skipped"> {
   lastRegime.set(symbol, t.regime);
   log(
     `${symbol.padEnd(7)} posted ${report.regime.padEnd(16)} carry=${t.carryLTV} session=${t.sessionMaxLTV} ceiling=${t.debtCeiling} C1=${t.executableDepth1}`,
-    `${regimeChanged ? "REGIME CHANGE " : ""}${isLoosening(previous, t) ? "loosening " : ""}${clamped.length ? `clamped:${clamped.map((c) => c.field).join(",")} ` : ""}pin=${pin.status} gas=${receipt.gasUsed} ${hash}`,
+    `${regimeChanged ? "REGIME CHANGE " : ""}${heartbeatDue && !regimeChanged ? "heartbeat " : ""}${isLoosening(previous, t) ? "loosening " : ""}${clamped.length ? `clamped:${clamped.map((c) => c.field).join(",")} ` : ""}pin=${pin.status} gas=${receipt.gasUsed} ${hash}`,
   );
   return "posted";
 }
