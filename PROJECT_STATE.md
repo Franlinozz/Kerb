@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 20 Sep 2026, phase 4A complete, phase 4B (web) in progress.
+Last updated: 20 Sep 2026, phase 4 complete (risk plane, API and web live). Phase 5 next.
 
 ---
 
@@ -9,12 +9,12 @@ Last updated: 20 Sep 2026, phase 4A complete, phase 4B (web) in progress.
 
 | Item | Status |
 |---|---|
-| Phase | 4A complete (mainnet risk plane, indexer, API, SDK). 4B (web) started: scaffold only. 5 not started |
+| Phase | 4 complete (4A mainnet risk plane + API + SDK, 4B web live). 5 (Kerb Credit) next |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | **LIVE**: KerbClock and KerbTerms on X Layer 196, calendars and guardrails loaded, attester posting every 5 min (`kerb-attester-mainnet`) |
 | Testnet credit plane | KerbClock and KerbTerms live on X Layer testnet, attester posting every 5 min under PM2 (`kerb-attester`). KerbCredit not yet built |
-| Web | scaffolded only (package.json, next.config.ts, tsconfig.json, globals.css), uncommitted. No pages yet |
+| Web | **LIVE** at https://www.usekerb.xyz under PM2 (`kerb-web`), Caddy TLS. Session Strip, /board, /asset/[symbol], /proof; both themes, 390 and 1440 reviewed |
 | Kerb Desk (OKX AI) | not started, P1 |
 | Participation route | **REMOTE**. The builder is not travelling to Singapore (no funds for the trip); no visa letter needed |
 | Demo video | not recorded |
@@ -38,8 +38,8 @@ Last updated: 20 Sep 2026, phase 4A complete, phase 4B (web) in progress.
 | Builder Code (mainnet) | dev portal | `kt0hl6xyhlx8xmt`, payout 0x0d63f9eeb86813230b72017444cea16cd4a453f2, registered 20 Sep 21:43 UTC, tx [0x84630999...](https://www.oklink.com/xlayer/tx/0x84630999c43302a99eaf9eda22fe22f4a1eaf3f61f2ac6ed5fcfc00558f19611) | registered |
 | Builder Code | suffix `kt0hl6xyhlx8xmt` attached to every Kerb transaction from 20 Sep 20:55 UTC; posts before that carry the placeholder `kerb` | registry 0x00a3b805dbf39e5d54f9d09c130ff2132b4a0a21 | registered via the OKX developer portal |
 | Repo | | github.com/Franlinozz/Kerb | yes |
-| App | | https://usekerb.xyz | DNS 20 Sep 20:5x UTC: www -> A 62.171.182.75 OK, api -> A 62.171.182.75 OK. **Root `usekerb.xyz` still has no A record** |
-| API | | `kerb-api` on 127.0.0.1:8720 under PM2; /health, /v1/board, /v1/terms, /v1/reports, /v1/bundle | |
+| App | | [https://www.usekerb.xyz](https://www.usekerb.xyz) | LIVE. **The apex `usekerb.xyz` still has no A record**; Caddy is already configured for it and will serve the moment the record exists |
+| API | | [https://api.usekerb.xyz](https://api.usekerb.xyz) | LIVE. /health, /v1/board, /v1/terms, /v1/clock, /v1/report, /v1/proof, /v1/reports, /v1/bundle | |
 
 ---
 
@@ -164,6 +164,33 @@ One line each, every time the build departs from the plan.
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 4B CHECKPOINT (20 Sep 2026)
+Built: apps/web on Next.js: the Session Strip (trading week band, live cursor, Last Call window, regime in
+       words with its glyph, one orchestrated motion on regime change, nothing under reduced motion),
+       / landing, /board (sortable, every number with its provenance marker, source health), 
+       /asset/[symbol] (impact curve from real pool observations, mark provenance, cross-check, clock,
+       terms history), /proof (generated entirely from live state).
+       New API surface: /v1/clock, /v1/report, /v1/proof.
+Evidence: live at https://www.usekerb.xyz (TLS via Caddy, PM2 kerb-web); API at https://api.usekerb.xyz.
+          16 screenshots at 390 and 1440 in both themes in apps/web/shots, all reviewed, no console errors.
+          493 TypeScript tests (19 new for the display arithmetic) and 42 Foundry tests pass.
+Defects found by looking at the screenshots and fixed:
+          1. /v1/terms declared WAD for debt ceiling and executable depth, which are posted in loan-asset
+             units: every such number rendered as 0.00 and every SDK consumer would have been wrong by 1e12.
+             Fixed at the API with a regression test against the board's own numbers.
+          2. The REFERENCE_CLOSED glyph used the session-band tone and was invisible at 10px in both themes.
+          3. The impact curve's last point sat on the frame; the C(1%) label overflowed on narrow curves.
+          4. Tables at 390 wrapped and truncated instead of scrolling; now single-line with a fade and a
+             worded hint.
+          5. shortHash(h, 7, 0) printed the whole hash, because slice(-0) is slice(0). Regression test added.
+Rung: unchanged from 4A, except IPFS pinning now live (rung 1) and the Builder Code registered
+Deviations: apps/web is the frontend agent's directory but the API additions it needed were made in
+            apps/api by the same agent, recorded here per AGENTS.md section 5
+Blocked: apex usekerb.xyz A record (operator)
+Next: phase 5, Kerb Credit
+```
 
 ```
 PHASE 4A CHECKPOINT (20 Sep 2026, written 20 Sep 21:00 UTC after the OOM recovery; the phase itself
