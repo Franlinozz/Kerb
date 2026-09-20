@@ -43,12 +43,25 @@ async function send(
   functionName: string,
   args: unknown[],
 ): Promise<void> {
+  // X Layer testnet's estimateGas comes back tight on these paths: the first trim ran out of
+  // gas with gasUsed exactly equal to the estimate. Estimate, then leave real headroom.
+  const estimated = await wallet.estimateContractGas({
+    address, abi, functionName, args, account: wallet.account,
+    ...(suffix() ? { dataSuffix: suffix() } : {}),
+  } as never);
   const hash = await wallet.writeContract({
     address, abi, functionName, args, chain: wallet.chain, account: wallet.account,
+    gas: (estimated * 150n) / 100n,
     ...(suffix() ? { dataSuffix: suffix() } : {}),
   } as never);
   const receipt = await wallet.waitForTransactionReceipt({ hash, timeout: 180_000 });
   if (receipt.status !== "success") throw new Error(`${label} reverted: ${hash}`);
+  // The public RPC is load balanced, so the node answering the next eth_call may not have the
+  // block yet. Wait for it, or a read straight after a write quietly returns the old state.
+  for (let i = 0; i < 40; i++) {
+    if ((await wallet.getBlockNumber({ cacheTime: 0 })) >= receipt.blockNumber) break;
+    await new Promise((r) => setTimeout(r, 500));
+  }
   steps.push({ step: label, hash, gas: receipt.gasUsed.toString() });
   console.log(`${label.padEnd(26)} gas ${String(receipt.gasUsed).padStart(7)}  ${explorerTx(chainId, hash)}`);
 }
@@ -69,27 +82,63 @@ await send(borrower, "1. faucet mUSDG", usdg, usdgAbi, "faucet", [SUPPLY + parse
 await send(borrower, "2. approve mUSDG", usdg, usdgAbi, "approve", [credit, 2n ** 255n]);
 await send(borrower, "3. supply", credit, creditAbi, "supply", [SUPPLY]);
 
-// ---------------------------------------------------------------- 2. collateral
-const COLLATERAL = parseUnits("100", 18);
-await send(borrower, "4. faucet kKOx", mirror, mirrorAbi, "faucet", [COLLATERAL]);
-await send(borrower, "5. approve kKOx", mirror, mirrorAbi, "approve", [credit, 2n ** 255n]);
-await send(borrower, "6. deposit collateral", credit, creditAbi, "deposit", [assetId, COLLATERAL]);
-
-// ---------------------------------------------------------------- 3. borrow at Session Max
+// ---------------------------------------------------------------- 2. read the real terms
 const terms = deploymentOf(chainId, "KerbTerms").address;
 const termsAbi = artifact("KerbTerms").abi;
 const eff = await read<[bigint, bigint, bigint, number, boolean]>(terms, termsAbi, "effectiveTerms", [assetId]);
 const [carryLTV, sessionMaxLTV, mark, regime, usable] = eff;
+const latest = await read<{ maxPositionDebt: bigint; debtCeiling: bigint }>(terms, termsAbi, "latest", [assetId]);
 console.log(
   `\nterms: mark ${formatUnits(mark, 18)}  carry ${formatUnits(carryLTV, 16)}%  sessionMax ${formatUnits(sessionMaxLTV, 16)}%  regime ${regime}  usable ${usable}`,
 );
+console.log(`       debtCeiling ${usd(latest.debtCeiling)}  maxPositionDebt ${usd(latest.maxPositionDebt)}`);
 if (!usable) throw new Error("terms are not usable right now; relay a fresh mirror report first");
 
-// Value the collateral the way the contract does, then draw just inside the Session Max ceiling.
-const value = (COLLATERAL * mark) / 10n ** 18n / 10n ** 12n; // 18-decimal collateral into 6-decimal loan units
-const draw = (value * sessionMaxLTV) / 10n ** 18n - 1n;
+/**
+ * These are the real KTS capacities for the underlying, so the position cap binds well below
+ * what the collateral alone would allow. Size the position to sit just inside it: the draw has
+ * to clear the Carry target for the covenant to attach, and stay under the cap to be accepted.
+ */
+const targetDraw = (latest.maxPositionDebt * 90n) / 100n;
+const neededValue = (targetDraw * 10n ** 18n) / sessionMaxLTV;
+const COLLATERAL = (neededValue * 10n ** 12n * 10n ** 18n) / mark;
+
+const already = await read<{ collateralShares: bigint }>(credit, creditAbi, "position", [borrower.account.address, assetId]);
+console.log(`sizing: collateral ${formatUnits(COLLATERAL, 18)} kKOx for a ${usd(targetDraw)} draw (already holding ${formatUnits(already.collateralShares, 18)})`);
+
+// Too much collateral is as wrong as too little here: the position cap binds the draw, so an
+// oversized deposit leaves the position below its Carry target and the covenant never attaches.
+if (COLLATERAL > already.collateralShares) {
+  const topUp = COLLATERAL - already.collateralShares;
+  await send(borrower, "4. faucet kKOx", mirror, mirrorAbi, "faucet", [topUp]);
+  await send(borrower, "5. approve kKOx", mirror, mirrorAbi, "approve", [credit, 2n ** 255n]);
+  await send(borrower, "6. deposit collateral", credit, creditAbi, "deposit", [assetId, topUp]);
+} else if (already.collateralShares > COLLATERAL) {
+  await send(borrower, "4. trim collateral", credit, creditAbi, "withdrawCollateral", [
+    assetId,
+    already.collateralShares - COLLATERAL,
+  ]);
+}
+
+// ---------------------------------------------------------------- 3. borrow at Session Max
+const held = await read<{ collateralShares: bigint }>(credit, creditAbi, "position", [borrower.account.address, assetId]);
+const value = (held.collateralShares * mark) / 10n ** 18n / 10n ** 12n; // into 6-decimal loan units
+const openDebt = await read<bigint>(credit, creditAbi, "debtOf", [borrower.account.address, assetId]);
+let draw = (value * sessionMaxLTV) / 10n ** 18n - 1n - openDebt;
+if (draw + openDebt > latest.maxPositionDebt) draw = latest.maxPositionDebt - openDebt - 1n;
 console.log(`collateral value ${usd(value)}  drawing ${usd(draw)} at Session Max\n`);
-await send(borrower, "7. borrow (Session Max)", credit, creditAbi, "borrow", [assetId, draw, 1]);
+if (draw > 0n) {
+  await send(borrower, "7. borrow (Session Max)", credit, creditAbi, "borrow", [assetId, draw, 1]);
+}
+
+const ltvNow = await read<bigint>(credit, creditAbi, "positionLTV", [borrower.account.address, assetId]);
+if (ltvNow <= carryLTV) {
+  throw new Error(
+    `the position sits at ${formatUnits(ltvNow, 16)}%, at or below the Carry target of ${formatUnits(carryLTV, 16)}%: ` +
+      "there would be nothing for the covenant to cure",
+  );
+}
+console.log(`position LTV ${formatUnits(ltvNow, 16)}%, above the Carry target of ${formatUnits(carryLTV, 16)}%`);
 
 const position = await read<{ carryTarget: bigint; mode: number }>(credit, creditAbi, "position", [
   borrower.account.address,
@@ -130,8 +179,8 @@ console.log(`LTV ${formatUnits(ltvBefore, 16)}% -> ${formatUnits(ltvAfter, 16)}%
 // ---------------------------------------------------------------- 6. repay and withdraw
 const remaining = await read<bigint>(credit, creditAbi, "debtOf", [borrower.account.address, assetId]);
 await send(borrower, "11. repay the rest", credit, creditAbi, "repay", [assetId, remaining + parseUnits("1", 6)]);
-const held = await read<{ collateralShares: bigint }>(credit, creditAbi, "position", [borrower.account.address, assetId]);
-await send(borrower, "12. withdraw collateral", credit, creditAbi, "withdrawCollateral", [assetId, held.collateralShares]);
+const finalPosition = await read<{ collateralShares: bigint }>(credit, creditAbi, "position", [borrower.account.address, assetId]);
+await send(borrower, "12. withdraw collateral", credit, creditAbi, "withdrawCollateral", [assetId, finalPosition.collateralShares]);
 
 console.log("\nlifecycle complete");
 console.table(steps);

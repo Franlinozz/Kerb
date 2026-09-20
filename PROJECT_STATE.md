@@ -9,11 +9,11 @@ Last updated: 20 Sep 2026, phase 4 complete (risk plane, API and web live). Phas
 
 | Item | Status |
 |---|---|
-| Phase | 4 complete (4A mainnet risk plane + API + SDK, 4B web live). 5 (Kerb Credit) next |
+| Phase | 5 in progress: KerbCredit written, 106 contract tests green, credit plane deployed to testnet, lifecycle running |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | **LIVE**: KerbClock and KerbTerms on X Layer 196, calendars and guardrails loaded, attester posting every 5 min (`kerb-attester-mainnet`) |
-| Testnet credit plane | KerbClock and KerbTerms live on X Layer testnet, attester posting every 5 min under PM2 (`kerb-attester`). KerbCredit not yet built |
+| Testnet credit plane | **LIVE**: KerbCredit, MockUSDG, KerbClockDemo and two mirrors deployed on 1952, both mirrors listed with a fixed LT, real mainnet Credit Marks relayed onto them |
 | Web | **LIVE** at https://www.usekerb.xyz under PM2 (`kerb-web`), Caddy TLS. Session Strip, /board, /asset/[symbol], /proof; both themes, 390 and 1440 reviewed |
 | Kerb Desk (OKX AI) | not started, P1 |
 | Participation route | **REMOTE**. The builder is not travelling to Singapore (no funds for the trip); no visa letter needed |
@@ -29,12 +29,13 @@ Last updated: 20 Sep 2026, phase 4 complete (risk plane, API and web live). Phas
 | KerbTerms | X Layer mainnet 196 | [0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5](https://www.oklink.com/xlayer/address/0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5) (block 71146760) | Sourcify exact match |
 | KerbClock | X Layer testnet 1952 | [0x6c1de992e3219980138d7e51b67ecc523618bc5c](https://www.oklink.com/x-layer-testnet/address/0x6c1de992e3219980138d7e51b67ecc523618bc5c) (block 41420913) | Sourcify exact match |
 | KerbTerms | X Layer testnet 1952 | [0x5a4942f55e37994370745ef984a21321edb75f7e](https://www.oklink.com/x-layer-testnet/address/0x5a4942f55e37994370745ef984a21321edb75f7e) (block 41420914) | Sourcify exact match |
-| KerbCredit | X Layer testnet 1952 | | |
-| KerbClockDemo | X Layer testnet 1952 | | |
-| kKOx mirror | X Layer testnet 1952 | | |
-| kHKEXCx mirror | X Layer testnet 1952 | | |
+| KerbCredit | X Layer testnet 1952 | [0xa1314645cd6c07e651359aba540e2600090b98a8](https://www.oklink.com/x-layer-testnet/address/0xa1314645cd6c07e651359aba540e2600090b98a8) (block 41483834) | source in repo, not yet verified |
+| KerbClockDemo | X Layer testnet 1952 | [0xd2483b2d8bd759f87fadb21117498a5db36bcb0f](https://www.oklink.com/x-layer-testnet/address/0xd2483b2d8bd759f87fadb21117498a5db36bcb0f) (block 41483604). One compressed week per hour: 50 min session, last 10 min are Last Call | testnet only, never mainnet |
+| kKOx mirror | X Layer testnet 1952 | [0x11827f0f59d516e3778951fde36bd0d961af4a16](https://www.oklink.com/x-layer-testnet/address/0x11827f0f59d516e3778951fde36bd0d961af4a16) (block 41483608), assetId 0x254b3d27…d8abb383 | MIRROR TESTNET, no claim on any security |
+| kHKEXCx mirror | X Layer testnet 1952 | [0x80da4036ee45e6d66a27dba415a4ce23eb9360f2](https://www.oklink.com/x-layer-testnet/address/0x80da4036ee45e6d66a27dba415a4ce23eb9360f2) (block 41483611), assetId 0x848d3f1b…98b394bb | MIRROR TESTNET, no claim on any security |
 | USDG | X Layer mainnet | 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8 | yes |
-| USDG | X Layer testnet | 0xF0863D7A29a55d0c4263c11bFac754312ff078DF | yes |
+| USDG | X Layer testnet | 0xF0863D7A29a55d0c4263c11bFac754312ff078DF | real, but **not obtainable**: mint is permissioned and there is no faucet |
+| MockUSDG (loan asset, testnet) | X Layer testnet 1952 | [0x91fcf99262214c32f6fe342d94c7b0dfb2dba679](https://www.oklink.com/x-layer-testnet/address/0x91fcf99262214c32f6fe342d94c7b0dfb2dba679) (block 41483601) | rung 2, labelled "MOCK TESTNET USDG (not USDG)" |
 | Builder Code (mainnet) | dev portal | `kt0hl6xyhlx8xmt`, payout 0x0d63f9eeb86813230b72017444cea16cd4a453f2, registered 20 Sep 21:43 UTC, tx [0x84630999...](https://www.oklink.com/xlayer/tx/0x84630999c43302a99eaf9eda22fe22f4a1eaf3f61f2ac6ed5fcfc00558f19611) | registered |
 | Builder Code | suffix `kt0hl6xyhlx8xmt` attached to every Kerb transaction from 20 Sep 20:55 UTC; posts before that carry the placeholder `kerb` | registry 0x00a3b805dbf39e5d54f9d09c130ff2132b4a0a21 | registered via the OKX developer portal |
 | Repo | | github.com/Franlinozz/Kerb | yes |
@@ -70,8 +71,8 @@ Market codes and underlying identifiers must be confirmed by the adapter against
 |---|---|---|
 | Reference price | 2 (issuer data) plus a third-party check | xStocks price-data (returns quote:null for 7 of 10 on weekends) plus Yahoo chart as an independent Observed reference. Pyth Hermes now requires an API key (401); Chainlink Data Streams needs credentials |
 | Executable depth | **1** | Exact tick-walk on the real pools (matches QuoterV2 to the wei), cross-checked against OKX DEX v6 aggregator quotes at the notional ladder; the conservative value is taken whenever divergence exceeds 25% |
-| Loan asset on testnet | | |
-| Credit market deployment | | not yet built (phase 5) |
+| Loan asset on testnet | 2 | Real Paxos testnet USDG exists at 0xF086… but its `mint` is permissioned (an unauthorised caller reverts by name) and it exposes no faucet, drip or claim. `MockUSDG` is deployed in its place and says so in its own name; the real mainnet USDG stays wired into the mainnet config |
+| Credit market deployment | 2 | Testnet live with mirror collateral; the mainnet risk plane is live. Mainnet KerbCredit needs written operator approval, green invariants and a clean Slither run (K-36, K-37) |
 | Corporate action data | 1 partial + 2 | xStocks multiplier endpoint gives current, next and activation time; full corporate-actions endpoint needs an API key. Onchain multiplier() and wrapper convertToAssets polled every 10m |
 
 ---
@@ -142,6 +143,9 @@ One line each, every time the build departs from the plan.
 | 19 Sep | Default cure windows: US and XCOM 3600s, XHKG 1800s (so the HK lunch Last Call fits inside the 150-minute morning) | Configuration, versioned with the calendar |
 | 19 Sep | Calendar covers 2025-12-01 to 2027-12-31 and refuses outside it. HK 2027 lunar dates are derived, not yet externally cross-checked | Pyth's HK schedule only lists 2026 |
 | 20 Sep | **VPS ran out of memory at 16:45:56 UTC and the kernel OOM killer took down all five kerb PM2 processes.** They had never been written into the PM2 dump, so nothing resurrected them. Observation record gap 16:43:00 to 19:59:20 UTC, 3h16m22s, the largest in the build; none of it is recreatable and none will be backfilled. Restarted 19:59 UTC and `pm2 save` now persists all five | Kerb shares the box with the marque stack; memory pressure during a build killed the recorders and nothing was watching |
+| 21 Sep | The testnet loan asset is `MockUSDG`, not the real Paxos testnet USDG. Three ways in were tested: `mint(address,uint256)` exists but reverts for an unauthorised caller, and `faucet`, `drip`, `claim` and `supplyController` do not exist on the proxy | Degradation ladder rung 2. The substitute is labelled in its name, symbol and a DISCLAIMER constant |
+| 21 Sep | Mirror guardrails use ltvMax 62% (KOx) and 57% (HKEXCx) with fixed LTs of 68% and 63%, above the real mainnet values | The first listing set ltvMax at the published Carry, which clamped Session Max down to equal Carry and made the cure covenant impossible to trigger. The LT must also clear Session Max or a position at its ceiling would be liquidatable the instant it opened |
+| 21 Sep | The cure amount grosses up for the collateral the cure itself seizes: R = (debt - target*value) / (1 - target*(1+bonus)) | Repaying only the shortfall leaves the position above target, because the bonus is paid out of the same collateral. Caught by the unit tests, which is what they are for |
 | 20 Sep | Builder Code changed from the placeholder `kerb` to the registered code `kt0hl6xyhlx8xmt` at 20:55 UTC. The 155 posts before that carry `kerb` in their calldata suffix | The portal registration only completed on 20 Sep 21:43 local; the earlier suffix is left on chain as it was recorded and is not rewritten |
 | 20 Sep | Five kerb PM2 processes now run with `oom_score_adj=-800` (inherited from the PM2 daemon), and an 8 GB swap file `/root/.kerb-swap` was added on top of marque's 4 GB, with `vm.min_free_kbytes` raised to 256 MB | The recorders must never be the process the kernel chooses to kill; heavy builds in a shell are the correct victim |
 | 19 Sep | One row with mode='test' in obs_source_error from verifying the append-only trigger; it cannot be deleted by design | Trigger verification |

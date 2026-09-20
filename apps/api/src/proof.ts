@@ -64,8 +64,11 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
 
   // ---------------------------------------------------------------- onchain
   const deployments = Object.entries(loadDeployments()).map(([key, d]) => {
-    const [chain, contract] = key.split(":");
+    // Keys look like "1952:KerbMirror:KOx": everything after the chain is the display name, so
+    // two deployments of the same contract stay distinguishable.
+    const [chain, ...rest] = key.split(":");
     const chainId = Number(chain);
+    const label = rest.join(":");
     const record = d as unknown as {
       address: string;
       deployedAtBlock?: string | number;
@@ -77,7 +80,7 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
     return {
       key,
       chainId,
-      contract: contract ?? key,
+      contract: label || key,
       address: record.address,
       block: record.deployedAtBlock === undefined ? null : String(record.deployedAtBlock),
       deployedAt: record.deployedAt ?? null,
