@@ -1,0 +1,201 @@
+
+Detector: divide-before-multiply
+KerbClock._daysFromCivil(uint256,uint256,uint256) (src/KerbClock.sol#341-348) performs a multiplication on the result of a division:
+	- era = yy / 400 (src/KerbClock.sol#343)
+	- yoe = yy - era * 400 (src/KerbClock.sol#344)
+KerbClock._daysFromCivil(uint256,uint256,uint256) (src/KerbClock.sol#341-348) performs a multiplication on the result of a division:
+	- era = yy / 400 (src/KerbClock.sol#343)
+	- era * 146097 + doe - 719468 (src/KerbClock.sol#347)
+KerbClock._civilFromDays(uint256) (src/KerbClock.sol#350-361) performs a multiplication on the result of a division:
+	- era = zz / 146097 (src/KerbClock.sol#352)
+	- doe = zz - era * 146097 (src/KerbClock.sol#353)
+KerbClock._civilFromDays(uint256) (src/KerbClock.sol#350-361) performs a multiplication on the result of a division:
+	- era = zz / 146097 (src/KerbClock.sol#352)
+	- yy = yoe + era * 400 (src/KerbClock.sol#355)
+KerbClock._civilFromDays(uint256) (src/KerbClock.sol#350-361) performs a multiplication on the result of a division:
+	- yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365 (src/KerbClock.sol#354)
+	- doy = doe - (365 * yoe + yoe / 4 - yoe / 100) (src/KerbClock.sol#356)
+KerbClock._civilFromDays(uint256) (src/KerbClock.sol#350-361) performs a multiplication on the result of a division:
+	- mp = (5 * doy + 2) / 153 (src/KerbClock.sol#357)
+	- d = doy - (153 * mp + 2) / 5 + 1 (src/KerbClock.sol#358)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+
+Detector: incorrect-equality
+KerbCredit._accrue() (src/KerbCredit.sol#282-297) uses a dangerous strict equality:
+	- elapsed == 0 (src/KerbCredit.sol#285)
+KerbCredit._accrue() (src/KerbCredit.sol#282-297) uses a dangerous strict equality:
+	- debt == 0 (src/KerbCredit.sol#288)
+KerbCredit._accrue() (src/KerbCredit.sol#282-297) uses a dangerous strict equality:
+	- interest == 0 (src/KerbCredit.sol#291)
+KerbCredit._collateralValue(uint256,KerbCredit.CollateralConfig,uint256) (src/KerbCredit.sol#665-675) uses a dangerous strict equality:
+	- amount == 0 || mark == 0 (src/KerbCredit.sol#670)
+KerbCredit._cureMath(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#512-550) uses a dangerous strict equality:
+	- p.debtShares == 0 (src/KerbCredit.sol#518)
+KerbCredit._cureMath(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#512-550) uses a dangerous strict equality:
+	- value == 0 (src/KerbCredit.sol#527)
+KerbCredit._cureMath(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#512-550) uses a dangerous strict equality:
+	- shortfall == 0 (src/KerbCredit.sol#534)
+KerbCredit._cureMath(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#512-550) uses a dangerous strict equality:
+	- p.carryTarget == 0 || uint256(carryLTV) < p.carryTarget (src/KerbCredit.sol#524)
+KerbCredit._debtOf(uint256) (src/KerbCredit.sol#654-658) uses a dangerous strict equality:
+	- shares == 0 (src/KerbCredit.sol#655)
+KerbCredit._healthFactor(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#636-645) uses a dangerous strict equality:
+	- debt == 0 (src/KerbCredit.sol#639)
+KerbCredit._repay(address,address,bytes32,uint256) (src/KerbCredit.sol#427-452) uses a dangerous strict equality:
+	- repaid == debt (src/KerbCredit.sol#439)
+KerbCredit._repay(address,address,bytes32,uint256) (src/KerbCredit.sol#427-452) uses a dangerous strict equality:
+	- p.debtShares == 0 (src/KerbCredit.sol#445)
+KerbCredit._seize(address,bytes32,KerbCredit.CollateralConfig,uint256,uint256,uint256) (src/KerbCredit.sol#586-601) uses a dangerous strict equality:
+	- seized == 0 (src/KerbCredit.sol#598)
+KerbCredit._valueToCollateral(uint256,KerbCredit.CollateralConfig,uint256) (src/KerbCredit.sol#678-692) uses a dangerous strict equality:
+	- value == 0 || mark == 0 (src/KerbCredit.sol#683)
+KerbCredit.borrow(bytes32,uint256,uint8) (src/KerbCredit.sol#371-410) uses a dangerous strict equality:
+	- value == 0 (src/KerbCredit.sol#395)
+KerbCredit.cure(address,bytes32,uint256) (src/KerbCredit.sol#463-482) uses a dangerous strict equality:
+	- required == 0 (src/KerbCredit.sol#474)
+KerbCredit.positionLTV(address,bytes32) (src/KerbCredit.sol#626-634) uses a dangerous strict equality:
+	- value == 0 (src/KerbCredit.sol#632)
+KerbCredit.utilisation() (src/KerbCredit.sol#261-265) uses a dangerous strict equality:
+	- supplied == 0 (src/KerbCredit.sol#263)
+KerbTerms._checkLoosen(string,uint256,uint256,KerbTerms.Guardrails,bytes32) (src/KerbTerms.sol#221-235) uses a dangerous strict equality:
+	- last == 0 (src/KerbTerms.sol#228)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities
+
+Detector: uninitialized-local
+KerbTerms.postTerms(bytes32,KerbTerms.Terms,bytes).loosening (src/KerbTerms.sol#196) is a local variable never initialized
+KerbClock._validate(KerbClock.Session[]).last (src/KerbClock.sol#288) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+
+Detector: unused-return
+KerbCredit.cure(address,bytes32,uint256) (src/KerbCredit.sol#463-482) ignores return value by (open,None) = clock.cureWindowOpen(assetId,uint64(block.timestamp)) (src/KerbCredit.sol#470)
+KerbCredit.cureStatus(address,bytes32) (src/KerbCredit.sol#490-505) ignores return value by (None,at) = clock.nextWeakening(assetId,uint64(block.timestamp)) (src/KerbCredit.sol#501)
+KerbCredit._cureMath(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#512-550) ignores return value by (carryLTV,None,creditMark,None,None) = terms.effectiveTerms(assetId) (src/KerbCredit.sol#520)
+KerbCredit.liquidate(address,bytes32,uint256) (src/KerbCredit.sol#558-580) ignores return value by (None,None,creditMark,None,None) = terms.effectiveTerms(assetId) (src/KerbCredit.sol#574)
+KerbCredit.positionLTV(address,bytes32) (src/KerbCredit.sol#626-634) ignores return value by (None,None,mark,None,None) = terms.effectiveTerms(assetId) (src/KerbCredit.sol#630)
+KerbCredit._healthFactor(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#636-645) ignores return value by (None,None,mark,None,None) = terms.effectiveTerms(assetId) (src/KerbCredit.sol#640)
+KerbTerms.postTerms(bytes32,KerbTerms.Terms,bytes) (src/KerbTerms.sol#173-218) ignores return value by (signer,err,None) = ECDSA.tryRecover(hashTerms(assetId,t),sig) (src/KerbTerms.sol#178)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+
+Detector: missing-zero-check
+KerbClock.setAdmin(address).newAdmin (src/KerbClock.sol#165) lacks a zero-check on :
+		- admin = newAdmin (src/KerbClock.sol#166)
+KerbTerms.setAdmin(address).newAdmin (src/KerbTerms.sol#127) lacks a zero-check on :
+		- admin = newAdmin (src/KerbTerms.sol#128)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+
+Detector: timestamp
+KerbClock.setHalt(bytes32,bool,uint64) (src/KerbClock.sol#214-218) uses timestamp for comparisons
+	Dangerous comparisons:
+	- halted && expiry <= block.timestamp (src/KerbClock.sol#215)
+KerbCredit.withdrawReserves(address,uint256) (src/KerbCredit.sol#250-256) uses timestamp for comparisons
+	Dangerous comparisons:
+	- amount > reserves (src/KerbCredit.sol#252)
+KerbCredit.utilisation() (src/KerbCredit.sol#261-265) uses timestamp for comparisons
+	Dangerous comparisons:
+	- supplied == 0 (src/KerbCredit.sol#263)
+KerbCredit.borrowRate() (src/KerbCredit.sol#268-276) uses timestamp for comparisons
+	Dangerous comparisons:
+	- u <= kink (src/KerbCredit.sol#270)
+KerbCredit._accrue() (src/KerbCredit.sol#282-297) uses timestamp for comparisons
+	Dangerous comparisons:
+	- elapsed == 0 (src/KerbCredit.sol#285)
+	- debt == 0 (src/KerbCredit.sol#288)
+	- interest == 0 (src/KerbCredit.sol#291)
+KerbCredit.withdrawCollateral(bytes32,uint256) (src/KerbCredit.sol#345-360) uses timestamp for comparisons
+	Dangerous comparisons:
+	- hf < WAD (src/KerbCredit.sol#356)
+KerbCredit.borrow(bytes32,uint256,uint8) (src/KerbCredit.sol#371-410) uses timestamp for comparisons
+	Dangerous comparisons:
+	- amount > available (src/KerbCredit.sol#383)
+	- ltv > ceiling (src/KerbCredit.sol#397)
+	- assetDebt > t.debtCeiling (src/KerbCredit.sol#401)
+	- positionDebt > t.maxPositionDebt (src/KerbCredit.sol#402)
+	- value == 0 (src/KerbCredit.sol#395)
+KerbCredit._repay(address,address,bytes32,uint256) (src/KerbCredit.sol#427-452) uses timestamp for comparisons
+	Dangerous comparisons:
+	- shares > p.debtShares (src/KerbCredit.sol#437)
+	- repaid == debt (src/KerbCredit.sol#439)
+	- p.debtShares == 0 (src/KerbCredit.sol#445)
+	- amount > debt (src/KerbCredit.sol#434)
+KerbCredit.cure(address,bytes32,uint256) (src/KerbCredit.sol#463-482) uses timestamp for comparisons
+	Dangerous comparisons:
+	- required == 0 (src/KerbCredit.sol#474)
+	- repayAmount > required (src/KerbCredit.sol#476)
+KerbCredit.cureStatus(address,bytes32) (src/KerbCredit.sol#490-505) uses timestamp for comparisons
+	Dangerous comparisons:
+	- (open && required > 0,deadline,required) (src/KerbCredit.sol#504)
+KerbCredit._cureMath(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#512-550) uses timestamp for comparisons
+	Dangerous comparisons:
+	- p.debtShares == 0 (src/KerbCredit.sol#518)
+	- value == 0 (src/KerbCredit.sol#527)
+	- ltv <= target (src/KerbCredit.sol#530)
+	- shortfall == 0 (src/KerbCredit.sol#534)
+	- targetWithBonus >= WAD (src/KerbCredit.sol#547)
+	- required > debt (src/KerbCredit.sol#549)
+	- p.carryTarget == 0 || uint256(carryLTV) < p.carryTarget (src/KerbCredit.sol#524)
+	- debt > allowedDebt (src/KerbCredit.sol#533)
+KerbCredit.liquidate(address,bytes32,uint256) (src/KerbCredit.sol#558-580) uses timestamp for comparisons
+	Dangerous comparisons:
+	- hf >= WAD (src/KerbCredit.sol#566)
+	- repayAmount > maxRepay (src/KerbCredit.sol#572)
+KerbCredit._seize(address,bytes32,KerbCredit.CollateralConfig,uint256,uint256,uint256) (src/KerbCredit.sol#586-601) uses timestamp for comparisons
+	Dangerous comparisons:
+	- seized > p.collateralShares (src/KerbCredit.sol#597)
+	- seized == 0 (src/KerbCredit.sol#598)
+KerbCredit.positionLTV(address,bytes32) (src/KerbCredit.sol#626-634) uses timestamp for comparisons
+	Dangerous comparisons:
+	- value == 0 (src/KerbCredit.sol#632)
+KerbCredit._healthFactor(address,bytes32,KerbCredit.CollateralConfig) (src/KerbCredit.sol#636-645) uses timestamp for comparisons
+	Dangerous comparisons:
+	- debt == 0 (src/KerbCredit.sol#639)
+KerbCredit._debtOf(uint256) (src/KerbCredit.sol#654-658) uses timestamp for comparisons
+	Dangerous comparisons:
+	- shares == 0 (src/KerbCredit.sol#655)
+KerbCredit._collateralValue(uint256,KerbCredit.CollateralConfig,uint256) (src/KerbCredit.sol#665-675) uses timestamp for comparisons
+	Dangerous comparisons:
+	- amount == 0 || mark == 0 (src/KerbCredit.sol#670)
+KerbCredit._valueToCollateral(uint256,KerbCredit.CollateralConfig,uint256) (src/KerbCredit.sol#678-692) uses timestamp for comparisons
+	Dangerous comparisons:
+	- value == 0 || mark == 0 (src/KerbCredit.sol#683)
+KerbTerms.postTerms(bytes32,KerbTerms.Terms,bytes) (src/KerbTerms.sol#173-218) uses timestamp for comparisons
+	Dangerous comparisons:
+	- t.observedAt > block.timestamp (src/KerbTerms.sol#184)
+	- block.timestamp - t.observedAt > g.maxReportAgeSec (src/KerbTerms.sol#185)
+KerbTerms._checkLoosen(string,uint256,uint256,KerbTerms.Guardrails,bytes32) (src/KerbTerms.sol#221-235) uses timestamp for comparisons
+	Dangerous comparisons:
+	- last != 0 && since < g.loosenCooldownSec (src/KerbTerms.sol#229)
+	- last == 0 (src/KerbTerms.sol#228)
+KerbTerms.effectiveTerms(bytes32) (src/KerbTerms.sol#252-262) uses timestamp for comparisons
+	Dangerous comparisons:
+	- fresh = t.observedAt != 0 && block.timestamp - t.observedAt <= g.maxReportAgeSec (src/KerbTerms.sol#259)
+	- (t.carryLTV,t.sessionMaxLTV,t.creditMark,t.regime,fresh && sound) (src/KerbTerms.sol#261)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+
+Detector: cyclomatic-complexity
+KerbCredit.borrow(bytes32,uint256,uint8) (src/KerbCredit.sol#371-410) has a high cyclomatic complexity (12).
+KerbTerms.postTerms(bytes32,KerbTerms.Terms,bytes) (src/KerbTerms.sol#173-218) has a high cyclomatic complexity (16).
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#cyclomatic-complexity
+
+Detector: missing-inheritance
+KerbClock (src/KerbClock.sol#13-459) should inherit from IKerbClock (src/interfaces/IKerb.sol#40-43)
+KerbClockDemo (src/KerbClockDemo.sol#19-72) should inherit from IKerbClock (src/interfaces/IKerb.sol#40-43)
+KerbMirror (src/KerbMirror.sol#18-59) should inherit from IWrapper (src/interfaces/IKerb.sol#46-48)
+KerbTerms (src/KerbTerms.sol#15-263) should inherit from IKerbTerms (src/interfaces/IKerb.sol#5-37)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance
+
+Detector: naming-convention
+Event KerbClockDemo.DEMO_CALENDAR(uint64,uint64,uint64,uint64,string) (src/KerbClockDemo.sol#29) is not in CapWords
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+
+Detector: unindexed-event-address
+Event MockUSDG.MockDeployed(string,address,uint256) (src/MockUSDG.sol#28) has address parameters but no indexed parameters
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unindexed-event-address-parameters
+
+Detector: unused-state
+KerbCredit.REGIME_HALTED (src/KerbCredit.sol#65) is never used in KerbCredit (src/KerbCredit.sol#31-700)
+KerbCredit.REGIME_STALE (src/KerbCredit.sol#66) is never used in KerbCredit (src/KerbCredit.sol#31-700)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable
+. analyzed (32 contracts with 102 detectors), 67 result(s) found
+'forge clean' running (wd: /root/kerb/contracts)
+'forge config --json' running
+'forge build --build-info --deny never --skip ./test/** ./script/** --force' running (wd: /root/kerb/contracts)
