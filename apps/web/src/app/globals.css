@@ -259,3 +259,21 @@ dl { margin: 0; }
   .scroll-x > table.history { min-width: 640px; }
   .scroll-x > table.sources { min-width: 480px; }
 }
+
+/* ---------------------------------------------------------------- lookup form */
+.lookup { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin: 12px 0 16px; }
+.lookup label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; }
+.lookup input, .lookup select {
+  font: inherit; font-size: 0.85rem; color: var(--text); background: var(--surface-raised);
+  border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 7px 9px; min-width: 0;
+}
+.lookup input { width: min(46ch, 100%); }
+.lookup input:focus, .lookup select:focus { outline: 2px solid var(--text-faint); outline-offset: -1px; }
+.lookup button {
+  font: inherit; font-size: 0.85rem; color: var(--surface); background: var(--text);
+  border: 1px solid var(--text); border-radius: var(--radius); padding: 8px 16px; cursor: pointer;
+}
+.lookup button:hover { background: var(--text-dim); border-color: var(--text-dim); }
+.lookup button:disabled { opacity: 0.5; cursor: default; }
+
+@media (max-width: 560px) { .lookup { flex-direction: column; align-items: stretch; } .lookup input { width: 100%; } }

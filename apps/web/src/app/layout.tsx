@@ -14,6 +14,7 @@ const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('kerb-theme'
 
 const NAV = [
   { href: "/board", label: "Board" },
+  { href: "/market", label: "Market" },
   { href: "/proof", label: "Proof" },
 ];
 

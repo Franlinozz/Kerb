@@ -270,3 +270,71 @@ export interface Proof {
 }
 
 export const getProof = (): Promise<Read<Proof>> => read<Proof>("/v1/proof");
+
+// ---------------------------------------------------------------- credit plane
+
+export interface CreditCollateral {
+  key: string;
+  mirrors: string;
+  token: string;
+  assetId: string;
+  tokenDecimals: number;
+  liquidationThreshold: string;
+  closeFactor: string;
+  cureBonus: string;
+  defaultBonus: string;
+  terms: {
+    carryLTV: string;
+    sessionMaxLTV: string;
+    creditMark: string;
+    regime: number;
+    usable: boolean;
+    debtCeiling: string;
+    maxPositionDebt: string;
+    observedAt: string | null;
+  };
+  relayedFrom: { symbol: string; chainId: number; token: string } | null;
+}
+
+export interface CreditMarket {
+  chainId: number;
+  contracts: {
+    KerbCredit: string | null;
+    KerbTerms: string | null;
+    clock: string | null;
+    clockIsDemo: boolean;
+    loanAsset: string | null;
+  };
+  loanAsset: { symbol: string; decimals: number; isMock: boolean; standsInFor: string | null };
+  pool: {
+    totalSupplied: string; totalDebt: string; reserves: string;
+    utilisation: string; borrowRate: string; available: string;
+  };
+  collaterals: CreditCollateral[];
+  disclaimer: string;
+}
+
+export interface CreditPosition {
+  user: string;
+  assetId: string;
+  collateralShares: string;
+  debt: string;
+  positionLTV: string | null;
+  healthFactor: string | null;
+  carryTarget: string;
+  mode: number;
+  modeName: "Carry" | "Session Max";
+  cure: { eligible: boolean; deadline: string | null; requiredRepay: string };
+}
+
+export const CREDIT_CHAIN_ID = Number(process.env["KERB_CREDIT_CHAIN_ID"] ?? 1952);
+
+export const getCreditMarket = (chainId = CREDIT_CHAIN_ID): Promise<Read<CreditMarket>> =>
+  read<CreditMarket>(`/v1/credit/${chainId}`);
+
+export const getCreditPosition = (user: string, assetId: string, chainId = CREDIT_CHAIN_ID): Promise<Read<CreditPosition>> =>
+  read<CreditPosition>(`/v1/credit/${chainId}/position/${user}/${assetId}`);
+
+export const REGIME_BY_INDEX: Regime[] = [
+  "DEEP", "NORMAL", "THIN", "PRE_TRANSITION", "REFERENCE_CLOSED", "ACTION", "HALTED", "STALE", "RECOVERY",
+];
