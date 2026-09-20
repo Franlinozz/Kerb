@@ -146,3 +146,22 @@ export const inputBundles = pgTable(
   },
   (t) => [uniqueIndex("input_bundles_cid").on(t.cid)],
 );
+
+/** Daily bars for the underlyings, ingested for the stress statistics (KTS-0.1 7.1). */
+export const refDailyBars = pgTable(
+  "ref_daily_bars",
+  {
+    id: bigserial("id", { mode: "bigint" }).primaryKey(),
+    ingestedAt: timestamp("ingested_at", { withTimezone: true }).notNull().defaultNow(),
+    source: text("source").notNull(),
+    symbol: text("symbol").notNull(),
+    underlying: text("underlying").notNull(),
+    date: text("date").notNull(),
+    open: numeric("open").notNull(),
+    close: numeric("close").notNull(),
+    currency: text("currency").notNull(),
+    rawBlobCid: text("raw_blob_cid").notNull(),
+    contentHash: text("content_hash").notNull(),
+  },
+  (t) => [uniqueIndex("ref_daily_bars_key").on(t.source, t.symbol, t.date)],
+);

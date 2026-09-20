@@ -11,7 +11,8 @@
     "capture-fixtures": "tsx scripts/capture-fixtures.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
-    "gaps": "tsx scripts/gaps.ts"
+    "gaps": "tsx scripts/gaps.ts",
+    "ingest-history": "tsx scripts/ingest-history.ts"
   },
   "dependencies": {
     "@kerb/adapters": "workspace:*",

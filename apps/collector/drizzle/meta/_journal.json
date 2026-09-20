@@ -15,6 +15,13 @@
       "when": 1789776196211,
       "tag": "0001_append_only",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789800000000,
+      "tag": "0002_ref_daily_bars",
+      "breakpoints": true
     }
   ]
 }

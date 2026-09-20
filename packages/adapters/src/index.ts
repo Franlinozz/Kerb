@@ -9,3 +9,4 @@ export * from "./types.js";
 export * from "./v3pool.js";
 export * from "./yahoo.js";
 export * from "./okxdex.js";
+export * from "./history.js";
