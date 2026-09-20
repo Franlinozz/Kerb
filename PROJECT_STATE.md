@@ -12,7 +12,7 @@ Last updated: 20 Sep 2026, end of phase 3.
 | Phase | 3 complete, 4 next |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
-| Mainnet risk plane | not deployed |
+| Mainnet risk plane | **LIVE**: KerbClock and KerbTerms on X Layer 196, calendars and guardrails loaded, attester posting every 5 min (`kerb-attester-mainnet`) |
 | Testnet credit plane | KerbClock and KerbTerms live on X Layer testnet, attester posting every 5 min under PM2 (`kerb-attester`). KerbCredit not yet built |
 | Web | not started |
 | Kerb Desk (OKX AI) | not started, P1 |
@@ -25,8 +25,8 @@ Last updated: 20 Sep 2026, end of phase 3.
 
 | Thing | Network | Address / URL | Verified |
 |---|---|---|---|
-| KerbClock | X Layer mainnet 196 | | |
-| KerbTerms | X Layer mainnet 196 | | |
+| KerbClock | X Layer mainnet 196 | [0xf765d374e0ce576860a463f0d796ad45c62161b8](https://www.oklink.com/xlayer/address/0xf765d374e0ce576860a463f0d796ad45c62161b8) (block 71146758) | Sourcify exact match |
+| KerbTerms | X Layer mainnet 196 | [0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5](https://www.oklink.com/xlayer/address/0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5) (block 71146760) | Sourcify exact match |
 | KerbClock | X Layer testnet 1952 | [0x6c1de992e3219980138d7e51b67ecc523618bc5c](https://www.oklink.com/x-layer-testnet/address/0x6c1de992e3219980138d7e51b67ecc523618bc5c) (block 41420913) | Sourcify exact match |
 | KerbTerms | X Layer testnet 1952 | [0x5a4942f55e37994370745ef984a21321edb75f7e](https://www.oklink.com/x-layer-testnet/address/0x5a4942f55e37994370745ef984a21321edb75f7e) (block 41420914) | Sourcify exact match |
 | KerbCredit | X Layer testnet 1952 | | |
@@ -82,6 +82,7 @@ Format: date, decision, reason, alternatives considered, consequence.
 
 | Date | Decision | Reason |
 |---|---|---|
+| 20 Sep | Mainnet deployment of KerbClock and KerbTerms approved in writing by the operator and executed. Cost 0.000279 OKB of a 0.0321 OKB balance. Neither contract holds funds | AGENTS.md gate 1 satisfied: plan and cost presented, approval given in chat |
 | 18 Sep | Build a Market is the primary track | The product is a market and a risk primitive on X Layer; OKX AI participates only through the optional Kerb Desk |
 | 18 Sep | Liquidation threshold is fixed, sessions move capacity and the cure covenant | Moving a liquidation line under a live borrower is indefensible and a technical judge will probe it first |
 | 18 Sep | Depth is computed from Uniswap V3 pool state by tick-walk, not from an aggregator estimate | Reproducible, defensible, and the hardest component to copy |

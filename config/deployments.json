@@ -38,5 +38,45 @@
       "url": "https://repo.sourcify.dev/contracts/full_match/1952/0x5a4942f55e37994370745ef984a21321edb75f7e/",
       "note": "OKLink source verification needs an OKLink API key (operator)"
     }
+  },
+  "196:KerbClock": {
+    "chainId": 196,
+    "name": "KerbClock",
+    "address": "0xf765d374e0ce576860a463f0d796ad45c62161b8",
+    "deployedAtBlock": "71146758",
+    "deployedAt": "2026-09-20T14:49:53.759Z",
+    "txHash": "0x30d32be55735868e298dd6f5bec370adeab1a84024f899211210272f247680ac",
+    "args": [
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2",
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0xf765d374e0ce576860a463f0d796ad45c62161b8",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0xf765d374e0ce576860a463f0d796ad45c62161b8/",
+      "note": "OKLink source verification needs an OKLink API key (operator)"
+    }
+  },
+  "196:KerbTerms": {
+    "chainId": 196,
+    "name": "KerbTerms",
+    "address": "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+    "deployedAtBlock": "71146760",
+    "deployedAt": "2026-09-20T14:49:56.159Z",
+    "txHash": "0x07b4a90441ea4f811770df6c9aa470b4e03f99e599e899cadbb2c8a1549f44aa",
+    "args": [
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2",
+      "0x0d63f9EeB86813230B72017444cea16Cd4A453F2"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5/",
+      "note": "OKLink source verification needs an OKLink API key (operator)"
+    }
   }
 }

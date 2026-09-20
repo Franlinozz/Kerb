@@ -32,20 +32,50 @@ const params = loadParams();
 const code8 = (c: string): Hex => stringToHex(c, { size: 8 });
 
 let sent = 0;
+const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+
+/** X Layer's public RPC is load balanced; a node can lag, so transient RPC errors are retried. */
+const RETRYABLE = /nonce|already known|replacement|timeout|502|503|rate|out of range|-32019|fetch failed|ECONNRESET/i;
+
+async function withRetry<T>(label: string, fn: () => Promise<T>, attempts = 6): Promise<T> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      const msg = (e as Error).message;
+      if (!RETRYABLE.test(msg) || attempt >= attempts) throw e;
+      console.log(`  ${label}: ${msg.split("\n")[0]?.slice(0, 70)} (retry ${attempt})`);
+      await sleep(1500 * attempt);
+    }
+  }
+}
+
+/** Contract read with the same retry policy. */
+async function read<T>(label: string, args: Parameters<typeof wallet.readContract>[0]): Promise<T> {
+  return withRetry(label, async () => (await wallet.readContract(args)) as T);
+}
+
+/**
+ * Send one configuration transaction. The mainnet RPC is load balanced and its nonce view
+ * can lag a block, so the nonce is read explicitly and a nonce error is retried.
+ */
 async function send(label: string, to: Address, abi: typeof clockAbi, functionName: string, args: unknown[]): Promise<void> {
-  const hash = await wallet.writeContract({
-    address: to, abi, functionName, args, chain: wallet.chain, account: wallet.account,
-    ...(suffix() ? { dataSuffix: suffix() } : {}),
+  await withRetry(label, async () => {
+    const nonce = await wallet.getTransactionCount({ address: wallet.account.address, blockTag: "pending" });
+    const hash = await wallet.writeContract({
+      address: to, abi, functionName, args, chain: wallet.chain, account: wallet.account, nonce,
+      ...(suffix() ? { dataSuffix: suffix() } : {}),
+    });
+    const r = await wallet.waitForTransactionReceipt({ hash, timeout: 180_000 });
+    if (r.status !== "success") throw new Error(`${label} failed: ${explorerTx(chainId, hash)}`);
+    sent++;
+    console.log(`  ${label}  gas ${r.gasUsed}  ${hash}`);
   });
-  const r = await wallet.waitForTransactionReceipt({ hash, timeout: 180_000 });
-  if (r.status !== "success") throw new Error(`${label} failed: ${explorerTx(chainId, hash)}`);
-  sent++;
-  console.log(`  ${label}  gas ${r.gasUsed}  ${hash}`);
 }
 
 // ---- calendars
 for (const m of cfg.markets) {
-  const existing = (await wallet.readContract({ address: clockAddr, abi: clockAbi, functionName: "calendar", args: [code8(m.code)] })) as { exists: boolean };
+  const existing = await read<{ exists: boolean }>(`calendar ${m.code}`, { address: clockAddr, abi: clockAbi, functionName: "calendar", args: [code8(m.code)] });
   console.log(`${m.code}: calendar ${existing.exists ? "already set" : "setting"}`);
   if (!existing.exists) {
     await send(`setCalendar ${m.code}`, clockAddr, clockAbi, "setCalendar", [code8(m.code), {
@@ -56,12 +86,12 @@ for (const m of cfg.markets) {
   for (let dow = 0; dow < 7; dow++) {
     const want = m.weekly[dow] ?? [];
     if (want.length === 0) continue;
-    const have = (await wallet.readContract({ address: clockAddr, abi: clockAbi, functionName: "weekly", args: [code8(m.code), dow] })) as unknown[];
+    const have = await read<unknown[]>(`weekly ${m.code} ${dow}`, { address: clockAddr, abi: clockAbi, functionName: "weekly", args: [code8(m.code), dow] });
     if (have.length === want.length) continue;
     await send(`setWeekly ${m.code} dow ${dow}`, clockAddr, clockAbi, "setWeekly", [code8(m.code), dow, want]);
   }
   for (const o of m.overrides) {
-    const [isSet] = (await wallet.readContract({ address: clockAddr, abi: clockAbi, functionName: "dayOverride", args: [code8(m.code), o.day] })) as [boolean, unknown[]];
+    const [isSet] = await read<[boolean, unknown[]]>(`override ${m.code} ${o.date}`, { address: clockAddr, abi: clockAbi, functionName: "dayOverride", args: [code8(m.code), o.day] });
     if (isSet) continue;
     await send(`override ${m.code} ${o.date} (${o.name})`, clockAddr, clockAbi, "setDayOverride", [code8(m.code), o.day, o.sessions]);
   }
@@ -71,7 +101,7 @@ for (const m of cfg.markets) {
 for (const a of resolvedAssets(assetsCfg)) {
   const id = assetId(196, a.token.address);
   const market = cfg.alias[a.underlying.market] ?? a.underlying.market;
-  const am = (await wallet.readContract({ address: clockAddr, abi: clockAbi, functionName: "assetMarket", args: [id] })) as { exists: boolean };
+  const am = await read<{ exists: boolean }>(`assetMarket ${a.symbol}`, { address: clockAddr, abi: clockAbi, functionName: "assetMarket", args: [id] });
   const cure = cfg.markets.find((m) => m.code === market)?.cureWindowSec ?? 3600;
   if (!am.exists) await send(`setAssetMarket ${a.symbol} -> ${market}`, clockAddr, clockAbi, "setAssetMarket", [id, code8(market), cure]);
 
@@ -79,7 +109,7 @@ for (const a of resolvedAssets(assetsCfg)) {
   // Exact decimal -> integer conversion. Never Number(), which cannot represent 250000e18.
   const wad = (x: DecString): bigint => toUnitsFloor(x, 18);
   const units = (x: DecString): bigint => toUnitsFloor(x, 18);
-  const have = (await wallet.readContract({ address: termsAddr, abi: termsAbi, functionName: "guardrails", args: [id] })) as { exists: boolean };
+  const have = await read<{ exists: boolean }>(`guardrails ${a.symbol}`, { address: termsAddr, abi: termsAbi, functionName: "guardrails", args: [id] });
   if (!have.exists) {
     await send(`setGuardrails ${a.symbol} (LT ${g.LT})`, termsAddr, termsAbi, "setGuardrails", [id, {
       ltvMin: wad(g.ltvMin), ltvMax: wad(g.ltvMax), ceilingMin: units(g.ceilingMin), ceilingMax: units(g.ceilingMax),
@@ -91,7 +121,7 @@ for (const a of resolvedAssets(assetsCfg)) {
 
 // ---- attester set on both contracts
 for (const [label, addr, abi] of [["clock", clockAddr, clockAbi], ["terms", termsAddr, termsAbi]] as const) {
-  const ok = (await wallet.readContract({ address: addr, abi, functionName: "isAttester", args: [attester] })) as boolean;
+  const ok = await read<boolean>(`isAttester ${label}`, { address: addr, abi, functionName: "isAttester", args: [attester] });
   if (!ok) await send(`setAttester ${label} ${attester}`, addr, abi, "setAttester", [attester, true]);
 }
 
