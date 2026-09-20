@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 20 Sep 2026, phase 4 complete (risk plane, API and web live). Phase 5 next.
+Last updated: 21 Sep 2026, phase 5 complete (Kerb Credit live on testnet, lifecycle executed on chain).
 
 ---
 
@@ -9,7 +9,7 @@ Last updated: 20 Sep 2026, phase 4 complete (risk plane, API and web live). Phas
 
 | Item | Status |
 |---|---|
-| Phase | 5 in progress: KerbCredit written, 106 contract tests green, credit plane deployed to testnet, lifecycle running |
+| Phase | 5 complete. Credit plane live on testnet, full lifecycle executed on chain. `/market` shipped (K-31) |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | **LIVE**: KerbClock and KerbTerms on X Layer 196, calendars and guardrails loaded, attester posting every 5 min (`kerb-attester-mainnet`) |
@@ -168,6 +168,45 @@ One line each, every time the build departs from the plan.
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 5 CHECKPOINT (21 Sep 2026)
+Built: KerbCredit (isolated market, shares both sides, two-slope kink interest with a reserve factor,
+       Carry and Session Max modes, the cure covenant, default liquidation at a FIXED liquidation
+       threshold, guardian pausing that can never block repay/cure/liquidate/withdraw-to-safety),
+       KerbMirror, KerbClockDemo, MockUSDG, the credit read API and the /market page.
+Addresses (X Layer testnet 1952):
+       KerbCredit    0xa1314645cd6c07e651359aba540e2600090b98a8  block 41483834
+       MockUSDG      0x91fcf99262214c32f6fe342d94c7b0dfb2dba679  block 41483601
+       KerbClockDemo 0xd2483b2d8bd759f87fadb21117498a5db36bcb0f  block 41483604
+       kKOx mirror   0x11827f0f59d516e3778951fde36bd0d961af4a16  assetId 0x254b3d27...d8abb383
+       kHKEXCx       0x80da4036ee45e6d66a27dba415a4ce23eb9360f2  assetId 0x848d3f1b...98b394bb
+Tests: 106 Solidity (41 KerbCredit unit, 8 invariants under a guided handler at 16,384 calls per run,
+       5 handler-coverage, 4 fork against real mainnet state, 7 demo clock, 6 mirror, 28 KerbTerms,
+       12 + 2 KerbClock) and 493 TypeScript. All green.
+Invariants: debt <= supply + reserves; shares and assets agree on both sides; collateral fully backed;
+       token solvency; no position owes more collateral than it holds; cure never exceeds debt; the debt
+       index only rises. Ceilings and the healthy-position rule are asserted in the handler at the moment
+       of each successful borrow, cure and liquidation, where the pre-state is still known.
+Lifecycle on chain (one compressed demo week per hour):
+       supply             0xb97782bf0c8c382e3703b5e0f5828cfc3d04e3d8241e87baa7f32cb887dd017e   gas  81,092
+       trim collateral    0xa9f6c5fca7c2a9293d0e55b27d2b1c968dfb7568deb35eab6001fe6aa0a092b2   gas 124,378
+       borrow Session Max 0x561ec1a9a436aaf58606c9dce3d23088637bad7bc153707efc1e1a72d91ef653   gas 185,804
+       cure (by another)  0xc1d0be1ae6330f99e668cd3b4b71253185f1e1d414205200a6e87013959c92d5   gas 171,004
+       repay              0x927cca44d7bc4e112a4c1ea93eb8f1fbfe980bc683a258f4647228a56e502224   gas  86,407
+       withdraw           0xa9f4ca3e77f6ed4bd2df782fbe389bf7ee1d177f45b82e2ca20b7b599d6836eb   gas  53,183
+Cure computed vs executed: 1202.094527 mUSDG computed, 1202.092123 executed, a difference of
+       0.002404 mUSDG. Position LTV 64.1666751989508183% -> 55.0000525402915174% against a 55% target:
+       it lands a hair ABOVE target, never below, because repayment burns debt shares rounded down.
+       Rounding favours the protocol, as required.
+Rung: loan asset on testnet 2 (real Paxos testnet USDG has a permissioned mint and no faucet),
+      credit market deployment 2 (testnet with mirror collateral, mainnet risk plane live),
+      depth 1, reference 2 + Yahoo, IPFS pinning live, Builder Code registered
+Deviations: see section 7 (MockUSDG, mirror guardrails leaving room above Carry, the cure gross-up)
+Blocked: apex usekerb.xyz A record (operator). Mainnet KerbCredit is gated on K-36 Slither and written
+      operator approval, and is not attempted.
+Next: K-32 borrow confirmation panel, K-33 cure from the UI, K-34 methodology, K-36 Slither
+```
 
 ```
 PHASE 4B CHECKPOINT (20 Sep 2026)
