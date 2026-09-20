@@ -30,6 +30,6 @@ for (const a of resolvedAssets(cfg)) {
     console.error(`${a.symbol}: FAILED ${(e as Error).message}`);
   }
 }
-const [{ n }] = await sql<{ n: string }[]>`SELECT count(*) AS n FROM ref_daily_bars`;
-console.log(`ref_daily_bars now holds ${n} rows`);
+const total = (await sql<{ n: string }[]>`SELECT count(*) AS n FROM ref_daily_bars`)[0]?.n ?? "0";
+console.log(`ref_daily_bars now holds ${total} rows`);
 await sql.end();

@@ -131,8 +131,10 @@ export function quotePath(legs: Leg[], notional: DecString): PathQuote {
   const inRaw = toUnitsFloor(dec(notional).div(mid), dIn);
   const r = runPath(legs, inRaw);
   const amountIn = new Decimal(inRaw.toString()).div(new Decimal(10).pow(dIn));
-  const amountOut = new Decimal(r.outRaw.toString()).div(new Decimal(10).pow(dOut));
-  const realised = amountIn.isZero() ? new Decimal(0) : amountOut.div(amountIn);
+  // An unfilled sale has no realised price: the last leg never received the full amount, so
+  // reporting its intermediate output as an outcome would be a fabricated number.
+  const amountOut = r.filled ? new Decimal(r.outRaw.toString()).div(new Decimal(10).pow(dOut)) : new Decimal(0);
+  const realised = !r.filled || amountIn.isZero() ? new Decimal(0) : amountOut.div(amountIn);
   const impact = r.filled ? mid.minus(realised).div(mid) : new Decimal(1);
   return {
     notional: toDecString(dec(notional)),
@@ -237,4 +239,21 @@ export function venueDepth(legs: Leg[], ladder: DecString[] = DEFAULT_LADDER): V
     C_1: capacityAt(legs, "0.01" as DecString),
     C_3: capacityAt(legs, "0.03" as DecString),
   };
+}
+
+/**
+ * Arithmetic-mean-tick TWAP price from a pool's observe() cumulatives, as token1 per token0
+ * adjusted for decimals. Pure integer tick maths plus one decimal exponentiation.
+ */
+export function twapPriceFromCumulatives(
+  tickCumulatives: [string, string], windowSec: number, decimals0: number, decimals1: number,
+): { tick: number; price: DecString } {
+  if (windowSec <= 0) throw new Error("twap window must be positive");
+  const delta = BigInt(tickCumulatives[1]) - BigInt(tickCumulatives[0]);
+  const w = BigInt(windowSec);
+  // Uniswap's OracleLibrary rounds the mean tick toward negative infinity.
+  let tick = delta / w;
+  if (delta < 0n && delta % w !== 0n) tick -= 1n;
+  const price = new Decimal("1.0001").pow(Number(tick)).mul(new Decimal(10).pow(decimals0 - decimals1));
+  return { tick: Number(tick), price: toDecString(price, 30) };
 }

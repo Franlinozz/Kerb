@@ -1,6 +1,6 @@
 {
   "kts": "0.1",
-  "paramsVersion": "2026-09-19.2",
+  "paramsVersion": "2026-09-20.1",
   "depth": {
     "ladder": [
       "1000",
@@ -21,5 +21,139 @@
     "stalenessMaxSec": 300,
     "crosscheckMax": "0.25",
     "minVenueC1": "100"
-  }
+  },
+  "mark": {
+    "stalenessMaxSec": 300,
+    "dispersionMax": "0.02",
+    "hDispersion": "0.5",
+    "bandRegime": "0.01",
+    "twapWindowSec": 900,
+    "regimeHaircut": {
+      "DEEP": "0",
+      "NORMAL": "0.0025",
+      "THIN": "0.0075",
+      "PRE_TRANSITION": "0.0075",
+      "REFERENCE_CLOSED": "0.015",
+      "ACTION": "0.025",
+      "RECOVERY": "0.0075",
+      "STALE": "0.025",
+      "HALTED": "0.025",
+      "DEFAULT": "0.0075"
+    }
+  },
+  "regime": {
+    "stalenessMaxSec": 300,
+    "dispersionMax": "0.02",
+    "actionCooldownSec": 3600,
+    "recoveryCooldownSec": 1800,
+    "thinThreshold": "5000",
+    "deepThreshold": "20000",
+    "spreadMax": "0.01"
+  },
+  "asymmetry": {
+    "recoveryCooldownSec": 1800,
+    "nConfirm": 3,
+    "maxLoosenStep": "0.02"
+  },
+  "capacityDefaults": {
+    "k": "0.75",
+    "buffer": "0.02",
+    "liquidationBonus": "0.07",
+    "carryMargin": "0.10",
+    "sessionMargin": "0.05",
+    "positionCapAbs": "25000",
+    "positionCapShare": "0.25",
+    "referenceLiquidationSize": "10000"
+  },
+  "stress": {
+    "quantile": "0.99",
+    "lookbackYears": 5,
+    "minBarsForOwnQuantile": 60,
+    "minBarsForSufficientHistory": 1260,
+    "volWindowDays": 20,
+    "volMin": "0.75",
+    "volMax": "2"
+  },
+  "guardrails": {
+    "default": {
+      "ltvMin": "0.05",
+      "ltvMax": "0.75",
+      "ceilingMin": "0",
+      "ceilingMax": "250000",
+      "LT": "0.50"
+    },
+    "assets": {
+      "KOx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.65"
+      },
+      "BRK.Bx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.65"
+      },
+      "ICEx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.60"
+      },
+      "COINx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.50"
+      },
+      "BMNRx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.40"
+      },
+      "SLVx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.65"
+      },
+      "HKEXCx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.60"
+      },
+      "KUAIx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.55"
+      },
+      "MIXUx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.50"
+      },
+      "SHEINx": {
+        "ltvMin": "0.05",
+        "ltvMax": "0.75",
+        "ceilingMin": "0",
+        "ceilingMax": "250000",
+        "LT": "0.45"
+      }
+    }
+  },
+  "note": "Risk configuration, versioned with every bundle so old reports stay reproducible under the parameters they used. LT is fixed per asset at listing; sessions never move it."
 }

@@ -27,10 +27,18 @@ describe("impact curve", () => {
     expect(dec(c[0]!.impact).gte(fee.mul("0.99"))).toBe(true);
   });
 
-  it("unfilled sales report impact 1, never a partial price", () => {
+  it("unfilled sales report impact 1 and no realised price, never a partial one", () => {
     const q = quotePath([koxLeg], "1000000000" as DecString);
     expect(q.filled).toBe(false);
     expect(q.impact).toBe("1");
+    expect(q.amountOut).toBe("0");
+    expect(q.realisedPrice).toBe("0");
+  });
+
+  it("an unfilled multi-hop path does not report its first leg's output as the result", () => {
+    const q = quotePath(coinPath, "100000000" as DecString);
+    expect(q.filled).toBe(false);
+    expect(q.amountOut).toBe("0");
   });
 });
 
