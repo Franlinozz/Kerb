@@ -20,3 +20,8 @@ Planning documents were committed on 18 Sep. Product code starts on 19 Sep. One 
 | 19 Sep | K-09 | `packages/calendar`: XNYS, XNAS, ARCX, XHKG (lunch break first class, half days), XCOM (CME Globex metals) for 2026 to 2027, DST via the IANA database; holiday overrides cross-checked against Pyth's published market-hours schedules |
 | 19 Sep | K-10 | Clock resolver: session, next transition, next weakening, next reference close, cure window, horizon H; pure function of (market, time) |
 | 19 Sep | K-08 | `apps/engine` depth assembly from live observations with staleness, dust and route exclusions; `pnpm --filter @kerb/engine depth-report` |
+| 20 Sep | K-11 | Credit Mark: reference median with FX conversion, pool price along the whole path, TWAP from pool observations, dispersion guard, regime haircuts, band, provenance on every component; legacy v1 wrappers rejected |
+| 20 Sep | K-12 | Underlying daily bar ingestion (append-only), gap quantiles by horizon, 20d/5y volatility scaler with clamping, and a conservative universe fallback for assets without five years of history |
+| 20 Sep | K-13 | KTS capacity: stress capacity, debtCeiling = k*C(1%), position cap, Carry and Session Max at their two horizons, guardrail clamping recorded |
+| 20 Sep | K-13 | Regime machine with the KTS 4.2 resolution order and the 4.3 tighten-fast loosen-slow asymmetry |
+| 20 Sep | K-14 | Input bundles: canonical JSON, keccak256 inputsHash, deterministic IPFS CIDv1, Pinata pinning when configured; `kerb report` and `kerb verify` |

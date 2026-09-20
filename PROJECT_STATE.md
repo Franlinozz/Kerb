@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 19 Sep 2026, end of phase 1.
+Last updated: 20 Sep 2026, end of phase 2.
 
 ---
 
@@ -9,7 +9,7 @@ Last updated: 19 Sep 2026, end of phase 1.
 
 | Item | Status |
 |---|---|
-| Phase | 1 complete, 2 next |
+| Phase | 2 complete, 3 next |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | not deployed |
@@ -119,6 +119,13 @@ One line each, every time the build departs from the plan.
 | 19 Sep | ARCHITECTURE.md does not spell out the AssetAdapter interface; it is derived from KTS-0.1 section 3.1 plus the halt flags from 4.2 | Gap in the spec |
 | 19 Sep | Raw payload blobs are stored gzipped in Postgres (`blobs`, id `keccak256:0x...`) until IPFS pinning (K-14) | Smallest thing that records today |
 | 19 Sep | Extra tables `obs_source_error` and `collector_cycles` (append-only) | Failures must be recorded, and gaps must be measurable |
+| 20 Sep | Historical bar data comes from Yahoo and is NOT redistributed: bundles pin derived stress statistics plus a keccak digest of the series (data/SOURCES.md) | Yahoo's terms do not permit redistribution; a licensed source needs an operator-supplied key |
+| 20 Sep | BMNRx, MIXUx and SHEINx have less than five years of history (SHEINx listed Sep 2026, 14 bars). They use the most conservative gap quantile available and report historySufficient=false | The instruments have not existed for five years; Kerb does not invent history |
+| 20 Sep | The Credit Mark is a two-pass computation: pass one measures dispersion with a zero haircut, pass two applies the resolved regime's haircut | KTS 6 needs the regime and KTS 4.2 rule 2 needs the dispersion |
+| 20 Sep | `nextWeakening` horizon H is measured in underlying sessions spanned, and the gap quantile uses the matching close-to-close window | KTS 7.1 asks for "comparable intervals"; sessions are the comparable unit and this is stated as a v0.1 limitation |
+| 20 Sep | Bundles carry an IPFS CIDv1 computed locally (raw codec, sha2-256); pinning is attempted only when PINATA_JWT is set, and the report records pinned vs unpinned | No Pinata credentials yet |
+| 20 Sep | Multi-leg paths price the mark along the full path to the loan asset, not at the first leg | An xETH-quoted pool price is not a USD price; comparing it to a USD reference forced false STALE regimes |
+| 20 Sep | A sale that cannot be filled reports amountOut 0 and no realised price | Reporting an intermediate leg's output as an outcome would be a fabricated number |
 | 19 Sep | Collector tick coverage raised from +/-30% to +/-60% of spot at 07:2x UTC; earlier snapshots cover +/-30% | Large-notional curve points were ambiguous (range end vs no liquidity) |
 | 19 Sep | Dust venues (own C(1%) below `minVenueC1` = 100 USDG) are excluded before aggregation, with the reason recorded | Otherwise a dust pool triggers the 0.8 fragmentation factor and lowers depth below the best single venue (seen on BMNRx) |
 | 19 Sep | `nextWeakening` is defined as the next exit from the main (regular) session; `nextReferenceClosed` is reported separately | KTS-0.1 section 9 sample mixes the two; the cure deadline in the section 13 worked example is the regular close |
@@ -140,6 +147,19 @@ One line each, every time the build departs from the plan.
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 2 CHECKPOINT (20 Sep 2026)
+Built: Credit Mark, stress statistics from 15,985 ingested daily bars, KTS capacity, regime machine with
+       tighten-fast/loosen-slow, input bundles (canonical + keccak + CIDv1 + optional Pinata), kerb report/verify
+Evidence: 433 tests. Ten historical bundles recompute BYTE-IDENTICALLY (test/recompute.test.ts).
+          Reports for KOx, HKEXCx, BRK.Bx, SLVx in data/reports/kts/. CIDs computed locally, pinning pending a JWT.
+Rung: depth 2 (no OKX DEX credentials), reference 2 + Yahoo third-party, corporate actions 1-partial + 2,
+      IPFS pinning: CID computed, not pinned (no PINATA_JWT)
+Deviations: see section 7 (history not redistributed, short-history assets, two-pass mark, path-priced mark)
+Blocked: OKX DEX credentials, Pinata JWT, licensed history source (all operator)
+Next: phase 3
+```
 
 ```
 PHASE 1 CHECKPOINT (19 Sep 2026)
