@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 20 Sep 2026, end of phase 3.
+Last updated: 20 Sep 2026, phase 4A complete, phase 4B (web) in progress.
 
 ---
 
@@ -9,14 +9,14 @@ Last updated: 20 Sep 2026, end of phase 3.
 
 | Item | Status |
 |---|---|
-| Phase | 3 complete, 4 next |
+| Phase | 4A complete (mainnet risk plane, indexer, API, SDK). 4B (web) started: scaffold only. 5 not started |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | **LIVE**: KerbClock and KerbTerms on X Layer 196, calendars and guardrails loaded, attester posting every 5 min (`kerb-attester-mainnet`) |
 | Testnet credit plane | KerbClock and KerbTerms live on X Layer testnet, attester posting every 5 min under PM2 (`kerb-attester`). KerbCredit not yet built |
-| Web | not started |
+| Web | scaffolded only (package.json, next.config.ts, tsconfig.json, globals.css), uncommitted. No pages yet |
 | Kerb Desk (OKX AI) | not started, P1 |
-| Participation route | undecided, deadline 24 Sep |
+| Participation route | **REMOTE**. The builder is not travelling to Singapore (no funds for the trip); no visa letter needed |
 | Demo video | not recorded |
 
 ---
@@ -35,11 +35,11 @@ Last updated: 20 Sep 2026, end of phase 3.
 | kHKEXCx mirror | X Layer testnet 1952 | | |
 | USDG | X Layer mainnet | 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8 | yes |
 | USDG | X Layer testnet | 0xF0863D7A29a55d0c4263c11bFac754312ff078DF | yes |
-| Builder Code (mainnet) | dev portal | | |
-| Builder Code | suffix `kerb` attached to every Kerb transaction (decoded onchain) | registry 0x00a3b805dbf39e5d54f9d09c130ff2132b4a0a21 | registration PENDING: permissioned, needs the OKX developer portal |
+| Builder Code (mainnet) | dev portal | `kt0hl6xyhlx8xmt`, payout 0x0d63f9eeb86813230b72017444cea16cd4a453f2, registered 20 Sep 21:43 UTC, tx [0x84630999...](https://www.oklink.com/xlayer/tx/0x84630999c43302a99eaf9eda22fe22f4a1eaf3f61f2ac6ed5fcfc00558f19611) | registered |
+| Builder Code | suffix `kt0hl6xyhlx8xmt` attached to every Kerb transaction from 20 Sep 20:55 UTC; posts before that carry the placeholder `kerb` | registry 0x00a3b805dbf39e5d54f9d09c130ff2132b4a0a21 | registered via the OKX developer portal |
 | Repo | | github.com/Franlinozz/Kerb | yes |
-| App | | https://usekerb.xyz | DNS: www -> A 62.171.182.75 OK; api -> AAAA only; root and api A record still missing |
-| API | | | |
+| App | | https://usekerb.xyz | DNS 20 Sep 20:5x UTC: www -> A 62.171.182.75 OK, api -> A 62.171.182.75 OK. **Root `usekerb.xyz` still has no A record** |
+| API | | `kerb-api` on 127.0.0.1:8720 under PM2; /health, /v1/board, /v1/terms, /v1/reports, /v1/bundle | |
 
 ---
 
@@ -71,7 +71,7 @@ Market codes and underlying identifiers must be confirmed by the adapter against
 | Reference price | 2 (issuer data) plus a third-party check | xStocks price-data (returns quote:null for 7 of 10 on weekends) plus Yahoo chart as an independent Observed reference. Pyth Hermes now requires an API key (401); Chainlink Data Streams needs credentials |
 | Executable depth | **1** | Exact tick-walk on the real pools (matches QuoterV2 to the wei), cross-checked against OKX DEX v6 aggregator quotes at the notional ladder; the conservative value is taken whenever divergence exceeds 25% |
 | Loan asset on testnet | | |
-| Credit market deployment | | |
+| Credit market deployment | | not yet built (phase 5) |
 | Corporate action data | 1 partial + 2 | xStocks multiplier endpoint gives current, next and activation time; full corporate-actions endpoint needs an API key. Onchain multiplier() and wrapper convertToAssets polled every 10m |
 
 ---
@@ -83,6 +83,8 @@ Format: date, decision, reason, alternatives considered, consequence.
 | Date | Decision | Reason |
 |---|---|---|
 | 20 Sep | Mainnet deployment of KerbClock and KerbTerms approved in writing by the operator and executed. Cost 0.000279 OKB of a 0.0321 OKB balance. Neither contract holds funds | AGENTS.md gate 1 satisfied: plan and cost presented, approval given in chat |
+| 20 Sep | Participation is remote. The builder will not attend in person in Singapore | The trip cannot be funded; the submission and any finale participation are remote |
+| 20 Sep | Bundles are pinned to IPFS through Pinata from 20 Sep 20:55 UTC | Operator supplied a JWT; a live probe confirmed Pinata returns the identical CIDv1 raw-codec hash the engine computes locally, so pinning does not change bundle identity |
 | 18 Sep | Build a Market is the primary track | The product is a market and a risk primitive on X Layer; OKX AI participates only through the optional Kerb Desk |
 | 18 Sep | Liquidation threshold is fixed, sessions move capacity and the cure covenant | Moving a liquidation line under a live borrower is indefensible and a technical judge will probe it first |
 | 18 Sep | Depth is computed from Uniswap V3 pool state by tick-walk, not from an aggregator estimate | Reproducible, defensible, and the hardest component to copy |
@@ -139,6 +141,9 @@ One line each, every time the build departs from the plan.
 | 19 Sep | `nextWeakening` is defined as the next exit from the main (regular) session; `nextReferenceClosed` is reported separately | KTS-0.1 section 9 sample mixes the two; the cure deadline in the section 13 worked example is the regular close |
 | 19 Sep | Default cure windows: US and XCOM 3600s, XHKG 1800s (so the HK lunch Last Call fits inside the 150-minute morning) | Configuration, versioned with the calendar |
 | 19 Sep | Calendar covers 2025-12-01 to 2027-12-31 and refuses outside it. HK 2027 lunar dates are derived, not yet externally cross-checked | Pyth's HK schedule only lists 2026 |
+| 20 Sep | **VPS ran out of memory at 16:45:56 UTC and the kernel OOM killer took down all five kerb PM2 processes.** They had never been written into the PM2 dump, so nothing resurrected them. Observation record gap 16:43:00 to 19:59:20 UTC, 3h16m22s, the largest in the build; none of it is recreatable and none will be backfilled. Restarted 19:59 UTC and `pm2 save` now persists all five | Kerb shares the box with the marque stack; memory pressure during a build killed the recorders and nothing was watching |
+| 20 Sep | Builder Code changed from the placeholder `kerb` to the registered code `kt0hl6xyhlx8xmt` at 20:55 UTC. The 155 posts before that carry `kerb` in their calldata suffix | The portal registration only completed on 20 Sep 21:43 local; the earlier suffix is left on chain as it was recorded and is not rewritten |
+| 20 Sep | Five kerb PM2 processes now run with `oom_score_adj=-800` (inherited from the PM2 daemon), and an 8 GB swap file `/root/.kerb-swap` was added on top of marque's 4 GB, with `vm.min_free_kbytes` raised to 256 MB | The recorders must never be the process the kernel chooses to kill; heavy builds in a shell are the correct victim |
 | 19 Sep | One row with mode='test' in obs_source_error from verifying the append-only trigger; it cannot be deleted by design | Trigger verification |
 
 ---
@@ -149,12 +154,33 @@ One line each, every time the build departs from the plan.
 |---|---|---|---|
 | ~~OKX DEX quote API credentials~~ RESOLVED 20 Sep | Needed key, secret, passphrase AND project id, plus a real User-Agent | Depth now rung 1 | done |
 | Pyth Hermes price data needs an API key | v2 latest, legacy api/latest_price_feeds, hermes-beta and benchmarks all return 401 | Yahoo in use | Operator (optional) |
+| ~~Pinata JWT~~ RESOLVED 20 Sep | Live probe: pinned CID == locally computed CID | pinning live | done |
+| ~~Builder Code registration~~ RESOLVED 20 Sep | Portal registration, code `kt0hl6xyhlx8xmt` | attached to every tx | done |
+| Root `usekerb.xyz` A record | www and api resolve to 62.171.182.75; the apex does not resolve at all | site not reachable on the apex | Operator |
+| OKLink API key for source verification | Sourcify exact match used instead | rung 2 | Operator (optional) |
 
 ---
 
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 4A CHECKPOINT (20 Sep 2026, written 20 Sep 21:00 UTC after the OOM recovery; the phase itself
+completed 15:44 UTC and the session hit its usage limit before the block could be written)
+Built: X Layer MAINNET risk plane (KerbClock + KerbTerms on chain 196, Sourcify verified, calendars and
+       guardrails loaded, mainnet attester posting all ten assets every 5 min), apps/indexer, apps/api, packages/sdk
+Evidence: KerbClock 0xf765d374e0ce576860a463f0d796ad45c62161b8 (block 71146758),
+          KerbTerms 0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5 (block 71146760). Deploy cost 0.000279 OKB.
+          First mainnet TermsPosted 2026-09-20T15:00:53Z. 96 mainnet + 228 testnet posts for 0.000504 OKB total.
+          Indexer: 7 tests pass, including restart-from-cursor and duplicate-delivery idempotency.
+          API latency over 10 samples each: /health p50 24ms, /v1/board p50 2ms p90 3ms, /v1/terms p50 7ms.
+          Commits e2865b1 (K-20), a923601 (K-21).
+Rung: depth 1, reference 2 + Yahoo, IPFS pinning LIVE from 20:55 UTC, Builder Code registered and attached
+Deviations: see section 7, including the 3h16m22s observation gap caused by the OOM kill at 16:45:56 UTC
+Blocked: root usekerb.xyz A record (operator), OKLink API key and Pyth key (both optional)
+Next: phase 4B (web), then phase 5 (KerbCredit)
+```
 
 ```
 PHASE 3 CHECKPOINT (20 Sep 2026)
