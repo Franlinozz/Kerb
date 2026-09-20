@@ -13,6 +13,7 @@ import { loadDeployments } from "@kerb/attester";
 import { resolveClock, timeline, type Segment } from "@kerb/calendar";
 import { buildBundle, computeReport, engineConfig, identifyBundle, loadParams } from "@kerb/engine";
 import { buildProof, decodeLatestBuilderCode } from "./proof.js";
+import { buildCreditMarket, buildCreditPosition } from "./credit.js";
 import { buildBoard, type Board } from "./board.js";
 
 export const BOARD_CACHE_MS = 15_000;
@@ -264,6 +265,38 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     }
     void reply.header("cache-control", "public, max-age=15");
     return proof;
+  });
+
+
+  /**
+   * The credit plane. Read from chain rather than from the indexer: a borrower deciding whether
+   * to repay must not be shown a number that is one block behind.
+   */
+  app.get("/v1/credit/:chain", async (req, reply) => {
+    const chainId = Number((req.params as { chain: string }).chain);
+    if (!Number.isFinite(chainId)) return reply.status(400).send({ error: "bad chain" });
+    try {
+      const market = await buildCreditMarket(chainId);
+      if (!market) return reply.status(404).send({ error: "no credit market is deployed on this chain", chainId });
+      return market;
+    } catch (err) {
+      return reply.status(502).send({ error: err instanceof Error ? err.message : "the chain did not answer" });
+    }
+  });
+
+  app.get("/v1/credit/:chain/position/:user/:assetId", async (req, reply) => {
+    const { chain, user, assetId } = req.params as { chain: string; user: string; assetId: string };
+    const chainId = Number(chain);
+    if (!Number.isFinite(chainId)) return reply.status(400).send({ error: "bad chain" });
+    if (!/^0x[0-9a-fA-F]{40}$/.test(user)) return reply.status(400).send({ error: "bad address" });
+    if (!/^0x[0-9a-fA-F]{64}$/.test(assetId)) return reply.status(400).send({ error: "bad assetId" });
+    try {
+      const p = await buildCreditPosition(chainId, user as `0x${string}`, assetId as `0x${string}`);
+      if (!p) return reply.status(404).send({ error: "no credit market is deployed on this chain", chainId });
+      return p;
+    } catch (err) {
+      return reply.status(502).send({ error: err instanceof Error ? err.message : "the chain did not answer" });
+    }
   });
 
   app.get("/v1/reports/:id", async (req, reply) => {

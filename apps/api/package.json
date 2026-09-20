@@ -21,6 +21,7 @@
     "@kerb/engine": "workspace:*",
     "@kerb/types": "workspace:*",
     "fastify": "^5.6.0",
-    "@kerb/calendar": "workspace:*"
+    "@kerb/calendar": "workspace:*",
+    "viem": "^2.56.8"
   }
 }
