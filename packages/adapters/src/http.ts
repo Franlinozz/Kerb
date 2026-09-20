@@ -14,7 +14,7 @@ export interface HttpFetcher {
   get(url: string, headers?: Record<string, string>): Promise<RawHttp>;
 }
 
-const UA = "kerb-collector/0.1 (+https://userkerb.xyz)";
+const UA = "kerb-collector/0.1 (+https://usekerb.xyz)";
 
 export class LiveHttp implements HttpFetcher {
   constructor(private readonly timeoutMs = 15_000) {}

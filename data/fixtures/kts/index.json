@@ -1,82 +1,82 @@
 [
   {
     "symbol": "KOx",
-    "atMs": 1789880615391,
-    "inputsHash": "0x929ae478522549a63ab3733ca661fe60cdcd3b8245c45cbf3d4cdbbaa4f856f4",
-    "cid": "bafkreidqncwdfikqlajxn6ipegwxf3x7btuut7flt26jtywgf5c5acyiji",
-    "bundle": "KOx-2026-09-20T05-03-35-391Z.bundle.json",
-    "report": "KOx-2026-09-20T05-03-35-391Z.report.json"
+    "atMs": 1789915672109,
+    "inputsHash": "0xdf586f04303eb63e48bf6e9378ba30eee8b56698001aa036a58db1c48160351d",
+    "cid": "bafkreifdyapdpbcta5ofgyzxjv5cfa5f5phaluc5kik6pvxy5ltuad2cma",
+    "bundle": "KOx-2026-09-20T14-47-52-109Z.bundle.json",
+    "report": "KOx-2026-09-20T14-47-52-109Z.report.json"
   },
   {
     "symbol": "HKEXCx",
-    "atMs": 1789880375373,
-    "inputsHash": "0x77e70a37d964a39de3f454ba8326fa8c2dbdc9a25299d6ff8e5fc7e4e0377bae",
-    "cid": "bafkreicv66n4zsoqrbfazzyirexwbof7ztxrskfjuggsfsz4pxcweswjpq",
-    "bundle": "HKEXCx-2026-09-20T04-59-35-373Z.bundle.json",
-    "report": "HKEXCx-2026-09-20T04-59-35-373Z.report.json"
+    "atMs": 1789915475418,
+    "inputsHash": "0xf9f25eaf7914847ef63ae17952edc58f2dd1bf619f4fe3b46323bf32840a0085",
+    "cid": "bafkreifhyqkf7x4cghc2trdf35etwl27h75fgs2x5jqw4qyabvoncdck6i",
+    "bundle": "HKEXCx-2026-09-20T14-44-35-418Z.bundle.json",
+    "report": "HKEXCx-2026-09-20T14-44-35-418Z.report.json"
   },
   {
     "symbol": "BRK.Bx",
-    "atMs": 1789880135170,
-    "inputsHash": "0x05d3dd6afe3531f6c053f752177d1fe1be7d30efe50da06a1bca8363f5c0a161",
-    "cid": "bafkreiawk3u4erohosmhaputgmharhsj5lbsravqixsmgsnrnfrlee6ynq",
-    "bundle": "BRK.Bx-2026-09-20T04-55-35-170Z.bundle.json",
-    "report": "BRK.Bx-2026-09-20T04-55-35-170Z.report.json"
+    "atMs": 1789915248512,
+    "inputsHash": "0xf4b171e19fee8bfc6c6ef009317bb9c52b154ec7d0473376ab57a165aade647c",
+    "cid": "bafkreig4oupe5aezx3blbzfld3nrdrvibpxn2muzyfoyl6d6oysu6wtdni",
+    "bundle": "BRK.Bx-2026-09-20T14-40-48-512Z.bundle.json",
+    "report": "BRK.Bx-2026-09-20T14-40-48-512Z.report.json"
   },
   {
     "symbol": "SLVx",
-    "atMs": 1789879895242,
-    "inputsHash": "0x8c52d6bfa3334f38e043e25161cfafd7d47cb4cd46c07283610a5e87ca6deae5",
-    "cid": "bafkreif4p7hudccjcczndzjpf653h3stvbe5btswuv7thtkudo2kd6saly",
-    "bundle": "SLVx-2026-09-20T04-51-35-242Z.bundle.json",
-    "report": "SLVx-2026-09-20T04-51-35-242Z.report.json"
+    "atMs": 1789915007376,
+    "inputsHash": "0x021652e4a47e6b01cf08e02b813a309e4211802aac226c3c73e0dd150fac1a99",
+    "cid": "bafkreidfpkpk7lweads73u3uk36vmjurk2fxjx22b773jcx4qkb5vr76v4",
+    "bundle": "SLVx-2026-09-20T14-36-47-376Z.bundle.json",
+    "report": "SLVx-2026-09-20T14-36-47-376Z.report.json"
   },
   {
     "symbol": "COINx",
-    "atMs": 1789879654735,
-    "inputsHash": "0x1f61f2bca54741710452881968a92fdc7c704b9269f25ec8b477fdbc08493186",
-    "cid": "bafkreibbuqs6l232nez75s2ov2h6g2t5m2fvm2i2mpfymebw7wcfiv7pei",
-    "bundle": "COINx-2026-09-20T04-47-34-735Z.bundle.json",
-    "report": "COINx-2026-09-20T04-47-34-735Z.report.json"
+    "atMs": 1789914766975,
+    "inputsHash": "0xe4e7c33c6c5f97e7218fba5fdc434a518bc05d11b3c43a95ca8d533bc33f1043",
+    "cid": "bafkreiatnpoatpakigf375ut6uwfswg4in52mki3rdjtgr6za4eaioxzf4",
+    "bundle": "COINx-2026-09-20T14-32-46-975Z.bundle.json",
+    "report": "COINx-2026-09-20T14-32-46-975Z.report.json"
   },
   {
     "symbol": "MIXUx",
-    "atMs": 1789879356180,
-    "inputsHash": "0x2713b6a92a9d449ca46d5f32032cf59dc5eef1f1edbb64a214fc547de75e1c34",
-    "cid": "bafkreieb6ezxmc2xze63x3ycfjxvyowo464fttivdxwihfb6m7qwqzg4bu",
-    "bundle": "MIXUx-2026-09-20T04-42-36-180Z.bundle.json",
-    "report": "MIXUx-2026-09-20T04-42-36-180Z.report.json"
+    "atMs": 1789914467226,
+    "inputsHash": "0xde100181acbf6db3e18189ac83a707c148a3c397781589faac4f151b2ad230cc",
+    "cid": "bafkreic34o4wmmuevqsc7szkwnbfm36a5ulikkygpb2p7h676qnfa4ihve",
+    "bundle": "MIXUx-2026-09-20T14-27-47-226Z.bundle.json",
+    "report": "MIXUx-2026-09-20T14-27-47-226Z.report.json"
   },
   {
     "symbol": "KUAIx",
-    "atMs": 1789879115068,
-    "inputsHash": "0x0dc6a23d152e9eaa9a5b3069fbb386b5d6690d10971651a25723aa5ec1490b70",
-    "cid": "bafkreifjwuxgcqnk23ghloqmb63x3opke3tdqkiqbwagfmlgugol7x7zfm",
-    "bundle": "KUAIx-2026-09-20T04-38-35-068Z.bundle.json",
-    "report": "KUAIx-2026-09-20T04-38-35-068Z.report.json"
+    "atMs": 1789914227116,
+    "inputsHash": "0x0a446c76e1b62b4448e825aa59c76623997a0dd17a6146169bb6f803778773e9",
+    "cid": "bafkreiddkvkr2mzem4swpmxepx6qgdmgo6uhnn7sgb6xye2y6fxy7l4c7m",
+    "bundle": "KUAIx-2026-09-20T14-23-47-116Z.bundle.json",
+    "report": "KUAIx-2026-09-20T14-23-47-116Z.report.json"
   },
   {
     "symbol": "ICEx",
-    "atMs": 1789878875686,
-    "inputsHash": "0xf135362798c9ca1250cc7916f7f89e6dc5d4e9d6753364ee3f69d34654c6ca68",
-    "cid": "bafkreiaan2k7p3i5jg7sia555x5inar6n562trgh25x6u64kn6xrkbq6pu",
-    "bundle": "ICEx-2026-09-20T04-34-35-686Z.bundle.json",
-    "report": "ICEx-2026-09-20T04-34-35-686Z.report.json"
+    "atMs": 1789913986921,
+    "inputsHash": "0x3dd0d61088a604a3bcf51499977dc7c70b54336a953f2331e0d8881259902774",
+    "cid": "bafkreiaqudbb2zj5z32wi42dfr3viuppejq2gl2xnpi4g37xwbkop3mtji",
+    "bundle": "ICEx-2026-09-20T14-19-46-921Z.bundle.json",
+    "report": "ICEx-2026-09-20T14-19-46-921Z.report.json"
   },
   {
     "symbol": "BMNRx",
-    "atMs": 1789878634945,
-    "inputsHash": "0x1e65cbff1959b307e75c5bb3449b6f37d3e1277d34c2604315e28bf14f4b83d3",
-    "cid": "bafkreiazebccm34o4jjhavhr2546bgk4vrtzkupfnhfokxgwmd2d2nxsnm",
-    "bundle": "BMNRx-2026-09-20T04-30-34-945Z.bundle.json",
-    "report": "BMNRx-2026-09-20T04-30-34-945Z.report.json"
+    "atMs": 1789913748161,
+    "inputsHash": "0x97720dd6221d182d71ad239efd6b651df89b1c1eb7a9853685fc2481829ff906",
+    "cid": "bafkreibh4am6qnw2gmbyjbdx4qbugy6e4udgdujd6kkzhirhqjqsfhob6y",
+    "bundle": "BMNRx-2026-09-20T14-15-48-161Z.bundle.json",
+    "report": "BMNRx-2026-09-20T14-15-48-161Z.report.json"
   },
   {
     "symbol": "SHEINx",
-    "atMs": 1789878394454,
-    "inputsHash": "0x4985eae982a54a9cecd26d4148c7dcdb1b0d62e561805daa86019bad9ff3254f",
-    "cid": "bafkreig7f2c4qcpe5wbrx5mmp3ufvxdi7itu5y7ft7zkeq7ypoiztyrmk4",
-    "bundle": "SHEINx-2026-09-20T04-26-34-454Z.bundle.json",
-    "report": "SHEINx-2026-09-20T04-26-34-454Z.report.json"
+    "atMs": 1789913447473,
+    "inputsHash": "0x680041ef8e7a416d7bc45c707e29ee73867a1fc69fdaf65df12f02869178115d",
+    "cid": "bafkreig7sb5hc7iyhkeoelgs5nnfords3uekbtnhnqingi5op4twcpl2le",
+    "bundle": "SHEINx-2026-09-20T14-10-47-473Z.bundle.json",
+    "report": "SHEINx-2026-09-20T14-10-47-473Z.report.json"
   }
 ]

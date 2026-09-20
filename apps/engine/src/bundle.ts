@@ -66,7 +66,8 @@ export interface InputBundle {
   fx: { source: string; currency: string; perUsd: DecString; observedAtMs: number; contentHash: string }[];
   venues: BundleVenue[];
   routes: { from: string; to: string; pool: string }[];
-  quotes: { source: string; notional: DecString; quoteOut: DecString; observedAtMs: number; contentHash: string }[];
+  /** Independent aggregator sell quotes for the depth cross-check (KTS-0.1 5.4). */
+  quotes: { source: string; notional: DecString; amountIn: DecString; quoteOut: DecString; router: string | null; observedAtMs: number; contentHash: string }[];
   stress: BundleStress;
   previous: {
     observedAtMs: number; regime: number; carryLTV: DecString; sessionMaxLTV: DecString; debtCeiling: DecString;

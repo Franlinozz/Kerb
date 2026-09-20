@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { loadAssets, HttpError, type PoolSnapshot } from "@kerb/adapters";
-import { allPools, multipliersCycle, poolsCycle, pricesCycle } from "../src/loops.js";
+import { allPools, multipliersCycle, poolsCycle, pricesCycle, quotesCycle } from "../src/loops.js";
 import { fixtureKey } from "../src/providers/fixture.js";
 import type { Providers } from "../src/providers/types.js";
 import type { Db } from "../src/db/client.js";
@@ -8,6 +8,7 @@ import type { Db } from "../src/db/client.js";
 /** Minimal Drizzle stand-in: records every insert, supports onConflictDoNothing. */
 function fakeDb() {
   const rows: { table: string; values: Record<string, unknown> }[] = [];
+  const sql = (async () => []) as unknown as never;
   const db = {
     insert: (t: unknown) => ({
       values: (v: Record<string, unknown>) => {
@@ -18,7 +19,7 @@ function fakeDb() {
       },
     }),
   };
-  return { db: db as unknown as Db, rows };
+  return { db: db as unknown as Db, sql, rows };
 }
 
 const cfg = loadAssets();
@@ -37,6 +38,7 @@ const raw = (body: string, status = 200) => ({ url: "u", status, fetchedAt: new 
 function providers(over: Partial<Providers> = {}): Providers {
   return {
     mode: "fixture",
+    okxQuote: null,
     pythEnabled: false,
     blockNumber: async () => 1n,
     poolSnapshot: async (p) => snapshot(p.address),
@@ -62,8 +64,8 @@ describe("allPools", () => {
 
 describe("cycles", () => {
   it("writes one pool row per pool and tags fixture sources", async () => {
-    const { db, rows } = fakeDb();
-    const r = await poolsCycle({ db, p: providers(), cfg });
+    const { db, sql, rows } = fakeDb();
+    const r = await poolsCycle({ db, sql, p: providers(), cfg });
     expect(r.failed).toBe(0);
     const obs = rows.filter((x) => x.table === "obs_pool_state");
     expect(obs.length).toBe(allPools(cfg).length);
@@ -72,9 +74,9 @@ describe("cycles", () => {
   });
 
   it("records a source error instead of a row when a source fails", async () => {
-    const { db, rows } = fakeDb();
+    const { db, sql, rows } = fakeDb();
     const r = await pricesCycle({
-      db, cfg,
+      db, sql, cfg,
       p: providers({ xstocksPrice: async () => { throw new HttpError(raw('{"quote":null}', 503)); } }),
     });
     expect(r.failed).toBe(cfg.assets.length);
@@ -85,19 +87,30 @@ describe("cycles", () => {
   });
 
   it("keeps going when one pool fails", async () => {
-    const { db, rows } = fakeDb();
+    const { db, sql, rows } = fakeDb();
     const first = allPools(cfg)[0]?.pool.address;
-    const r = await poolsCycle({ db, cfg, p: providers({ poolSnapshot: async (p) => { if (p.address === first) throw new Error("rpc down"); return snapshot(p.address); } }) });
+    const r = await poolsCycle({ db, sql, cfg, p: providers({ poolSnapshot: async (p) => { if (p.address === first) throw new Error("rpc down"); return snapshot(p.address); } }) });
     expect(r.failed).toBe(1);
     expect(r.ok).toBe(allPools(cfg).length - 1);
     expect(rows.filter((x) => x.table === "obs_source_error").length).toBe(1);
   });
 
   it("records issuer and onchain multipliers per asset", async () => {
-    const { db, rows } = fakeDb();
-    const r = await multipliersCycle({ db, cfg, p: providers() });
+    const { db, sql, rows } = fakeDb();
+    const r = await multipliersCycle({ db, sql, cfg, p: providers() });
     expect(r.ok).toBe(cfg.assets.length * 2);
     expect(rows.filter((x) => x.table === "obs_multiplier").length).toBe(cfg.assets.length * 2);
+  });
+});
+
+describe("quotes cycle", () => {
+  it("does nothing and says why when no OKX credentials are configured", async () => {
+    const { db, sql, rows } = fakeDb();
+    const r = await quotesCycle({ db, sql, cfg, p: providers({ okxQuote: null }) });
+    expect(r.ok).toBe(0);
+    expect(r.failed).toBe(0);
+    expect(String(r.detail["skipped"])).toContain("rung 2");
+    expect(rows).toHaveLength(0);
   });
 });
 

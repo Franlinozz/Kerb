@@ -88,18 +88,31 @@ export const obsMultiplier = pgTable(
   (t) => [index("obs_multiplier_symbol_ts").on(t.symbol, t.ts)],
 );
 
-/** Aggregator sell quotes, populated from phase 1 (K-08 cross-check). */
-export const obsQuote = pgTable("obs_quote", {
-  id: bigserial("id", { mode: "bigint" }).primaryKey(),
-  ts: timestamp("ts", { withTimezone: true }).notNull(),
-  assetId: text("asset_id").notNull(),
-  notional: numeric("notional").notNull(),
-  quoteOut: numeric("quote_out").notNull(),
-  source: text("source").notNull(),
-  rawBlobCid: text("raw_blob_cid").notNull(),
-  contentHash: text("content_hash").notNull(),
-  mode: text("mode").notNull(),
-});
+/** Aggregator sell quotes for the depth cross-check (KTS-0.1 section 5.4). */
+export const obsQuote = pgTable(
+  "obs_quote",
+  {
+    id: bigserial("id", { mode: "bigint" }).primaryKey(),
+    ts: timestamp("ts", { withTimezone: true }).notNull(),
+    assetId: text("asset_id").notNull(),
+    symbol: text("symbol"),
+    /** Intended sale size in loan-asset units, before the quote comes back. */
+    notional: numeric("notional").notNull(),
+    sellToken: text("sell_token"),
+    buyToken: text("buy_token"),
+    /** Exact token amount sent to the aggregator, in whole units. */
+    amountIn: numeric("amount_in"),
+    quoteOut: numeric("quote_out").notNull(),
+    /** The aggregator's own impact figure, recorded as observed and never used as ours. */
+    priceImpactPct: numeric("price_impact_pct"),
+    router: text("router"),
+    source: text("source").notNull(),
+    rawBlobCid: text("raw_blob_cid").notNull(),
+    contentHash: text("content_hash").notNull(),
+    mode: text("mode").notNull(),
+  },
+  (t) => [index("obs_quote_symbol_ts").on(t.symbol, t.ts)],
+);
 
 /** A failed source says it failed (AGENTS.md 2.1). Every failed read is recorded, never hidden. */
 export const obsSourceError = pgTable(

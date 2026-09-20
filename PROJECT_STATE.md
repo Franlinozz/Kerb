@@ -38,7 +38,7 @@ Last updated: 20 Sep 2026, end of phase 3.
 | Builder Code (mainnet) | dev portal | | |
 | Builder Code | suffix `kerb` attached to every Kerb transaction (decoded onchain) | registry 0x00a3b805dbf39e5d54f9d09c130ff2132b4a0a21 | registration PENDING: permissioned, needs the OKX developer portal |
 | Repo | | github.com/Franlinozz/Kerb | yes |
-| App | | https://userkerb.xyz (DNS not yet pointed) | |
+| App | | https://usekerb.xyz | DNS: www -> A 62.171.182.75 OK; api -> AAAA only; root and api A record still missing |
 | API | | | |
 
 ---
@@ -69,7 +69,7 @@ Market codes and underlying identifiers must be confirmed by the adapter against
 | Subsystem | Rung | Note |
 |---|---|---|
 | Reference price | 2 (issuer data) plus a third-party check | xStocks price-data (returns quote:null for 7 of 10 on weekends) plus Yahoo chart as an independent Observed reference. Pyth Hermes now requires an API key (401); Chainlink Data Streams needs credentials |
-| Executable depth | 2 | Exact tick-walk on the real pools (matches QuoterV2 to the wei); OKX DEX cross-check implemented but credentials not provided, so cross-check unavailable |
+| Executable depth | **1** | Exact tick-walk on the real pools (matches QuoterV2 to the wei), cross-checked against OKX DEX v6 aggregator quotes at the notional ladder; the conservative value is taken whenever divergence exceeds 25% |
 | Loan asset on testnet | | |
 | Credit market deployment | | |
 | Corporate action data | 1 partial + 2 | xStocks multiplier endpoint gives current, next and activation time; full corporate-actions endpoint needs an API key. Onchain multiplier() and wrapper convertToAssets polled every 10m |
@@ -124,6 +124,8 @@ One line each, every time the build departs from the plan.
 | 20 Sep | Source verification is on Sourcify (exact match), not OKLink | OKLink's verification API needs an API key the operator has not supplied |
 | 20 Sep | The Builder Code registry has no `registerAuto`; the real entry point is `register(string,address,address)` and it is permissioned | Verified onchain; the code `kerb` is unregistered but valid, and the ERC-8021 suffix is attached regardless |
 | 20 Sep | STALE is decided from the age of the sources the mark actually used, not the oldest source of any kind | The xStocks feed returns no quote at weekends; it must not force every US asset STALE while an independent reference is fresh |
+| 20 Sep | The OKX DEX quote API needs `OK-ACCESS-PROJECT` and a browser-style User-Agent; without either it answers 403 before checking the signature. v5 is deprecated, v6 is the live path | Found by testing the operator's credentials; recorded so the next person does not lose an hour to it |
+| 20 Sep | The domain is **usekerb.xyz**; `userkerb.xyz` is not registered | Confirmed by RDAP and by the registrar's nameservers |
 | 20 Sep | Historical bar data comes from Yahoo and is NOT redistributed: bundles pin derived stress statistics plus a keccak digest of the series (data/SOURCES.md) | Yahoo's terms do not permit redistribution; a licensed source needs an operator-supplied key |
 | 20 Sep | BMNRx, MIXUx and SHEINx have less than five years of history (SHEINx listed Sep 2026, 14 bars). They use the most conservative gap quantile available and report historySufficient=false | The instruments have not existed for five years; Kerb does not invent history |
 | 20 Sep | The Credit Mark is a two-pass computation: pass one measures dispersion with a zero haircut, pass two applies the resolved regime's haircut | KTS 6 needs the regime and KTS 4.2 rule 2 needs the dispersion |
@@ -144,7 +146,7 @@ One line each, every time the build departs from the plan.
 
 | Blocker | Hypotheses tested | Current rung | Owner |
 |---|---|---|---|
-| OKX DEX quote API needs credentials (OK-ACCESS-KEY) | Public endpoint returns 50103 | Depth rung 2 until keys provided | Operator |
+| ~~OKX DEX quote API credentials~~ RESOLVED 20 Sep | Needed key, secret, passphrase AND project id, plus a real User-Agent | Depth now rung 1 | done |
 | Pyth Hermes price data needs an API key | v2 latest, legacy api/latest_price_feeds, hermes-beta and benchmarks all return 401 | Yahoo in use | Operator (optional) |
 
 ---

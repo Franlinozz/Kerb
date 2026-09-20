@@ -1,13 +1,18 @@
 import { hostname } from "node:os";
-import { assetId, type DecString } from "@kerb/types";
+import { assetId, dec, fromUnits, toDecString, toUnitsFloor, type DecString } from "@kerb/types";
 import { HttpError, pythValue, resolvedAssets, type AssetConfig, type AssetsFile, type PoolRef } from "@kerb/adapters";
 import { canonicalJson } from "@kerb/types";
-import type { Db } from "./db/client.js";
-import { collectorCycles, obsMultiplier, obsPoolState, obsPrice, obsSourceError } from "./db/schema.js";
+import type { Db, Sql } from "./db/client.js";
+import { collectorCycles, obsMultiplier, obsPoolState, obsPrice, obsQuote, obsSourceError } from "./db/schema.js";
 import { putBlob } from "./store.js";
 import type { Providers } from "./providers/types.js";
 
-export type LoopName = "pools" | "prices" | "multipliers";
+export type LoopName = "pools" | "prices" | "multipliers" | "quotes";
+
+/** Sale sizes (loan-asset units) quoted for the cross-check, and the spacing between calls. */
+export const QUOTE_LADDER: DecString[] = ["1000", "5000", "10000", "25000"] as DecString[];
+const QUOTE_SPACING_MS = 1_200;
+const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
 export interface LoopResult {
   ok: number;
@@ -17,6 +22,7 @@ export interface LoopResult {
 
 interface Ctx {
   db: Db;
+  sql: Sql;
   p: Providers;
   cfg: AssetsFile;
 }
@@ -200,6 +206,7 @@ export const CYCLES: Record<LoopName, { everyMs: number; timeoutMs: number; run:
   pools: { everyMs: 60_000, timeoutMs: 55_000, run: poolsCycle },
   prices: { everyMs: 30_000, timeoutMs: 29_000, run: pricesCycle },
   multipliers: { everyMs: 600_000, timeoutMs: 120_000, run: multipliersCycle },
+  quotes: { everyMs: 300_000, timeoutMs: 280_000, run: quotesCycle },
 };
 
 function withTimeout<T>(p: Promise<T>, ms: number, what: string): Promise<T> {
@@ -241,4 +248,63 @@ export function startLoop(ctx: Ctx, name: LoopName, onCycle: (name: LoopName, r:
     stopped = true;
     if (timer) clearTimeout(timer);
   };
+}
+
+/**
+ * KTS-0.1 section 5.4: independent sell quotes from the OKX DEX aggregator at the notional
+ * ladder, so the tick-walk simulation can be cross-checked. Runs only when credentials are
+ * configured; otherwise depth stays on rung 2 and the report says so.
+ */
+export async function quotesCycle(ctx: Ctx): Promise<LoopResult> {
+  if (!ctx.p.okxQuote) return { ok: 0, failed: 0, detail: { skipped: "no OKX DEX credentials: depth cross-check on rung 2" } };
+  const assets = resolvedAssets(ctx.cfg);
+  const loan = ctx.cfg.quoteTokens[ctx.cfg.loanAsset];
+  if (!loan) throw new Error("loan asset missing from quoteTokens");
+  const ladder = QUOTE_LADDER;
+  let ok = 0;
+  let failed = 0;
+
+  for (const a of assets) {
+    const sell = a.poolToken === "wrapper" && a.wrapper ? a.wrapper : a.token;
+    // Convert a loan-asset notional into a token amount using the freshest reference price
+    // and the wrapper exchange rate. Both are observations, both are recorded.
+    const [ref] = await ctx.sql<{ value: string }[]>`
+      SELECT value FROM obs_price WHERE mode = ${ctx.p.mode} AND symbol = ${a.symbol} AND currency = 'USD'
+      ORDER BY ts DESC LIMIT 1`;
+    const [mult] = await ctx.sql<{ wrapper_assets_per_share: string | null }[]>`
+      SELECT wrapper_assets_per_share FROM obs_multiplier
+      WHERE mode = ${ctx.p.mode} AND symbol = ${a.symbol} AND wrapper_assets_per_share IS NOT NULL
+      ORDER BY ts DESC LIMIT 1`;
+    if (!ref || dec(ref.value).lte(0)) {
+      failed++;
+      await recordError(ctx, "quotes", "okx-dex", a.symbol, new Error("no fresh USD reference price to size the quote"));
+      continue;
+    }
+    const perShare = mult?.wrapper_assets_per_share ? dec(mult.wrapper_assets_per_share) : dec("1");
+    const unitPrice = dec(ref.value).mul(perShare);
+
+    for (const notional of ladder) {
+      try {
+        const amountIn = dec(notional).div(unitPrice);
+        const amountInRaw = toUnitsFloor(toDecString(amountIn, sell.decimals), sell.decimals);
+        if (amountInRaw <= 0n) continue;
+        const q = await ctx.p.okxQuote({ sellToken: sell.address, buyToken: loan.address, amountInRaw });
+        const blob = await putBlob(ctx.db, q.raw.body, "application/json");
+        await ctx.db.insert(obsQuote).values({
+          ts: new Date(q.raw.fetchedAt), assetId: assetId(196, a.token.address), symbol: a.symbol, notional,
+          sellToken: sell.address, buyToken: loan.address,
+          amountIn: fromUnits(amountInRaw, sell.decimals),
+          quoteOut: fromUnits(q.toTokenAmountRaw, loan.decimals),
+          priceImpactPct: q.priceImpactPercent, router: q.router,
+          source: src(ctx, "okx-dex:v6-quote"), rawBlobCid: blob.cid, contentHash: blob.contentHash, mode: ctx.p.mode,
+        });
+        ok++;
+      } catch (e) {
+        failed++;
+        await recordError(ctx, "quotes", "okx-dex", `${a.symbol}:${notional}`, e);
+      }
+      await sleep(QUOTE_SPACING_MS);
+    }
+  }
+  return { ok, failed, detail: { assets: assets.length, ladder: ladder.length } };
 }

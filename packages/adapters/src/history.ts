@@ -50,7 +50,7 @@ function localDate(tsSec: number, tz: string): string {
 export async function yahooDailyHistory(http: HttpFetcher, symbol: string, range = "10y"): Promise<DailyHistory> {
   const raw = await http.get(
     `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=${range}`,
-    { "user-agent": "Mozilla/5.0 (compatible; kerb-collector/0.1; +https://userkerb.xyz)" },
+    { "user-agent": "Mozilla/5.0 (compatible; kerb-collector/0.1; +https://usekerb.xyz)" },
   );
   const b = parseJsonOk<YahooChart>(raw);
   const r = b.chart.result?.[0];

@@ -52,6 +52,10 @@ export interface Report {
     C_0_5: DecString;
     C_1: DecString;
     C_3: DecString;
+    /** C(1%) from the tick-walk alone, before the cross-check picks the conservative value. */
+    C_1_simulated: DecString;
+    /** Impact implied by each aggregator quote, at the same mid the simulation used. */
+    quoteCurve: { notional: DecString; impact: DecString }[];
     censored: boolean;
     crosscheck: Crosscheck | { source: string; status: "unavailable"; reason: string; rung: number };
   };
@@ -146,11 +150,18 @@ export function computeReport(b: InputBundle, cfg: EngineConfig): Report {
 
   // KTS-0.1 5.4: cross-check against aggregator quotes when they exist; never take the maximum.
   let cc: Report["depth"]["crosscheck"];
-  if (b.quotes.length > 0) {
-    const points = b.quotes.map((q) => ({ notional: q.notional, impact: q.quoteOut }));
-    cc = crosscheck(agg.C_1, capacityFromCurve(points, "0.01" as DecString), cfg.depth.crosscheckMax, b.quotes[0]?.source ?? "quotes");
+  let quoteCurve: { notional: DecString; impact: DecString }[] = [];
+  if (b.quotes.length > 0 && venues.length > 0) {
+    // Impact implied by each quote, measured against the same mid the simulation used.
+    const mid = dec((venues[0] as VenueDepth).midPrice);
+    quoteCurve = b.quotes.map((q) => {
+      const realised = dec(q.quoteOut).div(dec(q.amountIn));
+      const impact = mid.minus(realised).div(mid);
+      return { notional: q.notional, impact: toDecString(Decimal.max(impact, new Decimal(0)), 18) };
+    });
+    cc = crosscheck(agg.C_1, capacityFromCurve(quoteCurve, "0.01" as DecString), cfg.depth.crosscheckMax, b.quotes[0]?.source ?? "okx-dex");
   } else {
-    cc = { source: "okx-dex", status: "unavailable", reason: "no aggregator quotes in the bundle (credentials not configured)", rung: 2 };
+    cc = { source: "okx-dex", status: "unavailable", reason: b.quotes.length === 0 ? "no aggregator quotes in the bundle" : "no eligible venue to compare against", rung: 2 };
   }
   const c1Used: DecString = "used" in cc ? cc.used : agg.C_1;
 
@@ -272,7 +283,10 @@ export function computeReport(b: InputBundle, cfg: EngineConfig): Report {
       asymmetry: { carryLTV: aCarry.applied, sessionMaxLTV: aSession.applied, debtCeiling: aCeiling.applied },
     },
     mark,
-    depth: { venues, excluded, fragmentationFactor: agg.fragmentationFactor, C_0_5: agg.C_0_5, C_1: c1Used, C_3: agg.C_3, censored: agg.censored, crosscheck: cc },
+    depth: {
+      venues, excluded, fragmentationFactor: agg.fragmentationFactor, C_0_5: agg.C_0_5, C_1: c1Used, C_3: agg.C_3,
+      C_1_simulated: agg.C_1, quoteCurve, censored: agg.censored, crosscheck: cc,
+    },
     capacity,
     stress: {
       horizonHoursWeak: toDecString(dec(String(Math.round(((weakEndMs - at) / HOUR) * 10000))).div(10000), 4),

@@ -1,7 +1,7 @@
 import { getAddress, type PublicClient } from "viem";
 import {
-  LiveHttp, XStocksApi, erc20Abi, publicClient, pythLatest, readPoolSnapshot, xStockTokenAbi, xStockWrapperAbi,
-  type AssetConfig, type HttpFetcher, yahooQuote,
+  LiveHttp, XStocksApi, erc20Abi, okxDexCredsFromEnv, okxDexQuote, publicClient, pythLatest, readPoolSnapshot,
+  xStockTokenAbi, xStockWrapperAbi, type AssetConfig, type HttpFetcher, yahooQuote,
 } from "@kerb/adapters";
 import { canonicalJson, fromUnits } from "@kerb/types";
 import type { Providers } from "./types.js";
@@ -12,8 +12,15 @@ const WAD = 10n ** 18n;
 
 export function httpProviders(http: HttpFetcher, client: PublicClient, mode: Providers["mode"]): Providers {
   const api = new XStocksApi(http);
+  const okxCreds = okxDexCredsFromEnv();
   return {
     mode,
+    okxQuote: okxCreds
+      ? async (q) => {
+          const r = await okxDexQuote(http, okxCreds, { chainIndex: 196, fromToken: q.sellToken, toToken: q.buyToken, amountRaw: q.amountInRaw });
+          return { raw: r.raw, toTokenAmountRaw: r.toTokenAmount, priceImpactPercent: r.priceImpactPercent, router: r.routerNote };
+        }
+      : null,
     pythEnabled: Boolean(process.env["PYTH_API_KEY"]),
     blockNumber: () => client.getBlockNumber(),
     poolSnapshot: (pool, blockNumber) => readPoolSnapshot(client, pool.address, { rangePct: POOL_RANGE_PCT, twapWindowSec: TWAP_WINDOW_SEC, blockNumber }),

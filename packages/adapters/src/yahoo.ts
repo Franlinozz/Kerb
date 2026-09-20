@@ -22,7 +22,7 @@ export function yahooSymbol(listingCountry: string, underlying: string): string 
 export async function yahooQuote(http: HttpFetcher, symbol: string): Promise<{ raw: RawHttp; meta: YahooMeta; price: DecString }> {
   const raw = await http.get(
     `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1d`,
-    { "user-agent": "Mozilla/5.0 (compatible; kerb-collector/0.1; +https://userkerb.xyz)" },
+    { "user-agent": "Mozilla/5.0 (compatible; kerb-collector/0.1; +https://usekerb.xyz)" },
   );
   const b = parseJsonOk<{ chart: { result: { meta: YahooMeta }[] | null; error: unknown } }>(raw);
   const meta = b.chart.result?.[0]?.meta;

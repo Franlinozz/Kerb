@@ -13,8 +13,23 @@ export interface OnchainMultiplier {
   raw: string;
 }
 
+export interface QuoteRequest {
+  sellToken: string;
+  buyToken: string;
+  amountInRaw: bigint;
+}
+
+export interface QuoteResult {
+  raw: RawHttp;
+  toTokenAmountRaw: bigint;
+  priceImpactPercent: string | null;
+  router: string;
+}
+
 export interface Providers {
   mode: Mode;
+  /** Null when no OKX DEX credentials are configured: depth then stays on rung 2. */
+  okxQuote: ((q: QuoteRequest) => Promise<QuoteResult>) | null;
   pythEnabled: boolean;
   blockNumber(): Promise<bigint>;
   poolSnapshot(pool: PoolRef, blockNumber: bigint): Promise<PoolSnapshot>;

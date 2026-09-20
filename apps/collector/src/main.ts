@@ -15,8 +15,8 @@ const port = Number(process.env["KERB_HEALTH_PORT"] ?? "8710");
 
 console.log(`kerb collector starting: mode=${p.mode} assets=${resolvedAssets(cfg).length} health=127.0.0.1:${port}/health`);
 
-const stops = (["pools", "prices", "multipliers"] as LoopName[]).map((n) =>
-  startLoop({ db, p, cfg }, n, (name, r) => {
+const stops = (["pools", "prices", "multipliers", "quotes"] as LoopName[]).map((n) =>
+  startLoop({ db, sql, p, cfg }, n, (name, r) => {
     if (r instanceof Error) console.error(`[${name}] cycle FAILED: ${r.message}`);
     else console.log(`[${name}] ok=${r.ok} failed=${r.failed} ${JSON.stringify(r.detail)}`);
   }),

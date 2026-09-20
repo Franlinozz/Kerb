@@ -37,6 +37,7 @@ export function fixtureProviders(): Providers {
   const base = httpProviders(new FixtureHttp(), undefined as unknown as PublicClient, "fixture");
   return {
     ...base,
+    okxQuote: base.okxQuote,
     blockNumber: async () => BigInt(readJson<{ blockNumber: string }>(resolve(dir, "block.json")).blockNumber),
     poolSnapshot: async (pool: PoolRef) => readJson<PoolSnapshot>(resolve(dir, "pools", `${pool.address}.json`)),
     onchainMultiplier: async (a: AssetConfig) => readJson<OnchainMultiplier>(resolve(dir, "onchain", `${a.token.address}.json`)),

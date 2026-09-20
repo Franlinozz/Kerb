@@ -106,6 +106,13 @@ export async function buildBundle(sql: Sql, symbol: string, params: ParamsFile, 
   const issuer = multRows.find((r) => r.source.includes("xstocks:multiplier"));
   if (!onchain) throw new Error(`${symbol}: no onchain multiplier observation`);
 
+  // Latest quote per notional, within the staleness window, for the depth cross-check.
+  const quoteRows = await sql<{ source: string; notional: string; amount_in: string | null; quote_out: string; router: string | null; ts: Date; content_hash: string }[]>`
+    SELECT DISTINCT ON (notional) source, notional, amount_in, quote_out, router, ts, content_hash
+    FROM obs_quote WHERE mode = ${mode} AND symbol = ${symbol} AND ts <= ${new Date(atMs).toISOString()}
+      AND ts > ${new Date(atMs - params.depth.stalenessMaxSec * 1000).toISOString()}
+    ORDER BY notional, ts DESC`;
+
   const series = await bars(sql, asset.underlying.symbol);
   const universe: { bars: DailyBar[] }[] = [];
   for (const a of cfg.assets.filter((x) => x.status === "resolved")) universe.push({ bars: await bars(sql, a.underlying.symbol) });
@@ -150,7 +157,13 @@ export async function buildBundle(sql: Sql, symbol: string, params: ParamsFile, 
     fx: fxRows.map((r) => ({ source: r.source, currency: r.currency, perUsd: r.value as DecString, observedAtMs: new Date(r.ts).getTime(), contentHash: r.content_hash })),
     venues,
     routes: cfg.routes.map((r) => ({ from: r.from, to: r.to, pool: r.pool.address })),
-    quotes: [],
+    quotes: quoteRows
+      .filter((q) => q.amount_in !== null && Number(q.amount_in) > 0)
+      .map((q) => ({
+        source: q.source, notional: q.notional as DecString, amountIn: q.amount_in as DecString,
+        quoteOut: q.quote_out as DecString, router: q.router, observedAtMs: new Date(q.ts).getTime(), contentHash: q.content_hash,
+      }))
+      .sort((a, b) => Number(a.notional) - Number(b.notional)),
     stress: {
       seriesDigest: seriesDigest(asset.underlying.symbol, series),
       source: "yahoo:chart (not redistributed; see data/SOURCES.md)",
