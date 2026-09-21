@@ -14,7 +14,7 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 
 **Primary track.** Build a Market
 
-**Participation route.** Decide by 24 Sep. See `KERB-MASTER-PLAN.md` section 11. Whichever you pick, do not describe the other one anywhere in the submission.
+**Participation route.** **Remote.** The builder is not travelling to Singapore. No visa letter is needed, and nothing in the submission should describe in-person attendance.
 
 **Project summary (product, intended user, core integration).**
 
@@ -30,11 +30,13 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 >
 > Core integration: X Layer mainnet contracts (KerbClock, KerbTerms) publishing signed, reproducible terms for ten live tokenized equity pools, USDG as the loan asset, ERC-8021 Builder Code attribution on every Kerb transaction, and the Kerb Credit market with the full borrow, Last Call, cure and liquidation lifecycle. Every published number carries provenance and can be recomputed from its pinned input bundle.
 
-**Repository.** `https://github.com/talk2francis/kerb` (public, README complete, `BUILD_PERIOD.md` showing build-period work)
+**Repository.** `https://github.com/Franlinozz/Kerb` — **currently private, must be made public before submitting.** README complete, `BUILD_PERIOD.md` shows day-by-day build-period work, full history scanned clean of secrets.
 
 **Demo video.** 2 to 4 minutes, per `DEMO.md`. Unlisted or public link that works logged out.
 
-**Product link.** The deployed app. The Board must be reachable with no wallet and no account.
+**Product link.** `https://www.usekerb.xyz` — the Board, the Market, the Methodology, Market-Time Report #1 and the Proof page all load with no wallet and no account. Public API at `https://api.usekerb.xyz`.
+
+> **Open item:** the apex `usekerb.xyz` has no A record. `www` and `api` resolve. Either add an A record for `@` pointing at 62.171.182.75, or submit the `www` URL.
 
 **Declaration.** Read it, then tick it.
 
@@ -57,9 +59,23 @@ Three lines. Tokenized equities trade 24/7. Liquidation conditions do not. Never
 
 ## Deployments
 | Contract | Network | Address | Explorer |
-KerbClock / KerbTerms on X Layer mainnet (196)
-KerbClock / KerbTerms / KerbCredit / KerbMirror on X Layer testnet (1952)
-Loan asset: USDG mainnet 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8, testnet 0xF0863D7A29a55d0c4263c11bFac754312ff078DF
+| Contract | Network | Address |
+|---|---|---|
+| KerbClock | X Layer mainnet 196 | 0xf765d374e0ce576860a463f0d796ad45c62161b8 (Sourcify exact match) |
+| KerbTerms | X Layer mainnet 196 | 0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5 (Sourcify exact match) |
+| KerbClock | X Layer testnet 1952 | 0x6c1de992e3219980138d7e51b67ecc523618bc5c (Sourcify exact match) |
+| KerbTerms | X Layer testnet 1952 | 0x5a4942f55e37994370745ef984a21321edb75f7e (Sourcify exact match) |
+| KerbCredit | X Layer testnet 1952 | 0xa1314645cd6c07e651359aba540e2600090b98a8 |
+| KerbClockDemo | X Layer testnet 1952 | 0xd2483b2d8bd759f87fadb21117498a5db36bcb0f |
+| kKOx mirror | X Layer testnet 1952 | 0x11827f0f59d516e3778951fde36bd0d961af4a16 |
+| kHKEXCx mirror | X Layer testnet 1952 | 0x80da4036ee45e6d66a27dba415a4ce23eb9360f2 |
+| MockUSDG (testnet loan asset) | X Layer testnet 1952 | 0x91fcf99262214c32f6fe342d94c7b0dfb2dba679 |
+
+Loan asset: USDG mainnet 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8. On testnet the real Paxos USDG
+(0xF0863D7A29a55d0c4263c11bFac754312ff078DF) has a permissioned mint and no faucet, so it cannot be obtained;
+`MockUSDG` stands in and says so in its own name.
+
+Builder Code: `kt0hl6xyhlx8xmt`, ERC-8021 suffix on every Kerb transaction, decodable from mainnet calldata.
 
 ## The Kerb Terms Standard
 Link to KTS-0.1.md. One paragraph on reproducibility, with the verify command.
@@ -83,6 +99,24 @@ Open-source libraries used, and the data sources with their licences.
 
 ---
 
+## 2b. Status as of 21 Sep
+
+| Item | State |
+|---|---|
+| Mainnet risk plane | LIVE, posting all ten assets every 5 minutes |
+| Testnet credit plane | LIVE, full lifecycle executed on chain including a permissionless cure |
+| Web | LIVE at www.usekerb.xyz: Board, Market, Methodology, Reports, Proof |
+| API | LIVE at api.usekerb.xyz |
+| Tests | 494 TypeScript, 106 Solidity, all green |
+| Slither | 67 results, none High, every one dispositioned in SECURITY.md |
+| IPFS pinning | live; `kerb verify <inputsHash>` reproduces the posted terms from the pinned bundle |
+| Market-Time Report #1 | published at /reports/1 from 35,130 measured readings |
+| Demo video | not recorded — final-stage item |
+| Repo public | not yet — approved, to be flipped before submitting |
+| Apex DNS | missing — operator action |
+
+---
+
 ## 3. Proof checklist before submitting
 
 - [ ] Every contract address on `/proof` opens on OKLink and shows verified source
@@ -90,8 +124,8 @@ Open-source libraries used, and the data sources with their licences.
 - [ ] Builder Code decoded from a real transaction and displayed
 - [ ] A report's input bundle opens from the page, and `kerb verify` on it returns no diff
 - [ ] Board loads logged out, on mobile, on a different network
-- [ ] `/reports/1` published with measured campaign-end numbers
-- [ ] Test counts on `/proof` match a fresh CI run
+- [x] `/reports/1` published with measured numbers (regenerate on the day so the window ends at submission)
+- [ ] Test counts on `/proof` match a fresh run of `./scripts/test-report.sh`
 - [ ] Limitations section names: testnet credit, mirror collateral, jurisdiction, unaudited, current degradation rungs
 - [ ] No `.env`, key, or secret anywhere in git history (run a scan over the full history, not just HEAD)
 - [ ] Video plays logged out and is between 2:00 and 4:00
