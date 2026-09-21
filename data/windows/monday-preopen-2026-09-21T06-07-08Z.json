@@ -1,0 +1,2970 @@
+{
+  "label": "monday-preopen",
+  "capturedAt": "2026-09-21T06:07:08Z",
+  "assets": {
+    "BRK.Bx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0x12992613fDd35aBe95DEc5a4964331b1ee23B50d",
+      "assetSymbol": "BRK.Bx",
+      "underlying": {
+        "symbol": "BRK.B",
+        "market": "XNYS",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "REFERENCE_CLOSED",
+      "regimeInputs": {
+        "calendarSession": "CLOSED",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "PRE_OPEN",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T20:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-22T00:00:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T19:00:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.003606235895674478",
+        "rule": 6,
+        "reason": "underlying market is not in any session",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "510.0475",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:BRK-B"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:BRK-B"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "508.208148397000971652",
+          "label": "Observed",
+          "sources": [
+            "0x34Fa7515d3364648F558aa876F73feC12e2bA507"
+          ],
+          "basis": "twap",
+          "twapWindowSec": 900
+        },
+        "creditMark": "499.668666937434193648",
+        "band": [
+          "494.671980268059851711",
+          "508.208148397000971652"
+        ],
+        "haircut": "0.016803117947837239",
+        "dispersion": "0.003606235895674478",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wBRK.Bx",
+              "USDG"
+            ],
+            "pools": [
+              "0x34Fa7515d3364648F558aa876F73feC12e2bA507"
+            ],
+            "midPrice": "508.172761692893898417125107632765",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "1.967834711700533935",
+                "amountOut": "998.963596",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "507.646089409984336534178476760972",
+                "impact": "0.001036404",
+                "legImpacts": [
+                  "0.001036404"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "4.919586779251334838",
+                "amountOut": "2495.400175",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "507.23775938347229221990557178002",
+                "impact": "0.00183993",
+                "legImpacts": [
+                  "0.00183993"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "9.839173558502669677",
+                "amountOut": "4984.118642",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "506.558666982035191627482602174663",
+                "impact": "0.0031762716",
+                "legImpacts": [
+                  "0.0031762716"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "19.678347117005339354",
+                "amountOut": "9941.617506",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "505.205922371844017652082776051428",
+                "impact": "0.0058382494",
+                "legImpacts": [
+                  "0.0058382494"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "49.195867792513348387",
+                "amountOut": "24656.510935",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "501.190690221999500725772661137889",
+                "impact": "0.0137395626",
+                "legImpacts": [
+                  "0.0137395626"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "98.391735585026696774",
+                "amountOut": "48641.522193",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "494.365933315259976206110171276983",
+                "impact": "0.02716955614",
+                "legImpacts": [
+                  "0.02716955614"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "196.783471170053393548",
+                "amountOut": "0",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.038037696170694157"
+                ],
+                "filled": false,
+                "exhaustedReason": "wBRK.Bx->USDG:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "491.958677925133483871",
+                "amountOut": "0",
+                "midPrice": "508.172761692893898417125107632765",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.038037696170694157"
+                ],
+                "filled": false,
+                "exhaustedReason": "wBRK.Bx->USDG:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "8422.627441",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "17870.907226",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "54378.128906",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "8422.627441",
+        "C_1": "17870.907226",
+        "C_3": "54378.128906",
+        "C_1_simulated": "17870.907226",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.001034724199093671"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.003167908605221117"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.005821612329988972"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.013698626446947643"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "17870.907226",
+          "quoted": "17956.798619",
+          "delta": "0.004783224160520391",
+          "flag": false,
+          "used": "17870.907226"
+        }
+      },
+      "capacity": {
+        "LT": "0.65",
+        "carryLTV": "0.55",
+        "sessionMaxLTV": "0.6",
+        "stressLTVWeak": "0.868550797891415463",
+        "stressLTVCure": "0.868550797891415463",
+        "debtCeiling": "13403.18042",
+        "maxPositionDebt": "4467.726806",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "31.3904",
+        "horizonHoursCure": "12.8904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.045695675834553184",
+        "gapQuantileCure": "0.045695675834553184",
+        "volScaler": "0.779306839393696076",
+        "impactAtReferenceSize": "0.0058382494",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": true,
+        "seriesDigest": "0x8a57f2fc62850b4d3d030c6a4512d6d955c1d6290974628051800d547af3aec1"
+      },
+      "inputsHash": "0xe3e080c6dfb53d75d75b33516b9ece8890934c254da2e437c0513e4181ecd797",
+      "inputsCidV1Raw": "bafkreie3rhwhlzr23qunuvebt7yo2ih67tdi357zd4ukas3zyhxyg52ovu",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 12807,
+      "label": "Computed"
+    },
+    "HKEXCx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0x64c1C1A6453Abb3ebBFC69e3E8f8e75953ABd46a",
+      "assetSymbol": "HKEXCx",
+      "underlying": {
+        "symbol": "388",
+        "market": "XHKG",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "NORMAL",
+      "regimeInputs": {
+        "calendarSession": "REGULAR",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-21T08:10:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T07:30:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.002205515395066577",
+        "rule": 9,
+        "reason": "underlying open with adequate depth",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "49.591305099895963912",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:0388.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:0388.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "49.481930713036699735",
+          "label": "Observed",
+          "sources": [
+            "0x293A6167Bed3A474b99f450dE817BC4474087Ed4"
+          ],
+          "basis": "twap",
+          "twapWindowSec": 900
+        },
+        "creditMark": "49.303659306271497934",
+        "band": [
+          "48.810622713208782955",
+          "49.481930713036699735"
+        ],
+        "haircut": "0.003602757697533288",
+        "dispersion": "0.002205515395066577",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wHKEXCx",
+              "USDG"
+            ],
+            "pools": [
+              "0x293A6167Bed3A474b99f450dE817BC4474087Ed4"
+            ],
+            "midPrice": "49.481372061969731596842490817936",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "20.209625528322353922",
+                "amountOut": "998.823618",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "49.4231630665407275203944120063",
+                "impact": "0.001176382",
+                "legImpacts": [
+                  "0.001176382"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "50.524063820805884805",
+                "amountOut": "2494.526901",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "49.373045482789333806776237796088",
+                "impact": "0.0021892396",
+                "legImpacts": [
+                  "0.0021892396"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "101.04812764161176961",
+                "amountOut": "4980.636108",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "49.289741673045771759206782160813",
+                "impact": "0.0038727784",
+                "legImpacts": [
+                  "0.0038727784"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "202.096255283223539221",
+                "amountOut": "9927.672582",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "49.123486073935770928889329871485",
+                "impact": "0.0072327418",
+                "legImpacts": [
+                  "0.0072327418"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "505.240638208058848053",
+                "amountOut": "24535.50699",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "48.56202200404996251056298899574",
+                "impact": "0.0185797204",
+                "legImpacts": [
+                  "0.0185797204"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "1010.481276416117696107",
+                "amountOut": "47830.277698",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "47.334155332041422542954723343468",
+                "impact": "0.04339444604",
+                "legImpacts": [
+                  "0.04339444604"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "2020.962552832235392214",
+                "amountOut": "0",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.049109420331872583"
+                ],
+                "filled": false,
+                "exhaustedReason": "wHKEXCx->USDG:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "5052.406382080588480535",
+                "amountOut": "0",
+                "midPrice": "49.481372061969731596842490817936",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.049109420331872583"
+                ],
+                "filled": false,
+                "exhaustedReason": "wHKEXCx->USDG:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "6678.615234",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "13914.203124",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "38949.398437",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "6678.615234",
+        "C_1": "13914.203124",
+        "C_3": "38949.398437",
+        "C_1_simulated": "13914.203124",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.001175169144614003"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.003866744055903931"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.007220562626028285"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.018543811064836562"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "13914.203124",
+          "quoted": "13681.943466",
+          "delta": "0.016975633511216556",
+          "flag": false,
+          "used": "13914.203124"
+        }
+      },
+      "capacity": {
+        "LT": "0.6",
+        "carryLTV": "0.5",
+        "sessionMaxLTV": "0.55",
+        "stressLTVWeak": "0.854006791087305711",
+        "stressLTVCure": "0.854006791087305711",
+        "debtCeiling": "10435.652343",
+        "maxPositionDebt": "3478.550781",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "19.3904",
+        "horizonHoursCure": "1.3904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.059775564160095445",
+        "gapQuantileCure": "0.059775564160095445",
+        "volScaler": "0.815725753455045805",
+        "impactAtReferenceSize": "0.0072327418",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": true,
+        "seriesDigest": "0x24e2a7e8669961b3678baa49b51d78154efe3eab93a1040b60292e087aae3951"
+      },
+      "inputsHash": "0x8a91eb315be465cf85543f3bc09c67c019206457a0858e04a2450c27064efaec",
+      "inputsCidV1Raw": "bafkreielqmsh5afx4zr5midpvstbmrgka5rcbzbskvzntqkafyv5rmomke",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 12294,
+      "label": "Computed"
+    },
+    "COINx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0x364f210f430eC2448Fc68A49203040F6124096F0",
+      "assetSymbol": "COINx",
+      "underlying": {
+        "symbol": "COIN",
+        "market": "XNAS",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "REFERENCE_CLOSED",
+      "regimeInputs": {
+        "calendarSession": "CLOSED",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "PRE_OPEN",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T20:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-22T00:00:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T19:00:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.004253630292856434",
+        "rule": 6,
+        "reason": "underlying market is not in any session",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "195.3075",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:COIN"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:COIN"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "196.138265898422058062",
+          "label": "Observed",
+          "sources": [
+            "0x70131C43684B9Ba44677345f9b05f16E2b555edF -> 0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5"
+          ],
+          "basis": "spot",
+          "twapWindowSec": null
+        },
+        "creditMark": "191.962504550788970969",
+        "band": [
+          "190.042879505281081259",
+          "195.3075"
+        ],
+        "haircut": "0.017126815146428217",
+        "dispersion": "0.004253630292856434",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wCOINx",
+              "xETH",
+              "USDG"
+            ],
+            "pools": [
+              "0x70131C43684B9Ba44677345f9b05f16E2b555edF",
+              "0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5"
+            ],
+            "midPrice": "196.138265898422058062064524710697",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "5.098444178750359028",
+                "amountOut": "997.778638",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "195.702571807809407468458494555809",
+                "impact": "0.002221362",
+                "legImpacts": [
+                  "0.00142989631609107",
+                  "0.000792599018325371"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "12.746110446875897571",
+                "amountOut": "2489.879531",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "195.344261402526563037812384743885",
+                "impact": "0.0040481876",
+                "legImpacts": [
+                  "0.002821501037457485",
+                  "0.001230157453072596"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "25.492220893751795143",
+                "amountOut": "4964.607431",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "194.749898476552008128936665451707",
+                "impact": "0.0070785138",
+                "legImpacts": [
+                  "0.005132680677785386",
+                  "0.001955871988578613"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "50.984441787503590286",
+                "amountOut": "9868.084191",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "193.550892096237312303864151991623",
+                "impact": "0.0131915809",
+                "legImpacts": [
+                  "0.009831128664681742",
+                  "0.003393817289758293"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "127.461104468758975717",
+                "amountOut": "24208.492217",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "189.928467338313076207096661319472",
+                "impact": "0.03166031132",
+                "legImpacts": [
+                  "0.024245471526358166",
+                  "0.007599083147726464"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "254.922208937517951434",
+                "amountOut": "46546.906026",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "182.592588617529039966039633188937",
+                "impact": "0.06906187948",
+                "legImpacts": [
+                  "0.05570063573747646",
+                  "0.014149372802933495"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "509.844417875035902868",
+                "amountOut": "0",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.126343264174142589"
+                ],
+                "filled": false,
+                "exhaustedReason": "wCOINx->xETH:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "1274.61104468758975717",
+                "amountOut": "0",
+                "midPrice": "196.138265898422058062064524710697",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.126343264174142589"
+                ],
+                "filled": false,
+                "exhaustedReason": "wCOINx->xETH:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "3283.711669",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "7400.058105",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "23667.435546",
+              "censored": false
+            }
+          },
+          {
+            "path": [
+              "wCOINx",
+              "USDC",
+              "USDG"
+            ],
+            "pools": [
+              "0x91db1a80bd51FcBD30c6BFa398EEe0De24eE2663",
+              "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40"
+            ],
+            "midPrice": "196.066688184820183825396132684692",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "5.100305458606821611",
+                "amountOut": "995.094978",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "195.104976765806500777008114929305",
+                "impact": "0.004905022",
+                "legImpacts": [
+                  "0.004804567172985989",
+                  "0.000100939799059017"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "12.750763646517054028",
+                "amountOut": "2471.766171",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "193.85240284609757045064017549412",
+                "impact": "0.0112935316",
+                "legImpacts": [
+                  "0.011192343534994952",
+                  "0.000102333415749223"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "25.501527293034108057",
+                "amountOut": "4891.19654",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "191.80014137177027273373840281648",
+                "impact": "0.021760692",
+                "legImpacts": [
+                  "0.021658341188289311",
+                  "0.000104616634474099"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "51.003054586068216115",
+                "amountOut": "9579.560781",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "187.823275659585951251283139841884",
+                "impact": "0.0420439219",
+                "legImpacts": [
+                  "0.041939453498694051",
+                  "0.000109041544073026"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "127.507636465170540287",
+                "amountOut": "22546.438432",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "176.824220549007604465276768751446",
+                "impact": "0.09814246272",
+                "legImpacts": [
+                  "0.098033072254927337",
+                  "0.000121279906954172"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "255.015272930341080575",
+                "amountOut": "41082.471056",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "161.098080847973047611587915356534",
+                "impact": "0.17835057888",
+                "legImpacts": [
+                  "0.178236538970722387",
+                  "0.000138774616645495"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "510.03054586068216115",
+                "amountOut": "69755.540376",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "136.767377840648264831456773060257",
+                "impact": "0.30244459624",
+                "legImpacts": [
+                  "0.302328896593179714",
+                  "0.000165836948463695"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "1275.076364651705402876",
+                "amountOut": "0",
+                "midPrice": "196.066688184820183825396132684692",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.376002049010048321"
+                ],
+                "filled": false,
+                "exhaustedReason": "wCOINx->USDC:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "1022.15924",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "2194.720214",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "7005.845214",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [
+          {
+            "path": [
+              "wCOINx",
+              "USDG"
+            ],
+            "pools": [
+              "0xFD69Fd884BD7c35DF86D2eC80ae74Cbe774C00ab"
+            ],
+            "reason": "dust: C(1%) 0.022627 below minVenueC1 100"
+          }
+        ],
+        "fragmentationFactor": "0.8",
+        "C_0_5": "3444.696727",
+        "C_1": "7675.822655",
+        "C_3": "24538.624608",
+        "C_1_simulated": "7675.822655",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.001324610290766052"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.004323163150433868"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.008215152688545418"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.020228401191671682"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "7675.822655",
+          "quoted": "12228.598672",
+          "delta": "0.372305620547067047",
+          "flag": true,
+          "used": "7675.822655"
+        }
+      },
+      "capacity": {
+        "LT": "0.5",
+        "carryLTV": "0.4",
+        "sessionMaxLTV": "0.45",
+        "stressLTVWeak": "0.684238850017586677",
+        "stressLTVCure": "0.684238850017586677",
+        "debtCeiling": "5756.866991",
+        "maxPositionDebt": "1918.955664",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "31.3904",
+        "horizonHoursCure": "12.8904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.160976118869839699",
+        "gapQuantileCure": "0.160976118869839699",
+        "volScaler": "1.320503752822432555",
+        "impactAtReferenceSize": "0.0131915809",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": true,
+        "seriesDigest": "0x5fde32b522c19c60a9fca5b6ec1e6254376e6ef3e3017ec991cd946d41f1a69f"
+      },
+      "inputsHash": "0x575eb221c3519f5627e047353a3d7489a87dc13f32e2b62a2fd630222e447647",
+      "inputsCidV1Raw": "bafkreia6exm2w7c4dn6lkvi2v4bgelmlborjjlbtkj5adqx2hrsai2f5se",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 25883,
+      "label": "Computed"
+    },
+    "KUAIx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0xFA8a6a57Fc83e416cF45b04b7b92B4f48Da9e7B8",
+      "assetSymbol": "KUAIx",
+      "underlying": {
+        "symbol": "1024",
+        "market": "XHKG",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "NORMAL",
+      "regimeInputs": {
+        "calendarSession": "REGULAR",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-21T08:10:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T07:30:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.004406360678229109",
+        "rule": 9,
+        "reason": "underlying open with adequate depth",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "3.904972928133894534",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:1024.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:1024.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "3.887766208973816157",
+          "label": "Observed",
+          "sources": [
+            "0x9D5d95416412643004af849e012c894D4689a0f2"
+          ],
+          "basis": "twap",
+          "twapWindowSec": 900
+        },
+        "creditMark": "3.869481343376696579",
+        "band": [
+          "3.830786529942929613",
+          "3.887766208973816157"
+        ],
+        "haircut": "0.004703180339114554",
+        "dispersion": "0.004406360678229109",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wKUAIx",
+              "USDG"
+            ],
+            "pools": [
+              "0x9D5d95416412643004af849e012c894D4689a0f2"
+            ],
+            "midPrice": "3.887891861987810455226877551788",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "257.208799909552437593",
+                "amountOut": "998.413559",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "3.881723950934386651229991130161",
+                "impact": "0.001586441",
+                "legImpacts": [
+                  "0.001586441"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "643.021999773881093984",
+                "amountOut": "2491.9708",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "3.875405197452501444144492873763",
+                "impact": "0.00321168",
+                "legImpacts": [
+                  "0.00321168"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "1286.043999547762187968",
+                "amountOut": "4970.456571",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "3.864919530550947519817444104453",
+                "impact": "0.0059086858",
+                "legImpacts": [
+                  "0.0059086858"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "2572.087999095524375936",
+                "amountOut": "9883.626059",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "3.842646932171675495563756478252",
+                "impact": "0.0116373941",
+                "legImpacts": [
+                  "0.0116373941"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "6430.21999773881093984",
+                "amountOut": "0",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.048573131681750556"
+                ],
+                "filled": false,
+                "exhaustedReason": "wKUAIx->USDG:observed_range_end"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "12860.439995477621879681",
+                "amountOut": "0",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.048573131681750556"
+                ],
+                "filled": false,
+                "exhaustedReason": "wKUAIx->USDG:observed_range_end"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "25720.879990955243759363",
+                "amountOut": "0",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.048573131681750556"
+                ],
+                "filled": false,
+                "exhaustedReason": "wKUAIx->USDG:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "64302.199977388109398407",
+                "amountOut": "0",
+                "midPrice": "3.887891861987810455226877551788",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.048573131681750556"
+                ],
+                "filled": false,
+                "exhaustedReason": "wKUAIx->USDG:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "4156.176025",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "8703.166992",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "17582.202148",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "4156.176025",
+        "C_1": "8703.166992",
+        "C_3": "17582.202148",
+        "C_1_simulated": "8703.166992",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.001582616158506822"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.005889726718848028"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.011591509425665273"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.217106192950277112"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "8703.166992",
+          "quoted": "8604.375589",
+          "delta": "0.011481530760500139",
+          "flag": false,
+          "used": "8703.166992"
+        }
+      },
+      "capacity": {
+        "LT": "0.55",
+        "carryLTV": "0.45",
+        "sessionMaxLTV": "0.5",
+        "stressLTVWeak": "0.802116915366906586",
+        "stressLTVCure": "0.802116915366906586",
+        "debtCeiling": "6527.375244",
+        "maxPositionDebt": "2175.791748",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "19.3904",
+        "horizonHoursCure": "1.3904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.128327587377457886",
+        "gapQuantileCure": "0.128327587377457886",
+        "volScaler": "0.75",
+        "impactAtReferenceSize": "0.0116373941",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": true,
+        "seriesDigest": "0x7105057f6f83e66a55e5f7682c400f08466ccc2d3a81ddcbcdb0f1eb7acb4e28"
+      },
+      "inputsHash": "0x084f90cfa9c94ef202ecb74c4fd68f9e7bf63d1bcdc162ec6542302500a8f0dd",
+      "inputsCidV1Raw": "bafkreia4qupo4pneo5qwoqwpr3ujw7znxqch3q75s3zuhqzt7cglg3vupy",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 12520,
+      "label": "Computed"
+    },
+    "ICEx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0xDe916B8089Cbd5E52551Bd933c3eA2eA5C903465",
+      "assetSymbol": "ICEx",
+      "underlying": {
+        "symbol": "ICE",
+        "market": "XNYS",
+        "multiplier": "1.002319949012"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "STALE",
+      "regimeInputs": {
+        "calendarSession": "CLOSED",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "PRE_OPEN",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T20:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-22T00:00:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T19:00:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.03198480355616694",
+        "rule": 2,
+        "reason": "dispersion 0.03198480355616694 exceeds 0.02",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "157.235",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:ICE"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:ICE"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "152.205869412846091235",
+          "label": "Observed",
+          "sources": [
+            "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f"
+          ],
+          "basis": "twap",
+          "twapWindowSec": 900
+        },
+        "creditMark": "145.966585260892198707",
+        "band": [
+          "144.50691940828327672",
+          "152.205869412846091235"
+        ],
+        "haircut": "0.04099240177808347",
+        "dispersion": "0.03198480355616694",
+        "dispersionBreach": true,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wICEx",
+              "USDG"
+            ],
+            "pools": [
+              "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f"
+            ],
+            "midPrice": "152.548272500781848005303032372446",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "6.555302027395129959",
+                "amountOut": "997.978083",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "152.23983255529188467768224348426",
+                "impact": "0.002021917",
+                "legImpacts": [
+                  "0.002021917"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "16.388255068487824897",
+                "amountOut": "2489.105868",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "151.883520093983652991930293414904",
+                "impact": "0.0043576528",
+                "legImpacts": [
+                  "0.0043576528"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "32.776510136975649795",
+                "amountOut": "4958.643309",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "151.286494147102121580156721393917",
+                "impact": "0.0082713382",
+                "legImpacts": [
+                  "0.0082713382"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "65.553020273951299591",
+                "amountOut": "9838.451718",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "150.083881366324932886903088401527",
+                "impact": "0.0161548282",
+                "legImpacts": [
+                  "0.0161548282"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "163.882550684878248979",
+                "amountOut": "23543.797712",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "143.662626762938407651547528609859",
+                "impact": "0.05824809152",
+                "legImpacts": [
+                  "0.05824809152"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "327.765101369756497958",
+                "amountOut": "0",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.079078731760905255"
+                ],
+                "filled": false,
+                "exhaustedReason": "wICEx->USDG:observed_range_end"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "655.530202739512995917",
+                "amountOut": "0",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.079078731760905255"
+                ],
+                "filled": false,
+                "exhaustedReason": "wICEx->USDG:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "1638.825506848782489794",
+                "amountOut": "0",
+                "midPrice": "152.548272500781848005303032372446",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.079078731760905255"
+                ],
+                "filled": false,
+                "exhaustedReason": "wICEx->USDG:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "2910.618652",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "6105.08789",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "16228.224609",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "2910.618652",
+        "C_1": "6105.08789",
+        "C_3": "16228.224609",
+        "C_1_simulated": "6105.08789",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.001989233396151875"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.008106596027267828"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.015815018976099864"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.056514944134649803"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "6105.08789",
+          "quoted": "6228.13965",
+          "delta": "0.019757386140177509",
+          "flag": false,
+          "used": "6105.08789"
+        }
+      },
+      "capacity": {
+        "LT": "0.6",
+        "carryLTV": "0.5",
+        "sessionMaxLTV": "0.55",
+        "stressLTVWeak": "0.829812951323464714",
+        "stressLTVCure": "0.829812951323464714",
+        "debtCeiling": "4578.815918",
+        "maxPositionDebt": "1526.271972",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "31.3904",
+        "horizonHoursCure": "12.8904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.048598366626159198",
+        "gapQuantileCure": "0.048598366626159198",
+        "volScaler": "1.317579682648602802",
+        "impactAtReferenceSize": "0.0161548282",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": true,
+        "seriesDigest": "0x40189562636ca04d3f4b6b1c1cddcbe3ed9066edd72ed64b31b940ce0df387cd"
+      },
+      "inputsHash": "0x1ff74b7aa19929b1843a5d051ec598addc4a4b0fbd42c87e12e584f9c6ac40f1",
+      "inputsCidV1Raw": "bafkreifu6nokndxdqwd5a4jewkdbw75wissrwus4dvzspfgox73f5nkq5q",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 12390,
+      "label": "Computed"
+    },
+    "MIXUx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0x8Fa39Ff32B316E2296630aA05BDD6A4a2e4b7598",
+      "assetSymbol": "MIXUx",
+      "underlying": {
+        "symbol": "2097",
+        "market": "XHKG",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "NORMAL",
+      "regimeInputs": {
+        "calendarSession": "REGULAR",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-21T08:10:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T07:30:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.003326568084722247",
+        "rule": 9,
+        "reason": "underlying open with adequate depth",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "24.620384743489434482",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:2097.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:2097.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "24.538483357368159997",
+          "label": "Observed",
+          "sources": [
+            "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8"
+          ],
+          "basis": "twap",
+          "twapWindowSec": 900
+        },
+        "creditMark": "24.436322681182685128",
+        "band": [
+          "24.191959454370858276",
+          "24.538483357368159997"
+        ],
+        "haircut": "0.004163284042361124",
+        "dispersion": "0.003326568084722247",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wMIXUx",
+              "USDG"
+            ],
+            "pools": [
+              "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8"
+            ],
+            "midPrice": "24.540877472882063397689408506765",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "40.748339219125757813",
+                "amountOut": "997.936082",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "24.490227114129987595415519340955",
+                "impact": "0.002063918",
+                "legImpacts": [
+                  "0.002063918"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "101.870848047814394533",
+                "amountOut": "2488.998403",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "24.432881935288852641806714168785",
+                "impact": "0.0044006388",
+                "legImpacts": [
+                  "0.0044006388"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "203.741696095628789067",
+                "amountOut": "4958.645248",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "24.337901092531378506286744347822",
+                "impact": "0.0082709504",
+                "legImpacts": [
+                  "0.0082709504"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "407.483392191257578134",
+                "amountOut": "9840.774705",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "24.150124627364213293228037479366",
+                "impact": "0.0159225295",
+                "legImpacts": [
+                  "0.0159225295"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "1018.708480478143945335",
+                "amountOut": "23954.328043",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "23.514409177939431331167976787284",
+                "impact": "0.04182687828",
+                "legImpacts": [
+                  "0.04182687828"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "2037.41696095628789067",
+                "amountOut": "0",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.062837223341189056"
+                ],
+                "filled": false,
+                "exhaustedReason": "wMIXUx->USDG:observed_range_end"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "4074.833921912575781341",
+                "amountOut": "0",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.062837223341189056"
+                ],
+                "filled": false,
+                "exhaustedReason": "wMIXUx->USDG:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "10187.084804781439453353",
+                "amountOut": "0",
+                "midPrice": "24.540877472882063397689408506765",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.062837223341189056"
+                ],
+                "filled": false,
+                "exhaustedReason": "wMIXUx->USDG:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "2885.880126",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "6123.161132",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "19192.289062",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "2885.880126",
+        "C_1": "6123.161132",
+        "C_3": "19192.289062",
+        "C_1_simulated": "6123.161132",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.002057723266195853"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.008240359378592927"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.015862279849893942"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.041538943368505774"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "6123.161132",
+          "quoted": "6154.328904",
+          "delta": "0.005064365666213019",
+          "flag": false,
+          "used": "6123.161132"
+        }
+      },
+      "capacity": {
+        "LT": "0.5",
+        "carryLTV": "0.4",
+        "sessionMaxLTV": "0.45",
+        "stressLTVWeak": "0.723780378956394006",
+        "stressLTVCure": "0.723780378956394006",
+        "debtCeiling": "4592.370849",
+        "maxPositionDebt": "1530.790283",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "19.3904",
+        "horizonHoursCure": "1.3904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.160976118869839699",
+        "gapQuantileCure": "0.160976118869839699",
+        "volScaler": "1.057902828936402331",
+        "impactAtReferenceSize": "0.0159225295",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": false,
+        "seriesDigest": "0x0d812096cfe0c59eee2f6e3721055055597aa57d6748b28f0c00a157982559f8"
+      },
+      "inputsHash": "0x5343ae000d4a1534194fdea3a3fcf9f6900c94d16484accaf5c7b4d25f5e05a2",
+      "inputsCidV1Raw": "bafkreibbkw3ej2mdgcmcvftlkwvnbmtr2cur2avfcpot2o5q6t7rjwuf3a",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 10744,
+      "label": "Computed"
+    },
+    "KOx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0xdCC1a2699441079dA889B1F49e12B69cC791129b",
+      "assetSymbol": "KOx",
+      "underlying": {
+        "symbol": "KO",
+        "market": "XNYS",
+        "multiplier": "1.0225601246249238"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "REFERENCE_CLOSED",
+      "regimeInputs": {
+        "calendarSession": "CLOSED",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "PRE_OPEN",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T20:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-22T00:00:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T19:00:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.000203840619378656",
+        "rule": 6,
+        "reason": "underlying market is not in any session",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "88.2675",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:KO"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:KO"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "88.249507498128994494",
+          "label": "Observed",
+          "sources": [
+            "0x273DA512f76129ED59a2D93D68dFe198423a3114"
+          ],
+          "basis": "twap",
+          "twapWindowSec": 900
+        },
+        "creditMark": "86.916770468522919603",
+        "band": [
+          "86.047602763837690407",
+          "88.249507498128994494"
+        ],
+        "haircut": "0.015101920309689328",
+        "dispersion": "0.000203840619378656",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wKOx",
+              "USDG"
+            ],
+            "pools": [
+              "0x273DA512f76129ED59a2D93D68dFe198423a3114"
+            ],
+            "midPrice": "90.235713255396376528068633419454",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "11.082086725127059239",
+                "amountOut": "998.855722",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "90.132458513903918073879204121678",
+                "impact": "0.001144278",
+                "legImpacts": [
+                  "0.001144278"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "27.705216812817648097",
+                "amountOut": "2494.727153",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "90.045393611423745723329566876688",
+                "impact": "0.0021091388",
+                "legImpacts": [
+                  "0.0021091388"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "55.410433625635296195",
+                "amountOut": "4981.434478",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "89.900658631470625919387628760849",
+                "impact": "0.0037131044",
+                "legImpacts": [
+                  "0.0037131044"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "110.82086725127059239",
+                "amountOut": "9930.943693",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "89.61257874370351437039466548864",
+                "impact": "0.0069056307",
+                "legImpacts": [
+                  "0.0069056307"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "277.052168128176480977",
+                "amountOut": "24588.713857",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "88.751205316769738542631589688918",
+                "impact": "0.01645144572",
+                "legImpacts": [
+                  "0.01645144572"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "554.104336256352961954",
+                "amountOut": "48329.88348",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "87.221630147359967176412730545538",
+                "impact": "0.0334023304",
+                "legImpacts": [
+                  "0.0334023304"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "1108.208672512705923909",
+                "amountOut": "0",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.060698316124327111"
+                ],
+                "filled": false,
+                "exhaustedReason": "wKOx->USDG:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "2770.521681281764809773",
+                "amountOut": "0",
+                "midPrice": "90.235713255396376528068633419454",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.060698316124327111"
+                ],
+                "filled": false,
+                "exhaustedReason": "wKOx->USDG:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "7011.629882",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "14876.607421",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "45307.980468",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "7011.629882",
+        "C_1": "14876.607421",
+        "C_3": "45307.980468",
+        "C_1_simulated": "14876.607421",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.001144241025831279"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.003712919347156891"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.006905262628874295"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.016450521077000061"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "14876.607421",
+          "quoted": "14863.258634",
+          "delta": "0.000898106352631474",
+          "flag": false,
+          "used": "14876.607421"
+        }
+      },
+      "capacity": {
+        "LT": "0.65",
+        "carryLTV": "0.55",
+        "sessionMaxLTV": "0.6",
+        "stressLTVWeak": "0.863762157946140302",
+        "stressLTVCure": "0.863762157946140302",
+        "debtCeiling": "11157.455566",
+        "maxPositionDebt": "3719.151855",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "31.3904",
+        "horizonHoursCure": "12.8904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.042529979583532014",
+        "gapQuantileCure": "0.042529979583532014",
+        "volScaler": "0.924811432759057336",
+        "impactAtReferenceSize": "0.0069056307",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": true,
+        "seriesDigest": "0xdab7c28662e154d9dedc50ee0d258268e3e2c4e27377349f44d9e2a2ad892d6d"
+      },
+      "inputsHash": "0x53ef5d1b8773582308f62a6e8c141d99f0a53ec1b039974fb31eef4e394e8897",
+      "inputsCidV1Raw": "bafkreiajwz5rvoazc34p4q2tprkm4ichofd3e3snckhuyuxjn7uumoolfy",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 11068,
+      "label": "Computed"
+    },
+    "SHEINx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0x4d0ba049C430a7a80a61E7EBdF50b6dAac6c3Bd6",
+      "assetSymbol": "SHEINx",
+      "underlying": {
+        "symbol": "625",
+        "market": "XHKG",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "NORMAL",
+      "regimeInputs": {
+        "calendarSession": "REGULAR",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-21T08:10:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T07:30:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.002856666088633553",
+        "rule": 9,
+        "reason": "underlying open with adequate depth",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "4.835487028616511287",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:0625.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:0625.HK",
+            "yahoo:chart:HKD=X"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "4.821673656799835074",
+          "label": "Observed",
+          "sources": [
+            "0xF1ef85ce4691E94a32064b59E766c42183B44497"
+          ],
+          "basis": "spot",
+          "twapWindowSec": null
+        },
+        "creditMark": "4.802732516844916572",
+        "band": [
+          "4.754705191676467406",
+          "4.821673656799835074"
+        ],
+        "haircut": "0.003928333044316777",
+        "dispersion": "0.002856666088633553",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wSHEINx",
+              "USDG"
+            ],
+            "pools": [
+              "0xF1ef85ce4691E94a32064b59E766c42183B44497"
+            ],
+            "midPrice": "4.821673656799835073690849718099",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "207.396864901824187928",
+                "amountOut": "998.115211",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "4.81258581932990896935161140427",
+                "impact": "0.001884789",
+                "legImpacts": [
+                  "0.001884789"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "518.492162254560469821",
+                "amountOut": "2490.124605",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "4.80262728403103795077601533445",
+                "impact": "0.003950158",
+                "legImpacts": [
+                  "0.003950158"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "1036.984324509120939642",
+                "amountOut": "4963.125904",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "4.786114685339533439432746500714",
+                "impact": "0.0073748192",
+                "legImpacts": [
+                  "0.0073748192"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "2073.968649018241879284",
+                "amountOut": "9858.314825",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "4.753357689214177616452331330829",
+                "impact": "0.0141685175",
+                "legImpacts": [
+                  "0.0141685175"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "5184.92162254560469821",
+                "amountOut": "24172.778453",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "4.662129963139550808130894241166",
+                "impact": "0.03308886188",
+                "legImpacts": [
+                  "0.03308886188"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "10369.84324509120939642",
+                "amountOut": "0",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.049432712439149022"
+                ],
+                "filled": false,
+                "exhaustedReason": "wSHEINx->USDG:observed_range_end"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "20739.68649018241879284",
+                "amountOut": "0",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.049432712439149022"
+                ],
+                "filled": false,
+                "exhaustedReason": "wSHEINx->USDG:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "51849.216225456046982102",
+                "amountOut": "0",
+                "midPrice": "4.821673656799835073690849718099",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.049432712439149022"
+                ],
+                "filled": false,
+                "exhaustedReason": "wSHEINx->USDG:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "3265.124511",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "6924.933593",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "22520.445312",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "3265.124511",
+        "C_1": "6924.933593",
+        "C_3": "22520.445312",
+        "C_1_simulated": "6924.933593",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.001881075547545609"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.007356439411229899"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.014132462056475184"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.033004357637793148"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "6924.933593",
+          "quoted": "6950.672781",
+          "delta": "0.003703121814388862",
+          "flag": false,
+          "used": "6924.933593"
+        }
+      },
+      "capacity": {
+        "LT": "0.45",
+        "carryLTV": "0.35",
+        "sessionMaxLTV": "0.4",
+        "stressLTVWeak": "0.633836899503464837",
+        "stressLTVCure": "0.633836899503464837",
+        "debtCeiling": "5193.700195",
+        "maxPositionDebt": "1731.233398",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "19.3904",
+        "horizonHoursCure": "1.3904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.160976118869839699",
+        "gapQuantileCure": "0.160976118869839699",
+        "volScaler": "1.627536959121097107",
+        "impactAtReferenceSize": "0.0141685175",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": false,
+        "seriesDigest": "0xb367b98aa3999bb3a102f7953e2563b9d85bcf7208e0819766e93f44649230e0"
+      },
+      "inputsHash": "0x29919f416937544a19a11be8ac9d68908a8100ba61717a0eb6e20b3b1ba3d145",
+      "inputsCidV1Raw": "bafkreieun32rmjbg6ywsqmef7g5qbjvhhryie4gev2vfrjvvzmlkadzhyy",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 17527,
+      "label": "Computed"
+    },
+    "BMNRx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0xaeB681B69E5094E04d11BCeF51A71358A374C3ED",
+      "assetSymbol": "BMNRx",
+      "underlying": {
+        "symbol": "BMNR",
+        "market": "XNYS",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "REFERENCE_CLOSED",
+      "regimeInputs": {
+        "calendarSession": "CLOSED",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "PRE_OPEN",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T20:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-22T00:00:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T19:00:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.010160838728054608",
+        "rule": 6,
+        "reason": "underlying market is not in any session",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "26.275",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:BMNR"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:BMNR"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "26.541976037579634837",
+          "label": "Observed",
+          "sources": [
+            "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b -> 0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5"
+          ],
+          "basis": "spot",
+          "twapWindowSec": null
+        },
+        "creditMark": "25.747386981210182582",
+        "band": [
+          "25.489913111398080756",
+          "26.275"
+        ],
+        "haircut": "0.020080419364027304",
+        "dispersion": "0.010160838728054608",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wBMNRx",
+              "xETH",
+              "USDG"
+            ],
+            "pools": [
+              "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b",
+              "0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5"
+            ],
+            "midPrice": "26.541976037579634836567990360248",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "37.676169949974458994",
+                "amountOut": "998.222847",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "26.494806885238522075984656142145",
+                "impact": "0.001777153",
+                "legImpacts": [
+                  "0.000985204724535032",
+                  "0.000792729276093052"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "94.190424874936147485",
+                "amountOut": "2492.647523",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "26.463916330239292676451422041525",
+                "impact": "0.0029409908",
+                "legImpacts": [
+                  "0.001712129173815996",
+                  "0.001230969204471048"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "188.380849749872294971",
+                "amountOut": "4975.627335",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "26.412596299499243666493721417126",
+                "impact": "0.004874533",
+                "legImpacts": [
+                  "0.00292115229539242",
+                  "0.001959103544423283"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "376.761699499744589942",
+                "amountOut": "9912.808631",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "26.310552914911458455840226946075",
+                "impact": "0.0087191369",
+                "legImpacts": [
+                  "0.005330364365850813",
+                  "0.003406932726953792"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "941.904248749361474857",
+                "amountOut": "24494.480694",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "26.005276785324199359683697057638",
+                "impact": "0.02022077224",
+                "legImpacts": [
+                  "0.01263489825683721",
+                  "0.007682947239850955"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "1883.808497498722949714",
+                "amountOut": "47998.345231",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "25.479418579293534850818242751004",
+                "impact": "0.04003309538",
+                "legImpacts": [
+                  "0.025834688729446826",
+                  "0.014574945839566932"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "3767.616994997445899429",
+                "amountOut": "0",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.055528212797381373"
+                ],
+                "filled": false,
+                "exhaustedReason": "wBMNRx->xETH:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "9419.042487493614748573",
+                "amountOut": "0",
+                "midPrice": "26.541976037579634836567990360248",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.055528212797381373"
+                ],
+                "filled": false,
+                "exhaustedReason": "wBMNRx->xETH:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "5162.598632",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "11665.480468",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "37670.283203",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [
+          {
+            "path": [
+              "wBMNRx",
+              "USDG"
+            ],
+            "pools": [
+              "0xf05577E469d04Cc8FD84A79C1fE5661b3394cC0e"
+            ],
+            "reason": "dust: C(1%) 6.550734 below minVenueC1 100"
+          }
+        ],
+        "fragmentationFactor": "1",
+        "C_0_5": "5162.598632",
+        "C_1": "11665.480468",
+        "C_3": "37670.283203",
+        "C_1_simulated": "11665.480468",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.000654924764268606"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.002691209124313133"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.005182492703628345"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.013564070950162189"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "11665.480468",
+          "quoted": "18621.599336",
+          "delta": "0.373551097437273312",
+          "flag": true,
+          "used": "11665.480468"
+        }
+      },
+      "capacity": {
+        "LT": "0.4",
+        "carryLTV": "0.3",
+        "sessionMaxLTV": "0.35",
+        "stressLTVWeak": "0.529046985204756677",
+        "stressLTVCure": "0.529046985204756677",
+        "debtCeiling": "8749.110351",
+        "maxPositionDebt": "2916.370117",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "31.3904",
+        "horizonHoursCure": "12.8904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.371646048659502816",
+        "gapQuantileCure": "0.371646048659502816",
+        "volScaler": "1.001581691068318254",
+        "impactAtReferenceSize": "0.0087191369",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": false,
+        "seriesDigest": "0xc3737042dc1e6e1a2af2ab190a60d1e54a9b704dc861c1e781d83f5fc1fcad30"
+      },
+      "inputsHash": "0xfe2b995c6f84ed26d457d03e9bd250d16cc8751c46d8939bcddbf12260a84c56",
+      "inputsCidV1Raw": "bafkreigfevlbgotiqa64bl27jdlyefutq2gpuxwje7e7tefnzezgr5ugzy",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 21277,
+      "label": "Computed"
+    },
+    "SLVx": {
+      "kts": "0.1",
+      "engineVersion": "kerb-engine@0.1.0",
+      "paramsVersion": "2026-09-20.2",
+      "chainId": 196,
+      "asset": "0x4833e7f4f0460f4B72A3a5879A6C9841bCC5B58B",
+      "assetSymbol": "SLVx",
+      "underlying": {
+        "symbol": "SLV",
+        "market": "ARCX",
+        "multiplier": "1"
+      },
+      "observedAt": "2026-09-21T06:06:34.736Z",
+      "regime": "REFERENCE_CLOSED",
+      "regimeInputs": {
+        "calendarSession": "CLOSED",
+        "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
+        "nextTransition": {
+          "type": "PRE_OPEN",
+          "at": "2026-09-21T08:00:00.000Z"
+        },
+        "nextWeakening": {
+          "type": "SESSION_CLOSE",
+          "at": "2026-09-21T20:00:00.000Z"
+        },
+        "nextReferenceClosed": {
+          "type": "POST_CLOSE",
+          "at": "2026-09-22T00:00:00.000Z"
+        },
+        "cureWindowOpensAt": "2026-09-21T19:00:00.000Z",
+        "cureWindowOpen": false,
+        "sourceMaxAgeSec": 16,
+        "dispersion": "0.000801503891488973",
+        "rule": 6,
+        "reason": "underlying market is not in any session",
+        "asymmetry": {
+          "carryLTV": "held",
+          "sessionMaxLTV": "held",
+          "debtCeiling": "held"
+        }
+      },
+      "mark": {
+        "reference": {
+          "value": "59.8425",
+          "label": "Observed",
+          "sources": [
+            "xstocks:price-data",
+            "yahoo:chart:SLV"
+          ],
+          "usedSources": [
+            "xstocks:price-data",
+            "yahoo:chart:SLV"
+          ],
+          "excluded": []
+        },
+        "pool": {
+          "value": "59.890463996626428867",
+          "label": "Observed",
+          "sources": [
+            "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6 -> 0xbB9a35F790EA6eA9763b99e885f33BCF95860d40"
+          ],
+          "basis": "spot",
+          "twapWindowSec": null
+        },
+        "creditMark": "58.920880501686785567",
+        "band": [
+          "58.331671696669917711",
+          "59.8425"
+        ],
+        "haircut": "0.015400751945744487",
+        "dispersion": "0.000801503891488973",
+        "dispersionBreach": false,
+        "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
+      },
+      "depth": {
+        "venues": [
+          {
+            "path": [
+              "wSLVx",
+              "USDC",
+              "USDG"
+            ],
+            "pools": [
+              "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6",
+              "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40"
+            ],
+            "midPrice": "59.890463996626428866753971610525",
+            "curve": [
+              {
+                "notional": "1000",
+                "amountIn": "16.69714898278846228",
+                "amountOut": "997.508407",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "59.74124133576568243417808802553",
+                "impact": "0.002491593",
+                "legImpacts": [
+                  "0.002390892078592016",
+                  "0.000100942263466101"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "2500",
+                "amountIn": "41.7428724569711557",
+                "amountOut": "2486.706683",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "59.572006827352732048152596314007",
+                "impact": "0.0053173268",
+                "legImpacts": [
+                  "0.005215513340818852",
+                  "0.000102347252642702"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "5000",
+                "amountIn": "83.485744913942311401",
+                "amountOut": "4949.864146",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "59.289932084841005041197225469588",
+                "impact": "0.0100271708",
+                "legImpacts": [
+                  "0.009923537506939671",
+                  "0.000104672009674258"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "10000",
+                "amountIn": "166.971489827884622803",
+                "amountOut": "9806.42859",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "58.731155840488307558981683760397",
+                "impact": "0.019357141",
+                "legImpacts": [
+                  "0.019249988623538505",
+                  "0.000109255544449201"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "25000",
+                "amountIn": "417.428724569711557008",
+                "amountOut": "23627.96307",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "56.603586862298154634041295707085",
+                "impact": "0.0548814772",
+                "legImpacts": [
+                  "0.054765874430301262",
+                  "0.000122300672998939"
+                ],
+                "filled": true,
+                "exhaustedReason": "none"
+              },
+              {
+                "notional": "50000",
+                "amountIn": "834.857449139423114016",
+                "amountOut": "0",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.104139770445709168"
+                ],
+                "filled": false,
+                "exhaustedReason": "wSLVx->USDC:observed_range_end"
+              },
+              {
+                "notional": "100000",
+                "amountIn": "1669.714898278846228033",
+                "amountOut": "0",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.104139770445709168"
+                ],
+                "filled": false,
+                "exhaustedReason": "wSLVx->USDC:observed_range_end"
+              },
+              {
+                "notional": "250000",
+                "amountIn": "4174.287245697115570084",
+                "amountOut": "0",
+                "midPrice": "59.890463996626428866753971610525",
+                "realisedPrice": "0",
+                "impact": "1",
+                "legImpacts": [
+                  "0.104139770445709168"
+                ],
+                "filled": false,
+                "exhaustedReason": "wSLVx->USDC:observed_range_end"
+              }
+            ],
+            "C_0_5": {
+              "impact": "0.005",
+              "notional": "2331.448486",
+              "censored": false
+            },
+            "C_1": {
+              "impact": "0.01",
+              "notional": "4985.553222",
+              "censored": false
+            },
+            "C_3": {
+              "impact": "0.03",
+              "notional": "15804.979492",
+              "censored": false
+            }
+          }
+        ],
+        "excluded": [],
+        "fragmentationFactor": "1",
+        "C_0_5": "2331.448486",
+        "C_1": "4985.553222",
+        "C_3": "15804.979492",
+        "C_1_simulated": "4985.553222",
+        "quoteCurve": [
+          {
+            "notional": "1000",
+            "impact": "0.002488997956416328"
+          },
+          {
+            "notional": "5000",
+            "impact": "0.010019445215389051"
+          },
+          {
+            "notional": "10000",
+            "impact": "0.019343215434976169"
+          },
+          {
+            "notional": "25000",
+            "impact": "0.054810384934625579"
+          }
+        ],
+        "censored": false,
+        "crosscheck": {
+          "source": "okx-dex:v6-quote",
+          "simulated": "4985.553222",
+          "quoted": "4989.671149",
+          "delta": "0.000825290260025511",
+          "flag": false,
+          "used": "4985.553222"
+        }
+      },
+      "capacity": {
+        "LT": "0.65",
+        "carryLTV": "0.55",
+        "sessionMaxLTV": "0.6",
+        "stressLTVWeak": "0.775874545371720993",
+        "stressLTVCure": "0.775874545371720993",
+        "debtCeiling": "3739.164916",
+        "maxPositionDebt": "1246.388306",
+        "coverageRatioAtCeiling": "1.333333",
+        "clamped": []
+      },
+      "stress": {
+        "horizonHoursWeak": "31.3904",
+        "horizonHoursCure": "12.8904",
+        "sessionsWeak": 1,
+        "sessionsCure": 1,
+        "quantile": "0.99",
+        "gapQuantileWeak": "0.07051656368544541",
+        "gapQuantileCure": "0.07051656368544541",
+        "volScaler": "1.627536959121097107",
+        "impactAtReferenceSize": "0.019357141",
+        "liquidationBonus": "0.07",
+        "buffer": "0.02",
+        "historySufficient": true,
+        "seriesDigest": "0xd3ac47b0fe94270d8bb363ec5721509f63201e467a444a530de89a6b0c779c1a"
+      },
+      "inputsHash": "0x7983b56f7e9b87038c8906e58fa5fae363c0d037f2c151f7f2a86926183bbf79",
+      "inputsCidV1Raw": "bafkreigqteycrlf2ewxcmsr5aq4qifixcqeldsvettlvizaodl3qtlywei",
+      "provenance": {
+        "label": "Computed",
+        "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
+      },
+      "bundleBytes": 12138,
+      "label": "Computed"
+    }
+  },
+  "note": "Captured 21 Sep 06:07 UTC, before the US pre-market opens at 08:00 and the regular session at 13:30. This is the end of the weekend closure, NOT the X Liquidity campaign end, which falls on 24 Sep 07:00 UTC."
+}

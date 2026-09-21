@@ -109,11 +109,11 @@ try {
    * own snapshots, folded in here rather than recomputed, so the report cannot quietly disagree
    * with the file the comparison was written from.
    */
-  const comparisonPath = resolve(repoRoot(), "data/campaign/comparison.json");
+  const comparisonPath = resolve(repoRoot(), "data/windows/comparison.json");
   const campaign = existsSync(comparisonPath)
     ? (JSON.parse(readFileSync(comparisonPath, "utf8")) as {
-        before: { capturedAt: string };
-        after: { capturedAt: string };
+        before: { capturedAt: string; label?: string };
+        after: { capturedAt: string; label?: string };
         rows: Record<string, unknown>[];
         summary: { statement: string; assets: number; depthMovedAtLeastOnePercent: number; regimeChanges: number };
       })
@@ -165,7 +165,7 @@ try {
       },
       ...(campaign
         ? [{
-            claim: `Across the end of the X Liquidity campaign, ${campaign.summary.statement}`,
+            claim: `Between the ${campaign.before.label ?? "first"} and ${campaign.after.label ?? "second"} captures, ${campaign.summary.statement}`,
             evidence: `Engine snapshots of all ${campaign.summary.assets} assets at ${campaign.before.capturedAt} and ${campaign.after.capturedAt}, comparing executable depth at 1% and 3%, the Credit Mark, the regime and the published debt ceiling.`,
           }]
         : []),

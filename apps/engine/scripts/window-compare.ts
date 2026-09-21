@@ -1,5 +1,9 @@
 /**
- * The campaign-end comparison for Market-Time Report #1.
+ * Compare two captured snapshots of the whole engine, for Market-Time Report #1.
+ *
+ * The window is whatever the two snapshots say it is. This script never assumes which event it is
+ * measuring: the labels come from the captures, so a Monday open and a campaign cliff cannot be
+ * confused with each other in the published report.
  *
  * Takes two captured snapshots and reports, per asset, what actually changed: executable depth at
  * 1% and 3%, the Credit Mark, the regime, and the terms Kerb published in response. If nothing
@@ -91,7 +95,7 @@ const out = {
   },
 };
 
-const path = resolve(repoRoot(), "data/campaign/comparison.json");
+const path = resolve(repoRoot(), "data/windows/comparison.json");
 writeFileSync(path, `${JSON.stringify(out, null, 2)}\n`);
 
 console.log(`${before.capturedAt}  ->  ${after.capturedAt}`);

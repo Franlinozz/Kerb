@@ -5,7 +5,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 label="${1:-snapshot}"
 stamp=$(date -u +%Y-%m-%dT%H-%M-%SZ)
-out="data/campaign/${label}-${stamp}.json"
+out="data/windows/${label}-${stamp}.json"
 assets=$(python3 -c "import json;d=json.load(open('config/assets.json'));print(' '.join(a['symbol'] for a in d['assets'] if a.get('status')=='resolved'))")
 echo "{" > "$out"
 echo "  \"label\": \"${label}\"," >> "$out"

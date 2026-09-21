@@ -4,8 +4,8 @@
 # window is that the record is continuous through it.
 set -uo pipefail
 cd "$(dirname "$0")/.."
-log=data/campaign/watch.log
-mkdir -p data/campaign
+log=data/windows/watch.log
+mkdir -p data/windows
 until [ "$(date -u +%H%M)" \> "0900" ]; do
   now=$(date -u +%Y-%m-%dT%H:%M:%SZ)
   health=$(curl -s -m 20 http://127.0.0.1:8710/health | python3 -c "
