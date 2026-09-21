@@ -46,7 +46,7 @@ async function main(): Promise<void> {
         const res = await page.goto(`${BASE}${r.path}`, { waitUntil: "networkidle", timeout: 60_000 }).catch(() => null);
         await page.waitForTimeout(600);
         const facts = await page.evaluate(() => ({
-          theme: document.documentElement.getAttribute("data-theme"),
+          appliedTheme: document.documentElement.getAttribute("data-theme"),
           overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth,
           font: getComputedStyle(document.body).fontFamily.split(",")[0],
           fontReady: document.fonts.check('500 16px "General Sans"') || [...document.fonts].some((f) => f.status === "loaded" && /general/i.test(f.family)),
@@ -64,7 +64,7 @@ async function main(): Promise<void> {
   writeFileSync(resolve(OUT, "report.json"), JSON.stringify(report, null, 1));
   for (const x of report) {
     const bad = (x["status"] !== 200 && x["route"] !== "/no-such-page") || (x["overflowX"] as number) > 0 || (x["errors"] as string[]).length > 0;
-    console.log(`${bad ? "!!" : "ok"} ${String(x["route"]).padEnd(14)} ${x["theme"]}/${x["width"]} status=${x["status"]} theme=${x["theme"]} overflowX=${x["overflowX"]} font=${x["font"]} ready=${x["fontReady"]} ${(x["errors"] as string[]).join(" | ").slice(0, 160)}`);
+    console.log(`${bad ? "!!" : "ok"} ${String(x["route"]).padEnd(14)} ${x["theme"]}/${x["width"]} status=${x["status"]} applied=${x["appliedTheme"]} overflowX=${x["overflowX"]} font=${x["font"]} ready=${x["fontReady"]} ${(x["errors"] as string[]).join(" | ").slice(0, 160)}`);
   }
 }
 
