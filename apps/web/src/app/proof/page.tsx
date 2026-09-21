@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SourceTrouble } from "@/components/States";
 import { getProof, PUBLIC_API } from "@/lib/api";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
+import { PageStrip } from "@/components/PageStrip";
 
 export const metadata: Metadata = { title: "Proof" };
 export const dynamic = "force-dynamic";
@@ -20,6 +21,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
 
   return (
     <>
+      <PageStrip />
       <h1>Proof</h1>
       <p className="lede">
         Everything here is read from live state when this page loads: the repository, the chain, the observation

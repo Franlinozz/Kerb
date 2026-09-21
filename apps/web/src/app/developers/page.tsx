@@ -4,6 +4,7 @@ import { Prov } from "@/components/Value";
 import { SourceTrouble } from "@/components/States";
 import { getBoard, getCreditMarket, getProof, PUBLIC_API } from "@/lib/api";
 import { shortHash } from "@/lib/format";
+import { PageStrip } from "@/components/PageStrip";
 
 export const metadata: Metadata = { title: "Developers" };
 export const dynamic = "force-dynamic";
@@ -58,6 +59,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
 
   return (
     <>
+      <PageStrip />
       <h1>Developers</h1>
       <p className="lede">
         Kerb Terms are published on chain and over a public read API, so another lender, curator or venue

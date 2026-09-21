@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SourceTrouble } from "@/components/States";
 import { getMarketTimeIndex } from "@/lib/api";
 import { group, utcStamp } from "@/lib/format";
+import { PageStrip } from "@/components/PageStrip";
 
 export const metadata: Metadata = { title: "Reports" };
 export const dynamic = "force-dynamic";
@@ -12,6 +13,7 @@ export default async function ReportsIndex(): Promise<React.ReactElement> {
 
   return (
     <>
+      <PageStrip />
       <h1>Market-Time Reports</h1>
       <p className="lede">
         Measured write-ups of what market time does to executable liquidity, generated from the observation store.

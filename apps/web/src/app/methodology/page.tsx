@@ -5,6 +5,7 @@ import { Field, Prov, Value } from "@/components/Value";
 import { SourceTrouble } from "@/components/States";
 import { getBoard, getClock, getParams, getReport, getTerms, type Regime } from "@/lib/api";
 import { byDecimalDesc, duration, group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
+import { PageStrip } from "@/components/PageStrip";
 
 export const metadata: Metadata = { title: "Methodology" };
 export const dynamic = "force-dynamic";
@@ -26,6 +27,7 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
 
   return (
     <>
+      <PageStrip />
       <h1>Methodology</h1>
       <p className="lede">
         The Kerb Terms Standard, version 0.1, is the rulebook that turns observations into credit terms. This page

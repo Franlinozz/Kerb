@@ -5,6 +5,7 @@ import { SourceTrouble } from "@/components/States";
 import { Prov } from "@/components/Value";
 import { explorerAddress, getMarketTimeReport } from "@/lib/api";
 import { group, round, shortHash, utcStamp } from "@/lib/format";
+import { PageStrip } from "@/components/PageStrip";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
 
   return (
     <>
+      <PageStrip />
       <div className="rowbar">
         <h1>Market-Time Report #{r.id}</h1>
         <span className="faint">generated {utcStamp(r.generatedAt)}</span>
