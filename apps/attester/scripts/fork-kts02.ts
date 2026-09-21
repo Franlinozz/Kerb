@@ -34,7 +34,7 @@ const symbols = arg("symbols", "KOx,HKEXCx,SLVx").split(",");
 const params = loadParams();
 if (params.kts !== "0.2") throw new Error("run the fork test on the KTS-0.2 parameter file");
 const chain = { id: 196, name: "X Layer (anvil fork)", nativeCurrency: { name: "OKB", symbol: "OKB", decimals: 18 }, rpcUrls: { default: { http: [rpc] } } } as const;
-const pub = createPublicClient({ chain, transport: http(rpc) });
+const pub = createPublicClient({ chain, transport: http(rpc), pollingInterval: 250 });
 const test = createTestClient({ chain, transport: http(rpc), mode: "anvil" });
 if ((await pub.getChainId()) !== 196) throw new Error("the fork is not of X Layer mainnet (chain 196)");
 
@@ -76,6 +76,7 @@ console.log(`series: ${series.length} reports across ${symbols.join(", ")}`);
 const head = await pub.getBlock();
 const shift = Number(head.timestamp) + 120 - Math.floor((series[0]?.atMs ?? endMs) / 1000);
 let posted = 0;
+let transportRetries = 0;
 const reverts: { symbol: string; at: string; error: string }[] = [];
 const clampCounts: Record<string, number> = {};
 const perAsset: Record<string, { first?: { carry: string; session: string }; last?: { carry: string; session: string }; carryValues: Set<string>; loosenings: number }> = {};
@@ -103,7 +104,16 @@ for (const item of series) {
   lastBlockTs = blockTs;
   const pa = (perAsset[item.symbol] ??= { carryValues: new Set(), loosenings: 0 });
   try {
-    const hash = await poster.writeContract({ address: termsAddr, abi, functionName: "postTerms", args: [id, t, sig], gas: 600_000n });
+    // anvil answers -32603 when its lazy fetch from the upstream RPC fails; that is the fork's
+    // transport, not the contract, so it is retried once. A contract revert is never retried.
+    const send = () => poster.writeContract({ address: termsAddr, abi, functionName: "postTerms", args: [id, t, sig], gas: 600_000n });
+    let hash: Hex;
+    try { hash = await send(); } catch (e) {
+      if (!String(e).includes("internal error")) throw e;
+      transportRetries++;
+      await test.setNextBlockTimestamp({ timestamp: BigInt(blockTs) });
+      hash = await send();
+    }
     const r = await pub.waitForTransactionReceipt({ hash });
     if (r.status !== "success") throw new Error(`reverted in ${hash}`);
     posted++;
@@ -122,7 +132,7 @@ const result = {
   fork: { rpc, headBlock: head.number.toString(), headTimestamp: head.timestamp.toString(), terms: termsAddr },
   window: { from: new Date(startMs).toISOString(), to: new Date(endMs).toISOString(), stepMinutes: stepMin },
   paramsVersion: params.paramsVersion,
-  reports: series.length, posted, reverts: reverts.length, revertDetail: reverts.slice(0, 20), clampCounts,
+  reports: series.length, posted, reverts: reverts.length, transportRetries, revertDetail: reverts.slice(0, 20), clampCounts,
   perAsset: Object.fromEntries(Object.entries(perAsset).map(([k, v]) => [k, { first: v.first, last: v.last, distinctCarryValues: v.carryValues.size, loosenings: v.loosenings }])),
 };
 writeFileSync(resolve(repoRoot(), "data/reports/kts-0.2-fork.json"), JSON.stringify(result, null, 1) + "\n");

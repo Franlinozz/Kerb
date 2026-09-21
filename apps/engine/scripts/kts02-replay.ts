@@ -124,7 +124,7 @@ const CARRY = "#2a6fdb", SESSION = "#d9730d";
 const x = (ms: number) => PAD.l + ((ms - startMs) / (endMs - startMs)) * (W - PAD.l - PAD.r);
 let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" font-family="system-ui, sans-serif" font-size="11">\n<rect width="${W}" height="${H}" fill="#fbfbf9"/>\n`;
 svg += `<text x="${PAD.l}" y="18" font-size="13" font-weight="600" fill="#1d232b">KTS-0.2 replay: Carry and Session Max over ${hours} h of real observations (0.1 dashed)</text>\n`;
-svg += `<g transform="translate(${W - 330},10)"><rect width="12" height="3" y="4" fill="${CARRY}"/><text x="16" y="10" fill="#1d232b">Carry 0.2</text><rect x="86" width="12" height="3" y="4" fill="${SESSION}"/><text x="102" y="10" fill="#1d232b">Session Max 0.2</text><rect x="202" width="12" height="10" fill="#e3e7ed"/><text x="218" y="10" fill="#1d232b">Reference closed</text></g>\n`;
+svg += `<g transform="translate(${PAD.l},26)"><rect width="12" height="3" y="4" fill="${CARRY}"/><text x="16" y="10" fill="#1d232b">Carry 0.2</text><rect x="86" width="12" height="3" y="4" fill="${SESSION}"/><text x="102" y="10" fill="#1d232b">Session Max 0.2</text><rect x="202" width="12" height="10" fill="#e3e7ed"/><text x="218" y="10" fill="#1d232b">Reference closed</text></g>\n`;
 symbols.forEach((s, i) => {
   const ps = points.filter((p) => p.symbol === s && p.source === "rebuilt");
   const top = 40 + i * (PH + 18);
