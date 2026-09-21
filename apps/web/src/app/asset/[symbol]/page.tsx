@@ -93,10 +93,25 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
               </div>
             </Field>
             <Field label="Input bundle">
-              <span className="mono">{shortHash(terms.data.inputsHash, 10, 8)}</span>
+              {terms.data.bundle.url ? (
+                <a className="mono" href={terms.data.bundle.url} target="_blank" rel="noreferrer">
+                  {shortHash(terms.data.inputsHash, 10, 8)}
+                </a>
+              ) : (
+                <span className="mono">{shortHash(terms.data.inputsHash, 10, 8)}</span>
+              )}
               <div className="faint field-note">
-                The keccak256 of the canonical inputs, posted with the report. Recompute it with{" "}
-                <span className="mono">kerb verify</span>.
+                The keccak256 of the canonical inputs, posted on chain with the report.{" "}
+                {terms.data.bundle.url ? (
+                  <>
+                    Every number above is computed from{" "}
+                    <a href={terms.data.bundle.url} target="_blank" rel="noreferrer">these exact bytes</a>, pinned
+                    to IPFS. Recompute them yourself:{" "}
+                  </>
+                ) : (
+                  <>The bundle is not pinned for this report. Recompute it locally: </>
+                )}
+                <span className="mono">{terms.data.bundle.verifyCommand}</span>
               </div>
             </Field>
           </dl>

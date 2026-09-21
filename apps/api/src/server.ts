@@ -128,6 +128,20 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       SELECT observed_at, regime, carry_ltv, session_max_ltv, debt_ceiling, executable_depth1, credit_mark, tx_hash
       FROM terms_reports WHERE chain_id = ${chainId} AND lower(asset_id) = ${id} ORDER BY observed_at DESC LIMIT 50`;
 
+    // The pinned bundle behind this report, so a reader can go from a number to its exact inputs.
+    const [pin] = await deps.sql<{ bundle_cid: string | null; pin_status: string | null }[]>`
+      SELECT bundle_cid, pin_status FROM terms_posts
+      WHERE chain_id = ${chainId} AND lower(inputs_hash) = lower(${r.inputs_hash})
+      ORDER BY ts DESC LIMIT 1`;
+    const bundle = {
+      cid: pin?.bundle_cid ?? null,
+      pinStatus: pin?.pin_status ?? null,
+      url: pin?.bundle_cid && pin.pin_status === "pinned"
+        ? `https://gateway.pinata.cloud/ipfs/${pin.bundle_cid}`
+        : null,
+      verifyCommand: `pnpm --filter @kerb/engine kerb verify ${r.inputs_hash}`,
+    };
+
     const ageSec = Math.round((now() - new Date(r.observed_at).getTime()) / 1000);
     const assetCfg = loadAssets();
     const loanAsset = assetCfg.loanAsset;
@@ -149,6 +163,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       executableDepth1: { raw: r.executable_depth1, decimals: loanDecimals, label: "Attested" },
       loanAsset: { symbol: loanAsset, decimals: loanDecimals },
       inputsHash: r.inputs_hash,
+      bundle,
       tx: r.tx_hash,
       contracts: contractsFor(chainId),
       history: history.map((h) => ({

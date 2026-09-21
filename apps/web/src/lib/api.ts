@@ -106,6 +106,7 @@ export interface Terms {
   executableDepth1: RawValue;
   loanAsset: { symbol: string; decimals: number };
   inputsHash: string;
+  bundle: { cid: string | null; pinStatus: string | null; url: string | null; verifyCommand: string };
   tx: string;
   contracts: { clock?: string; terms?: string };
   history: { observedAt: string; regime: Regime; carryLTV: string; sessionMaxLTV: string; debtCeiling: string; executableDepth1: string; creditMark: string; tx: string }[];
