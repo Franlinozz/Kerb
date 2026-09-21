@@ -72,6 +72,9 @@ module.exports = {
       error_file: "/root/.kerb/logs/api.err.log",
     },
     {
+      // Live site. Still served from this checkout until the operator approves moving it onto a
+      // release directory (PROJECT_STATE.md, "V2 cutover"); then cwd becomes
+      // /root/kerb-deploy/live/current/apps/web and scripts/deploy-web.sh owns it.
       name: "kerb-web",
       cwd: __dirname + "/apps/web",
       script: "node_modules/next/dist/bin/next",
@@ -88,6 +91,25 @@ module.exports = {
       time: true,
       out_file: "/root/.kerb/logs/web.out.log",
       error_file: "/root/.kerb/logs/web.err.log",
+    },
+    {
+      // V2 staging at v2.usekerb.xyz. Same app, same public API, its own release directory.
+      name: "kerb-web-v2",
+      cwd: "/root/kerb-deploy/staging/current/apps/web",
+      script: "node_modules/next/dist/bin/next",
+      args: "start -p 3301",
+      interpreter: "node",
+      interpreter_args: `--env-file=${process.env.KERB_WEB_V2_ENV_FILE || "/root/.kerb/web-v2.env"}`,
+      autorestart: true,
+      restart_delay: 5000,
+      exp_backoff_restart_delay: 2000,
+      max_restarts: 300,
+      min_uptime: 20000,
+      kill_timeout: 10000,
+      max_memory_restart: "700M",
+      time: true,
+      out_file: "/root/.kerb/logs/web-v2.out.log",
+      error_file: "/root/.kerb/logs/web-v2.err.log",
     },
     {
       name: "kerb-mirror-relay",

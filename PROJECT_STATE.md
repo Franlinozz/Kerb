@@ -1,7 +1,92 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 21 Sep 2026. Phases 0-6 complete and evidenced. Phase 7 is dated 24 Sep; its undated items are done and its dated ones are scheduled.
+Last updated: 21 Sep 2026. V1 phases 0-6 complete and evidenced. V2 started 21 Sep: see the V2 section directly below.
+
+---
+
+## V2 (21 to 25 Sep 2026)
+
+V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2). Plan: `docs/v2/V2-BUILD-PROMPTS.md`; rules: AGENTS.md section 12. One agent (Claude Code) runs both the backend and the frontend lane, by operator instruction.
+
+### Phases
+
+| Phase | Lane | Status |
+|---|---|---|
+| V2-K Kickoff and staging | backend | done 21 Sep: docs committed, staging built and served on 3301; public hostname waits on the `v2` DNS record |
+| V2-00 Repo hygiene, CI, verification | backend | not started |
+| V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | not started |
+| V2-02 API support for V2 | backend | not started |
+| V2-03 Art batch and brand assets | backend + operator pick | not started |
+| V2-04 Kerbstone foundation and app shell | frontend | not started |
+| V2-05 Time components | frontend | not started |
+| V2-06 Home | frontend | not started |
+| V2-07 Board and Asset | frontend | not started |
+| V2-08 Credit, the hero workflow | both | not started |
+| V2-09 Research and Report #2 | both | not started |
+| V2-10 Methodology, Proof, Developers | frontend | not started |
+| V2-11 Hardening and cutover (freeze Thu 24 Sep 20:00 UTC) | both | not started |
+| V2-12 Certification, video, submission | both + operator | not started |
+
+### Operator decisions owed
+
+| Decision | Needed by | Answer |
+|---|---|---|
+| DNS: A record `v2.usekerb.xyz` -> 62.171.182.75 (staging) | now | |
+| Move the live site onto release directories (see V2 cutover, step 0) | before any live web deploy | |
+| Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | |
+| KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | |
+| Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | |
+| Mirror LT: align or explain (V2-00) | V2-00 | |
+| Demo position keeper with a fresh testnet-only wallet (V2-08) | Wed 23 Sep | |
+| Video: operator's voice or captions only (V2-12) | Fri 25 Sep | |
+
+### Requests
+
+One agent asking the other lane for something. One line each.
+
+| Date | From | To | Request | Status |
+|---|---|---|---|---|
+
+### V2 cutover
+
+Web builds never happen in a directory a live process serves from. `scripts/deploy-web.sh` builds each release in its own git worktree under `/root/kerb-deploy/<target>/releases/`, starts it on a spare port (`PORT + 9`) and checks `/`, `/board`, `/proof` and a stylesheet, and only then moves the `current` link and restarts the process. A failed build removes its own worktree and leaves the running site untouched. The previous release stays linked as `previous`.
+
+| Target | Host | PM2 process | Port | Served from |
+|---|---|---|---|---|
+| staging | v2.usekerb.xyz (noindex) | kerb-web-v2 | 3301 | /root/kerb-deploy/staging/current/apps/web |
+| live | usekerb.xyz, www.usekerb.xyz | kerb-web | 3300 | /root/kerb/apps/web today; /root/kerb-deploy/live/current/apps/web after step 0 |
+
+Staging deploy (any time):
+
+```
+bash scripts/deploy-web.sh staging main
+```
+
+Step 0, one time, moves the live site onto release directories (a few seconds of restart, same code):
+
+```
+bash scripts/deploy-web.sh live <ref-currently-live>      # builds and checks on :3309; its final restart is harmless
+# in ecosystem.config.cjs set kerb-web cwd to "/root/kerb-deploy/live/current/apps/web"
+pm2 delete kerb-web && pm2 start ecosystem.config.cjs --only kerb-web && pm2 save
+curl -sI https://www.usekerb.xyz | head -1
+```
+
+Cutover (V2-11, Thu 24 Sep 20:00 UTC), after staging has passed the V2-11 checks:
+
+```
+git tag v2-cutover <sha-on-staging> && git push origin v2-cutover
+bash scripts/deploy-web.sh live v2-cutover
+curl -sI https://www.usekerb.xyz | head -1
+```
+
+Rollback (seconds, no rebuild):
+
+```
+bash scripts/deploy-web.sh rollback live
+```
+
+If step 0 has not been done, the rollback for a cutover is the V1 checkout itself: in ecosystem.config.cjs point kerb-web back at `__dirname + "/apps/web"` (which still holds the V1 `.next` build), then `pm2 delete kerb-web && pm2 start ecosystem.config.cjs --only kerb-web && pm2 save`.
 
 ---
 
