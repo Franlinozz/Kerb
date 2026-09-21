@@ -14,7 +14,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | Phase | Lane | Status |
 |---|---|---|
 | V2-K Kickoff and staging | backend | done 21 Sep: docs committed, staging built and served on 3301; public hostname waits on the `v2` DNS record |
-| V2-00 Repo hygiene, CI, verification | backend | not started |
+| V2-00 Repo hygiene, CI, verification | backend | done 21 Sep: root clean, 38 em dashes to 0 with a CI check, CI green, five testnet contracts Sourcify exact match, mirror LT explained, pinning options below |
 | V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | not started |
 | V2-02 API support for V2 | backend | not started |
 | V2-03 Art batch and brand assets | backend + operator pick | not started |
@@ -36,8 +36,8 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | Move the live site onto release directories (see V2 cutover, step 0) | before any live web deploy | |
 | Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | |
 | KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | |
-| Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | |
-| Mirror LT: align or explain (V2-00) | V2-00 | |
+| Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | options in "Pinning, 21 Sep" below |
+| Mirror LT: align or explain (V2-00) | V2-00 | explained (API disclaimer, docs/ARCHITECTURE.md). Aligning is not possible without a redeploy: a listed threshold has no setter and relisting reverts `AlreadyListed` |
 | Demo position keeper with a fresh testnet-only wallet (V2-08) | Wed 23 Sep | |
 | Video: operator's voice or captions only (V2-12) | Fri 25 Sep | |
 
@@ -47,6 +47,18 @@ One agent asking the other lane for something. One line each.
 
 | Date | From | To | Request | Status |
 |---|---|---|---|---|
+
+### Pinning, 21 Sep
+
+Measured from the attester logs since their last rotation: mainnet 337 pinned of 1,543 posts, testnet 350 of 1,680, so about 21% overall and **0% since 01:56 UTC on 21 Sep**. `/v1/proof` over the last 24 hours: 498 of 2,140 distinct bundles on IPFS, 1,033 served by the API, 1,531 retrievable in total. The exact failure, reproduced with a one-file probe: `POST /pinning/pinJSONToIPFS` answers **403 `{"reason":"FORBIDDEN","details":"Account blocked due to plan usage limit"}`**; `/data/userPinnedDataTotal` reports 507 pins against the free plan's 500. Authentication itself still succeeds. Kerb produces about 2,100 distinct bundles a day.
+
+| Option | Cost (not verified today, confirm at checkout) | Effect |
+|---|---|---|
+| A. Upgrade Pinata | about USD 20 a month on the first paid tier (50,000 files) | Pinning resumes at once with the same JWT and the same CIDs; at 2,100 a day that tier lasts about three weeks |
+| B. Switch provider (Filebase, Storacha, 4EVERLAND) | free tiers exist but cap storage or files; a new account and key; a code change in `apps/engine/src/pin.ts` | Same CIDs (raw CIDv1 is provider-independent); some engineering and a new credential |
+| C. Keep API-served bundles | none | Already live since K-43: every bundle is written to disk before posting and `/v1/bundle/:hash` serves it; `kerb verify` falls back to the API. `/v1/proof` now says so in the required words |
+
+Recommendation: C now (zero cost, already true), and A only if the operator wants IPFS in the video.
 
 ### V2 cutover
 
@@ -239,6 +251,9 @@ One line each, every time the build departs from the plan.
 | 21 Sep | The cure amount grosses up for the collateral the cure itself seizes: R = (debt - target*value) / (1 - target*(1+bonus)) | Repaying only the shortfall leaves the position above target, because the bonus is paid out of the same collateral. Caught by the unit tests, which is what they are for |
 | 20 Sep | Builder Code changed from the placeholder `kerb` to the registered code `kt0hl6xyhlx8xmt` at 20:55 UTC. The 155 posts before that carry `kerb` in their calldata suffix | The portal registration only completed on 20 Sep 21:43 local; the earlier suffix is left on chain as it was recorded and is not rewritten |
 | 20 Sep | Five kerb PM2 processes now run with `oom_score_adj=-800` (inherited from the PM2 daemon), and an 8 GB swap file `/root/.kerb-swap` was added on top of marque's 4 GB, with `vm.min_free_kbytes` raised to 256 MB | The recorders must never be the process the kernel chooses to kill; heavy builds in a shell are the correct victim |
+| 21 Sep | `PROJECT_STATE.md` and `BUILD_PERIOD.md` stay at the repo root, outside the V2-00 root list | Every phase prompt names them at the root, and `/v1/proof` reads `BUILD_PERIOD.md` from there |
+| 21 Sep | New attester bundles under `data/reports/bundles/` are git-ignored; the ten committed ones stay as fixtures | The API serves them from disk; about 2,100 a day would swamp the repo |
+| 21 Sep | The live web process still runs from `/root/kerb/apps/web`; only staging runs from a release directory | Moving the live process was refused by the session's permission check as a production deploy; it waits on the operator (V2 cutover, step 0) |
 | 19 Sep | One row with mode='test' in obs_source_error from verifying the append-only trigger; it cannot be deleted by design | Trigger verification |
 
 ---
