@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerbstone reference · Kerb V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Kerbstone reference. Values captured from the live Board on 21 Sep 2026 10:52 UTC, for layout only. */
+:root,[data-theme="night"]{
+  --canvas:#0B0C0A;--canvas-2:#0F110E;--panel:#131511;--panel-2:#191C17;--forest:#15201A;--stone:#3A3D37;
+  --hair:rgba(236,232,222,.09);--hair-2:rgba(236,232,222,.17);
+  --ink:#ECE8DE;--ink-2:#B8B3A6;--ink-3:#8A857A;--ink-inverse:#0B0C0A;
+  --olive:#A6A47A;--moss:#8FA35E;--brass:#D6A64F;--brass-dim:#6B5428;--oxide:#D2694C;
+  --r-deep:#ECE8DE;--r-thin:#8F8A7E;--r-closed:#4A4D46;
+  --grid-line:rgba(236,232,222,.045);--cross:rgba(236,232,222,.3);
+  color-scheme:dark;
+}
+[data-theme="day"]{
+  --canvas:#EFEBE3;--canvas-2:#E8E3D9;--panel:#F6F3ED;--panel-2:#FBF9F5;--forest:#1E2A21;--stone:#C9C2B4;
+  --hair:rgba(20,20,16,.10);--hair-2:rgba(20,20,16,.18);
+  --ink:#141410;--ink-2:#4A4740;--ink-3:#6B675E;--ink-inverse:#EFEBE3;
+  --olive:#6E6C45;--moss:#4E6128;--brass:#9A6B12;--brass-dim:#E6D3A8;--oxide:#A5402A;
+  --r-deep:#141410;--r-thin:#6B675E;--r-closed:#B9B2A3;
+  --grid-line:rgba(20,20,16,.05);--cross:rgba(20,20,16,.3);
+  color-scheme:light;
+}
+:root{--sans:"General Sans","Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--maxw:1360px;--m:clamp(20px,3.2vw,48px)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--m)}
+.label{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--ink-2);line-height:1.6}
+.label.dim{color:var(--ink-3)}
+.rule{display:block;width:24px;height:1px;background:var(--ink-3);margin:12px 0 0}
+.mono{font-family:var(--mono);font-size:.86em}
+.cross{position:absolute;width:11px;height:11px}
+.cross:before,.cross:after{content:"";position:absolute;background:var(--cross)}
+.cross:before{left:5px;top:0;width:1px;height:11px}.cross:after{top:5px;left:0;height:1px;width:11px}
+
+/* header */
+header.site{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--canvas) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+header.site .wrap{display:flex;align-items:center;gap:36px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:500;font-size:19px;letter-spacing:-.03em}
+.brand svg{width:22px;height:22px}
+nav.main{display:flex;gap:26px;margin-right:auto}
+nav.main a{font-size:14.5px;color:var(--ink-2);padding:22px 0;border-bottom:2px solid transparent}
+nav.main a.on{color:var(--ink);border-bottom-color:var(--moss)}
+.status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2);border:1px solid var(--hair-2);padding:6px 11px;border-radius:999px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--moss);box-shadow:0 0 0 3px color-mix(in srgb,var(--moss) 22%,transparent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 20px;border-radius:2px;font:500 15px/1 var(--sans);border:1px solid var(--hair-2);background:transparent;color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--ink-inverse);border-color:var(--ink)}
+.btn.sm{height:36px;padding:0 14px;font-size:13.5px}
+.icon-btn{width:36px;height:36px;border:1px solid var(--hair-2);border-radius:2px;background:transparent;color:var(--ink-2);cursor:pointer;display:grid;place-items:center}
+
+/* hero */
+.hero{position:relative;min-height:calc(100vh - 64px);max-height:900px;display:grid;grid-template-columns:5fr 7fr;gap:24px;padding-top:56px;padding-bottom:40px;overflow:hidden}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(to right,var(--grid-line) 1px,transparent 1px);background-size:calc((100% - 0px)/12) 100%;pointer-events:none}
+.hero .left{position:relative;z-index:2;display:flex;flex-direction:column}
+h1.display{font-weight:500;font-size:clamp(44px,5.3vw,84px);line-height:.95;letter-spacing:-.04em;margin:auto 0 0}
+h1.display .l{display:block;white-space:nowrap}h1.display .o{color:var(--olive)}
+.lede{font-size:18px;color:var(--ink-2);max-width:40ch;margin:26px 0 30px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.creed{margin-top:auto;padding-top:48px}
+.art{position:relative;z-index:1}
+.art svg.stone{position:absolute;right:0;bottom:2%;width:100%;height:auto;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 22%),linear-gradient(to top,transparent 0,#000 14%);-webkit-mask-composite:source-in;mask-composite:intersect}
+.clocks{position:absolute;top:0;right:0;z-index:3;text-align:right}
+.clocks .c{margin-bottom:18px}
+.clocks .t{font-size:13px;color:var(--ink);letter-spacing:.14em}
+.callout{position:absolute;z-index:3;display:flex;align-items:center;gap:10px}
+.callout i{display:block;height:1px;background:var(--ink-3)}
+.callout b{font-weight:500}
+.crumbs{position:absolute;right:0;bottom:0;z-index:3}
+
+/* tape */
+.tape{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);overflow:hidden;white-space:nowrap;background:var(--canvas-2)}
+.tape .row{display:inline-flex;gap:40px;padding:14px 0;animation:tape 60s linear infinite}
+.tape span{font-size:13px;color:var(--ink-2)} .tape b{color:var(--ink);font-weight:500}
+@keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tape .row{animation:none}}
+
+/* sections */
+section.blk{padding:120px 0 0}
+.shead{position:relative;display:flex;justify-content:space-between;border-top:1px solid var(--hair-2);padding-top:14px;margin-bottom:28px}
+.shead .cross{left:-5px;top:-6px}
+h2{font-weight:500;font-size:28px;letter-spacing:-.02em;line-height:1.15;margin:0 0 10px}
+.note{color:var(--ink-2);max-width:62ch;margin:0}
+
+/* rail */
+.rail{border:1px solid var(--hair);background:var(--panel);padding:18px 20px 12px}
+.rail-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:30px}
+.lane{display:grid;grid-template-columns:168px 1fr;align-items:center;gap:16px;margin:8px 0}
+.band{position:relative;height:34px;background:var(--canvas-2);overflow:hidden}
+.seg{position:absolute;top:0;bottom:0}
+.s-reg{background:var(--r-deep);opacity:.9}.s-pre{background:var(--r-thin);opacity:.55}
+.s-lc{background:repeating-linear-gradient(135deg,var(--brass) 0 3px,transparent 3px 6px)}
+.days{position:relative;height:18px;margin-left:184px}
+.days span{position:absolute;transform:translateX(-50%);font-size:10.5px;letter-spacing:.2em;color:var(--ink-3)}
+.cursor{position:absolute;width:2px;background:var(--ink);z-index:2}
+.cursor:after{content:"NOW";position:absolute;top:-16px;left:-1px;padding:2px 6px;background:var(--ink);color:var(--ink-inverse);font-weight:600;font-size:9.5px;letter-spacing:.2em;line-height:1.2;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 10px;border:1px solid var(--hair-2);border-radius:2px;font-size:12px;font-weight:500}
+.pill.lc{background:var(--brass);border-color:var(--brass);color:#141410}
+.g{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor}
+.g.full{background:currentColor}
+
+/* modes + ladder */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.mode{border:1px solid var(--hair-2);padding:24px;background:var(--panel);position:relative}
+.mode.on{border-color:var(--ink)}
+.mode .amt{font-size:40px;font-weight:300;letter-spacing:-.02em;margin:10px 0 4px}
+.mode .sub{color:var(--ink-2);font-size:14px}
+.ladder{margin-top:36px}
+.scale{position:relative;height:8px;background:var(--stone);opacity:.9}
+.fill{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+.hatch{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--ink) 0 2px,transparent 2px 5px)}
+.lt{position:absolute;top:-8px;width:2px;height:24px;background:var(--oxide)}
+.dia{position:absolute;top:-4px;width:12px;height:12px;background:var(--brass);transform:translateX(-6px) rotate(45deg)}
+.marks{position:relative;height:72px;margin-top:10px}
+.marks span{position:absolute;transform:translateX(-50%);font-size:11px;letter-spacing:.14em;color:var(--ink-2);text-align:center;white-space:nowrap}
+.why{font-size:13px;color:var(--ink-3);margin-top:6px}
+
+/* last call panel */
+.pos{border:1px solid var(--brass);background:linear-gradient(180deg,color-mix(in srgb,var(--brass) 9%,var(--panel)),var(--panel));padding:28px;position:relative}
+.pos h3{font-size:12px;letter-spacing:.24em;color:var(--brass);margin:0 0 12px;font-weight:600}
+.pos .big{font-size:44px;font-weight:400;letter-spacing:-.02em;line-height:1}
+.pos p{color:var(--ink-2);max-width:56ch}
+.fixed{font-size:13px;color:var(--ink-3);margin-top:14px}
+
+/* board */
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);font-weight:500;text-align:left;padding:10px 12px;border-bottom:1px solid var(--hair-2)}
+td{padding:16px 12px;border-bottom:1px solid var(--hair);font-size:14.5px;vertical-align:middle}
+td.n,th.n{text-align:right}
+tr:hover td{background:var(--panel)}
+.tick{font-weight:600}.under{display:block;font-size:12px;color:var(--ink-3)}
+.mini{position:relative;width:150px;height:6px;background:var(--stone)}
+.mini .fill{background:var(--ink)} .mini .lt{top:-5px;height:16px}
+.prov{display:inline-block;width:8px;height:8px;border-radius:50%;border:1px solid var(--ink-3);margin-left:6px;vertical-align:.05em}
+
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.scroll-x table{min-width:880px}
+/* forest band */
+.forest{background:var(--forest);color:#ECE8DE;margin-top:120px;padding:72px 0}
+.forest .label{color:#B8B3A6}
+.addr{font-family:var(--mono);font-size:13px;border:1px solid rgba(236,232,222,.17);padding:8px 12px;display:inline-block;margin:8px 10px 0 0}
+
+/* footer */
+footer{padding:72px 0 0;overflow:hidden;border-top:1px solid var(--hair);margin-top:120px}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.cols a{display:block;color:var(--ink-2);font-size:14px;margin:6px 0}
+.giant{font-size:18vw;font-weight:500;letter-spacing:-.06em;line-height:.8;margin:60px 0 -3.6vw;color:var(--ink)}
+.stand{font-size:12.5px;color:var(--ink-3);margin-top:28px}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;max-height:none}
+  .art{min-height:340px;order:-1}
+  .clocks{position:static;text-align:left;margin:18px 0}
+  nav.main{display:none}
+  .two{grid-template-columns:1fr}
+  .lane{grid-template-columns:1fr}.days{margin-left:0}
+  .cols{grid-template-columns:1fr 1fr}
+  .callout{display:none}
+  header.site .wrap{gap:12px}.status{display:none}
+  .clocks,.crumbs{display:none}
+  .art{min-height:260px}
+  .rail-head{flex-direction:column;gap:6px}
+  .rail{padding:16px 14px 10px}
+}
+</style>
+</head>
+<body>
+
+<header class="site"><div class="wrap">
+  <a class="brand" href="#"><svg viewBox="0 0 24 24"><path d="M2 8.5h11v5h9V20H2z" fill="currentColor"/><rect x="15.5" y="4" width="4" height="4" fill="currentColor"/></svg>Kerb</a>
+  <nav class="main"><a class="on" href="#">Board</a><a href="#">Credit</a><a href="#">Research</a><a href="#">Methodology</a><a href="#">Developers</a></nav>
+  <span class="status"><span class="dot"></span>Live · posted 4m ago</span>
+  <button class="btn sm">Connect</button>
+  <button class="icon-btn" aria-label="Switch theme" onclick="var h=document.documentElement;h.dataset.theme=h.dataset.theme==='night'?'day':'night'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+</div></header>
+
+<div class="wrap" style="position:relative">
+  <div class="hero">
+    <div class="grid-bg"></div>
+    <span class="cross" style="left:-5px;top:40px"></span><span class="cross" style="right:-5px;top:40px"></span>
+    <span class="cross" style="left:-5px;bottom:28px"></span><span class="cross" style="right:-5px;bottom:28px"></span>
+
+    <div class="left">
+      <div class="label">Tokenized equities<br>Executable liquidity<br>Market time<br>X Layer 196<span class="rule"></span></div>
+      <h1 class="display"><span class="l">Credit on the</span><span class="l o">market's clock.</span></h1>
+      <p class="lede">Tokenized stocks trade around the clock. Liquidation conditions don't. Kerb measures the exit in real X Layer pools, then lends against it.</p>
+      <div class="actions"><a class="btn primary" href="#">Open the Board</a><a class="btn" href="#">Borrow on testnet</a></div>
+      <div class="creed label dim">Never lend more than you can liquidate.</div>
+    </div>
+
+    <div class="art">
+      <div class="clocks">
+        <div class="c label">New York · XNYS<br><span class="dim">40.7069° N 74.0113° W</span><br><span class="t">06:52 EDT · Pre-market</span><span class="rule" style="margin-left:auto"></span></div>
+        <div class="c label">Hong Kong · XHKG<br><span class="dim">22.2840° N 114.1580° E</span><br><span class="t">18:52 HKT · Closed</span><span class="rule" style="margin-left:auto"></span></div>
+      </div>
+
+      <!-- Geometric Kerbstone: rung 2 art. The generated plate replaces this. -->
+      <svg class="stone" viewBox="0 0 920 620" fill="none" aria-hidden="true">
+        <defs>
+          <pattern id="h" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink-3)" stroke-width="1" opacity=".55"/></pattern>
+          <linearGradient id="face" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--panel-2)"/><stop offset="1" stop-color="var(--canvas)"/></linearGradient>
+        </defs>
+        <!-- upper tread block -->
+        <path d="M150 300 L520 300 L520 470 L150 470 Z" fill="url(#face)" stroke="var(--ink-2)" stroke-width="1"/>
+        <path d="M150 300 L230 250 L600 250 L520 300 Z" fill="var(--panel)" stroke="var(--ink-2)" stroke-width="1"/>
+        <path d="M520 300 L600 250 L600 360" stroke="var(--ink-2)" stroke-width="1"/>
+        <!-- lower tread block -->
+        <path d="M520 400 L820 400 L820 470 L520 470 Z" fill="url(#face)" stroke="var(--ink-2)" stroke-width="1"/>
+        <path d="M520 400 L600 360 L880 360 L820 400 Z" fill="var(--panel)" stroke="var(--ink-2)" stroke-width="1"/>
+        <path d="M820 400 L880 360 L880 430 L820 470" fill="var(--canvas-2)" stroke="var(--ink-2)" stroke-width="1"/>
+        <!-- shadow hatching -->
+        <path d="M150 470 L820 470 L880 430 L900 520 L120 560 Z" fill="url(#h)" opacity=".5"/>
+        <!-- moss in the step joint -->
+        <path d="M520 398 C540 390 560 402 580 392 C590 388 600 396 604 390" stroke="var(--moss)" stroke-width="3" stroke-linecap="round"/>
+        <!-- rising observations: outlined squares, brass ones are recent Terms posts -->
+        <g stroke="var(--ink-2)" stroke-width="1">
+          <rect x="360" y="222" width="16" height="16"/><rect x="398" y="196" width="14" height="14"/><rect x="440" y="170" width="16" height="16" fill="var(--brass)" stroke="var(--brass)"/>
+          <rect x="478" y="140" width="12" height="12"/><rect x="520" y="118" width="14" height="14"/><rect x="560" y="92" width="12" height="12" fill="var(--brass)" stroke="var(--brass)"/>
+          <rect x="600" y="70" width="10" height="10"/><rect x="640" y="50" width="12" height="12"/><rect x="684" y="28" width="9" height="9" fill="var(--brass)" stroke="var(--brass)"/>
+          <rect x="420" y="232" width="10" height="10"/><rect x="505" y="178" width="9" height="9"/><rect x="590" y="130" width="9" height="9"/>
+        </g>
+      </svg>
+
+      <div class="callout label" style="left:10%;top:44%"><span>HKEXCx · Reference closed<br><b style="color:var(--ink)">C(1%) $16.3K</b></span><i style="width:70px"></i></div>
+      <div class="callout label" style="right:4%;top:58%"><i style="width:60px"></i><span>BRK.Bx · Normal<br><b style="color:var(--ink)">C(1%) $12.4K</b></span></div>
+      <div class="crumbs label dim">Board / Credit / Research / Proof</div>
+    </div>
+  </div>
+</div>
+
+<div class="tape"><div class="row">
+  <span><b>BRK.Bx</b> Normal · C(1%) $12.4K · <span class="mono">0x3adc…080a</span> · 4m</span>
+  <span><b>HKEXCx</b> Closed · C(1%) $16.3K · <span class="mono">0xea72…10e8</span> · 11m</span>
+  <span><b>KOx</b> Normal · C(1%) $11.0K · <span class="mono">0xc1c4…7cc6</span> · 9m</span>
+  <span><b>SLVx</b> Closed · C(1%) $4.9K · <span class="mono">0x943e…253d</span> · 12m</span>
+  <span><b>BRK.Bx</b> Normal · C(1%) $12.4K · <span class="mono">0x3adc…080a</span> · 4m</span>
+  <span><b>HKEXCx</b> Closed · C(1%) $16.3K · <span class="mono">0xea72…10e8</span> · 11m</span>
+  <span><b>KOx</b> Normal · C(1%) $11.0K · <span class="mono">0xc1c4…7cc6</span> · 9m</span>
+  <span><b>SLVx</b> Closed · C(1%) $4.9K · <span class="mono">0x943e…253d</span> · 12m</span>
+</div></div>
+
+<div class="wrap">
+  <section class="blk">
+    <div class="shead"><span class="cross"></span><span class="label">Session rail · two markets · one clock</span><span class="label dim">Mon 21 Sep · 10:52 UTC</span></div>
+    <h2>Every asset keeps its own hours.</h2>
+    <p class="note">New York and Hong Kong open, break and close on their own calendars. The tokens never stop trading. Kerb tracks the difference, live.</p>
+    <div class="rail" style="margin-top:28px;position:relative">
+      <div class="rail-head"><span><span class="pill"><span class="g"></span>Closed</span> <span style="color:var(--ink-2);font-size:14px;margin-left:8px">Hong Kong until 01:00 UTC</span></span><span style="font-size:14px;color:var(--ink-2)">New York opens in <b style="color:var(--ink)">2h 38m</b> · 13:30 UTC</span></div>
+      <div id="lanes"></div>
+      <div class="days" id="days"></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="shead"><span class="cross"></span><span class="label">KTS 0.2 · BRK.Bx · XNYS</span><span class="label dim">sample values for layout</span></div>
+    <h2>How long should your loan survive without you?</h2>
+    <div class="two" style="margin-top:28px">
+      <div class="mode"><div class="label">Carry</div><div class="amt">$5,560</div><div class="sub">Sized to survive until Tuesday's open. No cure events.</div></div>
+      <div class="mode on"><div class="label">Session Max</div><div class="amt">$5,880 <span style="font-size:16px;color:var(--moss)">+$320</span></div><div class="sub">Cure back to Carry by 20:00 UTC today, while liquidity is deep.</div></div>
+    </div>
+    <div class="ladder">
+      <div class="scale"><div class="fill" style="width:55.6%"></div><div class="hatch" style="left:55.6%;width:3.2%"></div><div class="lt" style="left:65%"></div><div class="dia" style="left:57.9%"></div></div>
+      <div class="marks"><span style="left:55.6%;transform:translateX(-100%);text-align:right;padding-right:8px;border-right:1px solid var(--ink-3)">CARRY<br><b style="color:var(--ink)">55.6%</b></span><span style="left:58.8%;top:46px">SESSION MAX <b style="color:var(--ink)">58.8%</b></span><span style="left:65%;transform:none;padding-left:8px;border-left:1px solid var(--oxide);color:var(--oxide)">LIQUIDATION<br><b>65% · FIXED</b></span></div>
+      <div class="why">Margin below the fixed line: 2.5 × the stressed gap to Tue 13:30 UTC plus 0.5% exit cost.</div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="shead"><span class="cross"></span><span class="label">Position · kHKEXCx · Session Max</span><span class="label dim">demo clock · testnet · sample</span></div>
+    <div class="pos">
+      <h3>LAST CALL</h3>
+      <div class="big">$486.22 <span style="font-size:18px;color:var(--ink-2)">cure required by 07:58 UTC</span></div>
+      <p>Repay or add collateral before the window closes. After that, anyone may cure the position back to its 50.0% Carry target and earn a 1.5% bonus. Only the difference, never the whole loan.</p>
+      <div class="actions"><button class="btn primary">Repay $486.22</button><button class="btn">Add collateral</button></div>
+      <div class="fixed">Liquidation line 60% is not moving.</div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="shead"><span class="cross"></span><span class="label">The Board · X Layer 196 · 10 assets</span><span class="label dim">updated 11s ago</span></div>
+    <div class="scroll-x"><table>
+      <thead><tr><th>Asset</th><th>Regime</th><th class="n">Credit Mark</th><th class="n">C(1%)</th><th>Terms</th><th class="n">Debt ceiling</th><th class="n">Next</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tick">BRK.Bx</span><span class="under">Berkshire · XNYS · 06:52</span></td><td><span class="pill"><span class="g full"></span>Normal</span></td><td class="n">$504.92<span class="prov"></span></td><td class="n">$12.4K<span class="prov"></span></td><td><div class="mini"><div class="fill" style="width:55%"></div><div class="lt" style="left:65%"></div></div></td><td class="n">$9.3K</td><td class="n">Open in 2h 38m</td></tr>
+        <tr><td><span class="tick">HKEXCx</span><span class="under">HKEX · XHKG · 18:52</span></td><td><span class="pill"><span class="g"></span>Closed</span></td><td class="n">$48.56<span class="prov"></span></td><td class="n">$16.3K<span class="prov"></span></td><td><div class="mini"><div class="fill" style="width:50%"></div><div class="lt" style="left:60%"></div></div></td><td class="n">$8.6K</td><td class="n">Pre-open in 14h 08m</td></tr>
+        <tr><td><span class="tick">KOx</span><span class="under">Coca-Cola · XNYS · 06:52</span></td><td><span class="pill lc">▲ Last Call</span></td><td class="n">$87.77<span class="prov"></span></td><td class="n">$11.0K<span class="prov"></span></td><td><div class="mini"><div class="fill" style="width:55%"></div><div class="lt" style="left:65%"></div></div></td><td class="n">$8.3K</td><td class="n">Close in 42m</td></tr>
+      </tbody>
+    </table></div>
+    <p class="why" style="margin-top:10px">KOx shown in Last Call for layout only.</p>
+  </section>
+</div>
+
+<div class="forest"><div class="wrap">
+  <div class="label">Proof · X Layer mainnet 196</div>
+  <h2 style="margin-top:14px;font-size:44px;letter-spacing:-.03em">Verify everything.</h2>
+  <p style="color:#B8B3A6;max-width:60ch">Every term is signed, posted on chain with its inputs hash, and recomputes from its published inputs.</p>
+  <span class="addr">KerbClock 0xf765…61b8</span><span class="addr">KerbTerms 0x6d6e…02d5</span><span class="addr">Builder Code kt0hl6xyhlx8xmt</span><span class="addr">494 TS · 106 Sol tests</span>
+</div></div>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div><div class="label">Product</div><a>Board</a><a>Credit</a><a>Research</a></div>
+    <div><div class="label">Protocol</div><a>Methodology</a><a>Contracts</a><a>Proof</a></div>
+    <div><div class="label">Developers</div><a>SDK</a><a>REST</a><a>GitHub</a></div>
+    <div><div class="label">Studio</div><a>Xyndicate Labs</a><a>X</a></div>
+  </div>
+  <p class="stand">Risk plane on X Layer mainnet. Credit plane on X Layer testnet with mirror collateral. Unaudited. Not investment advice.</p>
+  <div class="giant">Kerb</div>
+</div></footer>
+
+<script>
+// Draw a Mon-Sun UTC week of sessions for two lanes, cursor at Mon 10:52 UTC. Reference only.
+(function(){
+  var W=7*24, pct=function(h){return (h/W*100)+'%'};
+  var ny=[], hk=[];
+  for(var d=0;d<5;d++){var o=d*24;
+    ny.push(['s-pre',o+8,o+13.5],['s-reg',o+13.5,o+20],['s-lc',o+19,o+20],['s-pre',o+20,o+24]);
+    hk.push(['s-pre',o+1,o+1.5],['s-reg',o+1.5,o+4],['s-lc',o+3.5,o+4],['s-reg',o+5,o+8],['s-lc',o+7,o+8]);}
+  function lane(name,code,segs){var s='<div class="lane"><div class="label">'+name+'<br><span class="dim">'+code+'</span></div><div class="band">';
+    segs.forEach(function(g){s+='<span class="seg '+g[0]+'" style="left:'+pct(g[1])+';width:'+pct(g[2]-g[1])+'"></span>'});return s+'</div></div>';}
+  document.getElementById('lanes').innerHTML=lane('New York','XNYS · XNAS',ny)+lane('Hong Kong','XHKG',hk);
+  var names=['MON 21','TUE 22','WED 23','THU 24','FRI 25','SAT 26','SUN 27'],dh='';
+  names.forEach(function(n,i){dh+='<span style="left:'+pct(i*24+12)+'">'+n+'</span>'});
+  document.getElementById('days').innerHTML=dh;
+  var rail=document.querySelector('.rail'),band=rail.querySelector('.band'),c=document.createElement('div');c.className='cursor';
+  var bands=rail.querySelectorAll('.band'),r=bands[0].getBoundingClientRect(),r2=bands[bands.length-1].getBoundingClientRect(),rr=rail.getBoundingClientRect();
+  c.style.left=(r.left-rr.left+r.width*(10.87/W))+'px';c.style.top=(r.top-rr.top-4)+'px';c.style.height=(r2.bottom-r.top+8)+'px';rail.appendChild(c);
+})();
+</script>
+</body>
+</html>
