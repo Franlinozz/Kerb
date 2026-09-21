@@ -16,7 +16,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | V2-K Kickoff and staging | backend | done 21 Sep: docs committed, staging built and served on 3301; public hostname waits on the `v2` DNS record |
 | V2-00 Repo hygiene, CI, verification | backend | done 21 Sep: root clean, 38 em dashes to 0 with a CI check, CI green, five testnet contracts Sourcify exact match, mirror LT explained, pinning options below |
 | V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | LIVE 21 Sep 19:38 UTC on operator's go: first 0.2 posts mainnet 0x6212668a35862bb6753ffb84ec9843665df3b3bff9fed5999bb65a5fca139577, testnet 0x4f43fb62a91c0ebf48ab081c460ca55eb613b07c5d61612cd643e431e5eec053; a Carry change across a regime change is still to be confirmed |
-| V2-02 API support for V2 | backend | not started |
+| V2-02 API support for V2 | backend | done 21 Sep: board additions and summary, /v1/tape, /v1/stats, demo-clock, positions feed (rung 1, indexed from events), docs/API.md |
 | V2-03 Art batch and brand assets | backend + operator pick | not started |
 | V2-04 Kerbstone foundation and app shell | frontend | not started |
 | V2-05 Time components | frontend | not started |
@@ -34,7 +34,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 |---|---|---|
 | DNS: A record `v2.usekerb.xyz` -> 62.171.182.75 (staging) | now | |
 | Move the live site onto release directories (see V2 cutover, step 0) | before any live web deploy | **yes**; done 21 Sep 19:40 UTC, kerb-web now serves /root/kerb-deploy/live/current |
-| Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | |
+| Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | asked 21 Sep; also needs an OpenAI API key, none exists on the VPS |
 | KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | **go**, written by the operator 21 Sep |
 | Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | **C**, keep API-served bundles (operator, 21 Sep) |
 | Mirror LT: align or explain (V2-00) | V2-00 | explained (API disclaimer, docs/ARCHITECTURE.md). Aligning is not possible without a redeploy: a listed threshold has no setter and relisting reverts `AlreadyListed` |

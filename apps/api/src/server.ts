@@ -15,6 +15,10 @@ import { buildBundle, computeReport, engineConfig, identifyBundle, loadParams } 
 import { buildProof, decodeLatestBuilderCode } from "./proof.js";
 import { buildCreditMarket, buildCreditPosition } from "./credit.js";
 import { buildBoard, type Board } from "./board.js";
+import { buildDemoClock, defaultReader, readOpenPositions, syncCreditLogs, type ChainReader } from "./v2credit.js";
+import { MARKET_META } from "./markets.js";
+import { explorerTx } from "@kerb/adapters";
+import { fromUnits } from "@kerb/types";
 
 export const BOARD_CACHE_MS = 15_000;
 export const REPORT_CACHE_MS = 60_000;
@@ -25,6 +29,8 @@ const BUNDLE_DIR = process.env["KERB_BUNDLE_DIR"] ?? resolve(repoRoot(), "data/r
 export interface ServerDeps {
   sql: Sql;
   now?: () => number;
+  /** Chain reads for the credit plane; the default is the public X Layer RPC. */
+  reader?: (chainId: number) => ChainReader;
 }
 
 interface CacheEntry {
@@ -66,6 +72,20 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
   const now = deps.now ?? ((): number => Date.now());
   const cache = new Map<number, CacheEntry>();
   const reportCache = new Map<string, { at: number; body: unknown }>();
+  const reader = deps.reader ?? defaultReader;
+  const shortCache = new Map<string, { at: number; body: unknown }>();
+  /** Memoise a response for ttl ms. Errors are never cached. */
+  const cached = async <T>(key: string, ttl: number, make: () => Promise<T>): Promise<T> => {
+    const hit = shortCache.get(key);
+    if (hit && now() - hit.at < ttl) return hit.body as T;
+    const body = await make();
+    shortCache.set(key, { at: now(), body });
+    return body;
+  };
+  const chainError = (reply: { status: (n: number) => { send: (b: unknown) => unknown } }, err: unknown, chainId: number) => {
+    console.error(`${new Date().toISOString()} chain ${chainId}: ${err instanceof Error ? err.message.split("\n")[0] : String(err)}`);
+    return reply.status(502).send({ error: "The chain did not answer. Try again in a moment.", chainId, label: "Unavailable" });
+  };
 
   void app.register(cors, { origin: true, methods: ["GET", "HEAD", "OPTIONS"] });
 
@@ -99,7 +119,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       void reply.header("x-kerb-cache", "hit");
       return hit.board;
     }
-    const board = await buildBoard(deps.sql, chainId, contractsFor(chainId), now());
+    const board = await buildBoard(deps.sql, chainId, contractsFor(chainId), now(), { readLT: (c, ids) => readLiquidationThresholds(reader(c), c, ids) });
     cache.set(chainId, { at: now(), board });
     void reply.header("x-kerb-cache", "miss");
     return board;
@@ -329,6 +349,90 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
 
 
 
+
+  /** Newest Terms posts across both chains. */
+  app.get("/v1/tape", async (req, reply) => {
+    const limit = Math.min(100, Math.max(1, Number((req.query as { limit?: string }).limit ?? 20) || 20));
+    return cached(`tape:${limit}`, 15_000, async () => {
+      const rows = await deps.sql<{ symbol: string; chain_id: number; regime: number; executable_depth1: string; carry_ltv: string; session_max_ltv: string; tx_hash: string; observed_at: Date }[]>`
+        SELECT symbol, chain_id, regime, executable_depth1, carry_ltv, session_max_ltv, tx_hash, observed_at
+        FROM terms_posts ORDER BY ts DESC LIMIT ${limit}`;
+      return {
+        label: "Attested" as const,
+        posts: rows.map((r) => ({
+          symbol: r.symbol, chainId: r.chain_id, regime: regimeName(r.regime),
+          c1: fromUnits(BigInt(r.executable_depth1), 6),
+          carryLTV: fromUnits(BigInt(r.carry_ltv), 18), sessionMaxLTV: fromUnits(BigInt(r.session_max_ltv), 18),
+          tx: r.tx_hash, explorer: explorerTx(r.chain_id as 196 | 1952, r.tx_hash as `0x${string}`),
+          observedAt: new Date(r.observed_at).toISOString(),
+        })),
+      };
+    }).then((b) => { void reply.header("cache-control", "public, max-age=15"); return b; });
+  });
+
+  /** Headline counts for the Home page. Exact counts, cached for a minute. */
+  app.get("/v1/stats", async () => cached("stats", 60_000, async () => {
+    const [counts] = await deps.sql<{ pool: string; price: string; quote: string; mult: string }[]>`
+      SELECT (SELECT count(*) FROM obs_pool_state) AS pool, (SELECT count(*) FROM obs_price) AS price,
+             (SELECT count(*) FROM obs_quote) AS quote, (SELECT count(*) FROM obs_multiplier) AS mult`;
+    const posts = await deps.sql<{ chain_id: number; n: string }[]>`SELECT chain_id, count(*) AS n FROM terms_posts GROUP BY chain_id ORDER BY chain_id`;
+    const assets = resolvedAssets(loadAssets());
+    const dir = resolve(repoRoot(), "data/reports");
+    const latest = existsSync(dir)
+      ? readdirSync(dir).filter((f) => /^market-time-\d+\.json$/.test(f)).sort((a, b) => Number(b.match(/\d+/)?.[0]) - Number(a.match(/\d+/)?.[0]))[0]
+      : undefined;
+    let latestReport: { id: string; title: string; headline: string | null; figure: string | null } | null = null;
+    if (latest) {
+      const r = JSON.parse(readFileSync(resolve(dir, latest), "utf8")) as { id: string; title: string; findings?: { claim: string }[]; pools?: { symbol: string; role: string; changePct: string | null }[] };
+      const falls = (r.pools ?? []).filter((x) => x.role === "asset" && x.changePct !== null).sort((a, b) => Number(a.changePct) - Number(b.changePct));
+      const worst = falls[0];
+      latestReport = { id: String(r.id), title: r.title, headline: r.findings?.[0]?.claim ?? null, figure: worst ? `${worst.symbol} ${worst.changePct}%` : null };
+    }
+    const n = (x: string | undefined): number => Number(x ?? 0);
+    return {
+      label: "Observed" as const,
+      obsPoolRows: n(counts?.pool),
+      obsTotalRows: n(counts?.pool) + n(counts?.price) + n(counts?.quote) + n(counts?.mult),
+      postsByChain: posts.map((p) => ({ chainId: p.chain_id, count: Number(p.n) })),
+      assets: assets.length,
+      markets: new Set(assets.map((a) => a.underlying.market)).size,
+      marketMeta: Object.values(MARKET_META),
+      latestReport,
+    };
+  }));
+
+  /** The compressed demo clock the testnet credit plane runs on, as a schedule. */
+  app.get("/v1/credit/:chain/demo-clock", async (req, reply) => {
+    const chainId = Number((req.params as { chain: string }).chain);
+    if (!Number.isFinite(chainId)) return reply.status(400).send({ error: "bad chain" });
+    try {
+      const body = await cached(`demo:${chainId}`, 5_000, () => buildDemoClock(chainId, reader(chainId), now()));
+      if (!body) return reply.status(404).send({ error: "no demo clock is deployed on this chain", chainId });
+      return body;
+    } catch (err) {
+      return chainError(reply, err, chainId);
+    }
+  });
+
+  /** Every open position, curable first, found from the market's own events. */
+  app.get("/v1/credit/:chain/positions", async (req, reply) => {
+    const chainId = Number((req.params as { chain: string }).chain);
+    const state = (req.query as { state?: string }).state ?? "all";
+    if (!Number.isFinite(chainId)) return reply.status(400).send({ error: "bad chain" });
+    if (state !== "all" && state !== "curable") return reply.status(400).send({ error: "state must be curable or all" });
+    if (!loadDeployments()[`${chainId}:KerbCredit`]) return reply.status(404).send({ error: "no credit market is deployed on this chain", chainId });
+    try {
+      const body = await cached(`positions:${chainId}`, 30_000, async () => {
+        const scan = await syncCreditLogs(chainId, reader(chainId), deps.reader === undefined);
+        const positions = await readOpenPositions(chainId, reader(chainId), scan.pairs);
+        return { chainId, label: "Verified" as const, scannedToBlock: scan.scannedTo, eventsSeen: scan.events, positions };
+      });
+      return state === "curable" ? { ...body, positions: body.positions.filter((p) => p.cure.eligible) } : body;
+    } catch (err) {
+      return chainError(reply, err, chainId);
+    }
+  });
+
   /** The KTS parameter set the engine is actually running on, read from the live params file. */
   app.get("/v1/params", async (_req, reply) => {
     const p = resolve(repoRoot(), "config/kts-params.json");
@@ -427,9 +531,35 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
   return app;
 }
 
+const LT_ABI = [{ type: "function", name: "guardrails", stateMutability: "view", inputs: [{ name: "assetId", type: "bytes32" }], outputs: [{ type: "tuple", components: [
+  { name: "ltvMin", type: "uint64" }, { name: "ltvMax", type: "uint64" }, { name: "ceilingMin", type: "uint128" }, { name: "ceilingMax", type: "uint128" },
+  { name: "maxLoosenStepBps", type: "uint64" }, { name: "loosenCooldownSec", type: "uint32" }, { name: "maxReportAgeSec", type: "uint32" },
+  { name: "LT", type: "uint64" }, { name: "exists", type: "bool" }] }] }] as const;
+const ltCache = new Map<number, { at: number; lts: Map<string, bigint> }>();
+
+/** Fixed liquidation thresholds straight from KerbTerms guardrails. They change only by timelock, so ten minutes of cache is safe. */
+async function readLiquidationThresholds(reader: ChainReader, chainId: number, ids: string[]): Promise<Map<string, bigint> | null> {
+  const hit = ltCache.get(chainId);
+  if (hit && Date.now() - hit.at < 600_000) return hit.lts;
+  const terms = contractsFor(chainId).terms as `0x${string}` | undefined;
+  if (!terms) return null;
+  const lts = new Map<string, bigint>();
+  await Promise.all(ids.map(async (id) => {
+    const g = (await reader.readContract({ address: terms, abi: LT_ABI, functionName: "guardrails", args: [id] })) as { LT: bigint; exists: boolean };
+    if (g.exists) lts.set(id, g.LT);
+  }));
+  ltCache.set(chainId, { at: Date.now(), lts });
+  return lts;
+}
+
 export async function start(): Promise<void> {
   const { sql } = connect();
   const app = buildServer({ sql });
+  // Backfill the testnet credit events once at start, so the first visitor is not the one who waits.
+  void syncCreditLogs(1952, defaultReader(1952)).then(
+    (s) => console.log(`${new Date().toISOString()} credit scan 1952 to block ${s.scannedTo}: ${s.pairs.length} positions seen, ${s.events} events`),
+    (e: unknown) => console.error(`${new Date().toISOString()} credit scan 1952 failed: ${e instanceof Error ? e.message.split("\n")[0] : String(e)}`),
+  );
   const port = Number(process.env["KERB_API_PORT"] ?? 8720);
   const host = process.env["KERB_API_HOST"] ?? "127.0.0.1";
   await app.listen({ port, host });

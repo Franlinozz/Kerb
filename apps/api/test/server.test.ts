@@ -3,6 +3,8 @@ import { describe, expect, it, beforeEach } from "vitest";
 import type { FastifyInstance } from "fastify";
 import type { Sql } from "@kerb/collector/db";
 import { BOARD_CACHE_MS, buildServer } from "../src/server.js";
+import { resetCreditCaches, type ChainReader } from "../src/v2credit.js";
+import { loadDeployments } from "@kerb/attester";
 import { assetId, fromUnits } from "@kerb/types";
 import { loadAssets, resolvedAssets } from "@kerb/adapters";
 
@@ -19,7 +21,18 @@ function fakeSql(overrides: { reports?: Record<string, unknown>[] } = {}): Sql {
   }];
   return (async (strings: TemplateStringsArray) => {
     const q = strings.join(" ").replace(/\s+/g, " ");
+    if (q.includes("floor(extract(epoch FROM observed_at) / 1800)")) {
+      return [
+        { asset_id: KOX_ID, observed_at: new Date("2026-09-20T14:00:00Z"), executable_depth1: "14000000000", regime: 4 },
+        { asset_id: KOX_ID, observed_at: new Date("2026-09-20T14:30:00Z"), executable_depth1: "14916843749", regime: 4 },
+      ];
+    }
     if (q.includes("FROM terms_reports")) return reports;
+    if (q.includes("FROM terms_posts ORDER BY ts DESC LIMIT")) {
+      return [{ symbol: "KOx", chain_id: 196, regime: 1, executable_depth1: "14916843749", carry_ltv: "556041938054855748", session_max_ltv: "612000000000000000", tx_hash: `0x${"ef".repeat(32)}`, observed_at: new Date("2026-09-20T15:00:00Z") }];
+    }
+    if (q.includes("(SELECT count(*) FROM obs_pool_state) AS pool")) return [{ pool: "100", price: "200", quote: "30", mult: "4" }];
+    if (q.includes("FROM terms_posts GROUP BY chain_id ORDER BY chain_id") && q.includes("AS n FROM")) return [{ chain_id: 196, n: "44", last: new Date("2026-09-20T15:01:00Z") }];
     if (q.includes("FROM obs_pool_state WHERE mode = 'live' ORDER BY pool")) return [{ pool: KOX.pool!.address, ts: new Date("2026-09-20T15:04:30Z") }];
     if (q.includes("count(*) AS pools")) return [{ pools: "16140", last: new Date("2026-09-20T15:04:30Z") }];
     if (q.includes("FROM terms_posts")) return [{ chain_id: 196, n: "44", last: new Date("2026-09-20T15:01:00Z") }];
@@ -32,9 +45,45 @@ function fakeSql(overrides: { reports?: Record<string, unknown>[] } = {}): Sql {
 
 const NOW = Date.parse("2026-09-20T15:05:00Z");
 
+const DEPLOY = loadDeployments();
+const CREDIT_BLOCK = BigInt(String((DEPLOY["1952:KerbCredit"] as { deployedAtBlock: string }).deployedAtBlock));
+const MIRROR_ID = "0x254b3d27" + "0".repeat(56);
+const BORROWER = "0x00000000000000000000000000000000000000b1";
+
+/** A chain that answers like the testnet does, from fixed values. */
+function fakeReader(): ChainReader {
+  return {
+    async readContract({ functionName }) {
+      switch (functionName) {
+        case "weekLength": return 3600n;
+        case "sessionEnd": return 3000n;
+        case "cureStart": return 2400n;
+        case "epoch": return 1789942438n;
+        case "guardrails": return { LT: 650000000000000000n, exists: true };
+        case "debtOf": return 2000000000n;
+        case "position": return { collateralShares: 1n, debtShares: 1n, carryTarget: 550000000000000000n, mode: 1, lastCureAt: 0n };
+        case "cureStatus": return [true, 1790000000n, 123000000n] as const;
+        case "positionLTV": return 600000000000000000n;
+        case "healthFactor": return 1080000000000000000n;
+        default: throw new Error(`unexpected read ${functionName}`);
+      }
+    },
+    async getLogs({ fromBlock }) {
+      return fromBlock === CREDIT_BLOCK ? [{ args: { user: BORROWER, assetId: MIRROR_ID }, blockNumber: CREDIT_BLOCK }] : [];
+    },
+    async getBlockNumber() { return CREDIT_BLOCK + 250n; },
+  };
+}
+
+/** A chain that does not answer, with the kind of detail that must never reach a client. */
+const deadReader = (): ChainReader => {
+  const fail = async (): Promise<never> => { throw new Error("HTTP request failed. URL: https://secret-rpc.example/key123 Details: socket hang up"); };
+  return { readContract: fail, getLogs: fail, getBlockNumber: fail };
+};
+
 describe("API", () => {
   let app: FastifyInstance;
-  beforeEach(() => { app = buildServer({ sql: fakeSql(), now: () => NOW }); });
+  beforeEach(() => { resetCreditCaches(); app = buildServer({ sql: fakeSql(), now: () => NOW, reader: () => fakeReader() }); });
 
   it("GET /health reports observation freshness", async () => {
     const r = await app.inject({ method: "GET", url: "/health" });
@@ -174,5 +223,78 @@ describe("proof verification label", async () => {
       expect(label).not.toBe("no");
       expect(label.length).toBeGreaterThan(3);
     }
+  });
+});
+
+describe("V2 API additions (V2-02)", () => {
+  let app: FastifyInstance;
+  beforeEach(() => { resetCreditCaches(); app = buildServer({ sql: fakeSql(), now: () => NOW, reader: () => fakeReader() }); });
+
+  it("board rows carry the fixed LT, market, next transition, Last Call, spark and a summary", async () => {
+    const b = (await app.inject({ method: "GET", url: "/v1/board?chain=196" })).json();
+    const kox = b.rows.find((x: { symbol: string }) => x.symbol === "KOx");
+    expect(kox.lt).toMatchObject({ value: "0.65", label: "Verified" });
+    expect(kox.market).toMatchObject({ code: "XNYS", city: "New York", tz: "America/New_York" });
+    expect(kox.next.label).toBe("Computed");
+    expect(typeof kox.cure.open).toBe("boolean");
+    expect(kox.spark.map((p: { c1: string }) => p.c1)).toEqual(["14000", "14916.843749"]);
+    expect(b.summary).toMatchObject({ c1Total: "14916.843749", ceilingTotal: "11187.632812", label: "Computed" });
+    expect(b.summary.sourcesTotal).toBeGreaterThan(0);
+  });
+
+  it("board LT is null, not invented, when the chain does not answer", async () => {
+    const dead = buildServer({ sql: fakeSql(), now: () => NOW, reader: deadReader });
+    const b = (await dead.inject({ method: "GET", url: "/v1/board?chain=1952" })).json();
+    expect(b.rows[0].lt.value).toBeNull();
+  });
+
+  it("GET /v1/tape lists the newest posts with explorer links", async () => {
+    const b = (await app.inject({ method: "GET", url: "/v1/tape?limit=5" })).json();
+    expect(b.label).toBe("Attested");
+    expect(b.posts[0]).toMatchObject({ symbol: "KOx", chainId: 196, regime: "NORMAL", c1: "14916.843749", carryLTV: "0.556041938054855748" });
+    expect(b.posts[0].explorer).toContain("/tx/0x");
+  });
+
+  it("GET /v1/stats counts observations and names the latest report", async () => {
+    const b = (await app.inject({ method: "GET", url: "/v1/stats" })).json();
+    expect(b).toMatchObject({ obsPoolRows: 100, obsTotalRows: 334, assets: resolvedAssets(cfg).length, label: "Observed" });
+    expect(b.postsByChain[0]).toMatchObject({ chainId: 196, count: 44 });
+    expect(b.latestReport?.id).toBe("1");
+  });
+
+  it("GET /v1/credit/1952/demo-clock returns the compressed schedule", async () => {
+    const r = await app.inject({ method: "GET", url: "/v1/credit/1952/demo-clock" });
+    expect(r.statusCode).toBe(200);
+    const b = r.json();
+    const phase = (((Math.floor(NOW / 1000) - 1789942438) % 3600) + 3600) % 3600;
+    expect(b.phaseSec).toBe(phase);
+    expect(b.state).toBe(phase < 2400 ? "SESSION" : phase < 3000 ? "LAST_CALL" : "CLOSED");
+    expect(Date.parse(b.nextCureClosesAt) - Date.parse(b.nextCureOpensAt)).toBe(600_000);
+  });
+
+  it("demo-clock: a chain without one is a 404, a dead RPC a labelled 502 with no detail", async () => {
+    expect((await app.inject({ method: "GET", url: "/v1/credit/196/demo-clock" })).statusCode).toBe(404);
+    const dead = buildServer({ sql: fakeSql(), now: () => NOW, reader: deadReader });
+    const r = await dead.inject({ method: "GET", url: "/v1/credit/1952/demo-clock" });
+    expect(r.statusCode).toBe(502);
+    expect(r.json().label).toBe("Unavailable");
+    expect(r.body).not.toContain("secret-rpc");
+  });
+
+  it("GET /v1/credit/1952/positions finds positions from events, curable first", async () => {
+    const b = (await app.inject({ method: "GET", url: "/v1/credit/1952/positions?state=curable" })).json();
+    expect(b.positions).toHaveLength(1);
+    expect(b.positions[0]).toMatchObject({ user: BORROWER, mode: "Session Max", debt: "2000000000", cure: { eligible: true, requiredRepay: "123000000" } });
+    expect(b.scannedToBlock).toBe(Number(CREDIT_BLOCK + 250n));
+  });
+
+  it("positions: bad state 400, no market 404, dead RPC labelled 502", async () => {
+    expect((await app.inject({ method: "GET", url: "/v1/credit/1952/positions?state=nope" })).statusCode).toBe(400);
+    expect((await app.inject({ method: "GET", url: "/v1/credit/196/positions" })).statusCode).toBe(404);
+    resetCreditCaches();
+    const dead = buildServer({ sql: fakeSql(), now: () => NOW, reader: deadReader });
+    const r = await dead.inject({ method: "GET", url: "/v1/credit/1952/positions" });
+    expect(r.statusCode).toBe(502);
+    expect(r.body).not.toContain("secret-rpc");
   });
 });
