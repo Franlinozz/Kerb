@@ -5,7 +5,7 @@ import { getBoard, getClock } from "@/lib/api";
 import { SessionStrip } from "@/components/SessionStrip";
 import { age, byDecimalDesc, utcStamp } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Board" };
+export const metadata: Metadata = { title: "Board", description: "What each tokenized stock can safely support right now: regime, Credit Mark, executable depth and terms, live from X Layer." };
 export const dynamic = "force-dynamic";
 
 export default async function BoardPage(): Promise<React.ReactElement> {

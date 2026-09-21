@@ -1,0 +1,14 @@
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { min-height: 100vh; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  img, svg, picture, video { display: block; max-width: 100%; }
+  svg { flex-shrink: 0; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  button:disabled { cursor: default; }
+  h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+  ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
+  table { border-collapse: collapse; }
+  [hidden] { display: none !important; }
+}

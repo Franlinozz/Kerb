@@ -13,7 +13,7 @@ import { explorerAddress, getCreditMarket, REGIME_BY_INDEX, CREDIT_CHAIN_ID } fr
 import { group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
 import { PageStrip } from "@/components/PageStrip";
 
-export const metadata: Metadata = { title: "Market" };
+export const metadata: Metadata = { title: "Credit", description: "Borrow against tokenized stocks on the market's clock: Carry or Session Max, Last Call and the cure, on X Layer testnet with mirror collateral." };
 export const dynamic = "force-dynamic";
 
 const pct = (raw: string, places = 2): string => `${round(shift(scale(raw, 18), 2), places)}%`;
@@ -23,7 +23,7 @@ export default async function MarketPage(): Promise<React.ReactElement> {
   if (!market.ok) {
     return (
       <>
-        <h1>Market</h1>
+        <h1>Credit</h1>
         <SourceTrouble what="the credit market" detail={market.error} />
       </>
     );
@@ -35,7 +35,7 @@ export default async function MarketPage(): Promise<React.ReactElement> {
     <>
       <PageStrip />
       <div className="rowbar">
-        <h1>Market</h1>
+        <h1>Credit</h1>
         <span className="faint">
           Kerb Credit on X Layer testnet ·{" "}
           {m.contracts.KerbCredit ? (

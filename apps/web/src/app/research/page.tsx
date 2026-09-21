@@ -5,7 +5,7 @@ import { getMarketTimeIndex } from "@/lib/api";
 import { group, utcStamp } from "@/lib/format";
 import { PageStrip } from "@/components/PageStrip";
 
-export const metadata: Metadata = { title: "Reports" };
+export const metadata: Metadata = { title: "Research", description: "Market-Time Reports: measured studies of what market time does to executable liquidity on X Layer." };
 export const dynamic = "force-dynamic";
 
 export default async function ReportsIndex(): Promise<React.ReactElement> {
@@ -44,10 +44,10 @@ export default async function ReportsIndex(): Promise<React.ReactElement> {
               {index.data.reports.map((r) => (
                 <tr key={r.id}>
                   <td>
-                    <Link href={`/reports/${r.id}`}>#{r.id}</Link>
+                    <Link href={`/research/${r.id}`}>#{r.id}</Link>
                   </td>
                   <td className="wrap-cell">
-                    <Link href={`/reports/${r.id}`}>{r.title}</Link>
+                    <Link href={`/research/${r.id}`}>{r.title}</Link>
                   </td>
                   <td className="dim">
                     {utcStamp(r.window)} → {utcStamp(r.windowTo)}

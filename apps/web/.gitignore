@@ -1,1 +1,4 @@
 shots/
+# General Sans is licensed for self-hosting but not for redistribution (ITF FFL);
+# scripts/fetch-fonts.mjs fetches it from Fontshare before every build.
+src/fonts/

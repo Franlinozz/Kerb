@@ -1,0 +1,20 @@
+@layer components {
+  .prov-wrap { position: relative; display: inline-flex; vertical-align: 0.05em; margin-left: 6px; }
+  .prov {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--ink-3);
+    padding: 0; background: transparent; margin: 0;
+  }
+  button.prov { cursor: help; }
+  .prov-Verified { background: var(--ink-2); border-color: var(--ink-2); }
+  .prov-Observed { background: transparent; }
+  .prov-Attested { background: linear-gradient(90deg, var(--ink-2) 50%, transparent 50%); }
+  .prov-Computed { border-radius: 1px; border-style: dashed; }
+  .prov-card {
+    position: absolute; z-index: 30; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    width: 260px; padding: 12px 14px; background: var(--panel-2); border: 1px solid var(--hair-2); border-radius: var(--r-2);
+    box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.5); text-align: left; font-size: 13px; line-height: 1.45; color: var(--ink-2); white-space: normal;
+  }
+  .prov-card strong { display: block; color: var(--ink); font-weight: 500; margin-bottom: 4px; }
+  .prov-card .t-label { display: block; margin-top: 8px; }
+  .prov-text { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-left: 6px; }
+}

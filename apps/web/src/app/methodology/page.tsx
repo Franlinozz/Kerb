@@ -7,7 +7,7 @@ import { getBoard, getClock, getParams, getReport, getTerms, type Regime } from 
 import { byDecimalDesc, duration, group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
 import { PageStrip } from "@/components/PageStrip";
 
-export const metadata: Metadata = { title: "Methodology" };
+export const metadata: Metadata = { title: "Methodology", description: "The Kerb Terms Standard worked through on live numbers: regime, depth, mark, capacity, the cure covenant and reproducibility." };
 export const dynamic = "force-dynamic";
 
 const pct = (v: string, places = 2): string => `${round(shift(v, 2), places)}%`;
@@ -237,7 +237,7 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
           </dl>
         ) : null}
         <p className="section-note">
-          <Link href="/market">Try it on testnet, with mirror collateral →</Link>
+          <Link href="/credit">Try it on testnet, with mirror collateral</Link>
         </p>
       </section>
 

@@ -1,0 +1,14 @@
+@layer components {
+  .site-footer { border-top: 1px solid var(--hair); margin-top: var(--s-9); padding-top: var(--s-8); overflow: hidden; }
+  .footer-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); }
+  .footer-cols a { display: block; color: var(--ink-2); font-size: 14px; margin: 8px 0; }
+  .footer-cols a:hover { color: var(--ink); }
+  .footer-cols .t-label { margin-bottom: 14px; display: block; }
+  .footer-clocks { margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--hair); }
+  .footer-stand { font-size: 12.5px; color: var(--ink-3); margin-top: var(--s-5); max-width: 80ch; }
+  .footer-giant {
+    font-size: 18vw; font-weight: 500; letter-spacing: -0.06em; line-height: 0.8; color: var(--ink);
+    margin: var(--s-7) 0 -3.6vw; user-select: none; white-space: nowrap;
+  }
+  @media (max-width: 760px) { .footer-cols { grid-template-columns: 1fr 1fr; row-gap: var(--s-5); } }
+}

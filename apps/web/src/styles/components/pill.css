@@ -1,0 +1,17 @@
+@layer components {
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px; height: 24px; padding: 0 10px; border-radius: var(--r-1);
+    border: 1px solid var(--hair-2); font-size: 12px; font-weight: 500; white-space: nowrap; color: var(--ink);
+  }
+  .pill-moss { border-color: color-mix(in srgb, var(--moss) 60%, transparent); color: var(--moss); }
+  .pill-brass { border-color: var(--brass); color: var(--brass); }
+  .pill-oxide { border-color: var(--oxide); color: var(--oxide); }
+  .pill-solid-brass { background: var(--brass); border-color: var(--brass); color: var(--ink-inverse); }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: var(--r-1);
+    border: 1px solid var(--hair-2); background: var(--panel); font-family: var(--font-mono); font-size: 12.5px; color: var(--ink);
+  }
+  .chip button, .chip a { display: inline-grid; place-items: center; width: 22px; height: 22px; border: 0; background: transparent; color: var(--ink-3); border-radius: var(--r-1); }
+  .chip button:hover, .chip a:hover { color: var(--ink); }
+  .chip svg { width: 13px; height: 13px; }
+}

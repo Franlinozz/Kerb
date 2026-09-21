@@ -5,7 +5,7 @@ import { getProof, PUBLIC_API } from "@/lib/api";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
 import { PageStrip } from "@/components/PageStrip";
 
-export const metadata: Metadata = { title: "Proof" };
+export const metadata: Metadata = { title: "Proof", description: "Every Kerb claim, checkable: contracts and verification, onchain posts, input bundles, the build period and the limitations." };
 export const dynamic = "force-dynamic";
 
 export default async function ProofPage(): Promise<React.ReactElement> {

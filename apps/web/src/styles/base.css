@@ -1,0 +1,64 @@
+/* Typography scale and element defaults: V2-DESIGN-SYSTEM.md section 4. */
+@layer base {
+  html {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15.5px;
+    line-height: 1.55;
+    font-variant-numeric: tabular-nums;
+    scroll-padding-top: 80px;
+  }
+  body { background: var(--canvas); color: var(--ink); }
+  ::selection { background: color-mix(in srgb, var(--moss) 35%, transparent); }
+
+  a { color: inherit; text-decoration: none; }
+  p a, .prose a, li a, dd a, td a:not(.plain) {
+    text-decoration: underline; text-decoration-color: var(--hair-2); text-underline-offset: 4px; text-decoration-thickness: 1px;
+  }
+  p a:hover, .prose a:hover, li a:hover, dd a:hover, td a:not(.plain):hover { text-decoration-color: var(--moss); }
+
+  :focus-visible { outline: 2px solid var(--moss); outline-offset: 2px; border-radius: var(--r-1); }
+
+  h1, .t-h1 { font-weight: 500; font-size: 44px; line-height: 1.05; letter-spacing: -0.03em; }
+  h2, .t-h2 { font-weight: 500; font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; }
+  h3, .t-h3 { font-weight: 500; font-size: 19px; line-height: 1.3; letter-spacing: -0.01em; }
+  h4 { font-weight: 500; font-size: 15.5px; }
+
+  .t-display-xl { font-weight: 500; font-size: 88px; line-height: 0.95; letter-spacing: -0.04em; }
+  .t-display { font-weight: 500; font-size: 64px; line-height: 1; letter-spacing: -0.035em; }
+  .t-body-l { font-size: 18px; line-height: 1.55; }
+  .t-body { font-size: 15.5px; line-height: 1.55; }
+  .t-small { font-size: 13px; line-height: 1.45; }
+  .t-label, .label {
+    font-size: 11px; line-height: 1.2; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-2);
+  }
+  .t-num-xl { font-weight: 300; font-size: 56px; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .t-num-l { font-weight: 400; font-size: 32px; line-height: 1.05; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+  .t-num { font-weight: 500; font-size: 14.5px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+  .t-serif-xl { font-family: var(--font-serif); font-weight: 400; font-size: 72px; line-height: 1; letter-spacing: -0.01em; }
+  .t-serif { font-family: var(--font-serif); font-weight: 400; }
+  .t-olive { color: var(--olive); }
+
+  code, kbd, samp, .mono { font-family: var(--font-mono); font-size: 0.86em; letter-spacing: 0; }
+
+  hr { border: 0; border-top: 1px solid var(--hair); margin: var(--s-6) 0; }
+
+  @media (max-width: 760px) {
+    h1, .t-h1 { font-size: 32px; line-height: 1.1; }
+    h2, .t-h2 { font-size: 22px; line-height: 1.2; }
+    h3, .t-h3 { font-size: 17px; }
+    .t-display-xl { font-size: 48px; line-height: 1; }
+    .t-display { font-size: 40px; line-height: 1.05; }
+    .t-body-l { font-size: 16px; }
+    .t-body, html { font-size: 15px; }
+    .t-num-xl { font-size: 40px; }
+    .t-num-l { font-size: 26px; }
+    .t-num { font-size: 14px; }
+    .t-serif-xl { font-size: 44px; line-height: 1.05; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+}

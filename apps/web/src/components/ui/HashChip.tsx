@@ -1,0 +1,1 @@
+export { HashChip } from "./AddressChip";

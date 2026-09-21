@@ -6,41 +6,11 @@
  * The credit market is on X Layer testnet. A visitor on any other chain is told so plainly and
  * offered the switch, rather than being shown numbers that would not be the ones they transact against.
  */
-import { useAccount, useChainId, useConnect, useDisconnect, useSwitchChain } from "wagmi";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { xLayerTestnet } from "@/lib/wagmi";
-import { shortHash } from "@/lib/format";
 
-export function ConnectButton(): React.ReactElement {
-  const { address, isConnected } = useAccount();
-  const { connect, connectors, isPending, error } = useConnect();
-  const { disconnect } = useDisconnect();
-  const injected = connectors[0];
-
-  if (isConnected && address) {
-    return (
-      <span className="wallet">
-        <span className="mono dim">{shortHash(address, 6, 4)}</span>
-        <button type="button" className="theme-toggle" onClick={() => disconnect()}>
-          Disconnect
-        </button>
-      </span>
-    );
-  }
-
-  return (
-    <span className="wallet">
-      <button
-        type="button"
-        className="theme-toggle"
-        disabled={isPending || !injected}
-        onClick={() => injected && connect({ connector: injected })}
-      >
-        {isPending ? "Connecting…" : injected ? "Connect wallet" : "No wallet found"}
-      </button>
-      {error ? <span className="faint">{error.message.slice(0, 80)}</span> : null}
-    </span>
-  );
-}
+/** The header wallet control lives in components/shell/WalletButton.tsx. */
+export { WalletButton as ConnectButton } from "./shell/WalletButton";
 
 /**
  * Shown wherever an action needs the right chain.

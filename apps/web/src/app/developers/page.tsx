@@ -6,7 +6,7 @@ import { getBoard, getCreditMarket, getProof, PUBLIC_API } from "@/lib/api";
 import { shortHash } from "@/lib/format";
 import { PageStrip } from "@/components/PageStrip";
 
-export const metadata: Metadata = { title: "Developers" };
+export const metadata: Metadata = { title: "Developers", description: "Read Kerb Terms from anywhere: the TypeScript SDK, the REST API and the onchain effectiveTerms call." };
 export const dynamic = "force-dynamic";
 
 const SDK_SNIPPET = `import { Kerb, toDecimalString } from "@kerb/sdk";

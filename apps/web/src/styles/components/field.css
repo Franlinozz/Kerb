@@ -1,0 +1,17 @@
+@layer components {
+  .fld { display: flex; flex-direction: column; gap: 6px; }
+  .fld-label { font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-2); }
+  .fld-box {
+    display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 12px;
+    background: var(--panel); border: 1px solid var(--hair-2); border-radius: var(--r-1);
+  }
+  .fld-box:focus-within { border-color: var(--moss); box-shadow: 0 0 0 1px var(--moss); }
+  .fld-box input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; text-align: right; font-size: 17px; font-variant-numeric: tabular-nums; }
+  .fld-box input.left { text-align: left; font-size: 15px; }
+  .fld-unit { color: var(--ink-3); font-size: 13px; }
+  .fld-max { height: 26px; padding: 0 8px; border: 1px solid var(--hair-2); border-radius: var(--r-1); background: transparent; font-size: 11px; letter-spacing: 0.16em; color: var(--ink-2); }
+  .fld-max:hover { color: var(--ink); border-color: var(--ink-3); }
+  .fld-help { font-size: 13px; color: var(--ink-3); }
+  .fld-error { font-size: 13px; color: var(--oxide); }
+  .fld[data-invalid="true"] .fld-box { border-color: var(--oxide); }
+}

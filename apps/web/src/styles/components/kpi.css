@@ -1,0 +1,7 @@
+@layer components {
+  .kpi { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .kpi-value { display: flex; align-items: baseline; gap: 6px; }
+  .kpi-unit { font-size: 14px; color: var(--ink-2); }
+  .kpi-delta { font-size: 13px; color: var(--ink-3); }
+  .kpi-band { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--s-5) var(--gutter); padding: var(--s-5) 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+}

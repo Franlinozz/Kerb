@@ -1,0 +1,48 @@
+/* Grid, containers, the construction layer and the section rule: V2-DESIGN-SYSTEM.md section 5. */
+@layer layout {
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--margin); }
+  .site-main { padding-block: var(--s-6) var(--s-8); min-height: 60vh; }
+  .grid-12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); }
+  .prose { max-width: 68ch; }
+  .stack > * + * { margin-top: var(--s-4); }
+  .section { margin-top: var(--s-8); }
+  .section-tight { margin-top: var(--s-7); }
+
+  /* Construction layer: 12 column hairlines and registration crosshairs, never behind tables or forms. */
+  .construct { position: relative; isolation: isolate; }
+  .construct-grid {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px);
+    background-size: calc(100% / 12) 100%;
+  }
+  .cross { position: absolute; width: 11px; height: 11px; pointer-events: none; }
+  .cross::before, .cross::after { content: ""; position: absolute; background: var(--cross); }
+  .cross::before { left: 5px; top: 0; width: 1px; height: 11px; }
+  .cross::after { top: 5px; left: 0; height: 1px; width: 11px; }
+  .cross-tl { left: -5px; top: -5px; } .cross-tr { right: -5px; top: -5px; }
+  .cross-bl { left: -5px; bottom: -5px; } .cross-br { right: -5px; bottom: -5px; }
+
+  /* Section rule: crosshair, hairline, tracked label left, tracked annotation right. */
+  .section-head { position: relative; border-top: 1px solid var(--hair-2); padding-top: 14px; margin-bottom: var(--s-5); }
+  .section-head > .cross { left: -5px; top: -6px; }
+  .section-head-row { display: flex; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; }
+  .section-head h2 { margin-top: var(--s-3); }
+  .section-head .lede-s { color: var(--ink-2); max-width: 62ch; margin-top: var(--s-2); }
+
+  .page-head { margin-bottom: var(--s-6); }
+  .page-head h1 { margin-top: var(--s-3); }
+  .page-head .lede { margin-top: var(--s-4); }
+
+  @media (max-width: 760px) {
+    .site-main { padding-block: var(--s-5) var(--s-7); }
+    .section { margin-top: var(--s-7); }
+  }
+}
+
+@layer layout {
+  .system-page { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--gutter); align-items: center; min-height: calc(100vh - 64px - 200px); padding-block: var(--s-7); }
+  .system-copy h1 { margin-top: var(--s-4); }
+  .system-copy p { margin-top: var(--s-5); max-width: 52ch; }
+  .system-art { aspect-ratio: 920 / 620; }
+  @media (max-width: 900px) { .system-page { grid-template-columns: 1fr; } .system-art { order: -1; max-height: 260px; } }
+}

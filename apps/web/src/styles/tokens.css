@@ -1,0 +1,107 @@
+/*
+ * Kerbstone tokens: docs/v2/V2-DESIGN-SYSTEM.md section 3, pasted as specified.
+ * The one change: each font stack starts with the next/font variable, because next/font
+ * serves the loaded faces under generated family names. This is the only file with raw colours.
+ */
+@layer tokens {
+  :root, [data-theme="night"] {
+    /* canvas and surfaces */
+    --canvas:    #0B0C0A;
+    --canvas-2:  #0F110E;
+    --panel:     #131511;
+    --panel-2:   #191C17;
+    --forest:    #15201A;   /* feature bands only */
+    --stone:     #3A3D37;
+    --hair:      rgba(236, 232, 222, 0.09);
+    --hair-2:    rgba(236, 232, 222, 0.17);
+    --scrim:     rgba(11, 12, 10, 0.72);
+
+    /* ink */
+    --ink:       #ECE8DE;   /* bone */
+    --ink-2:     #B8B3A6;
+    --ink-3:     #8A857A;   /* AA on --canvas for 13px+ */
+    --ink-inverse: #0B0C0A;
+
+    /* accents */
+    --olive:     #A6A47A;   /* display accent line only */
+    --moss:      #8FA35E;   /* interactive: focus, active nav, links, safe */
+    --moss-dim:  #56633A;
+    --brass:     #D6A64F;   /* Last Call, action needed, data glow */
+    --brass-dim: #6B5428;
+    --oxide:     #D2694C;   /* liquidation, danger */
+
+    /* regime tones */
+    --r-deep:      #ECE8DE;
+    --r-normal:    #C7C2B4;
+    --r-thin:      #8F8A7E;
+    --r-last-call: var(--brass);
+    --r-closed:    #4A4D46;
+    --r-action:    var(--olive);
+    --r-halted:    var(--oxide);
+    --r-stale:     #6E6A61;
+    --r-recovery:  var(--moss);
+
+    /* construction layer */
+    --grid-line: rgba(236, 232, 222, 0.045);
+    --cross:     rgba(236, 232, 222, 0.28);
+
+    color-scheme: dark;
+  }
+
+  [data-theme="day"] {
+    --canvas:    #EFEBE3;
+    --canvas-2:  #E8E3D9;
+    --panel:     #F6F3ED;
+    --panel-2:   #FBF9F5;
+    --forest:    #1E2A21;   /* stays dark: used as an inverse feature band */
+    --stone:     #C9C2B4;
+    --hair:      rgba(20, 20, 16, 0.10);
+    --hair-2:    rgba(20, 20, 16, 0.18);
+    --scrim:     rgba(239, 235, 227, 0.78);
+
+    --ink:       #141410;
+    --ink-2:     #4A4740;
+    --ink-3:     #6B675E;
+    --ink-inverse: #EFEBE3;
+
+    --olive:     #6E6C45;
+    --moss:      #4E6128;
+    --moss-dim:  #A9B48C;
+    --brass:     #9A6B12;
+    --brass-dim: #E6D3A8;
+    --oxide:     #A5402A;
+
+    --r-deep:      #141410;
+    --r-normal:    #3F3C35;
+    --r-thin:      #6B675E;
+    --r-closed:    #B9B2A3;
+    --r-stale:     #8A857A;
+
+    --grid-line: rgba(20, 20, 16, 0.05);
+    --cross:     rgba(20, 20, 16, 0.30);
+
+    color-scheme: light;
+  }
+
+  :root {
+    --font-sans:  var(--font-general-sans), "General Sans", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --font-serif: var(--font-instrument-serif), "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --font-mono:  var(--font-plex-mono), "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --r-1: 2px;   /* data: pills, cells, inputs */
+    --r-2: 4px;   /* panels */
+    --r-3: 10px;  /* sheets, modals */
+
+    --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 24px;
+    --s-6: 32px; --s-7: 48px; --s-8: 72px; --s-9: 120px;
+
+    --maxw: 1360px;
+    --gutter: 24px;
+    --margin: clamp(20px, 3.2vw, 48px);
+
+    --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+    --t-fast: 160ms;
+    --t-panel: 320ms;
+    --t-hero: 900ms;
+  }
+}
