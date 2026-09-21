@@ -8,13 +8,18 @@ import { shortHash } from "@/lib/format";
 export const metadata: Metadata = { title: "Developers" };
 export const dynamic = "force-dynamic";
 
-const SDK_SNIPPET = `import { Kerb } from "@kerb/sdk";
+const SDK_SNIPPET = `import { Kerb, toDecimalString } from "@kerb/sdk";
 
 const kerb = new Kerb();                        // defaults to X Layer mainnet
 const terms = await kerb.terms("KOx");
 
 if (!terms.usable) return;                      // no new risk may be taken
-const maxDebt = Number(terms.carryLTV.raw) / 1e18 * collateralValue;`;
+
+// Decimal strings all the way. Never parse a term into a float: that is how a risk
+// number quietly becomes wrong.
+toDecimalString(terms.carryLTV);                // "0.55"
+toDecimalString(terms.creditMark);              // "86.916770468522919603"
+toDecimalString(terms.debtCeiling);             // in loan-asset units, not WAD`;
 
 const VIEM_SNIPPET = `import { createPublicClient, http, keccak256, encodeAbiParameters } from "viem";
 import { KERB_TERMS_ABI } from "@kerb/sdk";

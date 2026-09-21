@@ -85,6 +85,58 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         ))}
       </section>
 
+
+      {r.campaign ? (
+        <section className="section">
+          <h2>Across the end of the X Liquidity campaign</h2>
+          <p className="section-note">
+            Two full engine snapshots, {utcStamp(r.campaign.before.capturedAt)} and{" "}
+            {utcStamp(r.campaign.after.capturedAt)}. Executable depth is what a liquidation would actually
+            realise, so it is reported instead of pool TVL, which is only what is nominally present.
+          </p>
+          <div className="callout">
+            <strong>{r.campaign.summary.statement}</strong>
+          </div>
+          <p className="scroll-hint">Scroll the table sideways for the mark and the ceiling.</p>
+          <div className="scroll-x">
+            <table className="board">
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th>Regime</th>
+                  <th className="num">C(1%) before</th>
+                  <th className="num">C(1%) after</th>
+                  <th className="num">Change</th>
+                  <th className="num">C(3%) change</th>
+                  <th className="num">Mark change</th>
+                  <th className="num">Ceiling change</th>
+                </tr>
+              </thead>
+              <tbody>
+                {r.campaign.rows.map((c) => (
+                  <tr key={c.symbol}>
+                    <td>
+                      <Link href={`/asset/${c.symbol}`}>{c.symbol}</Link>
+                    </td>
+                    <td className="dim">
+                      {c.regimeChanged ? `${c.regimeBefore} → ${c.regimeAfter}` : (c.regimeBefore ?? "—")}
+                    </td>
+                    <td className="num">{c.c1Before ? group(round(c.c1Before, 0)) : "—"}</td>
+                    <td className="num">{c.c1After ? group(round(c.c1After, 0)) : "—"}</td>
+                    <td className="num" style={c.c1ChangePct?.startsWith("-") ? { color: "var(--danger)" } : undefined}>
+                      {c.c1ChangePct === null ? "—" : `${c.c1ChangePct}%`}
+                    </td>
+                    <td className="num">{c.c3ChangePct === null ? "—" : `${c.c3ChangePct}%`}</td>
+                    <td className="num">{c.markChangePct === null ? "—" : `${c.markChangePct}%`}</td>
+                    <td className="num">{c.ceilingChangePct === null ? "—" : `${c.ceilingChangePct}%`}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
       <section className="section">
         <h2>In-range liquidity, pool by pool</h2>
         <p className="section-note">

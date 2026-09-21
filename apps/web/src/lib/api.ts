@@ -357,6 +357,19 @@ export interface MarketTimeReport {
     liquidityMin: string; liquidityMax: string; changePct: string | null; swingPct: string | null;
   }[];
   sources: { source: string; observations: number; firstAt: string; lastAt: string }[];
+  campaign: {
+    before: { capturedAt: string };
+    after: { capturedAt: string };
+    rows: {
+      symbol: string;
+      regimeBefore: string | null; regimeAfter: string | null; regimeChanged: boolean;
+      c1Before: string | null; c1After: string | null; c1ChangePct: string | null;
+      c3Before: string | null; c3After: string | null; c3ChangePct: string | null;
+      markBefore: string | null; markAfter: string | null; markChangePct: string | null;
+      ceilingBefore: string | null; ceilingAfter: string | null; ceilingChangePct: string | null;
+    }[];
+    summary: { statement: string; assets: number; depthMovedAtLeastOnePercent: number; regimeChanges: number };
+  } | null;
   findings: { claim: string; evidence: string }[];
   limitations: string[];
   reproduce: string;

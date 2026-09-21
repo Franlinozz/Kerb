@@ -7,7 +7,7 @@
  *
  *   pnpm --filter @kerb/engine market-time-report
  */
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { loadAssets, repoRoot, resolvedAssets } from "@kerb/adapters";
 import { connect } from "@kerb/collector/db";
@@ -104,6 +104,21 @@ try {
     SELECT source, count(*)::text AS n, min(ts) AS first, max(ts) AS last
     FROM obs_price WHERE mode = 'live' GROUP BY source ORDER BY source`;
 
+  /**
+   * The campaign-end comparison, if one has been captured. It is a separate measurement with its
+   * own snapshots, folded in here rather than recomputed, so the report cannot quietly disagree
+   * with the file the comparison was written from.
+   */
+  const comparisonPath = resolve(repoRoot(), "data/campaign/comparison.json");
+  const campaign = existsSync(comparisonPath)
+    ? (JSON.parse(readFileSync(comparisonPath, "utf8")) as {
+        before: { capturedAt: string };
+        after: { capturedAt: string };
+        rows: Record<string, unknown>[];
+        summary: { statement: string; assets: number; depthMovedAtLeastOnePercent: number; regimeChanges: number };
+      })
+    : null;
+
   const withChange = pools.filter((p) => p.changePct !== null && p.role === "asset");
   const fell = withChange.filter((p) => p.changePct!.startsWith("-"));
   const sorted = [...withChange].sort((a, b) => Number(a.changePct) - Number(b.changePct));
@@ -136,6 +151,7 @@ try {
       firstAt: new Date(s.first).toISOString(),
       lastAt: new Date(s.last).toISOString(),
     })),
+    campaign,
     findings: [
       {
         claim: `In-range liquidity did not hold still while the underlying markets were closed: ${fell.length} of ${withChange.length} asset pools ended the window with less in-range liquidity than they started it.`,
@@ -147,11 +163,18 @@ try {
         evidence:
           "This is the arithmetic consequence of the row above, not a separate measurement: debtCeiling is a fraction of C(1%), and C(1%) is computed from exactly this pool state.",
       },
+      ...(campaign
+        ? [{
+            claim: `Across the end of the X Liquidity campaign, ${campaign.summary.statement}`,
+            evidence: `Engine snapshots of all ${campaign.summary.assets} assets at ${campaign.before.capturedAt} and ${campaign.after.capturedAt}, comparing executable depth at 1% and 3%, the Credit Mark, the regime and the published debt ceiling.`,
+          }]
+        : []),
     ],
     limitations: [
       "The window observed so far is entirely outside the underlying markets' regular sessions. It therefore measures how liquidity behaves while they are shut, and cannot yet compare that with how it behaves while they are open. That comparison needs a session in the record and will be added once one is.",
       "In-range liquidity L is not executable depth in dollars. Kerb computes C(i) by walking ticks, which uses more of the stored state than L alone; L is used here because it is a single stored number per reading and needs no re-derivation.",
       "The record has a hole. It is reported in the window above rather than interpolated across.",
+      "Pool TVL in dollars was not captured before and after, so it is not reported. Executable depth at 1% and 3% is captured, and it is the stronger measure for this question: it is what a liquidation would actually realise, where TVL is what is nominally present.",
     ],
     reproduce:
       "pnpm --filter @kerb/engine market-time-report regenerates this file from the observation store. Every row is a SELECT over append-only tables whose UPDATE, DELETE and TRUNCATE are rejected by database triggers.",
