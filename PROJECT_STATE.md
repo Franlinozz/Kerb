@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 21 Sep 2026, phase 6 complete. Remaining: demo video, repo public, apex DNS.
+Last updated: 21 Sep 2026. Phases 0-6 complete and evidenced. Phase 7 is dated 24 Sep; its undated items are done and its dated ones are scheduled.
 
 ---
 
@@ -9,7 +9,7 @@ Last updated: 21 Sep 2026, phase 6 complete. Remaining: demo video, repo public,
 
 | Item | Status |
 |---|---|
-| Phase | 5 complete. Phase 6 shipped: /market with borrow, cure and the confirmation panel (K-31..33), /methodology (K-34), /proof v2 two-click bundles (K-35), Slither + SECURITY.md (K-36), verify from a chain hash (K-39), Market-Time Report #1 (K-38). K-37 mainnet credit NOT attempted: gated on written operator approval |
+| Phase | 6 complete and evidenced end to end. Phase 7 is a 24 Sep phase: undated items done, dated items scheduled. Previously: /market with borrow, cure and the confirmation panel (K-31..33), /methodology (K-34), /proof v2 two-click bundles (K-35), Slither + SECURITY.md (K-36), verify from a chain hash (K-39), Market-Time Report #1 (K-38). K-37 mainnet credit NOT attempted: gated on written operator approval |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | **LIVE**: KerbClock and KerbTerms on X Layer 196, calendars and guardrails loaded, attester posting every 5 min (`kerb-attester-mainnet`) |
@@ -175,6 +175,47 @@ One line each, every time the build departs from the plan.
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 6 CHECKPOINT, REVISED (21 Sep 2026)
+
+The first pass shipped roughly 60% of this phase. Re-reading the prompt against the code found
+real gaps, since closed. Recorded here rather than quietly fixed, because the gap list is the
+useful part.
+
+Gaps found and closed:
+  1. The web app sent transactions with NO ERC-8021 Builder Code. AGENTS.md puts the suffix on
+     every client that sends a transaction; only the attester had it. This was a P0 miss.
+     Verified on chain twice: a faucet from the browser
+     (0xd78958aa88a9dab92bffc112968b6e5ba2c95a2dd4d0def71795c21529740a88) and the cure below.
+  2. No supply or withdraw for lenders: the whole lender side was missing from the UI.
+  3. No positions list and no position card.
+  4. The mode choice was a pair of radio buttons, not the plainly-worded question the phase asks
+     for, and it compared the two modes in percentages rather than in loan-asset amounts.
+  5. No parameter table on /methodology.
+  6. No /reports index.
+  7. The mirror relay ran only by hand, so mirror terms aged out and the market read as broken.
+
+Evidence:
+  Cure executed FROM THE UI by a second account, in a real browser:
+    0x91c401511bf9839965318559a504f5c574aee37c19a0eec95baaddfb2590bbf9
+    block 41514829, gas 153,904, LTV 60.00% -> 55.013% against a 55% Carry target,
+    debt 3,347.24 -> 2,716.44 mUSDG, calldata carries Builder Code kt0hl6xyhlx8xmt.
+  Slither 0.11.6: 67 results, none High, every one dispositioned in SECURITY.md.
+  Eight pages shot at 390 and 1440 in both themes, reviewed, no console errors.
+  Full AGENTS.md section 9 QA matrix in QA.md, every row evidenced or explicitly N/A.
+
+Defects the screenshot loop caught in this pass:
+  - "Connect a wallet" rendered four times on /market, once beside every action panel.
+  - The /developers SDK snippet used Number(raw)/1e18, a float on a value path.
+
+Deviations: a cure sent from the UI repays 99.9% of the required amount, so a report landing
+  between the read and the block cannot revert it. The position lands a hair above target and
+  the panel says so.
+
+Blocked: none.
+Next: phase 7 dated items on 24 Sep.
+```
 
 ```
 PHASE 6 CHECKPOINT (21 Sep 2026)
