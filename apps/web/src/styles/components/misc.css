@@ -74,3 +74,27 @@
   .regime-pill { display: inline-flex; align-items: center; gap: 7px; height: 24px; padding: 0 9px; border: 1px solid var(--hair-2); border-radius: var(--r-1); font-size: 12px; font-weight: 500; white-space: nowrap; }
   .regime-pill[data-regime="PRE_TRANSITION"] { background: var(--brass); border-color: var(--brass); color: var(--ink-inverse); }
 }
+
+@layer components {
+  /* Approved art plates. The blur placeholder sits under the image until it decodes. */
+  .art-plate { display: block; position: relative; overflow: hidden; background-size: cover; background-position: var(--focus-d); }
+  .art-plate img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--focus-d); }
+  @media (max-width: 1100px) { .art-plate, .art-plate img { object-position: var(--focus-t); background-position: var(--focus-t); } }
+  @media (max-width: 760px) { .art-plate, .art-plate img { object-position: var(--focus-m); background-position: var(--focus-m); } }
+  /* Theme pairs: only the plate for the painted theme is shown. A hidden lazy image is never fetched. */
+  .art-day { display: none; }
+  [data-theme="day"] .art-day { display: block; }
+  [data-theme="day"] .art-night { display: none; }
+  /* Edges dissolve into the canvas; the masks only touch alpha. */
+  .art-mask-left { -webkit-mask-image: linear-gradient(to right, transparent 0, black 26%); mask-image: linear-gradient(to right, transparent 0, black 26%); }
+  .art-mask-hero {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 24%), linear-gradient(to top, transparent 0, black 16%);
+    -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, black 24%), linear-gradient(to top, transparent 0, black 16%); mask-composite: intersect;
+  }
+  .art-mask-radial { -webkit-mask-image: radial-gradient(ellipse 70% 70% at 60% 50%, black 55%, transparent 100%); mask-image: radial-gradient(ellipse 70% 70% at 60% 50%, black 55%, transparent 100%); }
+  .art-mask-band { -webkit-mask-image: linear-gradient(to right, transparent 0, black 18%), linear-gradient(to top, transparent 0, black 22%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, black 18%), linear-gradient(to top, transparent 0, black 22%); mask-composite: intersect; }
+}
+@layer components {
+  .review-crop { height: 100%; }
+  .review-crop.art-day, .review-crop.art-night { display: block !important; }
+}

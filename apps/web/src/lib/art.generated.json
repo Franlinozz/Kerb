@@ -1,0 +1,379 @@
+{
+ "p1-kerbstone-night": {
+  "width": 1672,
+  "height": 941,
+  "widths": [
+   640,
+   960,
+   1280,
+   1600,
+   1672
+  ],
+  "files": [
+   {
+    "w": 640,
+    "ext": "avif",
+    "bytes": 29166
+   },
+   {
+    "w": 640,
+    "ext": "webp",
+    "bytes": 29104
+   },
+   {
+    "w": 960,
+    "ext": "avif",
+    "bytes": 58065
+   },
+   {
+    "w": 960,
+    "ext": "webp",
+    "bytes": 58306
+   },
+   {
+    "w": 1280,
+    "ext": "avif",
+    "bytes": 91747
+   },
+   {
+    "w": 1280,
+    "ext": "webp",
+    "bytes": 93524
+   },
+   {
+    "w": 1600,
+    "ext": "avif",
+    "bytes": 124741
+   },
+   {
+    "w": 1600,
+    "ext": "webp",
+    "bytes": 129354
+   },
+   {
+    "w": 1672,
+    "ext": "avif",
+    "bytes": 133697
+   },
+   {
+    "w": 1672,
+    "ext": "webp",
+    "bytes": 139280
+   }
+  ],
+  "mobile": {
+   "width": 753,
+   "height": 941,
+   "left": 777,
+   "files": [
+    {
+     "w": 480,
+     "ext": "avif",
+     "bytes": 59125
+    },
+    {
+     "w": 480,
+     "ext": "webp",
+     "bytes": 57406
+    },
+    {
+     "w": 753,
+     "ext": "avif",
+     "bytes": 113859
+    },
+    {
+     "w": 753,
+     "ext": "webp",
+     "bytes": 117604
+    }
+   ]
+  },
+  "blur": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAwBACdASoYAA4APtFWpUwoJKOiMAgBABoJZQDE2Glf3KSwbdH+sI/LEEAA/v6HrggOhsoDWgIKrV5DU/zsGCneiJqJPy3QJ2VV1PREWFprjyD+4mLNhlM6oA22X/5cBZPbSt1BN2x3GUZlkI0bDCuH1IaXXUAA"
+ },
+ "p1-kerbstone-day": {
+  "width": 1672,
+  "height": 941,
+  "widths": [
+   640,
+   960,
+   1280,
+   1600,
+   1672
+  ],
+  "files": [
+   {
+    "w": 640,
+    "ext": "avif",
+    "bytes": 38565
+   },
+   {
+    "w": 640,
+    "ext": "webp",
+    "bytes": 40480
+   },
+   {
+    "w": 960,
+    "ext": "avif",
+    "bytes": 75577
+   },
+   {
+    "w": 960,
+    "ext": "webp",
+    "bytes": 79350
+   },
+   {
+    "w": 1280,
+    "ext": "avif",
+    "bytes": 117328
+   },
+   {
+    "w": 1280,
+    "ext": "webp",
+    "bytes": 124640
+   },
+   {
+    "w": 1600,
+    "ext": "avif",
+    "bytes": 157017
+   },
+   {
+    "w": 1600,
+    "ext": "webp",
+    "bytes": 169740
+   },
+   {
+    "w": 1672,
+    "ext": "avif",
+    "bytes": 168494
+   },
+   {
+    "w": 1672,
+    "ext": "webp",
+    "bytes": 182820
+   }
+  ],
+  "mobile": {
+   "width": 753,
+   "height": 941,
+   "left": 777,
+   "files": [
+    {
+     "w": 480,
+     "ext": "avif",
+     "bytes": 67681
+    },
+    {
+     "w": 480,
+     "ext": "webp",
+     "bytes": 69128
+    },
+    {
+     "w": 753,
+     "ext": "avif",
+     "bytes": 129417
+    },
+    {
+     "w": 753,
+     "ext": "webp",
+     "bytes": 138808
+    }
+   ]
+  },
+  "blur": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAABQBACdASoYAA4APtFYpEwoJSOiMAgBABoJQBYdsVkb7XXd9u7kTLb0mSmAAP7v0DKBuklfCJgMgCC+lff7epPUvrsyBhw5NZA/gbLCWjgouqKXmNLUKDIWom6Lhj8r/+l24n/zBwylf5xiF9nh1zyveLeWCD2mtL9vzXnY7/3PrKtx5DGtnXF46rDD6CIN9BmvGcN9LihbHewiidMgPSOnjAAAAA=="
+ },
+ "p2-record": {
+  "width": 1672,
+  "height": 941,
+  "widths": [
+   640,
+   960,
+   1280,
+   1600,
+   1672
+  ],
+  "files": [
+   {
+    "w": 640,
+    "ext": "avif",
+    "bytes": 38860
+   },
+   {
+    "w": 640,
+    "ext": "webp",
+    "bytes": 40298
+   },
+   {
+    "w": 960,
+    "ext": "avif",
+    "bytes": 78892
+   },
+   {
+    "w": 960,
+    "ext": "webp",
+    "bytes": 81922
+   },
+   {
+    "w": 1280,
+    "ext": "avif",
+    "bytes": 123233
+   },
+   {
+    "w": 1280,
+    "ext": "webp",
+    "bytes": 128748
+   },
+   {
+    "w": 1600,
+    "ext": "avif",
+    "bytes": 166484
+   },
+   {
+    "w": 1600,
+    "ext": "webp",
+    "bytes": 176814
+   },
+   {
+    "w": 1672,
+    "ext": "avif",
+    "bytes": 179104
+   },
+   {
+    "w": 1672,
+    "ext": "webp",
+    "bytes": 189478
+   }
+  ],
+  "mobile": null,
+  "blur": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAABQBACdASoYAA4APtFapkyoJSOiMAgBABoJZQDE2YxE32m/bxmguj3s3zMAAP70IiONJePaxWwBZdBeON8DtPouhoqlLcIZoB4sMtGw4n9CoAptk+PxiufHV/+imMH64Pj4odItopVAeJTd4r2jyzNFpEclcB6pEHN4ZaVL8TjkykOLHAA="
+ },
+ "p3-standard": {
+  "width": 1672,
+  "height": 941,
+  "widths": [
+   640,
+   960,
+   1280,
+   1600,
+   1672
+  ],
+  "files": [
+   {
+    "w": 640,
+    "ext": "avif",
+    "bytes": 40576
+   },
+   {
+    "w": 640,
+    "ext": "webp",
+    "bytes": 43292
+   },
+   {
+    "w": 960,
+    "ext": "avif",
+    "bytes": 79841
+   },
+   {
+    "w": 960,
+    "ext": "webp",
+    "bytes": 83446
+   },
+   {
+    "w": 1280,
+    "ext": "avif",
+    "bytes": 120982
+   },
+   {
+    "w": 1280,
+    "ext": "webp",
+    "bytes": 127500
+   },
+   {
+    "w": 1600,
+    "ext": "avif",
+    "bytes": 161552
+   },
+   {
+    "w": 1600,
+    "ext": "webp",
+    "bytes": 171342
+   },
+   {
+    "w": 1672,
+    "ext": "avif",
+    "bytes": 172594
+   },
+   {
+    "w": 1672,
+    "ext": "webp",
+    "bytes": 183572
+   }
+  ],
+  "mobile": null,
+  "blur": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAAAwBACdASoYAA4APtFUpEuoJKOhsAgBABoJQBOmUABpYpM+FkxMiGXHRHAA/u1Ysml2Wc7a02pg8YIlUIf2DNTlrKhRh9P8VWnb5zYTF9QUN5eiSDRNVqGgrR612waTqDTb9PF7pVGt9+nsfCFj0s2HpxyqzBYO71LdzUZxuL2UEXDFkB2AqHQn3r+DFJuYI15uC0sC5ouDt6zgAAA="
+ },
+ "p5-fog": {
+  "width": 1672,
+  "height": 941,
+  "widths": [
+   640,
+   960,
+   1280,
+   1600,
+   1672
+  ],
+  "files": [
+   {
+    "w": 640,
+    "ext": "avif",
+    "bytes": 21606
+   },
+   {
+    "w": 640,
+    "ext": "webp",
+    "bytes": 20022
+   },
+   {
+    "w": 960,
+    "ext": "avif",
+    "bytes": 41071
+   },
+   {
+    "w": 960,
+    "ext": "webp",
+    "bytes": 37682
+   },
+   {
+    "w": 1280,
+    "ext": "avif",
+    "bytes": 61083
+   },
+   {
+    "w": 1280,
+    "ext": "webp",
+    "bytes": 56718
+   },
+   {
+    "w": 1600,
+    "ext": "avif",
+    "bytes": 81841
+   },
+   {
+    "w": 1600,
+    "ext": "webp",
+    "bytes": 76070
+   },
+   {
+    "w": 1672,
+    "ext": "avif",
+    "bytes": 86679
+   },
+   {
+    "w": 1672,
+    "ext": "webp",
+    "bytes": 81110
+   }
+  ],
+  "mobile": null,
+  "blur": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQAwCdASoYAA4APtE4sFMoIiWjmAEAGglnAAEd6WLSBQJIDkAf2MAA/v3a8xn/gae/2Ey8q0R3wjZenS3tBOd6iLJsM5YX5iomkvgnZzMC7I1nCNag9rfVz6qNH0XEk6rlENwOcdOryA2ov8dQZUqd6lo6FCvDdGZbidwAAAA="
+ }
+}
