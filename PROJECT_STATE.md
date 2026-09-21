@@ -15,7 +15,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 |---|---|---|
 | V2-K Kickoff and staging | backend | done 21 Sep: docs committed, staging built and served on 3301; public hostname waits on the `v2` DNS record |
 | V2-00 Repo hygiene, CI, verification | backend | done 21 Sep: root clean, 38 em dashes to 0 with a CI check, CI green, five testnet contracts Sourcify exact match, mirror LT explained, pinning options below |
-| V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | not started |
+| V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | built and tested on branch `kts-0.2` (worktree /root/kerb-kts02), NOT merged; live attesters stay on 0.1 until the operator writes "go KTS-0.2" |
 | V2-02 API support for V2 | backend | not started |
 | V2-03 Art batch and brand assets | backend + operator pick | not started |
 | V2-04 Kerbstone foundation and app shell | frontend | not started |
@@ -35,7 +35,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | DNS: A record `v2.usekerb.xyz` -> 62.171.182.75 (staging) | now | |
 | Move the live site onto release directories (see V2 cutover, step 0) | before any live web deploy | |
 | Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | |
-| KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | |
+| KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | asked 21 Sep; evidence in data/reports/kts-0.2-*.json on branch kts-0.2 |
 | Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | options in "Pinning, 21 Sep" below |
 | Mirror LT: align or explain (V2-00) | V2-00 | explained (API disclaimer, docs/ARCHITECTURE.md). Aligning is not possible without a redeploy: a listed threshold has no setter and relisting reverts `AlreadyListed` |
 | Demo position keeper with a fresh testnet-only wallet (V2-08) | Wed 23 Sep | |
@@ -254,6 +254,8 @@ One line each, every time the build departs from the plan.
 | 21 Sep | `PROJECT_STATE.md` and `BUILD_PERIOD.md` stay at the repo root, outside the V2-00 root list | Every phase prompt names them at the root, and `/v1/proof` reads `BUILD_PERIOD.md` from there |
 | 21 Sep | New attester bundles under `data/reports/bundles/` are git-ignored; the ten committed ones stay as fixtures | The API serves them from disk; about 2,100 a day would swamp the repo |
 | 21 Sep | The live web process still runs from `/root/kerb/apps/web`; only staging runs from a release directory | Moving the live process was refused by the session's permission check as a production deploy; it waits on the operator (V2 cutover, step 0) |
+| 21 Sep | KTS-0.2 reads g(H) by calendar hours (square root of time under a day, variance interpolation between whole-session gaps beyond), not by sessions spanned. Written into docs/v2/KTS-0.2.md section 2.1 and stated in every 0.2 report | 0.1 counts almost every horizon, a weekend included, as one session, which would give Carry and Session Max the same gap and leave them flat again |
+| 21 Sep | `kerb verify` recomputes from the engine config pinned inside the bundle, not from today's params file (on branch kts-0.2) | Otherwise every 0.1 bundle would stop verifying the moment the params file moved to 0.2 |
 | 19 Sep | One row with mode='test' in obs_source_error from verifying the append-only trigger; it cannot be deleted by design | Trigger verification |
 
 ---
