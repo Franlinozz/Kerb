@@ -15,7 +15,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 |---|---|---|
 | V2-K Kickoff and staging | backend | done 21 Sep: docs committed, staging built and served on 3301; public hostname waits on the `v2` DNS record |
 | V2-00 Repo hygiene, CI, verification | backend | done 21 Sep: root clean, 38 em dashes to 0 with a CI check, CI green, five testnet contracts Sourcify exact match, mirror LT explained, pinning options below |
-| V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | LIVE 21 Sep 19:38 UTC on operator's go: first 0.2 posts mainnet 0x6212668a35862bb6753ffb84ec9843665df3b3bff9fed5999bb65a5fca139577, testnet 0x4f43fb62a91c0ebf48ab081c460ca55eb613b07c5d61612cd643e431e5eec053; a Carry change across a regime change is still to be confirmed |
+| V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | LIVE 21 Sep 19:38 UTC on operator's go: first 0.2 posts mainnet 0x6212668a35862bb6753ffb84ec9843665df3b3bff9fed5999bb65a5fca139577, testnet 0x4f43fb62a91c0ebf48ab081c460ca55eb613b07c5d61612cd643e431e5eec053. Confirmed across the 20:00 UTC New York close: KOx Carry 55.60% to 51.57%, Session Max 61.20% to 54.47% ([0x70acaeaa](https://www.oklink.com/xlayer/tx/0x70acaeaa192d81e4fa9a5f58d6aebd1b560df55dc0e2f8f704fec614d0f6d9c5) then [0xfcc7616f](https://www.oklink.com/xlayer/tx/0xfcc7616f8aca33137359880b38c67de3624b12d271410b64481841712dfd6f40)) |
 | V2-02 API support for V2 | backend | done 21 Sep: board additions and summary, /v1/tape, /v1/stats, demo-clock, positions feed (rung 1, indexed from events), docs/API.md |
 | V2-03 Art batch and brand assets | backend + operator pick | blocked: needs the operator's cost approval and an OpenAI API key (none on the VPS). Mark, icon.svg, apple icon and interim OG cards done under V2-04 |
 | V2-04 Kerbstone foundation and app shell | frontend | done 21 Sep on staging: tokens and layers, fonts loaded, three themes, header, drawer, wallet sheet, error map, toasts, TxStepper, footer, 20 primitives, system routes, redirects, metadata; 60 screenshots in data/screens/v2/shell |
@@ -291,6 +291,8 @@ Evidence: 93 engine tests (6 horizon cases + invariant sweep). Replay 3,286 real
        (data/reports/kts-0.2-fork*.json). kerb verify: stored 0.1 and fresh 0.2 bundles byte-identical;
        live 0.2 post 0x4f43fb62... reproduces (Session Max clamped tighter onchain by the loosen step).
        First 0.2 posts: mainnet 0x6212668a35862bb6753ffb84ec9843665df3b3bff9fed5999bb65a5fca139577.
+       Regime change on chain, KOx at the 20:00 UTC close: Carry 55.60% -> 51.57%, Session Max 61.20% -> 54.47%
+       (0x70acaeaa192d81e4fa9a5f58d6aebd1b560df55dc0e2f8f704fec614d0f6d9c5 -> 0xfcc7616f8aca33137359880b38c67de3624b12d271410b64481841712dfd6f40).
 Decision: operator wrote "go KTS 0.2" on 21 Sep.
 Deviations: g(H) by calendar hours (KTS-0.2 section 2.1); verify reads config from the bundle.
 Next: V2-02
