@@ -94,7 +94,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
                   <td>
                     <a className="mono" href={d.explorer} target="_blank" rel="noreferrer">{shortHash(d.address, 10, 6)}</a>
                   </td>
-                  <td className="num">{d.block ?? "—"}</td>
+                  <td className="num">{d.block ?? "Not recorded"}</td>
                   <td className="dim">
                     {d.verificationUrl ? (
                       <a href={d.verificationUrl} target="_blank" rel="noreferrer">{d.verification}</a>
@@ -131,9 +131,9 @@ export default async function ProofPage(): Promise<React.ReactElement> {
               {p.onchain.latestPosts.map((t) => (
                 <tr key={t.tx}>
                   <td className="dim">{utcStamp(t.observedAt)}</td>
-                  <td>{t.symbol ?? "—"}</td>
+                  <td>{t.symbol ?? "Unknown asset"}</td>
                   <td className="dim">{t.chainId}</td>
-                  <td className="num">{t.gasUsed ? group(t.gasUsed) : "—"}</td>
+                  <td className="num">{t.gasUsed ? group(t.gasUsed) : "Not recorded"}</td>
                   <td>
                     <a className="mono" href={t.explorer} target="_blank" rel="noreferrer">{shortHash(t.tx)}</a>
                   </td>

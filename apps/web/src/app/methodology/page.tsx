@@ -167,7 +167,7 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
           intervals scaled by recent volatility, plus the impact of liquidating at a reference size, the
           liquidation bonus and a buffer. <strong>Liquidity capacity</strong> sets the debt ceiling at a fraction
           of C(1%): never lend more than you can liquidate. <strong>Position capacity</strong> caps what a single
-          borrower may owe. Carry and Session Max are the same calculation over two different horizons — Carry
+          borrower may owe. Carry and Session Max are the same calculation over two different horizons: Carry
           must survive the next weakening, Session Max only the rest of the session, which is why it comes with
           the covenant.
         </p>

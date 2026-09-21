@@ -85,7 +85,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
               {terms.data.usable ? (
                 <span>yes</span>
               ) : (
-                <span className="badge badge-warn">no — stale or halted</span>
+                <span className="badge badge-warn">no: stale or halted</span>
               )}
               <div className="faint field-note">
                 Posted {utcStamp(terms.data.observedAt)}, {age(terms.data.ageSec)} ago.{" "}

@@ -11,7 +11,7 @@ import { duration, group, round, scale, shift, utcStamp } from "@/lib/format";
 import { Prov } from "./Value";
 
 const pct = (raw: string | null, places = 2): string =>
-  raw === null ? "—" : `${round(shift(scale(raw, 18), 2), places)}%`;
+  raw === null ? "No debt" : `${round(shift(scale(raw, 18), 2), places)}%`;
 
 export function PositionLookup({ collaterals, chainId, loanDecimals, loanSymbol }: {
   collaterals: { assetId: string; label: string }[];

@@ -70,7 +70,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
       <section className="section">
         <h2>Read the Terms from the chain</h2>
         <p className="section-note">
-          The authoritative source. No API in the path, no trust in Kerb&rsquo;s servers — just the contract.
+          The authoritative source. No API in the path, no trust in Kerb&rsquo;s servers, just the contract.
         </p>
         <pre className="code">{VIEM_SNIPPET}</pre>
         <p className="section-note">
@@ -124,7 +124,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
           {board.ok ? (
             <>
               {" "}
-              — currently {board.data.rows.length} assets <Prov label="Observed" />
+              currently returns {board.data.rows.length} assets <Prov label="Observed" />
             </>
           ) : null}
         </p>
@@ -182,8 +182,8 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
             <span className="mono">{credit.data.contracts.KerbCredit}</span> on X Layer testnet, loan asset{" "}
             <span className="mono">{credit.data.loanAsset.symbol}</span>. Collateral is mirror collateral with no
             claim on any security, and the clock is a compressed demo clock. Both are flagged in the API
-            response itself — <span className="mono">loanAsset.isMock</span> and{" "}
-            <span className="mono">contracts.clockIsDemo</span> — so an integrator cannot mistake this for a
+            response itself (<span className="mono">loanAsset.isMock</span> and{" "}
+            <span className="mono">contracts.clockIsDemo</span>), so an integrator cannot mistake this for a
             production market even if they never read this page.
           </p>
         ) : (

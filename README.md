@@ -1,9 +1,11 @@
 # Kerb
+
+[![CI](https://github.com/Franlinozz/Kerb/actions/workflows/ci.yml/badge.svg)](https://github.com/Franlinozz/Kerb/actions/workflows/ci.yml)
 ### Credit on the market's clock
 
 Kerb is the market-time risk layer for tokenized securities on X Layer. It observes each asset's
 underlying market session, its executable liquidity in the real X Layer pools, and the quality of
-its price sources, then converts all three into reproducible onchain credit terms — and lends
+its price sources, then converts all three into reproducible onchain credit terms, and lends
 against them.
 
 > **Never lend more than you can liquidate.**
@@ -15,12 +17,12 @@ against them.
 
 ## What it does
 
-1. **Session.** Every asset's underlying market runs on its own calendar — NYSE, Nasdaq, NYSE Arca,
+1. **Session.** Every asset's underlying market runs on its own calendar: NYSE, Nasdaq, NYSE Arca,
    and HKEX with its lunch break as a first-class session boundary. Kerb resolves where each asset
    is in that calendar, on chain and off, from the same resolver.
 2. **Depth.** It walks the real Uniswap V3 pools on X Layer tick by tick in the direction of a sale
    and asks what the largest notional is whose realised impact is at most *i*. That is C(i), and it
-   is cross-checked against an independent aggregator quote — the smaller of the two always wins.
+   is cross-checked against an independent aggregator quote, and the smaller of the two always wins.
 3. **Mark.** It takes the conservative minimum of a reference median and the pool price along the
    whole path to the loan asset, after a dispersion guard and a regime haircut.
 4. **Terms.** Those become a Carry capacity that survives the next weakening unattended, a higher
@@ -40,7 +42,7 @@ not. Lending protocols in production treat 3am Sunday and 3pm Wednesday as the s
 size credit against a price rather than against an exit. Kerb measures the difference.
 
 Market-Time Report #1 measured it: across 42 hours and 35,130 readings of a closed weekend,
-in-range liquidity fell on 7 of 10 asset pools — the largest by 49%. A capacity number fixed at
+in-range liquidity fell on 7 of 10 asset pools, the largest by 49%. A capacity number fixed at
 Friday's close would have been wrong for the whole weekend.
 [Read it →](https://www.usekerb.xyz/reports/1)
 
@@ -123,4 +125,4 @@ Fastify (MIT), Next.js (MIT), React (MIT), TanStack Query (MIT), tsx (MIT), Vite
 TypeScript (Apache-2.0), ESLint (MIT), OpenZeppelin Contracts (MIT), Foundry forge-std (MIT/Apache-2.0),
 Playwright (Apache-2.0). Data sources: xStocks public API, X Layer RPC, Uniswap v3 contracts on
 X Layer, the OKX DEX aggregator quote API, and the Yahoo Finance chart endpoint (third-party
-reference, no SLA, not redistributed — see `data/SOURCES.md`).
+reference, no SLA, not redistributed; see `data/SOURCES.md`).

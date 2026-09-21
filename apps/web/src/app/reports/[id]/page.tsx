@@ -121,16 +121,16 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                       <Link href={`/asset/${c.symbol}`}>{c.symbol}</Link>
                     </td>
                     <td className="dim">
-                      {c.regimeChanged ? `${c.regimeBefore} → ${c.regimeAfter}` : (c.regimeBefore ?? "—")}
+                      {c.regimeChanged ? `${c.regimeBefore} → ${c.regimeAfter}` : (c.regimeBefore ?? "Not recorded")}
                     </td>
-                    <td className="num">{c.c1Before ? group(round(c.c1Before, 0)) : "—"}</td>
-                    <td className="num">{c.c1After ? group(round(c.c1After, 0)) : "—"}</td>
+                    <td className="num">{c.c1Before ? group(round(c.c1Before, 0)) : "Not measured"}</td>
+                    <td className="num">{c.c1After ? group(round(c.c1After, 0)) : "Not measured"}</td>
                     <td className="num" style={c.c1ChangePct?.startsWith("-") ? { color: "var(--danger)" } : undefined}>
-                      {c.c1ChangePct === null ? "—" : `${c.c1ChangePct}%`}
+                      {c.c1ChangePct === null ? "Not measured" : `${c.c1ChangePct}%`}
                     </td>
-                    <td className="num">{c.c3ChangePct === null ? "—" : `${c.c3ChangePct}%`}</td>
-                    <td className="num">{c.markChangePct === null ? "—" : `${c.markChangePct}%`}</td>
-                    <td className="num">{c.ceilingChangePct === null ? "—" : `${c.ceilingChangePct}%`}</td>
+                    <td className="num">{c.c3ChangePct === null ? "Not measured" : `${c.c3ChangePct}%`}</td>
+                    <td className="num">{c.markChangePct === null ? "Not measured" : `${c.markChangePct}%`}</td>
+                    <td className="num">{c.ceilingChangePct === null ? "Not measured" : `${c.ceilingChangePct}%`}</td>
                   </tr>
                 ))}
               </tbody>
@@ -169,7 +169,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                   <td className="num">{liq(p.liquidityAtStart)}</td>
                   <td className="num">{liq(p.liquidityAtEnd)}</td>
                   <td className="num" style={p.changePct?.startsWith("-") ? { color: "var(--danger)" } : undefined}>
-                    {p.changePct === null ? "—" : `${p.changePct}%`}
+                    {p.changePct === null ? "Not measured" : `${p.changePct}%`}
                   </td>
                   <td className="num">{liq(p.liquidityMin)}</td>
                   <td className="num">{liq(p.liquidityMax)}</td>

@@ -2,7 +2,7 @@
  * Put a position above its Carry target so the cure path can be exercised.
  * Used to stage a demonstration; it takes no shortcuts the UI does not also take.
  */
-import { encodeAbiParameters, formatUnits, keccak256, parseUnits, type Address, type Hex } from "viem";
+import { encodeAbiParameters, formatUnits, keccak256, type Address, type Hex } from "viem";
 import { explorerTx, type KerbChainId } from "@kerb/adapters";
 import { artifact, deploymentOf, walletFor, suffix } from "../src/chain.js";
 

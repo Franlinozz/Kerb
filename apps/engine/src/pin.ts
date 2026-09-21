@@ -7,8 +7,8 @@ export interface PinResult {
 }
 
 /**
- * When the pinning service refuses for a reason that will not change in the next minute — a
- * quota, a blocked account, a bad key — stop asking for a while. Hammering a 403 every cycle
+ * When the pinning service refuses for a reason that will not change in the next minute (a
+ * quota, a blocked account, a bad key), stop asking for a while. Hammering a 403 every cycle
  * wastes time in the attester's critical path and tells nobody anything new.
  */
 let blockedUntilMs = 0;

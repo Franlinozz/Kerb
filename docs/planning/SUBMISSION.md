@@ -30,11 +30,11 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 >
 > Core integration: X Layer mainnet contracts (KerbClock, KerbTerms) publishing signed, reproducible terms for ten live tokenized equity pools, USDG as the loan asset, ERC-8021 Builder Code attribution on every Kerb transaction, and the Kerb Credit market with the full borrow, Last Call, cure and liquidation lifecycle. Every published number carries provenance and can be recomputed from its pinned input bundle.
 
-**Repository.** `https://github.com/Franlinozz/Kerb` — **currently private, must be made public before submitting.** README complete, `BUILD_PERIOD.md` shows day-by-day build-period work, full history scanned clean of secrets.
+**Repository.** `https://github.com/Franlinozz/Kerb`. **Currently private, must be made public before submitting.** README complete, `BUILD_PERIOD.md` shows day-by-day build-period work, full history scanned clean of secrets.
 
 **Demo video.** 2 to 4 minutes, per `docs/v2/V2-DEMO.md`. Unlisted or public link that works logged out.
 
-**Product link.** `https://www.usekerb.xyz` — the Board, the Market, the Methodology, Market-Time Report #1 and the Proof page all load with no wallet and no account. Public API at `https://api.usekerb.xyz`.
+**Product link.** `https://www.usekerb.xyz`. The Board, the Market, the Methodology, Market-Time Report #1 and the Proof page all load with no wallet and no account. Public API at `https://api.usekerb.xyz`.
 
 > **Open item:** the apex `usekerb.xyz` has no A record. `www` and `api` resolve. Either add an A record for `@` pointing at 62.171.182.75, or submit the `www` URL.
 
@@ -111,9 +111,9 @@ Open-source libraries used, and the data sources with their licences.
 | Slither | 67 results, none High, every one dispositioned in SECURITY.md |
 | IPFS pinning | live; `kerb verify <inputsHash>` reproduces the posted terms from the pinned bundle |
 | Market-Time Report #1 | published at /reports/1 from 35,130 measured readings |
-| Demo video | not recorded — final-stage item |
-| Repo public | not yet — approved, to be flipped before submitting |
-| Apex DNS | missing — operator action |
+| Demo video | not recorded, final-stage item |
+| Repo public | not yet: approved, to be flipped before submitting |
+| Apex DNS | missing, operator action |
 
 ---
 

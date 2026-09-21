@@ -237,7 +237,7 @@ export function BorrowPanel({ market, collateral }: { market: CreditMarket; coll
             <span className="faint">Session Max gives you</span>
             <span>
               {money(sessionRoom)} at {pctOf(sessionMaxLTV)}
-              {extraFromSessionMax > 0n ? ` — ${money(extraFromSessionMax)} more than Carry` : ""}
+              {extraFromSessionMax > 0n ? `, ${money(extraFromSessionMax)} more than Carry` : ""}
             </span>
           </div>
           <div className="confirm-row">
@@ -252,7 +252,7 @@ export function BorrowPanel({ market, collateral }: { market: CreditMarket; coll
                   "at the next weakening of this session"
                 )
               ) : (
-                "none — this draw sits at or below the Carry target"
+                "none: this draw sits at or below the Carry target"
               )}
             </span>
           </div>

@@ -158,7 +158,7 @@ export default async function MarketPage(): Promise<React.ReactElement> {
                   <Value value={`${pct(c.defaultBonus)} bonus, ${pct(c.closeFactor)} close factor`} label="Verified" />
                 </Field>
                 <Field label="Usable for new risk">
-                  {c.terms.usable ? "yes" : <span className="badge badge-warn">no — stale or halted</span>}
+                  {c.terms.usable ? "yes" : <span className="badge badge-warn">no: stale or halted</span>}
                   <div className="faint field-note">
                     token{" "}
                     <a href={explorerAddress(c.token, m.chainId)} target="_blank" rel="noreferrer" className="mono">

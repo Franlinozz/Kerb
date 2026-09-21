@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ts:
+    name: TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Public copy carries no em dash
+        run: pnpm check:copy
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - name: Test
+        # Every suite runs offline against committed fixtures: none needs Postgres or a live RPC,
+        # so nothing is skipped. The count is printed so a future skip cannot hide.
+        run: |
+          set -o pipefail
+          pnpm -r --no-bail test 2>&1 | tee test.log
+          echo "Skipped tests: $(grep -Eo '[0-9]+ skipped' test.log | awk '{s+=$1} END {print s+0}')"
+      - name: Build the web app with the API unreachable
+        # The public API is named but never reachable from CI; every page renders on request, so
+        # the build must not depend on it.
+        env:
+          KERB_API_PUBLIC: https://api.usekerb.xyz
+          KERB_API_INTERNAL: http://127.0.0.1:9
+        run: pnpm --filter @kerb/web build
+
+  sol:
+    name: Solidity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Build
+        working-directory: contracts
+        run: forge build --sizes
+      - name: Test (fork suites excluded, they need an X Layer RPC)
+        working-directory: contracts
+        run: forge test --no-match-contract Fork
+
+  e2e:
+    name: E2E (Playwright)
+    # Placeholder until V2-11 adds the golden-path suite. Allowed to fail until then.
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @kerb/web e2e

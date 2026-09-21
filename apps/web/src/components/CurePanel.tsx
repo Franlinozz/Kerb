@@ -121,7 +121,7 @@ export function CurePanel({ market, collaterals }: { market: CreditMarket; colla
             <dl>
               <div className="field">
                 <dt>Position LTV</dt>
-                <dd>{ltv.data === undefined ? "—" : `${round(shift(scale(ltv.data.toString(), 18), 2), 2)}%`}</dd>
+                <dd>{ltv.data === undefined ? "Reading" : `${round(shift(scale(ltv.data.toString(), 18), 2), 2)}%`}</dd>
               </div>
               <div className="field">
                 <dt>Cure would repay</dt>

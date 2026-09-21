@@ -2,7 +2,7 @@
 
 ## Status
 
-**These contracts are unaudited.** The mainnet deployment is the risk plane only — `KerbClock` and
+**These contracts are unaudited.** The mainnet deployment is the risk plane only: `KerbClock` and
 `KerbTerms` hold no user funds and cannot move any. `KerbCredit`, which does handle money, runs on
 X Layer testnet against clearly labelled mirror collateral. A mainnet `KerbCredit` deployment is
 gated on written operator approval, green invariants and this report (AGENTS.md rule 9).

@@ -93,7 +93,9 @@ export function compact(value: string | null, places = 1): string | null {
 
 /** Duration in words, largest two units. Input is milliseconds of wall clock, not a value path. */
 export function duration(ms: number): string {
-  if (!Number.isFinite(ms) || ms < 0) return "—";
+  if (!Number.isFinite(ms)) return "Unknown";
+  // A transition that has already passed: the next one is being read.
+  if (ms < 0) return "Updating";
   const s = Math.floor(ms / 1000);
   const d = Math.floor(s / 86400);
   const h = Math.floor((s % 86400) / 3600);

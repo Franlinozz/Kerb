@@ -78,14 +78,14 @@ export function PositionCard({ market, collateral, user }: {
       <div className="position-grid">
         <div>
           <span className="faint">Health</span>
-          <strong>{hf === undefined ? "—" : hf > 10n ** 30n ? "no debt" : round(scale(hf.toString(), 18), 3)}</strong>
+          <strong>{hf === undefined ? "Reading" : hf > 10n ** 30n ? "no debt" : round(scale(hf.toString(), 18), 3)}</strong>
           <span className="faint">
             against the fixed {pct(BigInt(collateral.liquidationThreshold))} threshold <Prov label="Computed" />
           </span>
         </div>
         <div>
           <span className="faint">Current LTV</span>
-          <strong>{ltv.data === undefined ? "—" : pct(ltv.data)}</strong>
+          <strong>{ltv.data === undefined ? "Reading" : pct(ltv.data)}</strong>
           <span className="faint">
             Carry target {carryTarget === 0n ? "none recorded" : pct(carryTarget)} <Prov label="Computed" />
           </span>
