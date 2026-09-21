@@ -7,6 +7,8 @@ export const CREDIT_ABI = [
   { type: "function", name: "borrow", stateMutability: "nonpayable", inputs: [{ name: "assetId", type: "bytes32" }, { name: "amount", type: "uint256" }, { name: "mode", type: "uint8" }], outputs: [] },
   { type: "function", name: "repay", stateMutability: "nonpayable", inputs: [{ name: "assetId", type: "bytes32" }, { name: "amount", type: "uint256" }], outputs: [{ type: "uint256" }] },
   { type: "function", name: "cure", stateMutability: "nonpayable", inputs: [{ name: "user", type: "address" }, { name: "assetId", type: "bytes32" }, { name: "repayAmount", type: "uint256" }], outputs: [{ type: "uint256" }, { type: "uint256" }] },
+  { type: "function", name: "supplyShares", stateMutability: "view", inputs: [{ name: "a", type: "address" }], outputs: [{ type: "uint256" }] },
+  { type: "function", name: "suppliedOf", stateMutability: "view", inputs: [{ name: "a", type: "address" }], outputs: [{ type: "uint256" }] },
   { type: "function", name: "debtOf", stateMutability: "view", inputs: [{ name: "user", type: "address" }, { name: "assetId", type: "bytes32" }], outputs: [{ type: "uint256" }] },
   { type: "function", name: "positionLTV", stateMutability: "view", inputs: [{ name: "user", type: "address" }, { name: "assetId", type: "bytes32" }], outputs: [{ type: "uint256" }] },
   { type: "function", name: "healthFactor", stateMutability: "view", inputs: [{ name: "user", type: "address" }, { name: "assetId", type: "bytes32" }], outputs: [{ type: "uint256" }] },

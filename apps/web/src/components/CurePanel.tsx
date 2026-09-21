@@ -49,6 +49,28 @@ export function CurePanel({ market, collaterals }: { market: CreditMarket; colla
     void ltv.refetch();
   });
 
+  const [sending, setSending] = useState(false);
+
+  /**
+   * The required amount moves with the mark, and a report can land between reading it and the
+   * block that includes the cure. Sending a stale figure reverts with CureTooLarge, so the button
+   * re-reads at click time and then leaves a tenth of a percent of headroom. Cure is allowed to be
+   * partial, so erring low is always safe; erring high is not.
+   */
+  const executeCure = async (): Promise<void> => {
+    setSending(true);
+    try {
+      const fresh = await status.refetch();
+      const required_ = fresh.data?.[2] ?? required;
+      if (required_ === 0n) return;
+      const safe = (required_ * 9990n) / 10000n;
+      if (safe === 0n) return;
+      tx.send({ address: credit, abi: CREDIT_ABI, functionName: "cure", args: [user, assetId, safe] });
+    } finally {
+      setSending(false);
+    }
+  };
+
   const eligible = status.data?.[0] ?? false;
   const deadline = status.data?.[1] ? Number(status.data[1]) * 1000 : null;
   const required = status.data?.[2] ?? 0n;
@@ -62,7 +84,14 @@ export function CurePanel({ market, collaterals }: { market: CreditMarket; colla
       <div className="row-actions">
         <label>
           <span className="faint">Position to cure</span>
-          <input value={target} onChange={(e) => setTarget(e.target.value)} placeholder="0x…" spellCheck={false} className="mono" />
+          <input
+            value={target}
+            onChange={(e) => setTarget(e.target.value)}
+            placeholder="0x…"
+            spellCheck={false}
+            className="mono"
+            aria-label="Position to cure"
+          />
         </label>
         {collaterals.length > 1 ? (
           <label>
@@ -122,8 +151,10 @@ export function CurePanel({ market, collaterals }: { market: CreditMarket; colla
               ) : (
                 <button
                   type="button"
-                  disabled={busy || !eligible || !address}
-                  onClick={() => tx.send({ address: credit, abi: CREDIT_ABI, functionName: "cure", args: [user, assetId, required] })}
+                  disabled={busy || sending || !eligible || !address}
+                  onClick={() => {
+                    void executeCure();
+                  }}
                 >
                   {eligible ? `Cure for ${money(required)}` : "Cure (waiting for Last Call)"}
                 </button>

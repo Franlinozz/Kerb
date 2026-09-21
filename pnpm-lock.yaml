@@ -157,6 +157,9 @@ importers:
       next:
         specifier: 15.5.25
         version: 15.5.25(@types/node@22.20.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      ox:
+        specifier: ^1.7.5
+        version: 1.7.5(typescript@5.9.3)
       react:
         specifier: ^19.2.6
         version: 19.3.0

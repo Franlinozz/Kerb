@@ -364,3 +364,25 @@ export interface MarketTimeReport {
 
 export const getMarketTimeReport = (id: number): Promise<Read<MarketTimeReport>> =>
   read<MarketTimeReport>(`/v1/market-time/${id}`);
+
+export interface MarketTimeIndexEntry {
+  id: number; title: string; generatedAt: string;
+  window: string; windowTo: string; hours: string; observations: number;
+}
+
+export const getMarketTimeIndex = (): Promise<Read<{ reports: MarketTimeIndexEntry[] }>> =>
+  read<{ reports: MarketTimeIndexEntry[] }>("/v1/market-time");
+
+export interface KtsParams {
+  kts: string;
+  paramsVersion: string;
+  depth: Record<string, unknown>;
+  mark: Record<string, unknown>;
+  regime: Record<string, unknown>;
+  asymmetry: Record<string, unknown>;
+  capacityDefaults: Record<string, string>;
+  stress: Record<string, unknown>;
+  note?: string;
+}
+
+export const getParams = (): Promise<Read<KtsParams>> => read<KtsParams>("/v1/params");

@@ -9,12 +9,14 @@
     "start": "next start -p 3300",
     "typecheck": "tsc -p tsconfig.json",
     "shoot": "tsx scripts/screenshots.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "cure-from-ui": "tsx scripts/cure-from-ui.ts"
   },
   "dependencies": {
     "@kerb/sdk": "workspace:*",
     "@tanstack/react-query": "^5.103.1",
     "next": "15.5.25",
+    "ox": "^1.7.5",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "viem": "^2.56.8",

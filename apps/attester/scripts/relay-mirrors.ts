@@ -5,7 +5,9 @@
  * risk data underneath it is the same Market-Time Report Kerb posts to X Layer mainnet, for the
  * same underlying, at the same moment. Nothing is invented for the demo.
  *
- * Runs once per invocation; loop it or call it before a demo.
+ * Runs once per invocation, or every KERB_RELAY_INTERVAL_SEC seconds when that is set. The
+ * mirrors must not be allowed to go stale: a stale report makes effectiveTerms unusable, which
+ * correctly stops anyone borrowing, but on a demonstration market it just looks broken.
  */
 import { encodeAbiParameters, keccak256, parseUnits, type Address, type Hex } from "viem";
 import { explorerTx, loadAssets, resolvedAssets, type KerbChainId } from "@kerb/adapters";
@@ -33,7 +35,9 @@ const params = loadParams();
 const cfg = loadAssets();
 const loanDecimals = cfg.quoteTokens[cfg.loanAsset]?.decimals ?? 6;
 
-try {
+const intervalSec = Number(process.env["KERB_RELAY_INTERVAL_SEC"] ?? 0);
+
+async function relayOnce(): Promise<void> {
   for (const m of MIRRORS) {
     const token = deploymentOf(chainId, m.key).address;
     const assetId = assetIdOf(chainId, token);
@@ -80,6 +84,23 @@ try {
     void regimeIndex;
     void parseUnits;
   }
+}
+
+try {
+  if (intervalSec <= 0) {
+    await relayOnce();
+  } else {
+    console.log(`${new Date().toISOString()} mirror relay starting, every ${intervalSec}s`);
+    for (;;) {
+      try {
+        await relayOnce();
+      } catch (err) {
+        // A failed relay must not kill the loop: the next pass may well succeed.
+        console.error(`${new Date().toISOString()} relay failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+      await new Promise((r) => setTimeout(r, intervalSec * 1000));
+    }
+  }
 } finally {
-  await sql.end();
+  if (intervalSec <= 0) await sql.end();
 }

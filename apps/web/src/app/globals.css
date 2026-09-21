@@ -308,3 +308,31 @@ dl { margin: 0; }
 
 ul.plain { margin: 10px 0; padding-left: 18px; max-width: var(--measure); }
 ul.plain li { margin: 6px 0; color: var(--text-dim); font-size: 0.9rem; }
+
+/* ---------------------------------------------------------------- position card */
+.position-card { border: 1px solid var(--line-strong); border-left-width: 3px; border-left-color: var(--tone-normal); border-radius: var(--radius); padding: 12px 14px; margin: 12px 0; background: var(--surface); }
+.position-warn { border-left-color: var(--accent-lastcall); }
+.position-danger { border-left-color: var(--danger); }
+.position-card h4 { margin: 0; font-size: 0.92rem; font-weight: 600; display: inline-flex; gap: 8px; align-items: baseline; }
+.position-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px 18px; margin: 12px 0 6px; }
+.position-grid > div { display: flex; flex-direction: column; gap: 1px; }
+.position-grid span.faint { font-size: 0.72rem; }
+.position-grid strong { font-size: 1.05rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.position-says { margin: 8px 0 0; font-size: 0.86rem; color: var(--text-dim); max-width: var(--measure); }
+
+/* ---------------------------------------------------------------- the mode question */
+.mode-choice { border: 0; padding: 0; margin: 16px 0 6px; }
+.mode-choice legend { font-size: 0.92rem; font-weight: 600; color: var(--text); padding: 0; margin-bottom: 8px; }
+.mode-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mode-option {
+  display: grid; grid-template-columns: auto 1fr; grid-template-areas: "radio title" "radio amount" "note note";
+  gap: 2px 8px; align-items: baseline; cursor: pointer;
+  border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 10px 12px; background: var(--surface);
+}
+.mode-option:hover { border-color: var(--text-faint); }
+.mode-selected { border-color: var(--text-dim); border-left-width: 3px; }
+.mode-option input { grid-area: radio; align-self: center; }
+.mode-title { grid-area: title; font-weight: 600; font-size: 0.9rem; }
+.mode-amount { grid-area: amount; font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.mode-note { grid-area: note; font-size: 0.78rem; color: var(--text-dim); margin-top: 6px; }
+@media (max-width: 680px) { .mode-options { grid-template-columns: 1fr; } }

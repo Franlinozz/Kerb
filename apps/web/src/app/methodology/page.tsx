@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RegimeTag, REGIME_MEANING } from "@/components/Regime";
 import { Field, Prov, Value } from "@/components/Value";
 import { SourceTrouble } from "@/components/States";
-import { getBoard, getClock, getReport, getTerms, type Regime } from "@/lib/api";
+import { getBoard, getClock, getParams, getReport, getTerms, type Regime } from "@/lib/api";
 import { byDecimalDesc, duration, group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Methodology" };
@@ -20,7 +20,9 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
   // Work the example on whichever asset currently carries the most debt capacity: a real one.
   const lead = board.ok ? [...board.data.rows].sort(byDecimalDesc((r) => r.debtCeiling.value))[0] : undefined;
   const symbol = lead?.symbol ?? "KOx";
-  const [report, terms, clock] = await Promise.all([getReport(symbol), getTerms(symbol), getClock(symbol)]);
+  const [report, terms, clock, params] = await Promise.all([
+    getReport(symbol), getTerms(symbol), getClock(symbol), getParams(),
+  ]);
 
   return (
     <>
@@ -265,9 +267,58 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
         </p>
       </section>
 
+
+      {/* ------------------------------------------------------------ parameters */}
+      <section className="section">
+        <h2>7. The parameter set</h2>
+        <p className="section-note">
+          Every constant the engine runs on, read from the same file the engine reads. Parameters are versioned
+          with the report, so a number published under one version can never be re-explained by another.
+        </p>
+        {params.ok ? (
+          <>
+            <p className="section-note">
+              Params version <span className="mono">{params.data.paramsVersion}</span>, KTS{" "}
+              <span className="mono">{params.data.kts}</span>.
+            </p>
+            <p className="scroll-hint">Scroll the table sideways for the values.</p>
+            <div className="scroll-x">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Group</th>
+                    <th>Parameter</th>
+                    <th className="num">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(["depth", "mark", "regime", "asymmetry", "capacityDefaults", "stress"] as const).flatMap((group) =>
+                    Object.entries(params.data[group] as Record<string, unknown>).map(([k, v]) => (
+                      <tr key={`${group}.${k}`}>
+                        <td className="dim">{group}</td>
+                        <td className="mono">{k}</td>
+                        <td className="num mono">
+                          {typeof v === "object" && v !== null
+                            ? Object.entries(v as Record<string, unknown>)
+                                .map(([kk, vv]) => `${kk}=${String(vv)}`)
+                                .join("  ")
+                            : String(v)}
+                        </td>
+                      </tr>
+                    )),
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        ) : (
+          <SourceTrouble what="the parameter set" detail={params.error} />
+        )}
+      </section>
+
       {/* ------------------------------------------------------------ limits */}
       <section className="section">
-        <h2>7. What v0.1 does not do</h2>
+        <h2>8. What v0.1 does not do</h2>
         <ul className="plain">
           <li>It does not model correlated liquidation across several assets at once.</li>
           <li>

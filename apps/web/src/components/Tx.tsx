@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import type { Hex } from "viem";
+import { builderSuffix } from "@/lib/builderCode";
 
 export interface TxState {
   send: (args: { address: Hex; abi: readonly unknown[]; functionName: string; args: readonly unknown[] }) => void;
@@ -71,7 +72,9 @@ export function useTx(onConfirmed?: () => void): TxState {
   return {
     send: (args) => {
       setDismissed(false);
-      writeContract(args as never);
+      // Every transaction Kerb sends carries its Builder Code, including the ones a borrower signs.
+      const suffix = builderSuffix();
+      writeContract({ ...args, ...(suffix ? { dataSuffix: suffix } : {}) } as never);
     },
     status,
     message,

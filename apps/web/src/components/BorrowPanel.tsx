@@ -173,21 +173,38 @@ export function BorrowPanel({ market, collateral }: { market: CreditMarket; coll
         )}
       </div>
 
+      {/* ------------------------------------------------ the mode question, KTS 8 */}
+      <fieldset className="mode-choice">
+        <legend>How long do you want this loan to survive without you touching it?</legend>
+        <div className="mode-options">
+          <label className={`mode-option${mode === 0 ? " mode-selected" : ""}`}>
+            <input type="radio" name={`mode-${collateral.key}`} checked={mode === 0} onChange={() => setMode(0)} />
+            <span className="mode-title">Carry</span>
+            <span className="mode-amount">{money(carryRoom)}</span>
+            <span className="mode-note">
+              Borrowing power that survives the next weakening on its own. No cure deadline, no cure events, nothing
+              scheduled to happen to it. Ceiling {pctOf(carryLTV)}.
+            </span>
+          </label>
+          <label className={`mode-option${mode === 1 ? " mode-selected" : ""}`}>
+            <input type="radio" name={`mode-${collateral.key}`} checked={mode === 1} onChange={() => setMode(1)} />
+            <span className="mode-title">Session Max</span>
+            <span className="mode-amount">{money(sessionRoom)}</span>
+            <span className="mode-note">
+              {extraFromSessionMax > 0n ? <><strong>{money(extraFromSessionMax)} more</strong> than Carry, </> : null}
+              but only while this session holds. Before it weakens you must be back at the Carry target, or anyone may
+              cure you there for a {pctOf(BigInt(collateral.cureBonus))} bonus. Ceiling {pctOf(sessionMaxLTV)}.
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
       {/* ------------------------------------------------ borrow */}
       <div className="row-actions">
         <label>
           <span className="faint">Borrow {symbol}</span>
           <input value={borrowInput} onChange={(e) => setBorrowInput(e.target.value)} placeholder="0.0" inputMode="decimal" />
         </label>
-        <fieldset className="modes">
-          <legend className="faint">Mode</legend>
-          <label>
-            <input type="radio" name={`mode-${collateral.key}`} checked={mode === 0} onChange={() => setMode(0)} /> Carry
-          </label>
-          <label>
-            <input type="radio" name={`mode-${collateral.key}`} checked={mode === 1} onChange={() => setMode(1)} /> Session Max
-          </label>
-        </fieldset>
         <button
           type="button"
           disabled={busy || !borrowInput || overCeiling || overPositionCap || !collateral.terms.usable}

@@ -20,7 +20,8 @@
     "deploy-credit": "tsx scripts/deploy-credit.ts",
     "list-collateral": "tsx scripts/list-collateral.ts",
     "lifecycle": "tsx scripts/lifecycle.ts",
-    "relay-mirrors": "tsx scripts/relay-mirrors.ts"
+    "relay-mirrors": "tsx scripts/relay-mirrors.ts",
+    "stage-position": "tsx scripts/stage-position.ts"
   },
   "dependencies": {
     "@kerb/adapters": "workspace:*",

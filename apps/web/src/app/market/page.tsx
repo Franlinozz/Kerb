@@ -7,6 +7,8 @@ import { PositionLookup } from "@/components/PositionLookup";
 import { BorrowPanel } from "@/components/BorrowPanel";
 import { CurePanel } from "@/components/CurePanel";
 import { ChainGuard } from "@/components/Wallet";
+import { SupplyPanel } from "@/components/SupplyPanel";
+import { Positions } from "@/components/Positions";
 import { explorerAddress, getCreditMarket, REGIME_BY_INDEX, CREDIT_CHAIN_ID } from "@/lib/api";
 import { group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
 
@@ -89,6 +91,12 @@ export default async function MarketPage(): Promise<React.ReactElement> {
           </Field>
         </dl>
       </section>
+
+      <ChainGuard>
+        <SupplyPanel market={m} />
+      </ChainGuard>
+
+      <Positions market={m} />
 
       <section className="section">
         <h2>Collateral</h2>

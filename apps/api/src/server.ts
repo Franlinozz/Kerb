@@ -315,6 +315,37 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
   });
 
 
+
+
+  /** The KTS parameter set the engine is actually running on, read from the live params file. */
+  app.get("/v1/params", async (_req, reply) => {
+    const p = resolve(repoRoot(), "config/kts-params.json");
+    if (!existsSync(p)) return reply.status(404).send({ error: "no params file" });
+    void reply.header("content-type", "application/json");
+    return reply.send(readFileSync(p, "utf8"));
+  });
+
+  /** The Market-Time Report index: whatever has actually been published. */
+  app.get("/v1/market-time", async () => {
+    const dir = resolve(repoRoot(), "data/reports");
+    if (!existsSync(dir)) return { reports: [] };
+    const reports = readdirSync(dir)
+      .filter((f) => /^market-time-\d+\.json$/.test(f))
+      .map((f) => {
+        const r = JSON.parse(readFileSync(resolve(dir, f), "utf8")) as {
+          id: number; title: string; generatedAt: string;
+          window: { from: string; to: string; hours: string; observations: number };
+        };
+        return {
+          id: r.id, title: r.title, generatedAt: r.generatedAt,
+          window: r.window.from, windowTo: r.window.to,
+          hours: r.window.hours, observations: r.window.observations,
+        };
+      })
+      .sort((a, b) => b.id - a.id);
+    return { reports };
+  });
+
   /** Market-Time Reports: measured write-ups generated from the observation store. */
   app.get("/v1/market-time/:id", async (req, reply) => {
     const { id } = req.params as { id: string };
