@@ -1,0 +1,73 @@
+{
+ "generatedAt": "2026-09-21T19:24:50.389Z",
+ "note": "Local anvil fork of X Layer mainnet. Throwaway attester registered on the fork only; nothing was sent to mainnet.",
+ "fork": {
+  "rpc": "http://127.0.0.1:8546",
+  "headBlock": "71247527",
+  "headTimestamp": "1790016574",
+  "terms": "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5"
+ },
+ "window": {
+  "from": "2026-09-18T18:49:39.970Z",
+  "to": "2026-09-21T18:49:39.970Z",
+  "stepMinutes": 15
+ },
+ "paramsVersion": "2026-09-22.1",
+ "reports": 684,
+ "posted": 683,
+ "reverts": 1,
+ "transportRetries": 0,
+ "revertDetail": [
+  {
+   "symbol": "SLVx",
+   "at": "2026-09-20T11:04:39.970Z",
+   "error": "Timed out while waiting for transaction with hash \"0x954da03eed75956eda85586d32c95f4aa8f7ffb932999600ac5505f6e7718bbe\" to be confirmed.  Version: viem@2.56.8"
+  }
+ ],
+ "clampCounts": {
+  "debtCeiling (loosen step)": 121,
+  "debtCeiling (loosen cooldown)": 164,
+  "carryLTV (loosen cooldown)": 332,
+  "sessionMaxLTV (loosen cooldown)": 331,
+  "carryLTV (loosen step)": 42,
+  "sessionMaxLTV (loosen step)": 7
+ },
+ "perAsset": {
+  "KOx": {
+   "first": {
+    "carry": "459896843681487340",
+    "session": "485221058967227893"
+   },
+   "last": {
+    "carry": "554121098205048639",
+    "session": "620000000000000000"
+   },
+   "distinctCarryValues": 115,
+   "loosenings": 113
+  },
+  "HKEXCx": {
+   "first": {
+    "carry": "410005210862889238",
+    "session": "413444699212007919"
+   },
+   "last": {
+    "carry": "513675010987975185",
+    "session": "519680218581692783"
+   },
+   "distinctCarryValues": 115,
+   "loosenings": 112
+  },
+  "SLVx": {
+   "first": {
+    "carry": "80473051467106178",
+    "session": "166898172337307839"
+   },
+   "last": {
+    "carry": "375752057055559688",
+    "session": "583020325075403179"
+   },
+   "distinctCarryValues": 115,
+   "loosenings": 113
+  }
+ }
+}

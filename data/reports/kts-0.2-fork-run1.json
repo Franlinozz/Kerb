@@ -1,0 +1,72 @@
+{
+ "generatedAt": "2026-09-21T18:48:39.008Z",
+ "note": "Local anvil fork of X Layer mainnet. Throwaway attester registered on the fork only; nothing was sent to mainnet.",
+ "fork": {
+  "rpc": "http://127.0.0.1:8546",
+  "headBlock": "71243607",
+  "headTimestamp": "1790012708",
+  "terms": "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5"
+ },
+ "window": {
+  "from": "2026-09-18T17:45:14.518Z",
+  "to": "2026-09-21T17:45:14.518Z",
+  "stepMinutes": 15
+ },
+ "paramsVersion": "2026-09-22.1",
+ "reports": 675,
+ "posted": 674,
+ "reverts": 1,
+ "revertDetail": [
+  {
+   "symbol": "HKEXCx",
+   "at": "2026-09-19T15:45:14.518Z",
+   "error": "An internal error was received.  URL: http://127.0.0.1:8546"
+  }
+ ],
+ "clampCounts": {
+  "debtCeiling (loosen step)": 91,
+  "carryLTV (loosen cooldown)": 330,
+  "sessionMaxLTV (loosen cooldown)": 328,
+  "debtCeiling (loosen cooldown)": 130,
+  "carryLTV (loosen step)": 42,
+  "sessionMaxLTV (loosen step)": 5
+ },
+ "perAsset": {
+  "KOx": {
+   "first": {
+    "carry": "459847846301611999",
+    "session": "485082551815753391"
+   },
+   "last": {
+    "carry": "551099221044150877",
+    "session": "616303491727044722"
+   },
+   "distinctCarryValues": 114,
+   "loosenings": 112
+  },
+  "HKEXCx": {
+   "first": {
+    "carry": "409837661821721026",
+    "session": "413273930442678722"
+   },
+   "last": {
+    "carry": "510560598431400729",
+    "session": "516324669336147899"
+   },
+   "distinctCarryValues": 113,
+   "loosenings": 111
+  },
+  "SLVx": {
+   "first": {
+    "carry": "80202505253606840",
+    "session": "166489758536784920"
+   },
+   "last": {
+    "carry": "368657267519698007",
+    "session": "558805422255039376"
+   },
+   "distinctCarryValues": 113,
+   "loosenings": 112
+  }
+ }
+}
