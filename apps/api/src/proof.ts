@@ -10,6 +10,16 @@ import { repoRoot } from "@kerb/adapters";
 import { decodeBuilderCode, loadDeployments } from "@kerb/attester";
 import type { Sql } from "@kerb/collector/db";
 
+export interface PinningState {
+  /** Posts in the last 24 hours, and where each one's bundle can actually be fetched from. */
+  recentPosts: number;
+  pinned: number;
+  unpinned: number;
+  storedByApi: number;
+  retrievable: number;
+  note: string;
+}
+
 export interface Proof {
   generatedAt: string;
   build: {
@@ -29,13 +39,47 @@ export interface Proof {
   data: {
     sources: { source: string; lastObservedAt: string | null; ageSec: number | null; rows: number }[];
     totals: { table: string; rows: number }[];
-    latestBundle: { symbol: string | null; inputsHash: string; cid: string | null; pinStatus: string | null; gateway: string | null } | null;
+    latestBundle: { symbol: string | null; inputsHash: string; cid: string | null; pinStatus: string | null; gateway: string | null; apiUrl: string } | null;
+    pinning: PinningState;
   };
   risk: {
     report: { symbol: string | null; observedAt: string; inputsHash: string; cid: string | null; recomputeCommand: string } | null;
   };
   limitations: { subsystem: string; rung: string; note: string }[];
 }
+
+/**
+ * The truth about pinning, whatever it is. A page that says "not configured" when the account is
+ * actually over its quota is a page that hides the thing a reader most needs to know.
+ */
+async function pinningState(sql: Sql): Promise<PinningState> {
+  const rows = await sql<{ inputs_hash: string; pin_status: string | null }[]>`
+    SELECT DISTINCT inputs_hash, pin_status FROM terms_posts WHERE ts > now() - interval '24 hours'`;
+
+  let pinned = 0;
+  let unpinned = 0;
+  let storedByApi = 0;
+  let retrievable = 0;
+  for (const r of rows) {
+    const isPinned = r.pin_status === "pinned";
+    if (isPinned) pinned += 1;
+    else unpinned += 1;
+    // Counted, not assumed: the attester only began writing bundles to disk part way through.
+    const stored = existsSync(resolve(BUNDLE_DIR, `${r.inputs_hash.toLowerCase()}.json`));
+    if (stored) storedByApi += 1;
+    if (stored || isPinned) retrievable += 1;
+  }
+
+  const total = rows.length;
+  const note = total === 0
+    ? "No terms have been posted in the last 24 hours."
+    : retrievable === total
+      ? `Every one of the ${total} distinct input bundles posted in the last 24 hours can be fetched back, ${pinned} of them from IPFS.`
+      : `${retrievable} of ${total} distinct input bundles posted in the last 24 hours can be fetched back: ${pinned} from IPFS and ${storedByApi} from this API. The remainder were posted before the attester began writing every bundle to disk, and IPFS pinning was rejected for them, so those hashes do not resolve. Said here rather than left to be discovered.`;
+  return { recentPosts: total, pinned, unpinned, storedByApi, retrievable, note };
+}
+
+const BUNDLE_DIR = process.env["KERB_BUNDLE_DIR"] ?? resolve(repoRoot(), "data/reports/bundles");
 
 const explorerFor = (chainId: number): string =>
   chainId === 196 ? "https://www.oklink.com/xlayer" : "https://www.oklink.com/x-layer-testnet";
@@ -160,8 +204,10 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
             cid: bundle.bundle_cid,
             pinStatus: bundle.pin_status,
             gateway: bundle.bundle_cid && bundle.pin_status === "pinned" ? `https://gateway.pinata.cloud/ipfs/${bundle.bundle_cid}` : null,
+            apiUrl: `/v1/bundle/${bundle.inputs_hash}`,
           }
         : null,
+      pinning: await pinningState(sql),
     },
     risk: {
       report: bundle

@@ -6,7 +6,7 @@ import { ImpactCurve } from "@/components/ImpactCurve";
 import { RegimeTag, REGIME_MEANING } from "@/components/Regime";
 import { Field, Prov, Value } from "@/components/Value";
 import { SourceTrouble } from "@/components/States";
-import { explorerAddress, explorerTx, getBoard, getClock, getReport, getTerms } from "@/lib/api";
+import { explorerAddress, explorerTx, getBoard, getClock, getReport, getTerms, PUBLIC_API } from "@/lib/api";
 import { age, compact, duration, group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -94,7 +94,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
             </Field>
             <Field label="Input bundle">
               {terms.data.bundle.url ? (
-                <a className="mono" href={terms.data.bundle.url} target="_blank" rel="noreferrer">
+                <a className="mono" href={`${PUBLIC_API}${terms.data.bundle.url}`} target="_blank" rel="noreferrer">
                   {shortHash(terms.data.inputsHash, 10, 8)}
                 </a>
               ) : (
@@ -105,11 +105,23 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
                 {terms.data.bundle.url ? (
                   <>
                     Every number above is computed from{" "}
-                    <a href={terms.data.bundle.url} target="_blank" rel="noreferrer">these exact bytes</a>, pinned
-                    to IPFS. Recompute them yourself:{" "}
+                    <a href={`${PUBLIC_API}${terms.data.bundle.url}`} target="_blank" rel="noreferrer">
+                      these exact bytes
+                    </a>
+                    {terms.data.bundle.pinned && terms.data.bundle.ipfsUrl ? (
+                      <>
+                        , also{" "}
+                        <a href={terms.data.bundle.ipfsUrl} target="_blank" rel="noreferrer">pinned to IPFS</a> where
+                        they are addressed by their own hash
+                      </>
+                    ) : (
+                      <>, served by the Kerb API. This one is not on IPFS: pinning is being refused right now, and
+                      that is reported on <Link href="/proof">the proof page</Link> rather than hidden</>
+                    )}
+                    . Recompute them yourself:{" "}
                   </>
                 ) : (
-                  <>The bundle is not pinned for this report. Recompute it locally: </>
+                  <>The bundle for this report is not retrievable. Recompute it locally: </>
                 )}
                 <span className="mono">{terms.data.bundle.verifyCommand}</span>
               </div>

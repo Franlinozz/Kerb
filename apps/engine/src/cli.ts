@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { repoRoot } from "@kerb/adapters";
-import { canonicalJson, dec, toUnitsFloor, type DecString } from "@kerb/types";
+import { canonicalJson, dec, keccakText, toUnitsFloor, type DecString } from "@kerb/types";
 import { connect } from "@kerb/collector/db";
 import { buildBundle } from "./build.js";
 import { identifyBundle, type InputBundle } from "./bundle.js";
@@ -90,6 +90,30 @@ async function loadBundleByRef(ref: string): Promise<{ bundle: InputBundle; path
   for (const p of candidates) {
     if (existsSync(p)) return { bundle: JSON.parse(readFileSync(p, "utf8")) as InputBundle, path: p };
   }
+  let apiCopy: { bundle: InputBundle; path: string } | null = null;
+
+  /**
+   * The Kerb API serves every posted bundle under its own inputsHash. IPFS is the stronger
+   * source, because the bytes are addressed by their own hash and do not depend on Kerb being
+   * online, so it is tried first; this is the fallback when pinning did not happen.
+   */
+  if (/^0x[0-9a-fA-F]{64}$/.test(ref)) {
+    const api = process.env["KERB_API_PUBLIC"] ?? "https://api.usekerb.xyz";
+    try {
+      const res = await fetch(`${api}/v1/bundle/${ref}`, { signal: AbortSignal.timeout(15_000) });
+      if (res.ok) {
+        const text = await res.text();
+        // Bytes that do not hash to the reference are not the bundle, whoever served them.
+        if (keccakText(text).toLowerCase() === ref.toLowerCase()) {
+          apiCopy = { bundle: JSON.parse(text) as InputBundle, path: `${api}/v1/bundle/${ref}` };
+        } else {
+          console.error(`  ${api} served bytes hashing to ${keccakText(text)}, not ${ref}; ignoring them`);
+        }
+      }
+    } catch (err) {
+      console.error(`  ${api}: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
 
   let cid: string | null = /^bafk[a-z2-7]+$/.test(ref) ? ref : null;
   if (!cid && /^0x[0-9a-fA-F]{64}$/.test(ref)) {
@@ -108,7 +132,10 @@ async function loadBundleByRef(ref: string): Promise<{ bundle: InputBundle; path
       await sql.end();
     }
   }
-  if (!cid) throw new Error(`no bundle found for ${ref} (looked on disk in ${OUT}, and for a posted CID)`);
+  if (!cid) {
+    if (apiCopy) return apiCopy;
+    throw new Error(`no bundle found for ${ref} (looked on disk in ${OUT}, on the Kerb API, and for a posted CID)`);
+  }
 
   for (const gw of GATEWAYS) {
     try {
@@ -124,6 +151,10 @@ async function loadBundleByRef(ref: string): Promise<{ bundle: InputBundle; path
     } catch (err) {
       console.error(`  ${gw}: ${err instanceof Error ? err.message : String(err)}`);
     }
+  }
+  if (apiCopy) {
+    console.error(`  no gateway served ${cid}; falling back to the Kerb API copy`);
+    return apiCopy;
   }
   throw new Error(`bundle ${cid} could not be fetched from any gateway`);
 }
@@ -172,7 +203,7 @@ async function comparePosted(inputsHash: string, recomputed: Report): Promise<bo
       if (!equal && !tighter) ok = false;
       console.log(`  ${c.field.padEnd(18)} ${verdict.padEnd(24)} posted ${c.posted}  recomputed ${c.recomputed}`);
     }
-    console.log(ok ? "recompute  the pinned inputs reproduce the posted terms" : "recompute  MISMATCH against the posted terms");
+    console.log(ok ? "recompute  the inputs reproduce the posted terms" : "recompute  MISMATCH against the posted terms");
     return ok;
   } finally {
     await sql.end();

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SourceTrouble } from "@/components/States";
+import { Prov } from "@/components/Value";
 import { getProof, PUBLIC_API } from "@/lib/api";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
 import { PageStrip } from "@/components/PageStrip";
@@ -211,6 +212,14 @@ export default async function ProofPage(): Promise<React.ReactElement> {
                 <dd className="mono">{p.risk.report.inputsHash}</dd>
               </div>
               <div className="field">
+                <dt>Where the bundles are</dt>
+                <dd>
+                  {p.data.pinning.retrievable} of {p.data.pinning.recentPosts} distinct bundles posted in the last
+                  24 hours can be fetched back <Prov label="Verified" />
+                  <div className="faint field-note">{p.data.pinning.note}</div>
+                </dd>
+              </div>
+              <div className="field">
                 <dt>Bundle CID</dt>
                 <dd>
                   {p.data.latestBundle?.gateway ? (
@@ -223,7 +232,16 @@ export default async function ProofPage(): Promise<React.ReactElement> {
                   <div className="faint field-note">
                     {p.data.latestBundle?.pinStatus === "pinned"
                       ? "Pinned. The CID is computed locally from the canonical bytes and matches what the pinning service returns."
-                      : "The CID is computed locally; pinning is not currently configured."}
+                      : "The CID is computed locally from the canonical bytes. This one is not on IPFS: the pinning account is over its plan limit, so the bytes are served by this API instead."}
+                    {p.data.latestBundle?.apiUrl ? (
+                      <>
+                        {" "}
+                        <a href={`${PUBLIC_API}${p.data.latestBundle.apiUrl}`} target="_blank" rel="noreferrer">
+                          Fetch this bundle
+                        </a>
+                        .
+                      </>
+                    ) : null}
                   </div>
                 </dd>
               </div>

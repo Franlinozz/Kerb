@@ -9,6 +9,9 @@ import { explorerTx, loadAssets, resolvedAssets, type KerbChainId } from "@kerb/
 import { connect } from "@kerb/collector/db";
 import { termsPosts } from "@kerb/collector/schema";
 import { buildBundle, computeReport, engineConfig, identifyBundle, loadParams, pinBundle } from "@kerb/engine";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { repoRoot } from "@kerb/adapters";
 import { artifact, deploymentOf, walletFor, suffix } from "./chain.js";
 import { signTerms, type TermsStruct } from "./sign.js";
 import { isLoosening, prepareTerms, withinEpsilon, type OnchainGuardrails } from "./post.js";
@@ -28,6 +31,20 @@ const cfg = loadAssets();
 const { sql, db } = connect();
 
 const lastRegime = new Map<string, number>();
+let pinWarned = false;
+
+const BUNDLE_DIR = process.env["KERB_BUNDLE_DIR"] ?? resolve(repoRoot(), "data/reports/bundles");
+
+/** Write the canonical bundle under its own inputsHash, so the hash on chain always resolves. */
+function storeBundle(inputsHash: string, canonical: string): void {
+  try {
+    mkdirSync(BUNDLE_DIR, { recursive: true });
+    if (!/^0x[0-9a-fA-F]{64}$/.test(inputsHash)) return;
+    writeFileSync(resolve(BUNDLE_DIR, `${inputsHash.toLowerCase()}.json`), canonical);
+  } catch (err) {
+    console.error(`could not store bundle ${inputsHash}: ${err instanceof Error ? err.message : String(err)}`);
+  }
+}
 let consecutiveFailures = 0;
 let stopped = false;
 
@@ -88,7 +105,19 @@ async function postOne(symbol: string): Promise<"posted" | "skipped"> {
   if (t.observedAt > now) t.observedAt = now;
 
   const id2 = identifyBundle(bundle);
+
+  /**
+   * Every posted inputsHash must lead back to its exact inputs. The bundle is written to disk
+   * first, keyed by that hash, so `/v1/bundle/:hash` can always serve it. IPFS pinning is then
+   * attempted on top: it is the stronger claim, because the bytes are addressed by their own
+   * hash and do not depend on Kerb staying online, but it is not the only copy.
+   */
+  storeBundle(id2.inputsHash, id2.canonical);
   const pin = await pinBundle(id2.canonical, id2.cidV1Raw, `${symbol}-${report.observedAt}`);
+  if (pin.status !== "pinned" && pin.reason && !pinWarned) {
+    pinWarned = true;
+    log(`IPFS pinning is not succeeding: ${pin.reason}. Bundles are still stored and served by the API.`);
+  }
   const sig = await signTerms(chainId, terms.address as Address, id, t);
 
   const hash = await wallet.writeContract({

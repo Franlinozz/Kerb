@@ -106,7 +106,10 @@ export interface Terms {
   executableDepth1: RawValue;
   loanAsset: { symbol: string; decimals: number };
   inputsHash: string;
-  bundle: { cid: string | null; pinStatus: string | null; url: string | null; verifyCommand: string };
+  bundle: {
+    cid: string | null; pinStatus: string | null; pinned: boolean;
+    ipfsUrl: string | null; url: string | null; servedByApi: boolean; verifyCommand: string;
+  };
   tx: string;
   contracts: { clock?: string; terms?: string };
   history: { observedAt: string; regime: Regime; carryLTV: string; sessionMaxLTV: string; debtCeiling: string; executableDepth1: string; creditMark: string; tx: string }[];
@@ -264,7 +267,8 @@ export interface Proof {
   data: {
     sources: { source: string; lastObservedAt: string | null; ageSec: number | null; rows: number }[];
     totals: { table: string; rows: number }[];
-    latestBundle: { symbol: string | null; inputsHash: string; cid: string | null; pinStatus: string | null; gateway: string | null } | null;
+    latestBundle: { symbol: string | null; inputsHash: string; cid: string | null; pinStatus: string | null; gateway: string | null; apiUrl: string } | null;
+    pinning: { recentPosts: number; pinned: number; unpinned: number; storedByApi: number; retrievable: number; note: string };
   };
   risk: { report: { symbol: string | null; observedAt: string; inputsHash: string; cid: string | null; recomputeCommand: string } | null };
   limitations: { subsystem: string; rung: string; note: string }[];

@@ -7,7 +7,7 @@ import { resolve } from "node:path";
 import cors from "@fastify/cors";
 import Fastify, { type FastifyInstance } from "fastify";
 import { loadAssets, repoRoot, resolvedAssets } from "@kerb/adapters";
-import { assetId as toAssetId, regimeName } from "@kerb/types";
+import { assetId as toAssetId, keccakText, regimeName } from "@kerb/types";
 import { connect, type Sql } from "@kerb/collector/db";
 import { loadDeployments } from "@kerb/attester";
 import { resolveClock, timeline, type Segment } from "@kerb/calendar";
@@ -19,6 +19,8 @@ import { buildBoard, type Board } from "./board.js";
 export const BOARD_CACHE_MS = 15_000;
 export const REPORT_CACHE_MS = 60_000;
 const REPORT_DIR = process.env["KERB_REPORT_DIR"] ?? resolve(repoRoot(), "data/reports/kts");
+/** Bundles written by the attester, keyed by the inputsHash that went on chain. */
+const BUNDLE_DIR = process.env["KERB_BUNDLE_DIR"] ?? resolve(repoRoot(), "data/reports/bundles");
 
 export interface ServerDeps {
   sql: Sql;
@@ -133,12 +135,22 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       SELECT bundle_cid, pin_status FROM terms_posts
       WHERE chain_id = ${chainId} AND lower(inputs_hash) = lower(${r.inputs_hash})
       ORDER BY ts DESC LIMIT 1`;
+    // Where the inputs actually are. The API copy always exists, because the attester writes the
+    // bundle under its own inputsHash before it posts. The IPFS copy is the stronger one and is
+    // reported separately, including when pinning is failing and why.
+    const storedLocally = existsSync(resolve(BUNDLE_DIR, `${r.inputs_hash.toLowerCase()}.json`));
     const bundle = {
       cid: pin?.bundle_cid ?? null,
       pinStatus: pin?.pin_status ?? null,
-      url: pin?.bundle_cid && pin.pin_status === "pinned"
+      pinned: pin?.pin_status === "pinned",
+      ipfsUrl: pin?.bundle_cid && pin.pin_status === "pinned"
         ? `https://gateway.pinata.cloud/ipfs/${pin.bundle_cid}`
         : null,
+      /** Always available: the canonical bytes the inputsHash was taken over. */
+      url: storedLocally || pin?.pin_status === "pinned"
+        ? `/v1/bundle/${r.inputs_hash}`
+        : null,
+      servedByApi: storedLocally,
       verifyCommand: `pnpm --filter @kerb/engine kerb verify ${r.inputs_hash}`,
     };
 
@@ -380,20 +392,33 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
   /** Serve a pinned input bundle by its keccak inputs hash or its report id. */
   app.get("/v1/bundle/:hash", async (req, reply) => {
     const { hash } = req.params as { hash: string };
-    const direct = safeReportPath(hash, ".bundle.json");
-    if (direct) {
-      void reply.header("content-type", "application/json");
-      return reply.send(readFileSync(direct, "utf8"));
+
+    // The attester writes every bundle under its own inputsHash, so a hash read off a
+    // TermsPosted event resolves here whether or not IPFS pinning happened to succeed.
+    if (/^0x[0-9a-fA-F]{64}$/.test(hash)) {
+      const direct = resolve(BUNDLE_DIR, `${hash.toLowerCase()}.json`);
+      if (direct.startsWith(BUNDLE_DIR) && existsSync(direct)) {
+        void reply.header("content-type", "application/json");
+        return reply.send(readFileSync(direct, "utf8"));
+      }
     }
-    if (!/^0x[0-9a-fA-F]{64}$/.test(hash) || !existsSync(REPORT_DIR)) return reply.status(404).send({ error: "unknown bundle" });
-    for (const f of readdirSync(REPORT_DIR).filter((x) => x.endsWith(".report.json"))) {
-      const body = JSON.parse(readFileSync(resolve(REPORT_DIR, f), "utf8")) as { inputsHash?: string };
-      if (body.inputsHash?.toLowerCase() === hash.toLowerCase()) {
-        const b = safeReportPath(f.replace(".report.json", ""), ".bundle.json");
-        if (b) {
-          void reply.header("content-type", "application/json");
-          return reply.send(readFileSync(b, "utf8"));
-        }
+
+    // Older bundles, and any written by the CLI, live beside their report.
+    const byId = safeReportPath(hash, ".bundle.json");
+    if (byId) {
+      void reply.header("content-type", "application/json");
+      return reply.send(readFileSync(byId, "utf8"));
+    }
+    if (!/^0x[0-9a-fA-F]{64}$/.test(hash) || !existsSync(REPORT_DIR)) {
+      return reply.status(404).send({ error: "unknown bundle" });
+    }
+    for (const f of readdirSync(REPORT_DIR)) {
+      if (!f.endsWith(".bundle.json")) continue;
+      const b = resolve(REPORT_DIR, f);
+      const text = readFileSync(b, "utf8");
+      if (keccakText(text).toLowerCase() === hash.toLowerCase()) {
+        void reply.header("content-type", "application/json");
+        return reply.send(text);
       }
     }
     return reply.status(404).send({ error: "unknown bundle" });
