@@ -15,13 +15,15 @@
     "kerb": "tsx src/cli.ts",
     "make-recompute-fixtures": "tsx scripts/make-recompute-fixtures.ts",
     "market-time-report": "tsx scripts/market-time-report.ts",
-    "window-compare": "tsx scripts/window-compare.ts"
+    "window-compare": "tsx scripts/window-compare.ts",
+    "pool-balances": "tsx scripts/pool-balances.ts"
   },
   "dependencies": {
     "@kerb/adapters": "workspace:*",
     "@kerb/calendar": "workspace:*",
     "@kerb/types": "workspace:*",
-    "@kerb/v3math": "workspace:*"
+    "@kerb/v3math": "workspace:*",
+    "viem": "^2.56.8"
   },
   "devDependencies": {
     "@kerb/collector": "workspace:*"

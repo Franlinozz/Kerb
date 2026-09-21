@@ -22,6 +22,9 @@ done
 echo "" >> "$out"
 echo "  }" >> "$out"
 echo "}" >> "$out"
+# Pool balances belong to the same moment as the engine snapshot, so capture both together.
+(cd "$(pwd)" && node --env-file="${KERB_ENGINE_ENV_FILE:-/root/.kerb/attester-mainnet.env}" --import tsx apps/engine/scripts/pool-balances.ts "$label" 2>&1 | tail -1) || echo "  (pool balances not captured)"
+
 python3 -c "
 import json,sys
 d=json.load(open('$out'))

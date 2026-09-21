@@ -1,0 +1,129 @@
+{
+  "label": "monday-preopen",
+  "capturedAt": "2026-09-21T07:12:27.775Z",
+  "chainId": 196,
+  "blockNumber": "71205706",
+  "note": "Raw token balances held by each pool contract, read at the block above. No price is applied.",
+  "pools": [
+    {
+      "pool": "0x34Fa7515d3364648F558aa876F73feC12e2bA507",
+      "symbol": "BRK.Bx",
+      "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance0": "61748823927",
+      "decimals0": 6,
+      "token1": "0xC3A8D2e18D33e0800F84cb4ca6529D18fAd225df",
+      "balance1": "64552528156191101176",
+      "decimals1": 18
+    },
+    {
+      "pool": "0x293A6167Bed3A474b99f450dE817BC4474087Ed4",
+      "symbol": "HKEXCx",
+      "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance0": "48589012302",
+      "decimals0": 6,
+      "token1": "0xDFc060b4dE44Fb88998b695aA59169643DED10ea",
+      "balance1": "999894959690511233531",
+      "decimals1": 18
+    },
+    {
+      "pool": "0x70131C43684B9Ba44677345f9b05f16E2b555edF",
+      "symbol": "COINx",
+      "token0": "0x44C7eD7fFDF8465c9d27F60AEC845EEd3d49d56e",
+      "balance0": "150842127979866105644",
+      "decimals0": 18,
+      "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+      "balance1": "25309079901708576650",
+      "decimals1": 18
+    },
+    {
+      "pool": "0x9D5d95416412643004af849e012c894D4689a0f2",
+      "symbol": "KUAIx",
+      "token0": "0x096369B9b197bCbF669a3bC827Aa119d80d891E4",
+      "balance0": "8110166253808604652245",
+      "decimals0": 18,
+      "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance1": "19559380916",
+      "decimals1": 6
+    },
+    {
+      "pool": "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f",
+      "symbol": "ICEx",
+      "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance0": "28137249229",
+      "decimals0": 6,
+      "token1": "0xbDff6dD4CEc5eEaFf1E21D65863431E79755eA13",
+      "balance1": "147231182277244167676",
+      "decimals1": 18
+    },
+    {
+      "pool": "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8",
+      "symbol": "MIXUx",
+      "token0": "0x1Bac76a12d8EccA6dBF4B0A146Da8870d50F04c9",
+      "balance0": "361053788941171580508",
+      "decimals0": 18,
+      "token1": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance1": "29320422737",
+      "decimals1": 6
+    },
+    {
+      "pool": "0x273DA512f76129ED59a2D93D68dFe198423a3114",
+      "symbol": "KOx",
+      "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance0": "63800859336",
+      "decimals0": 6,
+      "token1": "0xE4784B45415AAc58b289f9373314261c788C91e8",
+      "balance1": "252652321542746495335",
+      "decimals1": 18
+    },
+    {
+      "pool": "0xF1ef85ce4691E94a32064b59E766c42183B44497",
+      "symbol": "SHEINx",
+      "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance0": "32021648097",
+      "decimals0": 6,
+      "token1": "0xff637d2d435D6745Df3faf61272B1216e7e8b727",
+      "balance1": "4578630935122066001226",
+      "decimals1": 18
+    },
+    {
+      "pool": "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b",
+      "symbol": "BMNRx",
+      "token0": "0xdaD5623B32C81AeAa75478fcfe934e9e97018c58",
+      "balance0": "2648249073628784483411",
+      "decimals0": 18,
+      "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+      "balance1": "34951906410949731204",
+      "decimals1": 18
+    },
+    {
+      "pool": "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6",
+      "symbol": "SLVx",
+      "token0": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+      "balance0": "32307492349",
+      "decimals0": 6,
+      "token1": "0xB842EacB35Fd9c1bEDA53749072Ef22823f2cA8c",
+      "balance1": "142667527242319514679",
+      "decimals1": 18
+    },
+    {
+      "pool": "0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5",
+      "symbol": "xETH/USDG",
+      "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance0": "1652875336190",
+      "decimals0": 6,
+      "token1": "0xE7B000003A45145decf8a28FC755aD5eC5EA025A",
+      "balance1": "230345262780452081005",
+      "decimals1": 18
+    },
+    {
+      "pool": "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40",
+      "symbol": "USDC/USDG",
+      "token0": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
+      "balance0": "449170429400",
+      "decimals0": 6,
+      "token1": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+      "balance1": "564466655111",
+      "decimals1": 6
+    }
+  ]
+}

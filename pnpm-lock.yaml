@@ -120,6 +120,9 @@ importers:
       '@kerb/v3math':
         specifier: workspace:*
         version: link:../../packages/v3math
+      viem:
+        specifier: ^2.56.8
+        version: 2.56.8(typescript@5.9.3)(zod@4.6.5)
     devDependencies:
       '@kerb/collector':
         specifier: workspace:*
