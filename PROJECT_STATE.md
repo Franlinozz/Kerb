@@ -17,8 +17,8 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | V2-00 Repo hygiene, CI, verification | backend | done 21 Sep: root clean, 38 em dashes to 0 with a CI check, CI green, five testnet contracts Sourcify exact match, mirror LT explained, pinning options below |
 | V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | LIVE 21 Sep 19:38 UTC on operator's go: first 0.2 posts mainnet 0x6212668a35862bb6753ffb84ec9843665df3b3bff9fed5999bb65a5fca139577, testnet 0x4f43fb62a91c0ebf48ab081c460ca55eb613b07c5d61612cd643e431e5eec053; a Carry change across a regime change is still to be confirmed |
 | V2-02 API support for V2 | backend | done 21 Sep: board additions and summary, /v1/tape, /v1/stats, demo-clock, positions feed (rung 1, indexed from events), docs/API.md |
-| V2-03 Art batch and brand assets | backend + operator pick | not started |
-| V2-04 Kerbstone foundation and app shell | frontend | not started |
+| V2-03 Art batch and brand assets | backend + operator pick | blocked: needs the operator's cost approval and an OpenAI API key (none on the VPS). Mark, icon.svg, apple icon and interim OG cards done under V2-04 |
+| V2-04 Kerbstone foundation and app shell | frontend | done 21 Sep on staging: tokens and layers, fonts loaded, three themes, header, drawer, wallet sheet, error map, toasts, TxStepper, footer, 20 primitives, system routes, redirects, metadata; 60 screenshots in data/screens/v2/shell |
 | V2-05 Time components | frontend | not started |
 | V2-06 Home | frontend | not started |
 | V2-07 Board and Asset | frontend | not started |
@@ -255,6 +255,10 @@ One line each, every time the build departs from the plan.
 | 21 Sep | New attester bundles under `data/reports/bundles/` are git-ignored; the ten committed ones stay as fixtures | The API serves them from disk; about 2,100 a day would swamp the repo |
 | 21 Sep | KTS-0.2 reads g(H) by calendar hours (square root of time under a day, variance interpolation between whole-session gaps beyond), not by sessions spanned. Written into docs/v2/KTS-0.2.md section 2.1 and stated in every 0.2 report | 0.1 counts almost every horizon, a weekend included, as one session, which would give Carry and Session Max the same gap and leave them flat again |
 | 21 Sep | `kerb verify` recomputes from the engine config pinned inside the bundle, not from today's params file (on branch kts-0.2) | Otherwise every 0.1 bundle would stop verifying the moment the params file moved to 0.2 |
+| 21 Sep | General Sans font files are not in git; `apps/web/scripts/fetch-fonts.mjs` fetches them from Fontshare at build time | The ITF Free Font License 2.0 allows self-hosting but forbids redistribution, including through a public repository |
+| 21 Sep | Font stacks in tokens.css start with the next/font CSS variable before "General Sans" | next/font serves loaded faces under generated family names; the rest of section 3 is pasted as written |
+| 21 Sep | Screenshots are committed as WebP (quality 72), not PNG | 60 full-page PNGs per phase came to 18 MB |
+| 21 Sep | Footer Studio links carry no X handle yet | None is confirmed for Kerb or Xyndicate Labs; asked the operator |
 | 19 Sep | One row with mode='test' in obs_source_error from verifying the append-only trigger; it cannot be deleted by design | Trigger verification |
 
 ---
