@@ -14,7 +14,8 @@
     "depth-report": "tsx scripts/depth-report.ts",
     "kerb": "tsx src/cli.ts",
     "make-recompute-fixtures": "tsx scripts/make-recompute-fixtures.ts",
-    "market-time-report": "tsx scripts/market-time-report.ts"
+    "market-time-report": "tsx scripts/market-time-report.ts",
+    "campaign-compare": "tsx scripts/campaign-compare.ts"
   },
   "dependencies": {
     "@kerb/adapters": "workspace:*",

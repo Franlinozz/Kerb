@@ -336,3 +336,11 @@ ul.plain li { margin: 6px 0; color: var(--text-dim); font-size: 0.9rem; }
 .mode-amount { grid-area: amount; font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
 .mode-note { grid-area: note; font-size: 0.78rem; color: var(--text-dim); margin-top: 6px; }
 @media (max-width: 680px) { .mode-options { grid-template-columns: 1fr; } }
+
+/* ---------------------------------------------------------------- code blocks */
+pre.code {
+  background: var(--surface-sunken); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 14px; overflow-x: auto; font-family: var(--mono); font-size: 0.78rem;
+  line-height: 1.55; color: var(--text-dim); margin: 10px 0;
+}
+code.mono { font-family: var(--mono); font-size: 0.84em; }

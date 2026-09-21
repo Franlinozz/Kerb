@@ -19,6 +19,7 @@ const NAV = [
   { href: "/market", label: "Market" },
   { href: "/methodology", label: "Methodology" },
   { href: "/reports", label: "Reports" },
+  { href: "/developers", label: "Developers" },
   { href: "/proof", label: "Proof" },
 ];
 
