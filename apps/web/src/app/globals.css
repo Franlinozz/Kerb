@@ -305,3 +305,6 @@ dl { margin: 0; }
 .confirm-row { display: grid; grid-template-columns: 210px 1fr; gap: 10px; padding: 4px 0; font-size: 0.86rem; align-items: baseline; }
 .confirm-warn { color: var(--accent-lastcall); font-size: 0.84rem; margin-top: 8px; }
 @media (max-width: 760px) { .confirm-row { grid-template-columns: 1fr; gap: 2px; } }
+
+ul.plain { margin: 10px 0; padding-left: 18px; max-width: var(--measure); }
+ul.plain li { margin: 6px 0; color: var(--text-dim); font-size: 0.9rem; }

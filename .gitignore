@@ -11,3 +11,4 @@ contracts/cache/
 contracts/broadcast/*/31337/
 .DS_Store
 /var/
+*.tsbuildinfo
