@@ -72,11 +72,10 @@ module.exports = {
       error_file: "/root/.kerb/logs/api.err.log",
     },
     {
-      // Live site. Still served from this checkout until the operator approves moving it onto a
-      // release directory (PROJECT_STATE.md, "V2 cutover"); then cwd becomes
-      // /root/kerb-deploy/live/current/apps/web and scripts/deploy-web.sh owns it.
+      // Live site. Served from a release directory, never from this checkout: scripts/deploy-web.sh
+      // builds each release in its own worktree and swaps `current` only after it answers.
       name: "kerb-web",
-      cwd: __dirname + "/apps/web",
+      cwd: "/root/kerb-deploy/live/current/apps/web",
       script: "node_modules/next/dist/bin/next",
       args: "start -p 3300",
       interpreter: "node",
