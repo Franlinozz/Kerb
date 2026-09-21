@@ -161,7 +161,9 @@ export function CurePanel({ market, collaterals }: { market: CreditMarket; colla
               )}
               <span className="faint">
                 You are repaid in collateral at the cure bonus. Cure cannot repay more than the covenant requires,
-                and cannot run outside the window.
+                and cannot run outside the window. The amount sent is 99.9% of what is required, so a report
+                landing between the read and the block cannot revert the whole transaction; the position lands a
+                hair above target rather than not being cured at all.
               </span>
             </div>
           </>

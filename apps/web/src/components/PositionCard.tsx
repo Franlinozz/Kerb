@@ -55,7 +55,7 @@ export function PositionCard({ market, collateral, user }: {
       return `This position is below its liquidation threshold, so anyone may liquidate part of it now. Repaying ${money(owed)} or adding collateral stops that immediately.`;
     }
     if (eligible && aboveTarget) {
-      return `Last Call is open. Until it closes, anyone may repay ${money(required)} on your behalf to bring you back to your Carry target and take that value plus a ${pct(BigInt(collateral.cureBonus))} bonus out of your collateral. Repay or add collateral first and nothing happens.`;
+      return `Last Call is open. Until it closes, anyone may repay ${money(required)} on your behalf to bring you back to your Carry target, and take that value plus a ${pct(BigInt(collateral.cureBonus))} bonus out of your collateral. Repay or add collateral first and nothing happens.`;
     }
     if (aboveTarget && deadlineMs) {
       return `You are above your Carry target, so when Last Call opens at ${utcStamp(new Date(deadlineMs).toISOString())} anyone may cure ${money(required)} of this position for a bonus. You have ${duration(deadlineMs - Date.now())} to repay or add collateral if you would rather it did not happen.`;
