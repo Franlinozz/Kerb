@@ -53,7 +53,7 @@ export interface BundleStress {
 }
 
 export interface InputBundle {
-  kts: "0.1";
+  kts: "0.1" | "0.2";
   bundleVersion: 1;
   engineVersion: string;
   paramsVersion: string;

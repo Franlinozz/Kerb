@@ -32,6 +32,20 @@ Reading it in one sentence: **a Carry position can take k times the stressed pri
 
 `LT` is still fixed per asset and timelocked. 0.2 never changes it.
 
+### 2.1 The gap at a horizon in hours (implementation note, 21 Sep)
+
+KTS-0.1 measured a horizon in underlying sessions spanned, and almost every horizon, including a weekend, spans one session. Used unchanged here, that would give `g(H_weak) = g(H_cure)` and Carry and Session Max would still not move. 0.2 therefore reads `g` from the pinned session table by calendar time:
+
+```
+d = H / 24 hours
+d <= 1 : g(H) = g(1 session) * sqrt(d)                                  // square-root-of-time
+d >  1 : g(H) = sqrt( g(floor d)^2 + (d - floor d) * (g(ceil d)^2 - g(floor d)^2) )   // variance interpolation
+         a session count missing from the table takes the next larger one, never a smaller one
+```
+
+Calendar days stand in for sessions, which is conservative across a closure: a weekend is priced as the days it spans. The rule is stated in every 0.2 report as `capacity.margins.gapMethod`, and `gapForHours` in `apps/engine/src/capacity.ts` is the reference implementation. The horizons themselves are 0.1's: `H_weak` runs to the first main-session open after the next weakening, `H_cure` to the opening of the next Last Call window (zero while one is open).
+
+
 ## 3. Parameters (new, versioned in the bundle)
 
 | Name | Value | Meaning |

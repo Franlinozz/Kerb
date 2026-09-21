@@ -16,7 +16,8 @@
     "make-recompute-fixtures": "tsx scripts/make-recompute-fixtures.ts",
     "market-time-report": "tsx scripts/market-time-report.ts",
     "window-compare": "tsx scripts/window-compare.ts",
-    "pool-balances": "tsx scripts/pool-balances.ts"
+    "pool-balances": "tsx scripts/pool-balances.ts",
+    "kts02-replay": "tsx scripts/kts02-replay.ts"
   },
   "dependencies": {
     "@kerb/adapters": "workspace:*",

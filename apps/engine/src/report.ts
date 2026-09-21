@@ -9,7 +9,7 @@ import { aggregate, capacityFromCurve, crosscheck, twapPriceFromCumulatives, ven
 import { identifyBundle, type InputBundle } from "./bundle.js";
 import { computeMark, type Mark, type MarkConfig, type MarkInput } from "./mark.js";
 import { applyAsymmetry, resolveRegime, type AsymmetryConfig, type RegimeConfig } from "./regime.js";
-import { computeCapacity, type Capacity, type CapacityConfig, type Guardrails } from "./capacity.js";
+import { computeCapacity, computeCapacityV02, gapForHours, type Capacity, type CapacityConfig, type Guardrails } from "./capacity.js";
 
 export interface EngineConfig {
   mark: MarkConfig;
@@ -21,7 +21,7 @@ export interface EngineConfig {
 }
 
 export interface Report {
-  kts: "0.1";
+  kts: "0.1" | "0.2";
   engineVersion: string;
   paramsVersion: string;
   chainId: number;
@@ -241,13 +241,34 @@ export function computeReport(b: InputBundle, cfg: EngineConfig): Report {
   const qCure = pickQuantile(b, sessionsCure);
   const impactAtRef = impactAt(venues, cfg.capacity.referenceLiquidationSize);
 
-  const capacityRaw = computeCapacity({
-    stressWeak: { gapQuantile: qWeak.value, volScaler: b.stress.volScaler.value, impactAtReferenceSize: impactAtRef },
-    stressCure: { gapQuantile: qCure.value, volScaler: b.stress.volScaler.value, impactAtReferenceSize: impactAtRef },
-    c1: c1Used,
-    cfg: cfg.capacity,
-    guardrails: cfg.guardrails,
-  });
+  const stressWeak = { gapQuantile: qWeak.value, volScaler: b.stress.volScaler.value, impactAtReferenceSize: impactAtRef };
+  const stressCure = { gapQuantile: qCure.value, volScaler: b.stress.volScaler.value, impactAtReferenceSize: impactAtRef };
+  const hoursWeak = toDecString(dec(String(Math.round(((weakEndMs - at) / HOUR) * 10000))).div(10000), 4);
+  const hoursCure = toDecString(dec(String(Math.max(0, Math.round(((cureOpensMs - at) / HOUR) * 10000)))).div(10000), 4);
+
+  // The formula version is read from the bundle, never from the running code's defaults, so
+  // a 0.1 bundle recomputes under 0.1 for as long as it exists.
+  let capacityRaw: Capacity;
+  if (b.kts === "0.2") {
+    const c = cfg.capacity;
+    if (c.stressMultiplier === undefined || c.minCarryMargin === undefined || c.minSessionMargin === undefined) {
+      throw new Error("a KTS-0.2 bundle needs capacity.stressMultiplier, minCarryMargin and minSessionMargin");
+    }
+    capacityRaw = computeCapacityV02({
+      gaps: b.stress.gapQuantileBySessions,
+      volScaler: b.stress.volScaler.value,
+      impactAtReferenceSize: impactAtRef,
+      weak: { hours: hoursWeak, endsAt: clock.nextMainOpen.at },
+      cure: { hours: hoursCure, endsAt: new Date(Math.max(cureOpensMs, at)).toISOString() },
+      c1: c1Used,
+      cfg: { ...c, stressMultiplier: c.stressMultiplier, minCarryMargin: c.minCarryMargin, minSessionMargin: c.minSessionMargin },
+      guardrails: cfg.guardrails,
+      stressWeak,
+      stressCure,
+    });
+  } else {
+    capacityRaw = computeCapacity({ stressWeak, stressCure, c1: c1Used, cfg: cfg.capacity, guardrails: cfg.guardrails });
+  }
 
   // ---- tighten fast, loosen slow (KTS-0.1 section 4.3)
   const prev = b.previous;
@@ -259,7 +280,7 @@ export function computeReport(b: InputBundle, cfg: EngineConfig): Report {
 
   const id = identifyBundle(b);
   return {
-    kts: "0.1",
+    kts: b.kts,
     engineVersion: b.engineVersion,
     paramsVersion: b.paramsVersion,
     chainId: b.asset.chainId,
@@ -289,13 +310,14 @@ export function computeReport(b: InputBundle, cfg: EngineConfig): Report {
     },
     capacity,
     stress: {
-      horizonHoursWeak: toDecString(dec(String(Math.round(((weakEndMs - at) / HOUR) * 10000))).div(10000), 4),
-      horizonHoursCure: toDecString(dec(String(Math.max(0, Math.round(((cureOpensMs - at) / HOUR) * 10000)))).div(10000), 4),
+      horizonHoursWeak: hoursWeak,
+      horizonHoursCure: hoursCure,
       sessionsWeak,
       sessionsCure,
       quantile: b.config["stressQuantile"] as DecString,
-      gapQuantileWeak: qWeak.value,
-      gapQuantileCure: qCure.value,
+      // Under 0.2 the gap that set the margin is the hours-based one, reported in capacity.margins.
+      gapQuantileWeak: b.kts === "0.2" ? gapForHours(b.stress.gapQuantileBySessions, hoursWeak) : qWeak.value,
+      gapQuantileCure: b.kts === "0.2" ? gapForHours(b.stress.gapQuantileBySessions, hoursCure) : qCure.value,
       volScaler: b.stress.volScaler.value,
       impactAtReferenceSize: impactAtRef,
       liquidationBonus: cfg.capacity.liquidationBonus,

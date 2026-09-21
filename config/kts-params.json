@@ -1,6 +1,6 @@
 {
-  "kts": "0.1",
-  "paramsVersion": "2026-09-20.2",
+  "kts": "0.2",
+  "paramsVersion": "2026-09-22.1",
   "depth": {
     "ladder": [
       "1000",
@@ -63,7 +63,10 @@
     "sessionMargin": "0.05",
     "positionCapAbs": "25000",
     "positionCapShare": "0.25",
-    "referenceLiquidationSize": "10000"
+    "referenceLiquidationSize": "10000",
+    "stressMultiplier": "2.5",
+    "minCarryMargin": "0.05",
+    "minSessionMargin": "0.03"
   },
   "stress": {
     "quantile": "0.99",
@@ -155,5 +158,5 @@
       }
     }
   },
-  "note": "Risk configuration, versioned with every bundle so old reports stay reproducible under the parameters they used. LT is fixed per asset at listing; sessions never move it."
+  "note": "Risk configuration, versioned with every bundle so old reports stay reproducible under the parameters they used. LT is fixed per asset at listing; sessions never move it. KTS-0.2 (horizon-bound margins) adds capacityDefaults.stressMultiplier, minCarryMargin and minSessionMargin; carryMargin and sessionMargin are kept for 0.1 bundles and ignored by 0.2."
 }

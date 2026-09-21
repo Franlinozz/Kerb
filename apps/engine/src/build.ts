@@ -133,7 +133,7 @@ export async function buildBundle(sql: Sql, symbol: string, params: ParamsFile, 
   const pendingMs = issuer?.pending_activates_at ? new Date(issuer.pending_activates_at).getTime() : null;
 
   return {
-    kts: "0.1",
+    kts: params.kts,
     bundleVersion: 1,
     engineVersion: ENGINE_VERSION,
     paramsVersion: params.paramsVersion,

@@ -5,6 +5,10 @@
 import { fromUnits, regimeName, type DecString, type ProvenanceLabel } from "@kerb/types";
 import { explorerAddress, explorerTx, loadAssets, resolvedAssets } from "@kerb/adapters";
 import type { Sql } from "@kerb/collector/db";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { repoRoot } from "@kerb/adapters";
+import { computeReport, engineConfigFromBundle, type InputBundle } from "@kerb/engine";
 
 export interface Labelled {
   value: DecString | null;
@@ -32,6 +36,48 @@ export interface BoardRow {
   reportAgeSec: number | null;
   poolObservedAt: string | null;
   poolObservationAgeSec: number | null;
+  /** Formula version of the posted report, read from its bundle; null when the bundle is not on this server. */
+  kts: "0.1" | "0.2" | null;
+  /** KTS-0.2 only: why Carry and Session Max sit where they do, in compact form. */
+  margins: CompactMargins | null;
+}
+
+export interface CompactMargins {
+  label: "Computed";
+  inputsHash: string;
+  stressMultiplier: DecString;
+  carry: { margin: DecString; gap: DecString; exitCost: DecString; floor: DecString; horizonHours: DecString; horizonEndsAt: string };
+  session: { margin: DecString; gap: DecString; exitCost: DecString; floor: DecString; horizonHours: DecString; horizonEndsAt: string };
+}
+
+const BUNDLE_DIR = process.env["KERB_BUNDLE_DIR"] ?? resolve(repoRoot(), "data/reports/bundles");
+
+/** A posted bundle never changes, so what it says is cached by its hash. */
+const detailCache = new Map<string, { kts: "0.1" | "0.2"; margins: CompactMargins | null }>();
+
+export function postedDetail(inputsHash: string, dir = BUNDLE_DIR): { kts: "0.1" | "0.2"; margins: CompactMargins | null } | null {
+  const key = inputsHash.toLowerCase();
+  const hit = detailCache.get(key);
+  if (hit) return hit;
+  const path = resolve(dir, `${key}.json`);
+  if (!/^0x[0-9a-f]{64}$/.test(key) || !existsSync(path)) return null;
+  try {
+    const bundle = JSON.parse(readFileSync(path, "utf8")) as InputBundle;
+    let margins: CompactMargins | null = null;
+    if (bundle.kts === "0.2") {
+      const m = (computeReport(bundle, engineConfigFromBundle(bundle)).capacity as { margins?: import("@kerb/engine").Margins }).margins;
+      if (m) {
+        const term = (t: import("@kerb/engine").MarginTerm) => ({ margin: t.used, gap: t.gap, exitCost: t.exitCost, floor: t.floor, horizonHours: t.horizonHours, horizonEndsAt: t.horizonEndsAt });
+        margins = { label: "Computed", inputsHash: key, stressMultiplier: m.stressMultiplier, carry: term(m.carry), session: term(m.session) };
+      }
+    }
+    const out = { kts: bundle.kts, margins };
+    if (detailCache.size > 500) detailCache.clear();
+    detailCache.set(key, out);
+    return out;
+  } catch {
+    return null;
+  }
 }
 
 export interface Board {
@@ -110,6 +156,10 @@ export async function buildBoard(
       reportAgeSec: ageSec,
       poolObservedAt: pTs ? pTs.toISOString() : null,
       poolObservationAgeSec: pTs ? Math.round((now - pTs.getTime()) / 1000) : null,
+      ...(() => {
+        const d = r ? postedDetail(r.inputs_hash) : null;
+        return { kts: d?.kts ?? null, margins: d?.margins ?? null };
+      })(),
     };
   });
 
