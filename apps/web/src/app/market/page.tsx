@@ -167,7 +167,7 @@ export default async function MarketPage(): Promise<React.ReactElement> {
                   </div>
                 </Field>
               </dl>
-              <ChainGuard>
+              <ChainGuard quiet>
                 <BorrowPanel market={m} collateral={c} />
               </ChainGuard>
             </div>
@@ -182,7 +182,7 @@ export default async function MarketPage(): Promise<React.ReactElement> {
           open, and is paid a bonus in collateral for doing it. Kerb runs no privileged keeper, which is why this
           is here for anyone to use.
         </p>
-        <ChainGuard>
+        <ChainGuard quiet>
           <CurePanel market={m} collaterals={m.collaterals} />
         </ChainGuard>
       </section>

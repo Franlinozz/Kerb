@@ -42,13 +42,19 @@ export function ConnectButton(): React.ReactElement {
   );
 }
 
-/** Shown wherever an action needs the right chain. */
-export function ChainGuard({ children }: { children: React.ReactNode }): React.ReactElement {
+/**
+ * Shown wherever an action needs the right chain.
+ *
+ * `quiet` renders nothing at all when there is no wallet, so a page with several action panels
+ * says "connect a wallet" once at the top instead of repeating it beside every panel.
+ */
+export function ChainGuard({ children, quiet = false }: { children: React.ReactNode; quiet?: boolean }): React.ReactElement | null {
   const { isConnected } = useAccount();
   const chainId = useChainId();
   const { switchChain, isPending } = useSwitchChain();
 
   if (!isConnected) {
+    if (quiet) return null;
     return (
       <div className="callout">
         Connect a wallet to supply, borrow, repay or cure. Everything on this page is readable without one.
