@@ -1,7 +1,7 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 21 Sep 2026, phase 5 complete (Kerb Credit live on testnet, lifecycle executed on chain).
+Last updated: 21 Sep 2026, phase 6 complete. Remaining: demo video, repo public, apex DNS.
 
 ---
 
@@ -143,6 +143,7 @@ One line each, every time the build departs from the plan.
 | 19 Sep | Default cure windows: US and XCOM 3600s, XHKG 1800s (so the HK lunch Last Call fits inside the 150-minute morning) | Configuration, versioned with the calendar |
 | 19 Sep | Calendar covers 2025-12-01 to 2027-12-31 and refuses outside it. HK 2027 lunar dates are derived, not yet externally cross-checked | Pyth's HK schedule only lists 2026 |
 | 20 Sep | **VPS ran out of memory at 16:45:56 UTC and the kernel OOM killer took down all five kerb PM2 processes.** They had never been written into the PM2 dump, so nothing resurrected them. Observation record gap 16:43:00 to 19:59:20 UTC, 3h16m22s, the largest in the build; none of it is recreatable and none will be backfilled. Restarted 19:59 UTC and `pm2 save` now persists all five | Kerb shares the box with the marque stack; memory pressure during a build killed the recorders and nothing was watching |
+| 21 Sep | K-37, the optional mainnet Kerb Credit launch, is SKIPPED and recorded as skipped | AGENTS.md rule 9 requires written operator approval plus green invariants and a clean Slither run. The invariants and Slither are green; the approval has not been asked for, because a mainnet credit market holding real money is not something to launch in a hackathon week. The mainnet risk plane holds no user funds |
 | 21 Sep | Slither's two `missing-zero-check` findings on `KerbClock.setAdmin` and `KerbTerms.setAdmin` are documented rather than fixed | Both are `onlyTimelock` and cannot move funds; the contracts are already deployed and verified on mainnet, and redeploying the risk plane to add a require on a timelock-only setter costs more than it buys. Recorded in SECURITY.md |
 | 21 Sep | The testnet loan asset is `MockUSDG`, not the real Paxos testnet USDG. Three ways in were tested: `mint(address,uint256)` exists but reverts for an unauthorised caller, and `faucet`, `drip`, `claim` and `supplyController` do not exist on the proxy | Degradation ladder rung 2. The substitute is labelled in its name, symbol and a DISCLAIMER constant |
 | 21 Sep | Mirror guardrails use ltvMax 62% (KOx) and 57% (HKEXCx) with fixed LTs of 68% and 63%, above the real mainnet values | The first listing set ltvMax at the published Carry, which clamped Session Max down to equal Carry and made the cure covenant impossible to trigger. The LT must also clear Session Max or a position at its ceiling would be liquidatable the instant it opened |
@@ -169,6 +170,32 @@ One line each, every time the build departs from the plan.
 ## 9. Checkpoint history
 
 Paste each phase CHECKPOINT block here, newest first, so a fresh agent can read the build backwards.
+
+```
+PHASE 6 CHECKPOINT (21 Sep 2026)
+Built: /market with the borrow flow and the KTS section 8 confirmation panel (regime, what Carry gives
+       versus Session Max, the cure deadline, and the exact cure amount at the current mark, computed
+       with the same gross-up the contract uses); a permissionless cure panel that takes any address;
+       wallet, wrong-chain, signing, pending, rejected and reverted all named as states rather than
+       swallowed. /methodology, KTS-0.1 worked through on live measured numbers. /proof v2: every
+       published number reaches its own pinned bundle in two clicks. /reports/1, Market-Time Report #1.
+Evidence: 494 TypeScript and 106 Solidity tests green. Slither 0.11.6: 67 results, NONE HIGH, every
+       finding dispositioned in SECURITY.md with raw output under data/security/.
+       `kerb verify <inputsHash>` now resolves the pinned CID, fetches the bytes from IPFS, checks they
+       hash to that CID, recomputes the report and compares it with what is on chain. Verified live:
+       0x52d881266eed633ab208714f497e22bc9be6aab25e1b1013ff555e055ecce688 reproduces the posted terms,
+       with debtCeiling correctly identified as clamped tighter onchain by the loosen cooldown.
+       Market-Time Report #1: 42.25h, 35,130 readings, 15 pools. In-range liquidity fell on 7 of 10
+       asset pools across a closed weekend, largest fall MIXUx -49.12%, largest rise SLVx +4.94%.
+       The 3h16m hole in the record is reported in the report's own window, not interpolated across.
+       24 screenshots at 390 and 1440 in both themes, all reviewed, no console errors.
+Rung: unchanged. Depth 1, reference 2 + Yahoo, IPFS pinning live, Builder Code registered,
+       credit market deployment 2 (testnet with mirror collateral).
+Deviations: none new beyond section 7.
+Blocked: apex usekerb.xyz A record (operator). K-37 mainnet KerbCredit NOT attempted and recorded as
+       skipped: it needs written operator approval, and the risk plane on mainnet holds no user funds.
+Next: demo video (final-stage), repo public before submission, regenerate the report on the day
+```
 
 ```
 PHASE 5 CHECKPOINT (21 Sep 2026)
