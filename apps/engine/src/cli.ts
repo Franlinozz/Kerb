@@ -10,7 +10,7 @@ import { canonicalJson, dec, keccakText, toUnitsFloor, type DecString } from "@k
 import { connect } from "@kerb/collector/db";
 import { buildBundle } from "./build.js";
 import { identifyBundle, type InputBundle } from "./bundle.js";
-import { engineConfig, loadParams } from "./params.js";
+import { engineConfig, engineConfigFromBundle, loadParams } from "./params.js";
 import { computeReport, type Report } from "./report.js";
 import { pinBundle } from "./pin.js";
 
@@ -213,14 +213,16 @@ async function comparePosted(inputsHash: string, recomputed: Report): Promise<bo
 async function cmdVerify(ref: string, args: string[] = []): Promise<void> {
   const { bundle, path } = await loadBundleByRef(ref);
   const id = identifyBundle(bundle);
-  const params = loadParams();
-  const cfg = engineConfig(params, bundle.asset.symbol, bundle.market.cureWindowSec);
+  // The bundle carries its own formula version and parameters; verification never borrows
+  // today's parameter file to recompute yesterday's report.
+  const cfg = engineConfigFromBundle(bundle);
   const recomputed = computeReport(bundle, cfg);
   const rid = reportId(recomputed);
   const storedPath = resolve(OUT, `${rid}.report.json`);
   console.log(`bundle   ${path}`);
   console.log(`inputsHash ${id.inputsHash}`);
   console.log(`cid        ${id.cidV1Raw}`);
+  console.log(`kts        ${bundle.kts} (params ${bundle.paramsVersion})`);
   // The check that matters: do the pinned inputs reproduce the numbers that went on chain?
   const onchain = await comparePosted(id.inputsHash, recomputed);
   if (onchain !== null) {
