@@ -1,0 +1,317 @@
+{
+  "id": 1,
+  "title": "What happened to executable liquidity while the underlying markets were shut",
+  "generatedAt": "2026-09-21T00:53:14.636Z",
+  "window": {
+    "from": "2026-09-19T06:37:30.540Z",
+    "to": "2026-09-21T00:52:26.368Z",
+    "hours": "42.25",
+    "observations": 35130,
+    "pools": 15,
+    "largestGap": "03:16:22",
+    "underlyingOpenDuringWindow": false
+  },
+  "method": "Every 60 seconds the collector reads slot0, liquidity, tickSpacing, fee and the initialised ticks spanning at least +/-60% around spot from each pool on X Layer, and appends the reading with its block, a hash of the payload and the payload itself. The figures below are those stored readings. `liquidity` is the in-range liquidity L at the observed tick, the quantity a swap consumes first; it is not a dollar depth, and it is not converted into one here.",
+  "pools": [
+    {
+      "pool": "0x273DA512f76129ED59a2D93D68dFe198423a3114",
+      "symbol": "KOx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.863Z",
+      "lastAt": "2026-09-21T00:52:26.362Z",
+      "liquidityAtStart": "184959125440040068",
+      "liquidityAtEnd": "163126416052238249",
+      "liquidityMin": "163053586282599012",
+      "liquidityMax": "184959125440040068",
+      "changePct": "-11.80",
+      "swingPct": "13.43"
+    },
+    {
+      "pool": "0x293A6167Bed3A474b99f450dE817BC4474087Ed4",
+      "symbol": "HKEXCx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.581Z",
+      "lastAt": "2026-09-21T00:52:26.157Z",
+      "liquidityAtStart": "206189211533389420",
+      "liquidityAtEnd": "212674316394872700",
+      "liquidityMin": "93122847002811493",
+      "liquidityMax": "251163145491688688",
+      "changePct": "3.14",
+      "swingPct": "169.71"
+    },
+    {
+      "pool": "0x34Fa7515d3364648F558aa876F73feC12e2bA507",
+      "symbol": "BRK.Bx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.540Z",
+      "lastAt": "2026-09-21T00:52:26.034Z",
+      "liquidityAtStart": "127666204815354914",
+      "liquidityAtEnd": "78974344636516470",
+      "liquidityMin": "70043873451094141",
+      "liquidityMax": "131390595084172297",
+      "changePct": "-38.13",
+      "swingPct": "87.58"
+    },
+    {
+      "pool": "0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5",
+      "symbol": null,
+      "role": "route",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:31.085Z",
+      "lastAt": "2026-09-21T00:52:26.252Z",
+      "liquidityAtStart": "79574104530982731",
+      "liquidityAtEnd": "37858816304782011",
+      "liquidityMin": "37395755330626770",
+      "liquidityMax": "392211949050446319",
+      "changePct": "-52.42",
+      "swingPct": "948.81"
+    },
+    {
+      "pool": "0x70131C43684B9Ba44677345f9b05f16E2b555edF",
+      "symbol": "COINx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:31.112Z",
+      "lastAt": "2026-09-21T00:52:26.263Z",
+      "liquidityAtStart": "1661347163633123064980",
+      "liquidityAtEnd": "1483910620744648197513",
+      "liquidityMin": "1172665417768441781998",
+      "liquidityMax": "1661347163633123064980",
+      "changePct": "-10.68",
+      "swingPct": "41.67"
+    },
+    {
+      "pool": "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f",
+      "symbol": "ICEx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.624Z",
+      "lastAt": "2026-09-21T00:52:26.259Z",
+      "liquidityAtStart": "62806784943732944",
+      "liquidityAtEnd": "51123736963908073",
+      "liquidityMin": "43955392395968688",
+      "liquidityMax": "114506376071255262",
+      "changePct": "-18.60",
+      "swingPct": "160.50"
+    },
+    {
+      "pool": "0x91db1a80bd51FcBD30c6BFa398EEe0De24eE2663",
+      "symbol": null,
+      "role": "route",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.884Z",
+      "lastAt": "2026-09-21T00:52:26.152Z",
+      "liquidityAtStart": "16582700605816914",
+      "liquidityAtEnd": "16502992410891042",
+      "liquidityMin": "16502992410891042",
+      "liquidityMax": "16582700605816914",
+      "changePct": "-0.48",
+      "swingPct": "0.48"
+    },
+    {
+      "pool": "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8",
+      "symbol": "MIXUx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.884Z",
+      "lastAt": "2026-09-21T00:52:26.368Z",
+      "liquidityAtStart": "232713480200447327",
+      "liquidityAtEnd": "118403157559863392",
+      "liquidityMin": "55703787644051256",
+      "liquidityMax": "232713480200447327",
+      "changePct": "-49.12",
+      "swingPct": "317.76"
+    },
+    {
+      "pool": "0x9D5d95416412643004af849e012c894D4689a0f2",
+      "symbol": "KUAIx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:31.086Z",
+      "lastAt": "2026-09-21T00:52:26.251Z",
+      "liquidityAtStart": "665461299471375805",
+      "liquidityAtEnd": "467802936301318635",
+      "liquidityMin": "467802936301318635",
+      "liquidityMax": "665461299471375805",
+      "changePct": "-29.70",
+      "swingPct": "42.25"
+    },
+    {
+      "pool": "0xF1ef85ce4691E94a32064b59E766c42183B44497",
+      "symbol": "SHEINx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.880Z",
+      "lastAt": "2026-09-21T00:52:26.249Z",
+      "liquidityAtStart": "356577625735397273",
+      "liquidityAtEnd": "362145875182112929",
+      "liquidityMin": "333674025795141068",
+      "liquidityMax": "1427552963003327643",
+      "changePct": "1.56",
+      "swingPct": "327.82"
+    },
+    {
+      "pool": "0xFD69Fd884BD7c35DF86D2eC80ae74Cbe774C00ab",
+      "symbol": null,
+      "role": "route",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:31.078Z",
+      "lastAt": "2026-09-21T00:52:26.252Z",
+      "liquidityAtStart": "169380577128",
+      "liquidityAtEnd": "169380577128",
+      "liquidityMin": "169380577128",
+      "liquidityMax": "169380577128",
+      "changePct": "0.00",
+      "swingPct": "0.00"
+    },
+    {
+      "pool": "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40",
+      "symbol": null,
+      "role": "route",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:31.087Z",
+      "lastAt": "2026-09-21T00:52:26.366Z",
+      "liquidityAtStart": "1059421063435361",
+      "liquidityAtEnd": "1059421063435361",
+      "liquidityMin": "1001809604992411",
+      "liquidityMax": "1059421063435361",
+      "changePct": "0.00",
+      "swingPct": "5.75"
+    },
+    {
+      "pool": "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b",
+      "symbol": "BMNRx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.854Z",
+      "lastAt": "2026-09-21T00:52:26.158Z",
+      "liquidityAtStart": "7890218536364216329494",
+      "liquidityAtEnd": "7734373651749701811949",
+      "liquidityMin": "6913366920848536244437",
+      "liquidityMax": "7897162817064810542308",
+      "changePct": "-1.97",
+      "swingPct": "14.23"
+    },
+    {
+      "pool": "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6",
+      "symbol": "SLVx",
+      "role": "asset",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:30.964Z",
+      "lastAt": "2026-09-21T00:52:26.253Z",
+      "liquidityAtStart": "55122263264295135",
+      "liquidityAtEnd": "57849262900330980",
+      "liquidityMin": "16666613715219527",
+      "liquidityMax": "58458305139300577",
+      "changePct": "4.94",
+      "swingPct": "250.75"
+    },
+    {
+      "pool": "0xf05577E469d04Cc8FD84A79C1fE5661b3394cC0e",
+      "symbol": null,
+      "role": "route",
+      "observations": 2342,
+      "firstAt": "2026-09-19T06:37:31.124Z",
+      "lastAt": "2026-09-21T00:52:26.367Z",
+      "liquidityAtStart": "132479792464580",
+      "liquidityAtEnd": "132408433947948",
+      "liquidityMin": "132408433947948",
+      "liquidityMax": "132479792464580",
+      "changePct": "-0.05",
+      "swingPct": "0.05"
+    }
+  ],
+  "sources": [
+    {
+      "source": "xstocks:price-data",
+      "observations": 6889,
+      "firstAt": "2026-09-19T06:37:28.813Z",
+      "lastAt": "2026-09-21T00:52:57.927Z"
+    },
+    {
+      "source": "yahoo:chart:0388.HK",
+      "observations": 4659,
+      "firstAt": "2026-09-19T06:44:09.794Z",
+      "lastAt": "2026-09-21T00:52:48.664Z"
+    },
+    {
+      "source": "yahoo:chart:0625.HK",
+      "observations": 4660,
+      "firstAt": "2026-09-19T06:44:09.804Z",
+      "lastAt": "2026-09-21T00:52:48.686Z"
+    },
+    {
+      "source": "yahoo:chart:1024.HK",
+      "observations": 4660,
+      "firstAt": "2026-09-19T06:44:09.797Z",
+      "lastAt": "2026-09-21T00:52:48.677Z"
+    },
+    {
+      "source": "yahoo:chart:2097.HK",
+      "observations": 4659,
+      "firstAt": "2026-09-19T06:44:09.800Z",
+      "lastAt": "2026-09-21T00:52:48.684Z"
+    },
+    {
+      "source": "yahoo:chart:BMNR",
+      "observations": 4659,
+      "firstAt": "2026-09-19T06:44:09.807Z",
+      "lastAt": "2026-09-21T00:52:48.688Z"
+    },
+    {
+      "source": "yahoo:chart:BRK-B",
+      "observations": 4659,
+      "firstAt": "2026-09-19T06:44:09.789Z",
+      "lastAt": "2026-09-21T00:52:48.662Z"
+    },
+    {
+      "source": "yahoo:chart:COIN",
+      "observations": 4660,
+      "firstAt": "2026-09-19T06:44:09.796Z",
+      "lastAt": "2026-09-21T00:52:48.673Z"
+    },
+    {
+      "source": "yahoo:chart:HKD=X",
+      "observations": 4659,
+      "firstAt": "2026-09-19T06:44:09.817Z",
+      "lastAt": "2026-09-21T00:52:48.692Z"
+    },
+    {
+      "source": "yahoo:chart:ICE",
+      "observations": 4660,
+      "firstAt": "2026-09-19T06:44:09.799Z",
+      "lastAt": "2026-09-21T00:52:48.683Z"
+    },
+    {
+      "source": "yahoo:chart:KO",
+      "observations": 4661,
+      "firstAt": "2026-09-19T06:44:09.802Z",
+      "lastAt": "2026-09-21T00:52:48.685Z"
+    },
+    {
+      "source": "yahoo:chart:SLV",
+      "observations": 4660,
+      "firstAt": "2026-09-19T06:44:09.815Z",
+      "lastAt": "2026-09-21T00:52:48.690Z"
+    }
+  ],
+  "findings": [
+    {
+      "claim": "In-range liquidity did not hold still while the underlying markets were closed: 7 of 10 asset pools ended the window with less in-range liquidity than they started it.",
+      "evidence": "Largest fall MIXUx -49.12%, largest rise SLVx 4.94%, over 35,130 readings."
+    },
+    {
+      "claim": "A capacity number fixed at Friday's close would have been wrong by the size of those moves for the whole weekend.",
+      "evidence": "This is the arithmetic consequence of the row above, not a separate measurement: debtCeiling is a fraction of C(1%), and C(1%) is computed from exactly this pool state."
+    }
+  ],
+  "limitations": [
+    "The window observed so far is entirely outside the underlying markets' regular sessions. It therefore measures how liquidity behaves while they are shut, and cannot yet compare that with how it behaves while they are open. That comparison needs a session in the record and will be added once one is.",
+    "In-range liquidity L is not executable depth in dollars. Kerb computes C(i) by walking ticks, which uses more of the stored state than L alone; L is used here because it is a single stored number per reading and needs no re-derivation.",
+    "The record has a hole. It is reported in the window above rather than interpolated across."
+  ],
+  "reproduce": "pnpm --filter @kerb/engine market-time-report regenerates this file from the observation store. Every row is a SELECT over append-only tables whose UPDATE, DELETE and TRUNCATE are rejected by database triggers."
+}

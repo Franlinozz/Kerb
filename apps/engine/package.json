@@ -13,7 +13,8 @@
     "test": "vitest run",
     "depth-report": "tsx scripts/depth-report.ts",
     "kerb": "tsx src/cli.ts",
-    "make-recompute-fixtures": "tsx scripts/make-recompute-fixtures.ts"
+    "make-recompute-fixtures": "tsx scripts/make-recompute-fixtures.ts",
+    "market-time-report": "tsx scripts/market-time-report.ts"
   },
   "dependencies": {
     "@kerb/adapters": "workspace:*",

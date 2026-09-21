@@ -314,6 +314,19 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     }
   });
 
+
+  /** Market-Time Reports: measured write-ups generated from the observation store. */
+  app.get("/v1/market-time/:id", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    if (!/^[0-9]{1,4}$/.test(id)) return reply.status(400).send({ error: "bad report id" });
+    const p = resolve(repoRoot(), `data/reports/market-time-${id}.json`);
+    if (!p.startsWith(resolve(repoRoot(), "data/reports")) || !existsSync(p)) {
+      return reply.status(404).send({ error: "no such Market-Time Report" });
+    }
+    void reply.header("content-type", "application/json");
+    return reply.send(readFileSync(p, "utf8"));
+  });
+
   app.get("/v1/reports/:id", async (req, reply) => {
     const { id } = req.params as { id: string };
     const p = safeReportPath(id, ".report.json");

@@ -9,7 +9,7 @@ Last updated: 21 Sep 2026, phase 5 complete (Kerb Credit live on testnet, lifecy
 
 | Item | Status |
 |---|---|
-| Phase | 5 complete. Credit plane live on testnet, full lifecycle executed on chain. `/market` shipped (K-31) |
+| Phase | 5 complete. Phase 6 shipped: /market with borrow, cure and the confirmation panel (K-31..33), /methodology (K-34), /proof v2 two-click bundles (K-35), Slither + SECURITY.md (K-36), verify from a chain hash (K-39), Market-Time Report #1 (K-38). K-37 mainnet credit NOT attempted: gated on written operator approval |
 | Tier | T0 in progress |
 | Collector | LIVE on VPS under PM2 (`kerb-collector`) since 2026-09-19 06:37:30 UTC. Health: `curl 127.0.0.1:8710/health` |
 | Mainnet risk plane | **LIVE**: KerbClock and KerbTerms on X Layer 196, calendars and guardrails loaded, attester posting every 5 min (`kerb-attester-mainnet`) |
@@ -17,7 +17,7 @@ Last updated: 21 Sep 2026, phase 5 complete (Kerb Credit live on testnet, lifecy
 | Web | **LIVE** at https://www.usekerb.xyz under PM2 (`kerb-web`), Caddy TLS. Session Strip, /board, /asset/[symbol], /proof; both themes, 390 and 1440 reviewed |
 | Kerb Desk (OKX AI) | not started, P1 |
 | Participation route | **REMOTE**. The builder is not travelling to Singapore (no funds for the trip); no visa letter needed |
-| Demo video | not recorded |
+| Demo video | not recorded (final-stage item, by the operator's instruction) |
 
 ---
 

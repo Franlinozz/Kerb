@@ -17,6 +17,7 @@ const PAGES: { path: string; name: string }[] = [
   { path: `/asset/${encodeURIComponent(process.env["KERB_SHOT_ASSET"] ?? "KOx")}`, name: "asset" },
   { path: "/market", name: "market" },
   { path: "/methodology", name: "methodology" },
+  { path: "/reports/1", name: "report1" },
   { path: "/proof", name: "proof" },
 ];
 

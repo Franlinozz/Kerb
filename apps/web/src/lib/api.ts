@@ -339,3 +339,28 @@ export const getCreditPosition = (user: string, assetId: string, chainId = CREDI
 export const REGIME_BY_INDEX: Regime[] = [
   "DEEP", "NORMAL", "THIN", "PRE_TRANSITION", "REFERENCE_CLOSED", "ACTION", "HALTED", "STALE", "RECOVERY",
 ];
+
+// ---------------------------------------------------------------- market-time reports
+
+export interface MarketTimeReport {
+  id: number;
+  title: string;
+  generatedAt: string;
+  window: {
+    from: string; to: string; hours: string; observations: number; pools: number;
+    largestGap: string | null; underlyingOpenDuringWindow: boolean;
+  };
+  method: string;
+  pools: {
+    pool: string; symbol: string | null; role: "asset" | "route"; observations: number;
+    firstAt: string; lastAt: string; liquidityAtStart: string; liquidityAtEnd: string;
+    liquidityMin: string; liquidityMax: string; changePct: string | null; swingPct: string | null;
+  }[];
+  sources: { source: string; observations: number; firstAt: string; lastAt: string }[];
+  findings: { claim: string; evidence: string }[];
+  limitations: string[];
+  reproduce: string;
+}
+
+export const getMarketTimeReport = (id: number): Promise<Read<MarketTimeReport>> =>
+  read<MarketTimeReport>(`/v1/market-time/${id}`);
