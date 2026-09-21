@@ -181,6 +181,8 @@ Pausing: guardian may pause `borrow` and `deposit` only. `repay`, `withdraw` of 
 
 This is the honest way to demonstrate the credit lifecycle without the builder holding a restricted asset: real risk data, real testnet dollars, test collateral.
 
+Mirror listings carry a liquidation threshold three points above mainnet (kKOx 68% against KOx 65%, kHKEXCx 63% against HKEXCx 60%): the testnet guardrail ceiling has to sit above the Session Max relayed from mainnet, or the contract clamps Session Max down to Carry and the cure covenant can never trigger, and the threshold sits six points above that ceiling so a position drawn to it is not liquidatable on the next small move of the compressed demo cycle. A listed threshold has no setter, so it stays fixed. The reasoning and the listing values are in `apps/attester/scripts/list-collateral.ts`.
+
 ---
 
 ## 4. Services

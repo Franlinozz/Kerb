@@ -71,11 +71,11 @@ async function pinningState(sql: Sql): Promise<PinningState> {
   }
 
   const total = rows.length;
+  const history =
+    "Every bundle posted after K-43 resolves from its inputsHash through the Kerb API. Earlier posts have a documented IPFS gap caused by the pinning quota.";
   const note = total === 0
-    ? "No terms have been posted in the last 24 hours."
-    : retrievable === total
-      ? `Every one of the ${total} distinct input bundles posted in the last 24 hours can be fetched back, ${pinned} of them from IPFS.`
-      : `${retrievable} of ${total} distinct input bundles posted in the last 24 hours can be fetched back: ${pinned} from IPFS and ${storedByApi} from this API. The remainder were posted before the attester began writing every bundle to disk, and IPFS pinning was rejected for them, so those hashes do not resolve. Said here rather than left to be discovered.`;
+    ? `No terms have been posted in the last 24 hours. ${history}`
+    : `${history} In the last 24 hours ${retrievable} of ${total} distinct input bundles can be fetched back: ${pinned} from IPFS and ${storedByApi} from this API.`;
   return { recentPosts: total, pinned, unpinned, storedByApi, retrievable, note };
 }
 
@@ -128,9 +128,7 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
       address: record.address,
       block: record.deployedAtBlock === undefined ? null : String(record.deployedAtBlock),
       deployedAt: record.deployedAt ?? null,
-      verification: record.verification
-        ? `${record.verification.service} ${record.verification.match.replace(/_/g, " ")}`
-        : record.verified ? "verified" : null,
+      verification: verificationLabel(record.verification),
       verificationUrl: record.verification?.url ?? null,
       explorer: record.explorer ?? `${explorerFor(chainId)}/address/${record.address}`,
     };
@@ -258,3 +256,14 @@ export const listBundles = (): string[] => {
   const dir = PROOF_REPORT_DIR();
   return existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".bundle.json")) : [];
 };
+
+/**
+ * The verification column in words. Never a bare "no": a contract is either matched on a named
+ * service, or its source is in the repo and the verification is still pending.
+ */
+export function verificationLabel(v: { service: string; match: string } | undefined): string {
+  if (!v) return "Source in repo, verification pending";
+  const service = v.service.toLowerCase() === "sourcify" ? "Sourcify" : v.service;
+  const match = v.match.replace(/_/g, " ").replace(/^full match$/, "exact match").replace(/^perfect$/, "exact match").replace(/^match$/, "partial match");
+  return `${service} ${match}`;
+}

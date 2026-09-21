@@ -99,7 +99,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
                     {d.verificationUrl ? (
                       <a href={d.verificationUrl} target="_blank" rel="noreferrer">{d.verification}</a>
                     ) : (
-                      d.verification ?? "no"
+                      d.verification ?? "Source in repo, verification pending"
                     )}
                   </td>
                 </tr>

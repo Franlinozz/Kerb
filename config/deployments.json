@@ -89,8 +89,15 @@
     "args": [
       "1000000000000"
     ],
-    "verified": false,
-    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x91fcf99262214c32f6fe342d94c7b0dfb2dba679"
+    "verified": true,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x91fcf99262214c32f6fe342d94c7b0dfb2dba679",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/1952/0x91fcf99262214c32f6fe342d94c7b0dfb2dba679/",
+      "verifiedAt": "2026-09-21",
+      "note": "Verified 21 Sep from the deployed source, compiler settings as in contracts/foundry.toml (solc 0.8.28, via_ir, 200 runs, cancun)"
+    }
   },
   "1952:KerbClockDemo": {
     "chainId": 1952,
@@ -105,8 +112,15 @@
       "2400",
       "1789942438"
     ],
-    "verified": false,
-    "explorer": "https://www.oklink.com/x-layer-testnet/address/0xd2483b2d8bd759f87fadb21117498a5db36bcb0f"
+    "verified": true,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0xd2483b2d8bd759f87fadb21117498a5db36bcb0f",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/1952/0xd2483b2d8bd759f87fadb21117498a5db36bcb0f/",
+      "verifiedAt": "2026-09-21",
+      "note": "Verified 21 Sep from the deployed source, compiler settings as in contracts/foundry.toml (solc 0.8.28, via_ir, 200 runs, cancun)"
+    }
   },
   "1952:KerbMirror:KOx": {
     "chainId": 1952,
@@ -120,8 +134,15 @@
       "KOx",
       "10000000000000000000000"
     ],
-    "verified": false,
-    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x11827f0f59d516e3778951fde36bd0d961af4a16"
+    "verified": true,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x11827f0f59d516e3778951fde36bd0d961af4a16",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/1952/0x11827f0f59d516e3778951fde36bd0d961af4a16/",
+      "verifiedAt": "2026-09-21",
+      "note": "Verified 21 Sep from the deployed source, compiler settings as in contracts/foundry.toml (solc 0.8.28, via_ir, 200 runs, cancun)"
+    }
   },
   "1952:KerbMirror:HKEXCx": {
     "chainId": 1952,
@@ -135,8 +156,15 @@
       "HKEXCx",
       "10000000000000000000000"
     ],
-    "verified": false,
-    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x80da4036ee45e6d66a27dba415a4ce23eb9360f2"
+    "verified": true,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0x80da4036ee45e6d66a27dba415a4ce23eb9360f2",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/1952/0x80da4036ee45e6d66a27dba415a4ce23eb9360f2/",
+      "verifiedAt": "2026-09-21",
+      "note": "Verified 21 Sep from the deployed source, compiler settings as in contracts/foundry.toml (solc 0.8.28, via_ir, 200 runs, cancun)"
+    }
   },
   "1952:KerbCredit": {
     "chainId": 1952,
@@ -161,7 +189,14 @@
         "100000000000000000"
       ]
     ],
-    "verified": false,
-    "explorer": "https://www.oklink.com/x-layer-testnet/address/0xa1314645cd6c07e651359aba540e2600090b98a8"
+    "verified": true,
+    "explorer": "https://www.oklink.com/x-layer-testnet/address/0xa1314645cd6c07e651359aba540e2600090b98a8",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/1952/0xa1314645cd6c07e651359aba540e2600090b98a8/",
+      "verifiedAt": "2026-09-21",
+      "note": "Verified 21 Sep from the deployed source, compiler settings as in contracts/foundry.toml (solc 0.8.28, via_ir, 200 runs, cancun)"
+    }
   }
 }

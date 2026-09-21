@@ -157,3 +157,22 @@ describe("API", () => {
     expect(fromUnits(14916843749n, 6)).toBe("14916.843749");
   });
 });
+
+describe("proof verification label", async () => {
+  const { verificationLabel } = await import("../src/proof.js");
+  const deployments = (await import("../../../config/deployments.json", { with: { type: "json" } })).default as Record<string, { verification?: { service: string; match: string } }>;
+
+  it("names the service and the match, and never answers a bare no", () => {
+    expect(verificationLabel({ service: "sourcify", match: "exact_match" })).toBe("Sourcify exact match");
+    expect(verificationLabel({ service: "sourcify", match: "partial_match" })).toBe("Sourcify partial match");
+    expect(verificationLabel(undefined)).toBe("Source in repo, verification pending");
+  });
+
+  it("labels every deployment Kerb has made", () => {
+    for (const d of Object.values(deployments)) {
+      const label = verificationLabel(d.verification);
+      expect(label).not.toBe("no");
+      expect(label.length).toBeGreaterThan(3);
+    }
+  });
+});
