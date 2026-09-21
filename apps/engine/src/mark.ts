@@ -76,7 +76,7 @@ export interface Mark {
 
 export class WrapperNotSupported extends Error {}
 
-/** Legacy v1 xStocks wrappers are never integrated (ARCHITECTURE.md 3.3, KTS-0.1 6). */
+/** Legacy v1 xStocks wrappers are never integrated (docs/ARCHITECTURE.md 3.3, KTS-0.1 6). */
 export function assertSupportedWrapper(w: { version: string; address: string }): asserts w is WrapperState {
   if (w.version !== "v2") throw new WrapperNotSupported(`wrapper ${w.address} is version ${w.version}; only v2 is supported`);
 }

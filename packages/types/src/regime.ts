@@ -1,5 +1,5 @@
 /**
- * KTS-0.1 section 4.1. Numeric order matches the Solidity enum in ARCHITECTURE.md 3.1
+ * KTS-0.1 section 4.1. Numeric order matches the Solidity enum in docs/ARCHITECTURE.md 3.1
  * so the TS resolver and KerbClock agree on the wire.
  */
 export enum Regime {

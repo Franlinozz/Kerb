@@ -77,9 +77,9 @@ kerb/
     src/            KerbClock.sol KerbTerms.sol KerbCredit.sol KerbMirror.sol interfaces/
     test/           Foundry unit, fuzz, invariant, fork tests
     script/         Deploy and verify scripts
-  docs/             KTS-0.1.md ARCHITECTURE.md DEMO.md SUBMISSION.md
+  docs/             KTS-0.1.md ARCHITECTURE.md, planning/ (master plan, build plan, demo, submission, QA), v2/
   data/             Local snapshots for tests (never the source of truth)
-  AGENTS.md KERB-MASTER-PLAN.md BUILD_PLAN.md PROJECT_STATE.md BUILD_PERIOD.md README.md
+  AGENTS.md PROJECT_STATE.md BUILD_PERIOD.md README.md SECURITY.md LICENSE
 ```
 
 Directory ownership: `contracts/`, `apps/engine`, `apps/collector`, `apps/attester`, `apps/indexer`, `packages/*` belong to the backend agent (Codex). `apps/web` belongs to the frontend agent (Claude Code). Both may read everything. Neither edits the other's directory without saying so in `PROJECT_STATE.md`.
@@ -93,7 +93,7 @@ Directory ownership: `contracts/`, `apps/engine`, `apps/collector`, `apps/attest
 - Solidity: Foundry, OpenZeppelin for standard pieces, no upgradeability, no `delegatecall`, checks-effects-interactions, `ReentrancyGuard` on every external state-changing entry point that moves tokens.
 - Tests: Vitest for TS, Foundry for Solidity. Every engine function has a table-driven test with fixtures captured from real observations. Every contract has at least one invariant test.
 - Fixtures: capture real responses once, commit them under `data/fixtures/`, and run the engine tests offline against them. Fake provider mode is the default in dev; live mode is an explicit env flag.
-- Commits: conventional commits, present tense, one logical change each. Reference the task ID from `BUILD_PLAN.md`, for example `feat(engine): KTS carry capacity (K-14)`.
+- Commits: conventional commits, present tense, one logical change each. Reference the task ID from `docs/planning/BUILD_PLAN.md`, for example `feat(engine): KTS carry capacity (K-14)`.
 - Environment: `.env.example` is always current. No secrets in the repo, in logs, or in error responses. The runner env is allowlisted, so a live key can never leak into a test process (this is the Plumb lesson and it is not optional).
 - UI: both themes are first class. After building any page, take Playwright screenshots at 390 and 1440 in both themes, look at them, list defects, fix, re-shoot. A page is not done until you have personally viewed the screenshots.
 
@@ -211,7 +211,7 @@ Submission: 25 Sep 2026 23:59 UTC. Internal target 18:00 UTC. Feature freeze Thu
 
 When one agent needs something from the other's area, it writes a one-line request in `PROJECT_STATE.md` under "Requests" and continues with a typed stub that renders a labelled empty state.
 
-### 12.4 The design law (replaces section 6's UI bullet and ARCHITECTURE.md section 9)
+### 12.4 The design law (replaces section 6's UI bullet and docs/ARCHITECTURE.md section 9)
 
 1. The Kerbstone system in `V2-DESIGN-SYSTEM.md` is the only visual source of truth. Tokens are CSS variables; no raw hex in components.
 2. Fonts are actually loaded (`next/font`), and the build fails if a declared family is missing.

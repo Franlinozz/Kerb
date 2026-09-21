@@ -12,3 +12,6 @@ contracts/broadcast/*/31337/
 .DS_Store
 /var/
 *.tsbuildinfo
+# Bundles the attester writes as it posts (served by /v1/bundle). The store of record is that
+# directory on the server, not git; the committed ones are test fixtures and stay tracked.
+data/reports/bundles/

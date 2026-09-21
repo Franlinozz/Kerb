@@ -1,4 +1,4 @@
-/** AGENTS.md section 2.3 and ARCHITECTURE.md section 6. A number without one of these does not ship. */
+/** AGENTS.md section 2.3 and docs/ARCHITECTURE.md section 6. A number without one of these does not ship. */
 export const PROVENANCE_LABELS = ["Verified", "Observed", "Attested", "Computed"] as const;
 export type ProvenanceLabel = (typeof PROVENANCE_LABELS)[number];
 

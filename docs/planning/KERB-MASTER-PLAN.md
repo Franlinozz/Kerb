@@ -181,7 +181,7 @@ real X Layer tokenized equity (KOx, HKEXCx, BRK.Bx ...)
 
 Backed lists Nigeria among non-serviceable countries, so the builder does not acquire or hold the restricted collateral asset and does not route around that restriction. State it plainly on `/proof` and in the README. A judge who sees a team handle a jurisdiction boundary correctly trusts every other number on the page more.
 
-**Mainnet Kerb Credit is an optional gate**, not a default: only if invariants and Slither are clean by D6, only with your written approval, only with caps you set, supply side seeded by you in USDG. Ask the Telegram group first (Section 12).
+**Mainnet Kerb Credit is an optional gate**, not a default: only if invariants and Slither are clean by D6, only with your written approval, only with caps you set, supply side seeded by you in USDG.
 
 ---
 
@@ -240,7 +240,7 @@ Measure it, do not predict it. Whatever happens, publish what happened with the 
 | `/proof` | The trust console | Highest ROI page in the repo |
 | `/developers` | REST, SDK snippet, ABIs, Kerb Desk | Integration path |
 
-**Design direction.** One typeface family (Archivo, width axis used for the clock and countdown), tabular figures, mono only for hashes and addresses. Dark default on a blue-slate base, with a session-tone system where light level encodes regime strength, and a single reserved accent for Last Call. The Session Strip (the trading week as a band with a live cursor and next transition) is the signature element and appears on every page. No card grids, no neon, no all-caps eyebrows, no arrows glued to buttons. Tokens in `ARCHITECTURE.md`.
+**Design direction.** One typeface family (Archivo, width axis used for the clock and countdown), tabular figures, mono only for hashes and addresses. Dark default on a blue-slate base, with a session-tone system where light level encodes regime strength, and a single reserved accent for Last Call. The Session Strip (the trading week as a band with a live cursor and next transition) is the signature element and appears on every page. No card grids, no neon, no all-caps eyebrows, no arrows glued to buttons. Tokens in `docs/ARCHITECTURE.md`.
 
 ---
 
@@ -276,51 +276,20 @@ Judging criteria:
 | Aave, Morpho, Kamino, Jupiter Lend | Static collateral parameters per market, oracle-priced | They price the asset. Kerb underwrites the liquidation path and prices the session. |
 | Chainlink, Pyth, RedStone | Reference prices, 24/5 equity coverage | They deliver a price. Kerb delivers credit capacity and treats oracle coverage gaps as an input. |
 | Chaos Labs, LlamaRisk | Risk parameter recommendations on a governance cadence | Offchain, slow, per-protocol. Kerb publishes onchain, per session, reproducible by anyone. |
-| A Dev Day team building "xStocks lending on X Layer" | A fork with a fixed LTV | One LTV per asset for the whole week and no measured exit capacity. The Board makes the difference visible in five seconds. |
 
-Replaceability test: another team with the same AI tooling could rebuild a lending UI in 48 hours. They could not rebuild six days of continuous observations across ten pools, three market calendars, a published standard and a measured liquidity cliff.
 
 ---
 
-## 11. Participation route: decide by 24 Sep
-
-| | In-person (Singapore finale) | Remote Build |
-|---|---|---|
-| Pool | Build a Market $35,000, plus Flash Track $15,000 eligibility | Best Remote Demo, $15,000 |
-| Cost | Flights, hotel, visa, roughly $2,000 to $3,000 self-funded | Zero |
-| Risk | A Nigerian passport needs a Singapore entry visa with a letter of introduction, and finalists are only confirmed by 30 Sep for a 6 or 7 Oct event | None |
-| Upside | Largest pool, Flash Track, face time with OKX leadership, RWA partners and VCs | Pure expected value on a smaller pool |
-
-Recommendation: declare in-person only if you are willing to commit the money and start visa groundwork before you are confirmed. Ask in Telegram whether OKX can issue an invitation letter, and what happens to a team that declares in-person and cannot travel. If either answer is unsatisfactory, declare Remote Build and optimise the video, because remote judging is a video-and-repo competition and that is a format you are very good at.
-
-Date conflict to resolve: the EU mirror of the Builder Kit (updated 15 Sep) says the finale is **6 Oct**, the version you pasted (updated 18 Sep) says **7 Oct**, and the Luma invite says 6 Oct. Ask, do not guess.
-
----
-
-## 12. Ask these in the builder Telegram today
-
-1. Does Build a Market accept an X Layer **mainnet** data and Terms integration combined with a fully functional X Layer **testnet** credit market, where regional restrictions prevent the builder from holding the production tokenized asset?
-2. Is there an official xStocks or wrapped-xStocks **testnet** deployment on X Layer for Dev Day builders?
-3. Can the xStocks or X Layer team confirm canonical current wrapper addresses on X Layer and the preferred reference price source for lending integrations?
-4. Can accepted teams get Exchange OS or Trade Zone deployer or sandbox access during the build period?
-5. Builder Kit says 7 Oct, the T&Cs and Luma say 6 Oct. Which date should finalists plan around?
-6. Can OKX provide an invitation letter supporting a Singapore entry visa application for confirmed finalists, and how is a team treated that declares in-person but cannot obtain a visa in time?
-
-Log every answer in `PROJECT_STATE.md` with date and source.
-
----
-
-## 13. Traction plan during the build
+## 11. Traction plan during the build
 
 - **Ship the Board public by D3.** Useful without an account, shareable, indexable, and the fallback submission if the credit market slips.
 - **Publish Market-Time Report #1 on 24 Sep**, the same day as the campaign cliff, into the builder Telegram and X. Measured numbers only.
-- **Offer read-only Terms to one other Dev Day team** building on RWA. One real external consumer beats a thousand imaginary users.
 - **List Kerb Desk on OKX AI** only if P0 is stable by D6. Finance category. Real per-call settlement on X Layer is real revenue.
 - Never fabricate users, never self-call to inflate counts, never present an estimate as a measurement.
 
 ---
 
-## 14. Risk register
+## 12. Risk register
 
 | Risk | Level | Mitigation |
 |---|---|---|
@@ -328,16 +297,15 @@ Log every answer in `PROJECT_STATE.md` with date and source.
 | Uniswap V3 factory or pool addresses on X Layer not found quickly | Critical | Discover from the OKX Earn product pages and the OKX DEX token list, confirm onchain by reading `token0/token1/fee/slot0`, then pin verified addresses in config with an explorer link each |
 | Contract bug with real funds | High | Testnet default, mainnet credit only behind written approval and caps, invariants, fork tests, Slither, no upgradeability, guardian can pause borrows only |
 | Attester key compromise | High | Key holds no funds, reports bounded by contract guardrails, tighten immediately and loosen only after cooldown, admin key stays local |
-| Scope creep kills the demo | High | Tier gates in `BUILD_PLAN.md`, feature freeze 24 Sep, the P2 list is forbidden |
+| Scope creep kills the demo | High | Tier gates in `docs/planning/BUILD_PLAN.md`, feature freeze 24 Sep, the P2 list is forbidden |
 | Testnet USDG unobtainable | Medium | Ask Paxos and the Telegram group early; fallback is a clearly labelled `MockUSDG` on testnet with the real USDG address still wired for mainnet |
 | Depth numbers look small | Medium | That is the finding. Small executable depth against large nominal TVL is the overhang story, and Kerb is the only product that shows it |
 | Judges read it as another lending fork | Medium | Lead every surface with the Board and the coverage ratio, never with a supply table |
-| Route or date confusion | Medium | Telegram questions in Section 12, decision logged by 24 Sep |
 | Regulatory framing | Medium | No advice, no yield promises, non-US notice, "unaudited, guarded launch" labels, honest jurisdiction statement |
 
 ---
 
-## 15. What must be true for this to win
+## 13. What must be true for this to win
 
 1. The Board is live, real and unmistakably not a mock, by D3.
 2. Last Call and cure work end to end, on a clock, in under 40 seconds of video.
@@ -347,7 +315,7 @@ Log every answer in `PROJECT_STATE.md` with date and source.
 
 ---
 
-## 16. Submission copy (draft, finalise on D7 from the real build)
+## 14. Submission copy (draft, finalise on D7 from the real build)
 
 **One line.** Kerb is a session-aware credit market for tokenized securities on X Layer.
 
@@ -359,16 +327,16 @@ Log every answer in `PROJECT_STATE.md` with date and source.
 
 ---
 
-## 17. The files in this pack
+## 15. The files in this pack
 
 | File | Use |
 |---|---|
-| `KERB-MASTER-PLAN.md` | This document. Product DNA. Read once per session. |
+| `docs/planning/KERB-MASTER-PLAN.md` | This document. Product DNA. Read once per session. |
 | `AGENTS.md` | Repo constitution. Hard rules, gates, degradation ladders, definition of done. |
-| `KTS-0.1.md` | The Kerb Terms Standard: regime machine, formulas, report schema, reproducibility. |
-| `ARCHITECTURE.md` | Contracts, services, data model, security model, design tokens. |
-| `BUILD_PLAN.md` | Task IDs, dependencies, acceptance criteria, day gates, kill list. |
+| `docs/KTS-0.1.md` | The Kerb Terms Standard: regime machine, formulas, report schema, reproducibility. |
+| `docs/ARCHITECTURE.md` | Contracts, services, data model, security model, design tokens. |
+| `docs/planning/BUILD_PLAN.md` | Task IDs, dependencies, acceptance criteria, day gates, kill list. |
 | `KERB-BUILD-PROMPTS.md` | Paste-ready phase prompts for Codex and Claude Code. |
-| `DEMO.md` | Storyboard, script, shot list, fallbacks. |
-| `SUBMISSION.md` | Form answers, README skeleton, proof checklist, final-day runbook. |
+| `docs/planning/DEMO.md` | Storyboard, script, shot list, fallbacks. |
+| `docs/planning/SUBMISSION.md` | Form answers, README skeleton, proof checklist, final-day runbook. |
 | `PROJECT_STATE.md` | Living state and decision log. Update at every checkpoint. |

@@ -14,7 +14,7 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 
 **Primary track.** Build a Market
 
-**Participation route.** **Remote.** The builder is not travelling to Singapore. No visa letter is needed, and nothing in the submission should describe in-person attendance.
+**Participation route.** **Remote.** Nothing in the submission should describe in-person attendance.
 
 **Project summary (product, intended user, core integration).**
 
@@ -32,7 +32,7 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 
 **Repository.** `https://github.com/Franlinozz/Kerb` — **currently private, must be made public before submitting.** README complete, `BUILD_PERIOD.md` shows day-by-day build-period work, full history scanned clean of secrets.
 
-**Demo video.** 2 to 4 minutes, per `DEMO.md`. Unlisted or public link that works logged out.
+**Demo video.** 2 to 4 minutes, per `docs/v2/V2-DEMO.md`. Unlisted or public link that works logged out.
 
 **Product link.** `https://www.usekerb.xyz` — the Board, the Market, the Methodology, Market-Time Report #1 and the Proof page all load with no wallet and no account. Public API at `https://api.usekerb.xyz`.
 
@@ -78,7 +78,7 @@ Loan asset: USDG mainnet 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8. On testnet 
 Builder Code: `kt0hl6xyhlx8xmt`, ERC-8021 suffix on every Kerb transaction, decodable from mainnet calldata.
 
 ## The Kerb Terms Standard
-Link to KTS-0.1.md. One paragraph on reproducibility, with the verify command.
+Link to docs/KTS-0.1.md. One paragraph on reproducibility, with the verify command.
 
 ## Run it locally
 Prereqs, env, pnpm install, pnpm dev, forge test.

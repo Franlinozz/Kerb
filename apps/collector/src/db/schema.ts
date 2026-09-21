@@ -1,5 +1,5 @@
 /**
- * ARCHITECTURE.md section 5. Observation tables are APPEND-ONLY: a database trigger
+ * docs/ARCHITECTURE.md section 5. Observation tables are APPEND-ONLY: a database trigger
  * (migration 0001_append_only) rejects every UPDATE, DELETE and TRUNCATE on them.
  * Never delete. Roll forward.
  *

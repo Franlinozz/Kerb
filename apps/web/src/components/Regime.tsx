@@ -1,5 +1,5 @@
 /**
- * Regime glyphs. ARCHITECTURE.md section 9: the glyph always sits beside the word, and colour
+ * Regime glyphs. docs/ARCHITECTURE.md section 9: the glyph always sits beside the word, and colour
  * is never the only carrier of meaning, so a colourblind judge reads the same thing everyone else does.
  */
 import type { Regime } from "@/lib/api";

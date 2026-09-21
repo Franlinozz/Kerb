@@ -51,7 +51,7 @@ Weekend, US and HK both closed. This is the cleanest `REFERENCE_CLOSED` data you
 
 | ID | Task | Depends | Acceptance |
 |---|---|---|---|
-| K-13 | KTS capacity: stress capacity, liquidity capacity, position cap, Carry and Session Max, clamping | K-10, K-11, K-12 | Outputs match the worked shape in `KTS-0.1.md`, all decimal strings |
+| K-13 | KTS capacity: stress capacity, liquidity capacity, position cap, Carry and Session Max, clamping | K-10, K-11, K-12 | Outputs match the worked shape in `docs/KTS-0.1.md`, all decimal strings |
 | K-14 | Input bundle canonicalisation, keccak hash, Pinata pin, report assembly | K-13 | Bundle pinned, CID and hash recorded, re-running the engine on the pinned bundle reproduces identical outputs |
 | K-15 | `contracts/KerbClock.sol` plus tests | K-09 | Fuzz test: contract regime equals TS resolver regime for 1,000 random timestamps across both markets |
 | K-16 | `contracts/KerbTerms.sol` plus tests including every guardrail revert | K-15 | Tests prove: non-attester reverts, stale report reverts, out-of-bounds clamps, early loosening reverts, tighten applies immediately |
@@ -85,7 +85,7 @@ US market reopens 13:30 UTC. Capture the `RECOVERY` transition. HKEX lunch break
 |---|---|---|---|
 | K-25 | `contracts/KerbCredit.sol`: supply, withdraw, deposit, withdrawCollateral, borrow with mode, repay, interest accrual | K-16 | Unit tests for each path, rounding tests, pause tests |
 | K-26 | Cure and Default liquidation paths, `cureStatus`, close factor, bonuses | K-25 | Tests: cure before window reverts, cure size exact to target, default only below `LT`, both emit full events |
-| K-27 | Invariant and fuzz suite | K-26 | The eight invariants in `ARCHITECTURE.md` hold under fuzzing; run recorded |
+| K-27 | Invariant and fuzz suite | K-26 | The eight invariants in `docs/ARCHITECTURE.md` hold under fuzzing; run recorded |
 | K-28 | `KerbMirror` testnet collateral with a capped faucet, plus testnet USDG wiring (Paxos testnet USDG, else `MockUSDG` labelled) | K-25 | Two mirror assets deployed and mintable, loan asset resolved, rung recorded |
 | K-29 | Deploy Kerb Credit to testnet, list KOx and HKEXCx mirrors, seed supply | K-27, K-28 | Addresses recorded, one full lifecycle executed by script: supply, deposit, borrow Carry, repay |
 | K-30 | `KerbClockDemo` with a compressed calendar for filming | K-15 | One demo week per hour, badged in the UI wherever it is read |
@@ -121,7 +121,7 @@ US market reopens 13:30 UTC. Capture the `RECOVERY` transition. HKEX lunch break
 | K-40 | Kerb Desk on OKX AI (A2MCP), tools and pricing, listing submitted | T1 green | Endpoint live, self-test passes, listing submitted, agent ID recorded. Skip without regret if T1 slipped |
 | K-41 | SDK snippet and `/developers` page, offer read-only Terms to one other Dev Day team | K-21 | Snippet works from a clean project; outreach message sent |
 | K-42 | Full QA matrix pass from `AGENTS.md` section 9 | everything | Every row ticked or explicitly marked not applicable with a reason |
-| K-43 | Record the demo video, 2 to 4 minutes, target 3:15 | K-31, K-35 | Follows `DEMO.md`, no fake data, both live and recorded fallbacks captured |
+| K-43 | Record the demo video, 2 to 4 minutes, target 3:15 | K-31, K-35 | Follows `docs/planning/DEMO.md`, no fake data, both live and recorded fallbacks captured |
 | K-44 | README: thesis, screenshot, how it works, addresses, KTS link, run locally, tests, limitations | everything | A stranger can understand and run it |
 
 **Gate D7:** video recorded, README complete, all links working from a logged-out browser on another network.

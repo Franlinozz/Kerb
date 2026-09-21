@@ -101,7 +101,7 @@ If step 0 has not been done, the rollback for a cutover is the V1 checkout itsel
 | Testnet credit plane | **LIVE**: KerbCredit, MockUSDG, KerbClockDemo and two mirrors deployed on 1952, both mirrors listed with a fixed LT, real mainnet Credit Marks relayed onto them |
 | Web | **LIVE** at https://www.usekerb.xyz under PM2 (`kerb-web`), Caddy TLS. Session Strip, /board, /asset/[symbol], /proof; both themes, 390 and 1440 reviewed |
 | Kerb Desk (OKX AI) | not started, P1 |
-| Participation route | **REMOTE**. The builder is not travelling to Singapore (no funds for the trip); no visa letter needed |
+| Participation route | **REMOTE** |
 | Demo video | not recorded (final-stage item, by the operator's instruction) |
 
 ---
@@ -169,7 +169,7 @@ Format: date, decision, reason, alternatives considered, consequence.
 | Date | Decision | Reason |
 |---|---|---|
 | 20 Sep | Mainnet deployment of KerbClock and KerbTerms approved in writing by the operator and executed. Cost 0.000279 OKB of a 0.0321 OKB balance. Neither contract holds funds | AGENTS.md gate 1 satisfied: plan and cost presented, approval given in chat |
-| 20 Sep | Participation is remote. The builder will not attend in person in Singapore | The trip cannot be funded; the submission and any finale participation are remote |
+| 20 Sep | Participation is remote | The submission and any finale participation are remote |
 | 20 Sep | Bundles are pinned to IPFS through Pinata from 20 Sep 20:55 UTC | Operator supplied a JWT; a live probe confirmed Pinata returns the identical CIDv1 raw-codec hash the engine computes locally, so pinning does not change bundle identity |
 | 18 Sep | Build a Market is the primary track | The product is a market and a risk primitive on X Layer; OKX AI participates only through the optional Kerb Desk |
 | 18 Sep | Liquidation threshold is fixed, sessions move capacity and the cure covenant | Moving a liquidation line under a live borrower is indefensible and a technical judge will probe it first |
@@ -189,7 +189,6 @@ Format: date, decision, reason, alternatives considered, consequence.
 | | Canonical wrapper addresses and preferred reference source? | | |
 | | Exchange OS or Trade Zone sandbox access? | | |
 | | Finale 6 Oct or 7 Oct? | | |
-| | Invitation letter for a Singapore visa? | | |
 
 ---
 

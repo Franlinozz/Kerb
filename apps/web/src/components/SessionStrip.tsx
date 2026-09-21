@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * The Session Strip. ARCHITECTURE.md section 9: the trading week as a band of session segments,
+ * The Session Strip. docs/ARCHITECTURE.md section 9: the trading week as a band of session segments,
  * a live cursor, the regime named in words with its glyph, and a countdown to the next transition.
  *
  * The geometry comes from the Clock endpoint, which runs the same resolver the onchain KerbClock

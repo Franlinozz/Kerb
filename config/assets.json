@@ -35,7 +35,7 @@
       "symbol": "USDG",
       "address": "0x4ae46a509F6b1D9056937BA4500cb143933D2dc8",
       "decimals": 6,
-      "note": "Global Dollar (Paxos), ARCHITECTURE.md section 2"
+      "note": "Global Dollar (Paxos), docs/ARCHITECTURE.md section 2"
     },
     "xETH": {
       "symbol": "xETH",

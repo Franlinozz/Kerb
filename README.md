@@ -86,7 +86,7 @@ clamped, not as a mismatch: the contract may be more conservative than the engin
 | `packages/v3math` | Exact Uniswap V3 tick-walk simulation and C(i) by bisection |
 | `packages/calendar` | Per-market trading calendars and the Clock resolver |
 | `contracts` | KerbClock, KerbTerms, KerbCredit, KerbMirror, KerbClockDemo |
-| `KTS-0.1.md` | The Kerb Terms Standard |
+| `docs/KTS-0.1.md` | The Kerb Terms Standard |
 | `SECURITY.md` | Key model, Slither dispositions, known limitations |
 
 ## Run it locally

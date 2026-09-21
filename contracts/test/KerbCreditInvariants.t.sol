@@ -216,7 +216,7 @@ contract Handler is Test {
     }
 }
 
-/// @notice The eight invariants from ARCHITECTURE.md section 3.3.
+/// @notice The eight invariants from docs/ARCHITECTURE.md section 3.3.
 contract KerbCreditInvariantsTest is Test {
     KerbCredit internal credit;
     MockERC20 internal usdg;

@@ -1,7 +1,7 @@
 /**
  * The Session Strip as page furniture.
  *
- * ARCHITECTURE.md section 9: the strip appears on every page, because market time is the thing
+ * docs/ARCHITECTURE.md section 9: the strip appears on every page, because market time is the thing
  * this product is about and a reader should never be more than a glance from knowing what the
  * clock is doing. Pages that lead with their own asset render the strip themselves; every other
  * page gets this compact one, led by whichever asset currently carries the most capacity.

@@ -1,6 +1,6 @@
 /**
  * /v1/proof: everything a judge needs to check Kerb against reality, assembled from live state.
- * ARCHITECTURE.md section 8. Nothing on this surface is hardcoded and nothing is estimated: if a
+ * docs/ARCHITECTURE.md section 8. Nothing on this surface is hardcoded and nothing is estimated: if a
  * value cannot be read right now, the field says so rather than carrying a stale or invented number.
  */
 import { execFileSync } from "node:child_process";
