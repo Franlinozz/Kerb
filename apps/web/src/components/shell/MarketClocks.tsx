@@ -11,10 +11,10 @@ const MARKETS = [
 ];
 
 function local(tz: string, at: Date): { time: string; zone: string; minutes: number; weekend: boolean } {
-  const f = new Intl.DateTimeFormat("en-GB", { timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23", weekday: "short", timeZoneName: "short" });
+  const f = new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23", weekday: "short", timeZoneName: "short" });
   const parts = f.formatToParts(at);
   const g = (t: string): string => parts.find((p) => p.type === t)?.value ?? "";
-  return { time: `${g("hour")}:${g("minute")}:${g("second")}`, zone: g("timeZoneName").replace("GMT+8", "HKT"), minutes: Number(g("hour")) * 60 + Number(g("minute")), weekend: ["Sat", "Sun"].includes(g("weekday")) };
+  return { time: `${g("hour")}:${g("minute")}:${g("second")}`, zone: tz === "Asia/Hong_Kong" ? "HKT" : g("timeZoneName"), minutes: Number(g("hour")) * 60 + Number(g("minute")), weekend: ["Sat", "Sun"].includes(g("weekday")) };
 }
 
 export function MarketClocks({ layout = "column" }: { layout?: "column" | "row" }): React.ReactElement {

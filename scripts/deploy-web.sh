@@ -59,7 +59,13 @@ for _ in $(seq 1 40); do
   sleep 0.5
 done
 for path in /board /proof; do
-  code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$path")
+  # A first request can race the server's warm-up; three tries before calling it broken.
+  code=000
+  for _ in 1 2 3; do
+    code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port$path")
+    [ "$code" = 200 ] && break
+    sleep 1
+  done
   [ "$code" = 200 ] || { echo "candidate $path answered $code" >&2; ok=0; }
 done
 css=$(curl -s "http://127.0.0.1:$port/" | grep -o '/_next/static/[^"]*\.css' | head -1 || true)

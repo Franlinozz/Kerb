@@ -27,7 +27,7 @@
   .status-pill[data-state="down"] .status-dot { background: var(--oxide); box-shadow: 0 0 0 3px color-mix(in srgb, var(--oxide) 22%, transparent); }
   .status-pill[data-state="loading"] .status-dot { background: var(--ink-3); box-shadow: none; }
 
-  .menu-btn { display: none; }
+  .icon-btn.menu-btn { display: none; }
 
   @media (max-width: 1080px) { .main-nav { gap: 18px; } .site-header-inner { gap: 20px; } }
   @media (max-width: 960px) {
@@ -35,7 +35,7 @@
     .main-nav, .status-pill .status-text, .header-tools .theme-menu { display: none; }
     .status-pill { padding: 0; width: 30px; justify-content: center; }
     .site-header-inner { gap: 12px; justify-content: space-between; }
-    .menu-btn { display: inline-grid; }
+    .icon-btn.menu-btn { display: inline-grid; }
   }
 
   /* Drawer (mobile nav) */

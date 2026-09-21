@@ -127,9 +127,9 @@
   .section-note { color: var(--text-faint); font-size: 0.82rem; margin: 0 0 12px; max-width: var(--measure); }
   .rowbar { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 
-  .field { display: grid; grid-template-columns: 190px 1fr; gap: 10px 16px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .field { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 10px 16px; padding: 7px 0; border-bottom: 1px solid var(--line); }
   .field dt { color: var(--text-faint); font-size: 0.8rem; }
-  .field dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .field dd { margin: 0; font-variant-numeric: tabular-nums; min-width: 0; overflow-wrap: anywhere; }
   .field-note { font-size: 0.76rem; margin-top: 2px; }
   dl { margin: 0; }
 
