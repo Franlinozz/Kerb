@@ -15,20 +15,22 @@ function connectedBefore(): boolean {
   try { return Boolean(localStorage.getItem("wagmi.recentConnectorId")) || /"connections":\{"__type":"Map","value":\[\[/.test(localStorage.getItem("wagmi.store") ?? ""); } catch { return false; }
 }
 
+const fetchIsland = (): Promise<unknown> => import("./WalletIsland");
+
 export function LazyWallet({ compact = false }: { compact?: boolean }): React.ReactElement {
-  const [load, setLoad] = useState(false);
-  const [openOnLoad, setOpenOnLoad] = useState(false);
+  // `ready` flips only once the island's code is in the browser, so the placeholder never
+  // disappears under the pointer: a click on it is always caught, and then opens the sheet.
+  const [ready, setReady] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const warm = (): void => { void fetchIsland().then(() => setReady(true)); };
   useEffect(() => {
-    if (connectedBefore()) { setLoad(true); return; }
-    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
-    const t = setTimeout(() => {
-      if (w.requestIdleCallback) w.requestIdleCallback(() => setLoad(true), { timeout: 4000 }); else setLoad(true);
-    }, 5000);
+    if (connectedBefore()) { warm(); return; }
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    const t = setTimeout(() => { if (w.requestIdleCallback) w.requestIdleCallback(warm, { timeout: 4000 }); else warm(); }, 5000);
     return () => clearTimeout(t);
   }, []);
-  if (load) return <Island compact={compact} openOnLoad={openOnLoad} />;
-  const warm = (): void => setLoad(true);
-  const press = (): void => { setOpenOnLoad(true); setLoad(true); };
+  if (ready) return <Island compact={compact} openOnLoad={pressed} />;
+  const press = (): void => { setPressed(true); warm(); };
   return compact
     ? <button type="button" className="icon-btn" aria-label="Connect a wallet" onPointerEnter={warm} onFocus={warm} onClick={press}><WalletIcon /></button>
     : <button type="button" className="btn btn-sm" onPointerEnter={warm} onFocus={warm} onClick={press}>Connect</button>;

@@ -53,10 +53,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
       <body>
         <a href="#main" className="sr-only">Skip to content</a>
         <Providers>
-          {/* Separate Suspense boundaries hydrate as separate tasks, so the main thread can breathe
-              between the header, the page and the footer instead of one long hydration. */}
+          {/* Header and footer hydrate as their own Suspense units, so the main thread can breathe
+              between them and the page. The page itself is not wrapped: a boundary above it would
+              start streaming before notFound() runs, and an unknown address would answer 200. */}
           <Suspense><SiteHeader /></Suspense>
-          <main id="main" className="wrap site-main"><Suspense>{children}</Suspense></main>
+          <main id="main" className="wrap site-main">{children}</main>
           <Suspense><SiteFooter /></Suspense>
           <Suspense><Toaster /></Suspense>
         </Providers>
