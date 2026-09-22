@@ -20,7 +20,8 @@ import { Tape } from "@/components/kerb/Tape";
 import { getBoard, getClock, getProof, getReport, getStats, getTape, type BoardRow } from "@/lib/api";
 import { BUILDER_CODE } from "@/lib/builderCode";
 import { byDecimalDesc, group, price, shift, shortHash, round, usd, usdFull, ltv } from "@/lib/format";
-import { railWindow, utcHm, localHm } from "@/lib/time";
+import { railWindow, utcHm, localHm, transitionWord } from "@/lib/time";
+import { KIND_WORD } from "@/lib/sessionWords";
 
 export const revalidate = 15;
 
@@ -47,7 +48,6 @@ export default async function Home(): Promise<React.ReactElement> {
   const hkLead = rows.find((r) => r.underlying.market === "XHKG" && r !== lead);
   const report = lead ? await getReport(lead.symbol) : null;
   const mainnetPosts = stats.ok ? stats.data.postsByChain.find((p) => p.chainId === 196)?.count ?? null : null;
-  const lastPostAge = board.ok ? board.data.summary?.lastPostAgeSec ?? null : null;
   const deployments = proof.ok ? proof.data.onchain.deployments.filter((d) => d.chainId === 196) : [];
   const tests = proof.ok ? proof.data.build.tests : null;
 
@@ -62,7 +62,7 @@ export default async function Home(): Promise<React.ReactElement> {
           <ArtPlate id="p1-kerbstone-night" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
           <ArtPlate id="p1-kerbstone-day" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
           {lead ? <Callout side="left" style={{ left: "17%", top: "30%" }} label={`${lead.symbol} · ${lead.regime.value ? REGIME_WORD[lead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(lead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
-          {hkLead ? <Callout side="left" style={{ left: "30%", bottom: "13%" }} label={`${hkLead.symbol} · ${hkLead.regime.value ? REGIME_WORD[hkLead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(hkLead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
+          {hkLead ? <Callout side="left" style={{ left: "24%", bottom: "7%" }} label={`${hkLead.symbol} · ${hkLead.regime.value ? REGIME_WORD[hkLead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(hkLead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
         </div>
         <div className="hero-copy">
           <div className="t-label hero-stack">Tokenized equities<br />Executable liquidity<br />Market time<br />X Layer 196<span className="rule" aria-hidden="true" /></div>
@@ -80,10 +80,6 @@ export default async function Home(): Promise<React.ReactElement> {
         </div>
         <div className="hero-clocks hide-sm">
           <MarketClocks align="right" />
-          {lastPostAge !== null ? <div className="t-label hero-post-line">Last terms posted<br /><span className="ink">{Math.max(1, Math.round(lastPostAge / 60))}m ago · X Layer 196</span></div> : null}
-        </div>
-        <div className="hero-post t-label hide-sm">
-          {lastPostAge !== null ? <>Last terms posted<br /><span className="ink">{Math.max(1, Math.round(lastPostAge / 60))}m ago · X Layer 196</span></> : null}
         </div>
         <nav className="hero-crumbs t-label ink-3 hide-sm" aria-label="Sections">
           <Link href="/board">Board</Link> / <Link href="/credit">Credit</Link> / <Link href="/research">Research</Link> / <Link href="/proof">Proof</Link>
@@ -128,7 +124,7 @@ export default async function Home(): Promise<React.ReactElement> {
           </div>
           {report?.ok && lead ? (
             <ol className="layers" role="list">
-              <li><span className="t-label">Clock</span><p>{lead.underlying.market} is {ny.ok && lead.underlying.market !== "XHKG" ? ny.data.clock.session.kind.toLowerCase() : hk.ok ? hk.data.clock.session.kind.toLowerCase() : "being read"}; next {lead.next ? `${lead.next.type.replace(/_/g, " ").toLowerCase()} at ${utcHm(Date.parse(lead.next.at))} UTC` : "transition being read"}.</p></li>
+              <li><span className="t-label">Clock</span><p>{(() => { const c = lead.underlying.market === "XHKG" ? hk : ny; return c.ok ? `${lead.underlying.market}: ${KIND_WORD[c.data.clock.session.kind].toLowerCase()} now.` : `${lead.underlying.market}: the clock is being read.`; })()} {lead.next ? `${transitionWord(lead.next.type)} at ${utcHm(Date.parse(lead.next.at))} UTC.` : ""}</p></li>
               <li><span className="t-label">Depth</span><p>C(1%) {usd(report.data.depth.C_1)} from a tick-walk of pool <span className="mono">{shortHash(report.data.depth.venues[0]?.pools[0] ?? lead.pool.address, 6, 4)}</span>, cross-checked against OKX DEX quotes.</p></li>
               <li><span className="t-label">Mark</span><p>Credit Mark {price(report.data.mark.creditMark)}: the lower of the reference median and the pool price, after a {round(shift(report.data.mark.haircut, 2), 2)}% regime haircut.</p></li>
               <li><span className="t-label">Terms</span><p>Carry {ltv(report.data.capacity.carryLTV)}, Session Max {ltv(report.data.capacity.sessionMaxLTV)}, liquidation {ltv(report.data.capacity.LT)} fixed; debt ceiling {usd(report.data.capacity.debtCeiling)}.</p></li>

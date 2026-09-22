@@ -13,18 +13,15 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Clock, ClockSegment, DemoClock, Regime } from "@/lib/api";
-import { centredWindow, clip, countdown, dayColumns, demoSegments, localHm, pct, utcHm } from "@/lib/time";
+import { centredWindow, clip, countdown, dayColumns, demoSegments, localHm, pct, transitionWord, utcHm } from "@/lib/time";
+export { TRANSITION_WORD } from "@/lib/time";
 import { RegimePill } from "./RegimePill";
 import { useClock } from "./useClock";
 import { useNarrow, useNow, useReducedMotion } from "./useLive";
 
-export const KIND_WORD: Record<ClockSegment["kind"], string> = { PRE: "Pre-market", REGULAR: "Regular session", LUNCH: "Lunch break", POST: "After hours", CLOSED: "Closed" };
+import { KIND_WORD } from "@/lib/sessionWords";
+export { KIND_WORD };
 const REASON_WORD: Record<string, string> = { OVERNIGHT: "overnight", WEEKEND: "weekend", HOLIDAY: "holiday", EARLY_CLOSE: "early close", HALF_DAY: "half day" };
-export const TRANSITION_WORD: Record<string, string> = {
-  PRE_OPEN: "Pre-market opens", SESSION_OPEN: "Session opens", SESSION_CLOSE: "Session closes", LUNCH_START: "Lunch break starts",
-  LUNCH_END: "Session resumes", POST_OPEN: "After hours", POST_CLOSE: "Market closes", EARLY_CLOSE: "Early close",
-};
-const transitionWord = (t: string): string => TRANSITION_WORD[t] ?? t.replace(/_/g, " ").toLowerCase();
 
 interface Seg { kind: ClockSegment["kind"] | "LAST_CALL"; startMs: number; endMs: number; names?: string[] }
 interface Hover { seg: Seg; x: number; lane: number }

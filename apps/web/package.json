@@ -11,7 +11,7 @@
     "shoot": "tsx scripts/screenshots.ts",
     "test": "vitest run",
     "cure-from-ui": "tsx scripts/cure-from-ui.ts",
-    "e2e": "echo 'No Playwright suite yet: V2-11 adds the golden-path tests.' && exit 1"
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@kerb/sdk": "workspace:*",
@@ -26,6 +26,7 @@
     "wagmi": "^3.7.7"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "playwright": "^1.63.0",

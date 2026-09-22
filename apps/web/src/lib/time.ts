@@ -104,3 +104,14 @@ export function railWindow(nowMs: number): { fromMs: number; toMs: number } {
 
 export const clockPath = (symbol: string, w: { fromMs: number; toMs: number }, chainId = 196): string =>
   `/v1/clock/${chainId}/${encodeURIComponent(symbol)}?from=${new Date(w.fromMs).toISOString()}&to=${new Date(w.toMs).toISOString()}`;
+
+/** Words for a Clock transition, full and short (for table cells). */
+export const TRANSITION_WORD: Record<string, string> = {
+  PRE_OPEN: "Pre-market opens", SESSION_OPEN: "Session opens", SESSION_CLOSE: "Session closes", LUNCH_START: "Lunch break starts",
+  LUNCH_END: "Session resumes", POST_OPEN: "After hours", POST_CLOSE: "Market closes", EARLY_CLOSE: "Early close",
+};
+export const TRANSITION_SHORT: Record<string, string> = {
+  PRE_OPEN: "Pre-market", SESSION_OPEN: "Opens", SESSION_CLOSE: "Closes", LUNCH_START: "Lunch", LUNCH_END: "Resumes",
+  POST_OPEN: "After hours", POST_CLOSE: "Market closes", EARLY_CLOSE: "Early close",
+};
+export const transitionWord = (t: string): string => TRANSITION_WORD[t] ?? t.replace(/_/g, " ").toLowerCase();
