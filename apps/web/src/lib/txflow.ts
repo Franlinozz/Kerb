@@ -51,15 +51,18 @@ export function useTxFlow(ctx: ErrorContext = {}, onDone?: () => void): {
         if (args === null) { setNote("Nothing to send: the position no longer needs this."); setRunning(false); mark(labels.length - 1, "done"); return true; }
         const suffix = builderSuffix();
         const req = { ...f.call, args, ...(suffix ? { dataSuffix: suffix } : {}) };
-        // The public testnet RPC is load balanced, so an estimate can come from a node a block
-        // behind; a withdraw sent on such an estimate ran out of gas on 22 Sep. Pad every estimate.
-        let gas: bigint | undefined;
+        // The public testnet RPC is load balanced: an estimate can come from a node that has not yet
+        // seen the transaction just mined before it (a deposit before a borrow), or from the block
+        // of the last interest accrual. Two sends ran out of gas that way on 22 Sep. Unused gas is
+        // not charged, so the margin is wide, and a failed estimate falls back to a safe cap
+        // rather than to the wallet's own, equally stale, estimate.
+        let gas = 500_000n;
         try {
           const account = getAccount(config).address;
           const est = account ? await getPublicClient(config, { chainId: 1952 })?.estimateContractGas({ ...req, account } as never) : undefined;
-          if (est) gas = (est * 13n) / 10n + 20_000n;
-        } catch { gas = undefined; /* the wallet estimates, and a real revert surfaces through it */ }
-        const h = await writeContract(config, { ...req, ...(gas ? { gas } : {}) } as never);
+          if (est) gas = (est * 3n) / 2n + 50_000n;
+        } catch { /* keep the cap; a real revert still surfaces when the wallet sends */ }
+        const h = await writeContract(config, { ...req, gas } as never);
         setHash(h);
         last = h;
         setNote(`${f.label}: sent, waiting for the block.`);
