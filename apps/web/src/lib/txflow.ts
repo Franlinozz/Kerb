@@ -8,7 +8,7 @@
 import { useCallback, useState } from "react";
 import type { Hex } from "viem";
 import { useConfig } from "wagmi";
-import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
+import { getAccount, getPublicClient, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { builderSuffix } from "./builderCode";
 import { mapTxError, type ErrorContext } from "./errors";
 import { toast } from "./toast";
@@ -50,7 +50,16 @@ export function useTxFlow(ctx: ErrorContext = {}, onDone?: () => void): {
         const args = f.prepare ? await f.prepare() : f.call.args;
         if (args === null) { setNote("Nothing to send: the position no longer needs this."); setRunning(false); mark(labels.length - 1, "done"); return true; }
         const suffix = builderSuffix();
-        const h = await writeContract(config, { ...f.call, args, ...(suffix ? { dataSuffix: suffix } : {}) } as never);
+        const req = { ...f.call, args, ...(suffix ? { dataSuffix: suffix } : {}) };
+        // The public testnet RPC is load balanced, so an estimate can come from a node a block
+        // behind; a withdraw sent on such an estimate ran out of gas on 22 Sep. Pad every estimate.
+        let gas: bigint | undefined;
+        try {
+          const account = getAccount(config).address;
+          const est = account ? await getPublicClient(config, { chainId: 1952 })?.estimateContractGas({ ...req, account } as never) : undefined;
+          if (est) gas = (est * 13n) / 10n + 20_000n;
+        } catch { gas = undefined; /* the wallet estimates, and a real revert surfaces through it */ }
+        const h = await writeContract(config, { ...req, ...(gas ? { gas } : {}) } as never);
         setHash(h);
         last = h;
         setNote(`${f.label}: sent, waiting for the block.`);

@@ -4,7 +4,7 @@
 //   the curer cures from "Curable now" -> the borrower repays and withdraws.
 // Keys stay in node: the page's injected provider calls back to sign, as a real wallet would.
 // Testnet only: the script refuses any chain but 1952. Evidence: data/credit-flow-<date>.json.
-import { mkdirSync, writeFileSync } from "node:fs";
+import { appendFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { chromium } from "playwright";
 import { createWalletClient, http, parseEther, publicActions } from "viem";
@@ -18,12 +18,16 @@ const chain = { id: 1952, name: "X Layer testnet", nativeCurrency: { name: "OKB"
 const funder = createWalletClient({ account: privateKeyToAccount(process.env.KERB_DEPLOYER_KEY), chain, transport: http(RPC) }).extend(publicActions);
 if ((await funder.getChainId()) !== 1952) throw new Error("not X Layer testnet");
 
+const KEYS = "/root/.kerb/flow-wallets.log";
 const log = [];
 const note = (what, extra = {}) => { const e = { at: new Date().toISOString(), what, ...extra }; log.push(e); console.log(`${e.at.slice(11, 19)} ${what}${extra.tx ? ` ${extra.tx}` : ""}`); };
 
 async function fresh(label) {
   const key = generatePrivateKey();
   const account = privateKeyToAccount(key);
+  // Throwaway testnet keys, kept on the VPS beside the other secrets (never in the repo) so a run
+  // that dies halfway can be finished with the same wallets.
+  appendFileSync(KEYS, `${new Date().toISOString()} ${label} ${account.address} ${key}\n`, { mode: 0o600 });
   const hash = await funder.sendTransaction({ to: account.address, value: parseEther("0.004") });
   await funder.waitForTransactionReceipt({ hash });
   note(`${label} ${account.address} funded with 0.004 test OKB`, { tx: hash });

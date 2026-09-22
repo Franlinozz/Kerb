@@ -1,0 +1,137 @@
+{
+ "what": "Real browser credit flow on v2.usekerb.xyz staging (V2-08): two fresh wallets, deposit, Session Max borrow, demo Last Call, a stranger cures from the public Curable now table, borrower repays. The final withdraw step timed out in the browser (old staging build's stale panel); the collateral stays deposited on testnet.",
+ "base": "https://v2.usekerb.xyz",
+ "chainId": 1952,
+ "borrower": "0x7bC04F37aa3A1cf3cF909935a4782F75eA92bF5a",
+ "curer": "0xBCdabD86211C08DF22c9ABA431Ad6362c13344ad",
+ "steps": [
+  {
+   "at": "2026-09-22T07:11:32Z",
+   "note": "borrower 0x7bC04F37aa3A1cf3cF909935a4782F75eA92bF5a funded with 0.004 test OKB 0x3b78bacd8dfe12cd7b566fa4a49e19a5a4d2be4a437894571d70b948924bc51d",
+   "tx": "0x3b78bacd8dfe12cd7b566fa4a49e19a5a4d2be4a437894571d70b948924bc51d",
+   "status": "success",
+   "block": 41602255,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x3b78bacd8dfe12cd7b566fa4a49e19a5a4d2be4a437894571d70b948924bc51d"
+  },
+  {
+   "at": "2026-09-22T07:11:35Z",
+   "note": "curer 0xBCdabD86211C08DF22c9ABA431Ad6362c13344ad funded with 0.004 test OKB 0x6e65a2de3c2f65144f029e3bfd6c3615c6e293d7a124b858b0b35df04e04e460",
+   "tx": "0x6e65a2de3c2f65144f029e3bfd6c3615c6e293d7a124b858b0b35df04e04e460",
+   "status": "success",
+   "block": 41602258,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x6e65a2de3c2f65144f029e3bfd6c3615c6e293d7a124b858b0b35df04e04e460"
+  },
+  {
+   "at": "2026-09-22T07:11:45Z",
+   "note": "borrower signed 0x42dca9ceaa58877e4451918db140cb64e9d7299757511b50f027113c65fee3e1",
+   "tx": "0x42dca9ceaa58877e4451918db140cb64e9d7299757511b50f027113c65fee3e1",
+   "status": "success",
+   "block": 41602269,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x42dca9ceaa58877e4451918db140cb64e9d7299757511b50f027113c65fee3e1"
+  },
+  {
+   "at": "2026-09-22T07:11:48Z",
+   "note": "borrower signed 0x3523f4b9c0d4c203090139ef5adbfa9401a7027e2aba1660b82e0152d707f362",
+   "tx": "0x3523f4b9c0d4c203090139ef5adbfa9401a7027e2aba1660b82e0152d707f362",
+   "status": "success",
+   "block": 41602272,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x3523f4b9c0d4c203090139ef5adbfa9401a7027e2aba1660b82e0152d707f362"
+  },
+  {
+   "at": "2026-09-22T07:11:55Z",
+   "note": "sizing: carry 53.09%, Session Max 57.06%, cap 2454.61, mark 85.95 -> deposit 45.84 kKOx, borrow 2209.14 mUSDG (LTV 56.07%)"
+  },
+  {
+   "at": "2026-09-22T07:11:57Z",
+   "note": "borrower signed 0xaa7d98196f134f039f71ee67bf659e11f66367d22a2326c8de1a81c49ebbcc49",
+   "tx": "0xaa7d98196f134f039f71ee67bf659e11f66367d22a2326c8de1a81c49ebbcc49",
+   "status": "success",
+   "block": 41602281,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xaa7d98196f134f039f71ee67bf659e11f66367d22a2326c8de1a81c49ebbcc49"
+  },
+  {
+   "at": "2026-09-22T07:12:00Z",
+   "note": "borrower signed 0x2d113c6d9d2c238c925ae7da8fd61aeb2dc7f65c6686fdde08c60069f09ffa56",
+   "tx": "0x2d113c6d9d2c238c925ae7da8fd61aeb2dc7f65c6686fdde08c60069f09ffa56",
+   "status": "success",
+   "block": 41602284,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x2d113c6d9d2c238c925ae7da8fd61aeb2dc7f65c6686fdde08c60069f09ffa56"
+  },
+  {
+   "at": "2026-09-22T07:12:03Z",
+   "note": "borrower signed 0x5b2129eb115a170fd72f965afd5713556812f0971093fe489b63d56130f1f397",
+   "tx": "0x5b2129eb115a170fd72f965afd5713556812f0971093fe489b63d56130f1f397",
+   "status": "success",
+   "block": 41602287,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x5b2129eb115a170fd72f965afd5713556812f0971093fe489b63d56130f1f397"
+  },
+  {
+   "at": "2026-09-22T07:12:12Z",
+   "note": "waiting for the demo Last Call"
+  },
+  {
+   "at": "2026-09-22T07:54:08Z",
+   "note": "Last Call on the borrower's panel: 254.34 mUSDG cure required by 08:03 UTC, in 9m 50s"
+  },
+  {
+   "at": "2026-09-22T07:54:20Z",
+   "note": "curer signed 0x94a7ba14f18ea968e6a4cd87bf87b8551215e0c35a4327a86d5613a2a0c16bc0",
+   "tx": "0x94a7ba14f18ea968e6a4cd87bf87b8551215e0c35a4327a86d5613a2a0c16bc0",
+   "status": "success",
+   "block": 41604824,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x94a7ba14f18ea968e6a4cd87bf87b8551215e0c35a4327a86d5613a2a0c16bc0"
+  },
+  {
+   "at": "2026-09-22T07:54:24Z",
+   "note": "curer signed 0x7fd59bb052971c072b6f53100dfb8d4e94e426dcefbc74c19364a18e9ef59eff",
+   "tx": "0x7fd59bb052971c072b6f53100dfb8d4e94e426dcefbc74c19364a18e9ef59eff",
+   "status": "success",
+   "block": 41604828,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x7fd59bb052971c072b6f53100dfb8d4e94e426dcefbc74c19364a18e9ef59eff"
+  },
+  {
+   "at": "2026-09-22T07:54:27Z",
+   "note": "curer signed 0x6fb3e18b9b8894fbd844f6d0638be4f691903420193ab1dbc38334fb3a3314d9",
+   "tx": "0x6fb3e18b9b8894fbd844f6d0638be4f691903420193ab1dbc38334fb3a3314d9",
+   "status": "success",
+   "block": 41604832,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x6fb3e18b9b8894fbd844f6d0638be4f691903420193ab1dbc38334fb3a3314d9"
+  },
+  {
+   "at": "2026-09-22T07:54:28Z",
+   "note": "curer cured the position from the public table"
+  },
+  {
+   "at": "2026-09-22T07:54:31Z",
+   "note": "borrower page error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-mi"
+  },
+  {
+   "at": "2026-09-22T07:56:33Z",
+   "note": "cured state not shown yet (positions feed caches 30 s)"
+  },
+  {
+   "at": "2026-09-22T07:56:40Z",
+   "note": "borrower signed 0x844e1e79947aedbd2dfb3beb141f51298f550619020ac50efa14a5b38a60ab92",
+   "tx": "0x844e1e79947aedbd2dfb3beb141f51298f550619020ac50efa14a5b38a60ab92",
+   "status": "success",
+   "block": 41604964,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x844e1e79947aedbd2dfb3beb141f51298f550619020ac50efa14a5b38a60ab92"
+  },
+  {
+   "at": "2026-09-22T07:56:42Z",
+   "note": "borrower signed 0x32e7f38b5f293eb11f9ba77cbb20e931ecdbabd23236a58b0644b16575dd1c7b",
+   "tx": "0x32e7f38b5f293eb11f9ba77cbb20e931ecdbabd23236a58b0644b16575dd1c7b",
+   "status": "success",
+   "block": 41604966,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x32e7f38b5f293eb11f9ba77cbb20e931ecdbabd23236a58b0644b16575dd1c7b"
+  },
+  {
+   "at": "2026-09-22T07:56:51Z",
+   "note": "borrower signed 0x1bb5765a674a01ba5d5c44c6539a7221a3218471de693f58cdafb09473ecdb64",
+   "tx": "0x1bb5765a674a01ba5d5c44c6539a7221a3218471de693f58cdafb09473ecdb64",
+   "status": "reverted",
+   "block": 41604975,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x1bb5765a674a01ba5d5c44c6539a7221a3218471de693f58cdafb09473ecdb64"
+  }
+ ]
+}

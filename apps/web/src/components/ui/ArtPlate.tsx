@@ -30,6 +30,8 @@ export function ArtPlate({ id, sizes, priority = false, className, mask = "none"
         // fetched, so only the painted theme's plate downloads. fetchpriority puts it first.
         loading="lazy"
         {...(priority ? { fetchPriority: "high" as const } : {})}
+        // The Home inline script promotes the painted hero to eager before React hydrates.
+        suppressHydrationWarning={priority}
       />
     </picture>
   );
