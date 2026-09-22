@@ -12,7 +12,7 @@ import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 const RPC = "https://testrpc.xlayer.tech";
 const BASE = process.env.KERB_WEB_URL ?? "http://127.0.0.1:3301";
-const OUT = resolve(process.cwd(), process.env.KERB_KEYBOARD === "1" ? "../../data/screens/v2/credit-keyboard" : "../../data/screens/v2/credit-states");
+const OUT = resolve(process.cwd(), process.env.KERB_KEYBOARD === "1" ? "../../data/screens/v2/credit-keyboard" : `../../data/screens/v2/credit-states${process.env.KERB_THEME === "day" ? "-day" : ""}`);
 mkdirSync(OUT, { recursive: true });
 const chain = { id: 1952, name: "X Layer testnet", nativeCurrency: { name: "OKB", symbol: "OKB", decimals: 18 }, rpcUrls: { default: { http: [RPC] } } };
 const funder = createWalletClient({ account: privateKeyToAccount(process.env.KERB_DEPLOYER_KEY), chain, transport: http(RPC) }).extend(publicActions);
@@ -68,7 +68,7 @@ async function fill(loc, value) {
   await loc.page().keyboard.type(String(value));
 }
 
-async function browserFor(who, browser, theme = "night") {
+async function browserFor(who, browser, theme = process.env.KERB_THEME ?? "night") {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
   await ctx.exposeFunction("__send", async (tx) => {
     const hash = await who.wallet.sendTransaction({ to: tx.to, data: tx.data, ...(tx.value && tx.value !== "0x0" ? { value: BigInt(tx.value) } : {}), ...(tx.gas ? { gas: (BigInt(tx.gas) * 15n) / 10n } : {}) });
@@ -184,6 +184,6 @@ await flowDone(B.page, "Withdrew", 240_000);
 await B.page.waitForTimeout(4000);
 await shots(B.page, "state-closed");
 
-writeFileSync(resolve(process.cwd(), `../../data/credit-flow-${new Date().toISOString().slice(0, 10)}${process.env.KERB_KEYBOARD === "1" ? "-keyboard" : ""}.json`), JSON.stringify({ base: BASE, borrower: borrower.account.address, curer: curer.account.address, steps: log }, null, 1));
+writeFileSync(resolve(process.cwd(), `../../data/credit-flow-${new Date().toISOString().slice(0, 10)}${process.env.KERB_KEYBOARD === "1" ? "-keyboard" : ""}${process.env.KERB_THEME === "day" ? "-day" : ""}.json`), JSON.stringify({ base: BASE, borrower: borrower.account.address, curer: curer.account.address, steps: log }, null, 1));
 await browser.close();
 console.log("done");
