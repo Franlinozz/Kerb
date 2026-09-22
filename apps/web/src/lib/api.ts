@@ -145,7 +145,12 @@ export interface Health {
 /** A read either succeeded or it did not. The UI renders the difference. */
 export type Read<T> = { ok: true; data: T } | { ok: false; status: number; error: string };
 
-async function read<T>(path: string, revalidateSec = 0): Promise<Read<T>> {
+/**
+ * Server reads share Next's data cache for a few seconds by default, so a route's revalidate
+ * setting can take effect (a no-store fetch makes every route dynamic). Pass 0 for a read that
+ * must be exact at request time.
+ */
+async function read<T>(path: string, revalidateSec = 15): Promise<Read<T>> {
   try {
     const res = await fetch(`${BASE}${path}`, {
       signal: AbortSignal.timeout(12_000),
@@ -171,7 +176,7 @@ export interface DemoClock {
   state: "SESSION" | "LAST_CALL" | "CLOSED"; nextCureOpensAt: string; nextCureClosesAt: string; nextSessionAt: string; cycleStartedAt: string;
   label: ProvenanceLabel; note: string;
 }
-export const getDemoClock = (chainId = 1952): Promise<Read<DemoClock>> => read<DemoClock>(`/v1/credit/${chainId}/demo-clock`);
+export const getDemoClock = (chainId = 1952): Promise<Read<DemoClock>> => read<DemoClock>(`/v1/credit/${chainId}/demo-clock`, 5);
 
 export interface TapePost { symbol: string; chainId: number; regime: Regime; c1: string; carryLTV: string; sessionMaxLTV: string; tx: string; explorer: string; observedAt: string }
 export const getTape = (limit = 20): Promise<Read<{ label: ProvenanceLabel; posts: TapePost[] }>> => read(`/v1/tape?limit=${limit}`);
@@ -320,7 +325,7 @@ export interface Proof {
   verify?: { inputsHash: string; chainId: number; symbol: string | null; tx: string; kts: string; checkedAt: string; fields: { field: string; verdict: "matches" | "clamped tighter onchain" | "differs" }[]; ok: boolean } | null;
 }
 
-export const getProof = (): Promise<Read<Proof>> => read<Proof>("/v1/proof");
+export const getProof = (): Promise<Read<Proof>> => read<Proof>("/v1/proof", 30);
 
 // ---------------------------------------------------------------- credit plane
 
@@ -384,7 +389,7 @@ export const getCreditMarket = (chainId = CREDIT_CHAIN_ID): Promise<Read<CreditM
   read<CreditMarket>(`/v1/credit/${chainId}`);
 
 export const getCreditPosition = (user: string, assetId: string, chainId = CREDIT_CHAIN_ID): Promise<Read<CreditPosition>> =>
-  read<CreditPosition>(`/v1/credit/${chainId}/position/${user}/${assetId}`);
+  read<CreditPosition>(`/v1/credit/${chainId}/position/${user}/${assetId}`, 0);
 
 export const REGIME_BY_INDEX: Regime[] = [
   "DEEP", "NORMAL", "THIN", "PRE_TRANSITION", "REFERENCE_CLOSED", "ACTION", "HALTED", "STALE", "RECOVERY",
@@ -426,10 +431,10 @@ export interface MarketTimeReport {
 }
 
 export const getMarketTimeReport = (id: number): Promise<Read<MarketTimeReport>> =>
-  read<MarketTimeReport>(`/v1/market-time/${id}`);
+  read<MarketTimeReport>(`/v1/market-time/${id}`, 300);
 
 export const getMarketTimeGaps = (id: number): Promise<Read<{ thresholdMinutes: number; gaps: { from: string; to: string; minutes: number }[] }>> =>
-  read(`/v1/market-time/${id}/gaps`);
+  read(`/v1/market-time/${id}/gaps`, 300);
 
 export interface MarketTimeIndexEntry {
   id: number; title: string; generatedAt: string;
@@ -437,7 +442,7 @@ export interface MarketTimeIndexEntry {
 }
 
 export const getMarketTimeIndex = (): Promise<Read<{ reports: MarketTimeIndexEntry[] }>> =>
-  read<{ reports: MarketTimeIndexEntry[] }>("/v1/market-time");
+  read<{ reports: MarketTimeIndexEntry[] }>("/v1/market-time", 300);
 
 export interface KtsParams {
   kts: string;
@@ -451,4 +456,4 @@ export interface KtsParams {
   note?: string;
 }
 
-export const getParams = (): Promise<Read<KtsParams>> => read<KtsParams>("/v1/params");
+export const getParams = (): Promise<Read<KtsParams>> => read<KtsParams>("/v1/params", 60);
