@@ -503,6 +503,32 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     return reply.send(readFileSync(p, "utf8"));
   });
 
+  /**
+   * Where the holes in a report's record are, so a chart can mark them rather than draw across.
+   * Read from the same observation store the report was generated from; the report file itself is
+   * never rewritten. A hole is any stretch longer than five minutes with no live pool reading.
+   */
+  const gapCache = new Map<string, { from: string; to: string; minutes: number }[]>();
+  app.get("/v1/market-time/:id/gaps", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    if (!/^[0-9]{1,4}$/.test(id)) return reply.status(400).send({ error: "bad report id" });
+    const p = resolve(repoRoot(), `data/reports/market-time-${id}.json`);
+    if (!existsSync(p)) return reply.status(404).send({ error: "no such Market-Time Report" });
+    const r = JSON.parse(readFileSync(p, "utf8")) as { window: { from: string; to: string } };
+    let gaps = gapCache.get(id);
+    if (!gaps) {
+      const rows = await deps.sql<{ prev: Date; ts: Date; mins: string }[]>`
+        SELECT prev, ts, round(extract(epoch FROM ts - prev) / 60)::text AS mins FROM (
+          SELECT ts, lag(ts) OVER (ORDER BY ts) AS prev FROM obs_pool_state
+          WHERE mode = 'live' AND ts BETWEEN ${r.window.from} AND ${r.window.to}) s
+        WHERE ts - prev > interval '5 minutes' ORDER BY prev`;
+      gaps = rows.map((g) => ({ from: new Date(g.prev).toISOString(), to: new Date(g.ts).toISOString(), minutes: Number(g.mins) }));
+      gapCache.set(id, gaps);
+    }
+    void reply.header("cache-control", "public, max-age=300");
+    return { label: "Observed", window: r.window, thresholdMinutes: 5, gaps };
+  });
+
   app.get("/v1/reports/:id", async (req, reply) => {
     const { id } = req.params as { id: string };
     const p = safeReportPath(id, ".report.json");

@@ -427,6 +427,9 @@ export interface MarketTimeReport {
 export const getMarketTimeReport = (id: number): Promise<Read<MarketTimeReport>> =>
   read<MarketTimeReport>(`/v1/market-time/${id}`);
 
+export const getMarketTimeGaps = (id: number): Promise<Read<{ thresholdMinutes: number; gaps: { from: string; to: string; minutes: number }[] }>> =>
+  read(`/v1/market-time/${id}/gaps`);
+
 export interface MarketTimeIndexEntry {
   id: number; title: string; generatedAt: string;
   window: string; windowTo: string; hours: string; observations: number;
