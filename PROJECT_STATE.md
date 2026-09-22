@@ -23,8 +23,8 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | V2-06 Home | frontend | done 22 Sep: Kerbstone hero with the approved Night and Day plates, live callouts, Tape, lanes, measured KPIs, how a term is made, Carry against Session Max with the LTV ladder, Board preview, verify band. 10-second test passed (fresh model named tokenized-stock lending tied to market liquidity). Lighthouse mobile: performance 64 accessibility 96 best-practices 100; performance below the 85 target, hydration cost carried to V2-11 |
 | V2-07 Board and Asset | frontend | done 22 Sep: Board with KPI band, URL filters, row-selected rail, sparklines, compact ladders, phone cards; Asset with KPI band, ladder with the KTS-0.2 margin line, tabs (overview from live values, impact curve, mark waterfall, 72 h terms history, onchain); 7 E2E tests pass |
 | V2-08 Credit, the hero workflow | both | not started |
-| V2-09 Research and Report #2 | both | not started |
-| V2-10 Methodology, Proof, Developers | frontend | not started |
+| V2-09 Research and Report #2 | both | frontend done 22 Sep (index with Scheduled row and countdown, report page with diverging bars, window strip with real gap positions from `/v1/market-time/:id/gaps`); data half (Report #2) runs Thu 24 Sep after 09:00 UTC |
+| V2-10 Methodology, Proof, Developers | frontend | done 22 Sep: contents rail with scroll-spy, live regime rule, 0.2 margins, wrapping parameters; Proof status matrix with live recompute against chain and per-row Builder Codes; Developers tabs with live responses; 5 E2E tests (no overflow at 390 and 1440, no bare "no"). The Seal plate is still unapproved, so Proof keeps the geometric Kerbstone |
 | V2-11 Hardening and cutover (freeze Thu 24 Sep 20:00 UTC) | both | not started |
 | V2-12 Certification, video, submission | both + operator | not started |
 
