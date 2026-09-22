@@ -1,7 +1,7 @@
 "use client";
 import { ExternalLink, LogOut, Wallet as WalletIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useAccount, useChainId, useConnect, useDisconnect, useSwitchChain, type Connector } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSwitchChain, type Connector } from "wagmi";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { AddressChip } from "@/components/ui/AddressChip";
@@ -67,8 +67,9 @@ export function WalletSheet({ open, onClose }: { open: boolean; onClose: () => v
 }
 
 export function WalletButton({ compact = false }: { compact?: boolean }): React.ReactElement {
-  const { address, isConnected } = useAccount();
-  const chainId = useChainId();
+  // The wallet's own chain: useChainId() only ever returns a configured chain, so it cannot see a
+  // wallet sitting on another network.
+  const { address, isConnected, chainId } = useAccount();
   const { disconnect } = useDisconnect();
   const { switchChainAsync, isPending: switching } = useSwitchChain();
   const [sheet, setSheet] = useState(false);

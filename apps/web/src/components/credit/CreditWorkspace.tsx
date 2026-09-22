@@ -7,7 +7,7 @@
  */
 import { Check, CircleDashed, ExternalLink, TriangleAlert } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { useHydratedAccount } from "@/lib/useHydrated";
 import type { Hex } from "viem";
 import type { CreditCollateral, CreditMarket, DemoClock } from "@/lib/api";
@@ -61,8 +61,9 @@ function SetupStep({ n, title, state, children }: { n: number; title: string; st
 }
 
 function Setup({ market, c, pos }: { market: CreditMarket; c: CreditCollateral; pos: PositionState }): React.ReactElement {
-  const { isConnected } = useHydratedAccount(useAccount());
-  const chainId = useChainId();
+  const account = useAccount();
+  const { isConnected } = useHydratedAccount(account);
+  const chainId = account.chainId; // the wallet's chain, not the configured one
   const { switchChainAsync, isPending } = useSwitchChain();
   const [sheet, setSheet] = useState(false);
   const flow = useTxFlow({ tokenDecimals: 18, tokenSymbol: `k${c.mirrors}` }, pos.refresh);

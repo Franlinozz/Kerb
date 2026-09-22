@@ -86,11 +86,12 @@ test("wallet: an EIP-6963 wallet is listed, a rejection says Connection cancelle
 });
 
 test("wallet: on the wrong network the page offers the switch", async ({ page }) => {
+  // The wallet already authorised this site (eth_accounts answers), so it reconnects on load,
+  // but it is on Ethereum mainnet: the page must say so and offer the switch, never claim 1952.
   await wallet(page, "wrong-chain");
   await page.goto("/credit");
-  await page.locator(".header-tools").getByRole("button", { name: /Connect/ }).first().click();
-  await page.locator(".wallet-option").filter({ hasText: "Test Wallet" }).click();
   await expect(page.getByRole("button", { name: "Switch to X Layer testnet" }).first()).toBeVisible();
+  await expect(page.locator(".header-tools")).not.toContainText("X Layer testnet");
 });
 
 test("credit: the borrow preview follows the input and nothing is sent", async ({ page }) => {
