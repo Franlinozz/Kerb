@@ -31,7 +31,7 @@ export function ProvMark({ label, source, observedAt, href, hrefLabel, printed =
           {PROVENANCE_MEANING[label]}
           {source ? <><span className="t-label">Source</span>{source}</> : null}
           {observedAt ? <><span className="t-label">Observed</span>{utcStamp(observedAt)}</> : null}
-          {href ? <><span className="t-label">Check it</span><a href={href} target="_blank" rel="noreferrer">{hrefLabel ?? "Open"}</a></> : null}
+          {href ? <><span className="t-label">Check it</span><a href={href} target="_blank" rel="noreferrer">{hrefLabel ?? (/\/tx\//.test(href) ? "The posted transaction on OKLink" : /oklink/.test(href) ? "On OKLink" : "The source")}</a></> : null}
         </span>
       ) : null}
     </span>

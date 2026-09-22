@@ -59,7 +59,7 @@ export function ImpactChart({ venue, crosscheck }: { venue: Venue; crosscheck?: 
       </svg>
       <figcaption className="impact-readout" aria-live="polite">
         {h ? <>Selling <b>{usd(h.notional)}</b>: {round(shift(h.impact, 2), 2)}% impact, realised price {price(h.realisedPrice)} against a mid of {price(h.midPrice)}.</>
-          : <>Hover or focus the curve for the impact at each size. Notional is on a log scale.</>}
+          : <>Hover, tap or focus the curve for the impact at each size. Notional is on a log scale.</>}
       </figcaption>
     </figure>
   );
