@@ -81,7 +81,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         {routes.length ? (
           <>
             <h3 className="t-label mt-5">Route legs</h3>
-            <DivergingBars caption="Change in in-range liquidity by route leg" rows={routes.map((p) => ({ key: p.pool, label: `Route leg ${shortHash(p.pool)}`, value: p.changePct }))} />
+            <DivergingBars caption="Change in in-range liquidity by route leg" rows={routes.map((p) => ({ key: p.pool, label: shortHash(p.pool, 4, 4), value: p.changePct }))} />
           </>
         ) : null}
       </section>

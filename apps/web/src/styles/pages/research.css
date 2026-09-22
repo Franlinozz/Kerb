@@ -58,3 +58,4 @@
   }
 }
 @layer pages { .report-partial { padding: 8px 12px; border-left: 2px solid var(--brass); background: var(--canvas-2); color: var(--ink-2); max-width: 72ch; } }
+@layer pages { .plate-hero-forest .plate-hero-copy h1, .plate-hero-forest .plate-hero-copy p, .plate-hero-forest .plate-hero-copy .t-label { text-shadow: 0 0 18px rgba(11, 12, 10, 0.55), 0 0 4px rgba(11, 12, 10, 0.5); } .plate-hero-forest .plate-hero-title { color: var(--on-forest); } }

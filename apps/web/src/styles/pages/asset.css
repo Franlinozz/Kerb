@@ -35,3 +35,4 @@
     .wf-row { grid-template-columns: 1fr auto; grid-template-areas: "l v" "t t" "n n"; }
   }
 }
+@layer pages { @media (max-width: 700px) { .impact { overflow-x: auto; -webkit-overflow-scrolling: touch; } .impact svg { min-width: 680px; } } }
