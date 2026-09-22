@@ -27,12 +27,12 @@
   .rail-REGULAR { background: var(--r-deep); opacity: 0.9; }
   .rail-PRE, .rail-POST { background: var(--r-thin); opacity: 0.5; }
   .rail-LUNCH { background: var(--canvas-2); border-left: 1px solid var(--ink-3); border-right: 1px solid var(--ink-3); top: 40%; }
-  .rail-LAST_CALL { background: repeating-linear-gradient(135deg, var(--brass) 0 3px, var(--brass-dim) 3px 6px); min-width: 3px; z-index: 1; }
+  .rail-LAST_CALL { background: repeating-linear-gradient(135deg, var(--brass) 0 3px, var(--brass-dim) 3px 6px); min-width: 3px; z-index: 3; }
   .rail-seg:hover, .rail-seg:focus-visible { outline: 1px solid var(--moss); z-index: 2; }
   .rail[data-changed] .rail-band { animation: tone 1.2s var(--ease); }
   @keyframes tone { from { filter: brightness(1.35); } to { filter: none; } }
 
-  .rail-cursor { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--ink); z-index: 3; pointer-events: none; }
+  .rail-cursor { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--ink); z-index: 4; pointer-events: none; }
   .rail-now { position: absolute; top: -16px; left: -1px; padding: 2px 6px; background: var(--ink); color: var(--ink-inverse); font-weight: 600; font-size: 9.5px; letter-spacing: 0.2em; line-height: 1.2; white-space: nowrap; }
 
   .rail-days { position: relative; height: 22px; margin-top: 6px; }
