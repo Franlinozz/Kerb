@@ -45,7 +45,7 @@ cleanup_failed() { echo "!! build failed; $target is unchanged" >&2; git -C "$RE
 trap cleanup_failed ERR
 
 cd "$rel"
-pnpm install --frozen-lockfile --filter "@kerb/web..." --prefer-offline >/dev/null
+pnpm install --frozen-lockfile --filter "@kerb/web..." --prefer-offline >/dev/null || { echo "!! pnpm install failed (is the lockfile committed?)" >&2; false; }
 set -a; . "$envfile"; set +a
 pnpm --filter @kerb/web build
 
