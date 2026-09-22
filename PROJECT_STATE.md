@@ -22,23 +22,23 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | V2-05 Time components | frontend | done 22 Sep: SessionRail full, compact, lanes and demo on tested geometry; countdown refetches at every transition (E2E across a mocked transition, video data/screens/v2/rail/transition-mocked.webm); MarketClocks from the API; the Tape; page rails about their subject (/credit shows the demo clock) |
 | V2-06 Home | frontend | done 22 Sep: Kerbstone hero with the approved Night and Day plates, live callouts, Tape, lanes, measured KPIs, how a term is made, Carry against Session Max with the LTV ladder, Board preview, verify band. 10-second test passed (fresh model named tokenized-stock lending tied to market liquidity). Lighthouse mobile: performance 64 accessibility 96 best-practices 100; performance below the 85 target, hydration cost carried to V2-11 |
 | V2-07 Board and Asset | frontend | done 22 Sep: Board with KPI band, URL filters, row-selected rail, sparklines, compact ladders, phone cards; Asset with KPI band, ladder with the KTS-0.2 margin line, tabs (overview from live values, impact curve, mark waterfall, 72 h terms history, onchain); 7 E2E tests pass |
-| V2-08 Credit, the hero workflow | both | not started |
+| V2-08 Credit, the hero workflow | both | done 22 Sep on staging: collateral cards, setup checklist, mode question, borrow/supply/repay/withdraw with previews, position states (no wallet, no position, ready to carry, Last Call takeover, cured, liquidatable), public Curable now table. Real browser run 1 (old build): deposit, Session Max borrow, Last Call, a stranger's cure from the table, repay; its withdraw ran out of gas, which found the estimate bug (fixed: every estimate padded). Evidence `data/credit-flow-2026-09-22-run1.json`, shown on /proof. Run 2 on the fixed build in progress. Keeper waits for the operator |
 | V2-09 Research and Report #2 | both | frontend done 22 Sep (index with Scheduled row and countdown, report page with diverging bars, window strip with real gap positions from `/v1/market-time/:id/gaps`); data half (Report #2) runs Thu 24 Sep after 09:00 UTC |
 | V2-10 Methodology, Proof, Developers | frontend | done 22 Sep: contents rail with scroll-spy, live regime rule, 0.2 margins, wrapping parameters; Proof status matrix with live recompute against chain and per-row Builder Codes; Developers tabs with live responses; 5 E2E tests (no overflow at 390 and 1440, no bare "no"). The Seal plate is still unapproved, so Proof keeps the geometric Kerbstone |
-| V2-11 Hardening and cutover (freeze Thu 24 Sep 20:00 UTC) | both | not started |
+| V2-11 Hardening and cutover (freeze Thu 24 Sep 20:00 UTC) | both | started 22 Sep: axe on 10 routes in both themes, zero serious or critical (20 tests); every route ISR (15 s, reports 300 s, positions exact); 36 E2E pass on staging. Lighthouse mobile on this VPS (loaded): Home 62/100/100, Board 55/100/100, Methodology 74/100/100 (perf/a11y/best practices); perf is hydration cost, next step is fewer client components |
 | V2-12 Certification, video, submission | both + operator | not started |
 
 ### Operator decisions owed
 
 | Decision | Needed by | Answer |
 |---|---|---|
-| DNS: A record `v2.usekerb.xyz` -> 62.171.182.75 (staging) | now | |
+| DNS: A record `v2.usekerb.xyz` -> 62.171.182.75 (staging) | now | done; cert issued after a Caddy reload |
 | Move the live site onto release directories (see V2 cutover, step 0) | before any live web deploy | **yes**; done 21 Sep 19:40 UTC, kerb-web now serves /root/kerb-deploy/live/current |
 | Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | operator generated the plates himself; five placed; P4 The Seal: approve docs/v2/art-unplaced/09-experimental-monolith-cube.png, or keep the geometric fallback |
 | KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | **go**, written by the operator 21 Sep |
 | Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | **C**, keep API-served bundles (operator, 21 Sep) |
 | Mirror LT: align or explain (V2-00) | V2-00 | explained (API disclaimer, docs/ARCHITECTURE.md). Aligning is not possible without a redeploy: a listed threshold has no setter and relisting reverts `AlreadyListed` |
-| Demo position keeper with a fresh testnet-only wallet (V2-08) | Wed 23 Sep | |
+| Demo position keeper with a fresh testnet-only wallet (V2-08) | Wed 23 Sep | written, not started (`apps/attester/scripts/demo-keeper.ts`, PM2 entry `kerb-demo-keeper`); wallet 0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4 unfunded. Needs: approval to start, and 0.01 test OKB from the faucet (or approval to fund it from the deployer) |
 | Video: operator's voice or captions only (V2-12) | Fri 25 Sep | |
 
 ### Requests
