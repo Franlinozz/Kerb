@@ -66,13 +66,14 @@ export function WalletSheet({ open, onClose }: { open: boolean; onClose: () => v
   );
 }
 
-export function WalletButton({ compact = false }: { compact?: boolean }): React.ReactElement {
+export function WalletButton({ compact = false, openOnLoad = false }: { compact?: boolean; openOnLoad?: boolean }): React.ReactElement {
   // The wallet's own chain: useChainId() only ever returns a configured chain, so it cannot see a
   // wallet sitting on another network.
   const { address, isConnected, chainId } = useAccount();
   const { disconnect } = useDisconnect();
   const { switchChainAsync, isPending: switching } = useSwitchChain();
-  const [sheet, setSheet] = useState(false);
+  // Opened at once when the visitor pressed Connect before the wallet stack had loaded.
+  const [sheet, setSheet] = useState(openOnLoad);
   const [menu, setMenu] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {

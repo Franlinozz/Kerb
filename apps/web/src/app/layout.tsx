@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
@@ -52,10 +53,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
       <body>
         <a href="#main" className="sr-only">Skip to content</a>
         <Providers>
-          <SiteHeader />
-          <main id="main" className="wrap site-main">{children}</main>
-          <SiteFooter />
-          <Toaster />
+          {/* Separate Suspense boundaries hydrate as separate tasks, so the main thread can breathe
+              between the header, the page and the footer instead of one long hydration. */}
+          <Suspense><SiteHeader /></Suspense>
+          <main id="main" className="wrap site-main"><Suspense>{children}</Suspense></main>
+          <Suspense><SiteFooter /></Suspense>
+          <Suspense><Toaster /></Suspense>
         </Providers>
       </body>
     </html>
