@@ -39,6 +39,7 @@ test("the countdown never shows a dash across a transition", async ({ page, requ
   // Before the transition a real countdown, around it "Updating", then the next transition's countdown.
   expect(seen.some((t) => /^\d+s$/.test(t))).toBe(true);
   expect(seen).toContain("Updating");
-  await expect.poll(async () => (await count.textContent())?.trim(), { timeout: 10_000 }).toMatch(/^(1h 5\d|2h 00)m$/);
+  await page.clock.resume();
+  await expect.poll(async () => (await count.textContent())?.trim(), { timeout: 15_000 }).toMatch(/^(1h 5\d|2h 00)m$/);
   expect(served).toBeGreaterThan(0);
 });

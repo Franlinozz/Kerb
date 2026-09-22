@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PUBLIC_API } from "@/lib/api";
 
 /**
@@ -21,7 +21,10 @@ export function useLive<T>(path: string | null, initial: T | null, intervalMs: n
     refetchOnWindowFocus: true,
     retry: 1,
   });
-  return { data: q.data ?? null, updating: q.isFetching, failed: q.isError && q.data === undefined, refetch: () => void q.refetch() };
+  // Stable, and never cancels a request already in flight: a slow answer still arrives.
+  const { refetch: qRefetch } = q;
+  const refetch = useCallback(() => void qRefetch({ cancelRefetch: false }), [qRefetch]);
+  return { data: q.data ?? null, updating: q.isFetching, failed: q.isError && q.data === undefined, refetch };
 }
 
 /** Wall clock, ticking once a second. null until mounted, so server and client render alike. */
