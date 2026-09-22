@@ -1,9 +1,11 @@
 "use client";
-import { useId, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 /** Tabs with arrow-key movement between tabs (WAI-ARIA tabs pattern). */
-export function Tabs({ tabs, initial = 0, label, onChange }: { tabs: { id: string; label: string; content: ReactNode }[]; initial?: number; label: string; onChange?: (id: string) => void }): React.ReactElement {
+export function Tabs({ tabs, initial = 0, label, onChange, value }: { tabs: { id: string; label: string; content: ReactNode }[]; initial?: number; label: string; onChange?: (id: string) => void; value?: string }): React.ReactElement {
   const [active, setActive] = useState(initial);
+  // Controlled when a value is given: another part of the page can switch the tab.
+  useEffect(() => { if (value === undefined) return; const i = tabs.findIndex((t) => t.id === value); if (i >= 0) setActive(i); }, [value, tabs]);
   const base = useId();
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const select = (i: number): void => { setActive(i); refs.current[i]?.focus(); const t = tabs[i]; if (t && onChange) onChange(t.id); };
