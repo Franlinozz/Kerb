@@ -33,3 +33,10 @@ Reading every page without a wallet; Board filters and sort; asset tabs; theme (
 - The rail transition E2E can miss its window under heavy parallel load; it passes on rerun and in CI.
 - Report #2 is generated on Thu 24 Sep from the campaign-end captures; until then `/research` shows it as scheduled.
 - The public testnet RPC is load balanced and occasionally rate limits (HTTP 403); reads retry, sends carry a wide gas margin.
+
+## Deploys after the cutover
+
+| Time (UTC) | Commit | What |
+|---|---|---|
+| 22 Sep 16:17 | `9292a51` | Walkthrough fixes: phone and tablet layouts (Home hero offset, cards below 1000 px, KPI grid, pool strip, readable charts, forest band in Day), 40 px touch targets, descriptive hover-card links. E2E 47 of 47 before deploy |
+| 22 Sep 16:19 | Caddy | `lb_try_duration 15s` on the web upstreams: a release swap no longer answers 502 while the app restarts (248 requests through a staging swap, all 200) |

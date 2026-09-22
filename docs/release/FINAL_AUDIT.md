@@ -20,6 +20,6 @@ check it. Updated at the cutover and again on submission day.
 
 - Tests: 545 TypeScript, 106 Solidity, 47 E2E (functional, links, axe on 10 routes in both themes).
 - Accessibility: zero serious or critical axe findings; every text and surface token pair at AA in both themes; focus ring on every control; the credit flow completed keyboard only.
-- Lighthouse mobile on an idle GitHub runner (median of three), 22 Sep 15:00 UTC, staging: Home 99, Board 99, Asset 99, Credit 95, Research 95, Report 99, Methodology 95, Proof 95, Developers 90, Changelog 99; Accessibility 99 to 100; Best Practices 96 to 100.
+- Lighthouse mobile on production, idle GitHub runner, median of three, 22 Sep 16:20 UTC: Home 99, Board 100, Asset 99, Credit 95, Research 95, Report 99, Methodology 95, Proof 94, Developers 99, Changelog 99; Accessibility 99 to 100; Best Practices 96 to 100.
 - Dead buttons: 277 pressed on every route in both themes, none dead.
 - Performance and correctness work found by these checks and fixed on 22 Sep: gas estimates from a lagging node (two out-of-gas sends), a MAX that rounded a balance up, a wallet on the wrong network shown as on X Layer testnet, duplicate wallets in the connect sheet, a hydration mismatch after reconnect, a Board layout shift of 0.13, and an unknown address answering 200.
