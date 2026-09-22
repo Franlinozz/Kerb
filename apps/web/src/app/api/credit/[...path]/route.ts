@@ -23,8 +23,8 @@ export async function GET(_req: Request, ctx: { params: Promise<{ path: string[]
     });
     const body = (await res.json()) as unknown;
     return NextResponse.json(body, { status: res.status });
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : "the Kerb API did not answer";
-    return NextResponse.json({ error: msg }, { status: 502 });
+  } catch {
+    // Never pass an internal error through: it can name the private API address.
+    return NextResponse.json({ error: "the Kerb API did not answer", label: "Unavailable" }, { status: 502 });
   }
 }

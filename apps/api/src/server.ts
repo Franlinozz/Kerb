@@ -451,8 +451,13 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
 
   /** Every open position, curable first, found from the market's own events. */
   app.get("/v1/credit/:chain/positions", async (req, reply) => {
-    const client = String(req.headers["x-forwarded-for"] ?? req.ip).split(",")[0]!.trim();
-    if (overBudget(client)) {
+    const forwarded = req.headers["x-forwarded-for"];
+    const client = String(forwarded ?? req.ip).split(",")[0]!.trim();
+    // The web app's own server renders read from loopback with no forwarded address: every
+    // visitor's render would share one budget, so they are not counted. Public traffic arrives
+    // through Caddy, which sets X-Forwarded-For.
+    const internal = forwarded === undefined && (client === "127.0.0.1" || client === "::1" || client === "::ffff:127.0.0.1");
+    if (!internal && overBudget(client)) {
       void reply.header("retry-after", "60");
       return reply.status(429).send({ error: "too many requests for the positions feed; try again in a minute" });
     }
