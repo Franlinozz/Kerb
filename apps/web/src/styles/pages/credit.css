@@ -9,7 +9,7 @@
   .coll-card { display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 14px; text-align: left; border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--canvas-2); color: var(--ink); }
   .coll-card[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 2px 0 0 var(--moss); }
   .coll-terms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; font-size: 14px; }
-  .coll-terms .t-label { display: block; font-size: 10px; letter-spacing: 0.16em; }
+  .coll-terms .t-label { display: block; font-size: 10px; letter-spacing: 0.08em; white-space: nowrap; }
   .setup { margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid var(--hair); }
   .setup-list { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
   .setup-step { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; }

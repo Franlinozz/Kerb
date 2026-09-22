@@ -74,7 +74,8 @@
     .rail-lane, .rail-lanes-compact .rail-lane { grid-template-columns: 1fr; gap: 6px; }
     .rail-lanes-cursor, .rail-lanes-compact .rail-lanes-cursor { display: none; }
     .rail-lanes-days { margin-left: 0; }
-    .rail-demo-scale span:nth-child(2) { display: none; }
+    .rail-demo-scale span:nth-child(2), .rail-demo-scale span:last-child { display: none; }
+    .rail-demo-scale .rail-demo-closed { transform: translateX(-100%); }
   }
 
   /* The Tape */

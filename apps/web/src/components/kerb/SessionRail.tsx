@@ -277,7 +277,7 @@ export function DemoRail({ initial, compact = false }: { initial: DemoClock; com
         <div className="rail-demo-scale t-label ink-3" aria-hidden="true">
           <span style={{ left: 0 }}>{utcHm(g.fromMs)} UTC · session</span>
           <span style={{ left: `${pct(g.lastCall.startMs, g.fromMs, g.toMs)}%` }}>{utcHm(g.lastCall.startMs)} Last Call</span>
-          <span style={{ left: `${pct(g.lastCall.endMs, g.fromMs, g.toMs)}%` }}>{utcHm(g.lastCall.endMs)} closed</span>
+          <span className="rail-demo-closed" style={{ left: `${pct(g.lastCall.endMs, g.fromMs, g.toMs)}%` }}>{utcHm(g.lastCall.endMs)} closed</span>
           <span style={{ left: "100%" }}>{utcHm(g.toMs)}</span>
         </div>
       )}

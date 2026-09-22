@@ -15,7 +15,7 @@ import { CREDIT_ABI, ERC20_ABI } from "@/lib/creditAbi";
 import { mapTxError } from "@/lib/errors";
 import { toast } from "@/lib/toast";
 import { useTxFlow, type FlowStep } from "@/lib/txflow";
-import { countdown, localHm, utcHm } from "@/lib/time";
+import { utcHm } from "@/lib/time";
 import { Field } from "@/components/ui/Field";
 import { TxStepper } from "@/components/ui/TxStepper";
 import { Tabs } from "@/components/ui/Tabs";
@@ -155,7 +155,7 @@ function BorrowTab({ market, c, pos, demo }: { market: CreditMarket; c: CreditCo
           <button type="button" className="mode-opt" aria-pressed={mode === 1} onClick={() => setMode(1)}>
             <span className="t-label">Session Max · {pctWad(smax)}</span>
             <span className="t-num-l">{fmtUnits(smaxRoom, dec, 2)} <span className="kpi-unit">{sym}</span>{smaxRoom > carryRoom ? <span className="moss t-small"> +{fmtUnits(smaxRoom - carryRoom, dec, 2)}</span> : null}</span>
-            <span className="t-small ink-2">Cure back to Carry when Last Call opens at {utcHm(cureAt)} UTC ({localHm(cureAt, "Asia/Hong_Kong")}), or anyone may cure it for a {pctWad(BigInt(c.cureBonus))} bonus.</span>
+            <span className="t-small ink-2">Cure back to Carry when the demo Last Call opens at {utcHm(cureAt)} UTC, or anyone may cure it for a {pctWad(BigInt(c.cureBonus))} bonus.</span>
           </button>
         </div>
       </fieldset>
