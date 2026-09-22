@@ -288,6 +288,18 @@ describe("V2 API additions (V2-02)", () => {
     expect(b.scannedToBlock).toBe(Number(CREDIT_BLOCK + 250n));
   });
 
+  it("positions: one client past 60 requests a minute gets 429 with a plain reason", async () => {
+    const limited = buildServer({ sql: fakeSql(), now: () => NOW, reader: deadReader });
+    const hit = () => limited.inject({ method: "GET", url: "/v1/credit/1952/positions?state=nope", headers: { "x-forwarded-for": "203.0.113.7" } });
+    for (let i = 0; i < 60; i++) expect((await hit()).statusCode).toBe(400);
+    const r = await hit();
+    expect(r.statusCode).toBe(429);
+    expect(r.headers["retry-after"]).toBe("60");
+    expect(r.json().error).toMatch(/too many requests/);
+    const other = await limited.inject({ method: "GET", url: "/v1/credit/1952/positions?state=nope", headers: { "x-forwarded-for": "198.51.100.2" } });
+    expect(other.statusCode).toBe(400);
+  });
+
   it("positions: bad state 400, no market 404, dead RPC labelled 502", async () => {
     expect((await app.inject({ method: "GET", url: "/v1/credit/1952/positions?state=nope" })).statusCode).toBe(400);
     expect((await app.inject({ method: "GET", url: "/v1/credit/196/positions" })).statusCode).toBe(404);

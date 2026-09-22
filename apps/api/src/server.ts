@@ -435,8 +435,27 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     }
   });
 
+  /**
+   * A per-client budget for the positions feed: it can trigger a chain scan, so it is the one
+   * public route worth protecting. 60 requests a minute per address is far above what the page
+   * polls (one every 30 s per open tab).
+   */
+  const budget = new Map<string, { windowStart: number; n: number }>();
+  const overBudget = (key: string, limit = 60, windowMs = 60_000): boolean => {
+    const t = now();
+    const b = budget.get(key);
+    if (!b || t - b.windowStart >= windowMs) { if (budget.size > 10_000) budget.clear(); budget.set(key, { windowStart: t, n: 1 }); return false; }
+    b.n += 1;
+    return b.n > limit;
+  };
+
   /** Every open position, curable first, found from the market's own events. */
   app.get("/v1/credit/:chain/positions", async (req, reply) => {
+    const client = String(req.headers["x-forwarded-for"] ?? req.ip).split(",")[0]!.trim();
+    if (overBudget(client)) {
+      void reply.header("retry-after", "60");
+      return reply.status(429).send({ error: "too many requests for the positions feed; try again in a minute" });
+    }
     const chainId = Number((req.params as { chain: string }).chain);
     const state = (req.query as { state?: string }).state ?? "all";
     const userQ = (req.query as { user?: string }).user;
