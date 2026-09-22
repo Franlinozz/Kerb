@@ -46,6 +46,8 @@ export interface Proof {
     report: { symbol: string | null; observedAt: string; inputsHash: string; cid: string | null; recomputeCommand: string } | null;
   };
   limitations: { subsystem: string; rung: string; note: string }[];
+  /** The latest real browser run of the credit lifecycle on testnet, as recorded by the flow script. */
+  creditFlow: { file: string; what: string; borrower: string | null; curer: string | null; steps: { at: string; note: string; tx?: string; status?: string; explorer?: string }[] } | null;
 }
 
 /**
@@ -219,6 +221,7 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
         : null,
     },
     limitations: LIMITATIONS,
+    creditFlow: latestCreditFlow(root),
   };
 }
 
@@ -266,4 +269,18 @@ export function verificationLabel(v: { service: string; match: string } | undefi
   const service = v.service.toLowerCase() === "sourcify" ? "Sourcify" : v.service;
   const match = v.match.replace(/_/g, " ").replace(/^full match$/, "exact match").replace(/^perfect$/, "exact match").replace(/^match$/, "partial match");
   return `${service} ${match}`;
+}
+
+/** data/credit-flow-<date>.json, newest first; each tx in it carries its receipt status. */
+function latestCreditFlow(root: string): Proof["creditFlow"] {
+  const dir = resolve(root, "data");
+  const f = existsSync(dir) ? readdirSync(dir).filter((x) => /^credit-flow-\d{4}-\d{2}-\d{2}.*\.json$/.test(x)).sort().pop() : undefined;
+  if (!f) return null;
+  try {
+    const j = JSON.parse(readFileSync(resolve(dir, f), "utf8")) as { what?: string; borrower?: string; curer?: string; steps?: { at: string; note?: string; what?: string; tx?: string; status?: string; explorer?: string }[] };
+    return {
+      file: `data/${f}`, what: j.what ?? "Credit lifecycle on X Layer testnet", borrower: j.borrower ?? null, curer: j.curer ?? null,
+      steps: (j.steps ?? []).map((st) => ({ at: st.at, note: st.note ?? st.what ?? "", ...(st.tx ? { tx: st.tx, explorer: st.explorer ?? `https://www.oklink.com/x-layer-testnet/tx/${st.tx}` } : {}), ...(st.status ? { status: st.status } : {}) })),
+    };
+  } catch { return null; }
 }

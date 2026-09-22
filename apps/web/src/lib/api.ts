@@ -316,6 +316,7 @@ export interface Proof {
   risk: { report: { symbol: string | null; observedAt: string; inputsHash: string; cid: string | null; recomputeCommand: string } | null };
   limitations: { subsystem: string; rung: string; note: string }[];
   /** The latest report recomputed from its stored bundle and compared field by field with the chain. */
+  creditFlow?: { file: string; what: string; borrower: string | null; curer: string | null; steps: { at: string; note: string; tx?: string; status?: string; explorer?: string }[] } | null;
   verify?: { inputsHash: string; chainId: number; symbol: string | null; tx: string; kts: string; checkedAt: string; fields: { field: string; verdict: "matches" | "clamped tighter onchain" | "differs" }[]; ok: boolean } | null;
 }
 

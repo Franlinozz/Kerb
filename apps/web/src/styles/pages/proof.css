@@ -44,3 +44,8 @@
     .ptable td::before { content: attr(data-label); color: var(--ink-3); font-size: 12px; text-align: left; }
   }
 }
+@layer pages {
+  .flow-steps { margin: var(--s-4) 0 0; padding: 0; display: flex; flex-direction: column; }
+  .flow-steps li { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair); font-size: 14px; overflow-wrap: anywhere; }
+  @media (max-width: 640px) { .flow-steps li { grid-template-columns: 64px minmax(0, 1fr); } .flow-steps li > span:last-child { grid-column: 2; } }
+}

@@ -205,6 +205,22 @@ export default async function ProofPage(): Promise<React.ReactElement> {
           </Disclosure>
         </div>
 
+        {p.creditFlow ? (
+          <Disclosure summary={<span>Credit lifecycle on testnet <span className="ink-3 t-small">· {p.creditFlow.steps.filter((x) => x.tx).length} transactions, real browser</span></span>}>
+            <p className="t-small ink-2">{p.creditFlow.what}</p>
+            <ol className="flow-steps" role="list">
+              {p.creditFlow.steps.map((st, i) => (
+                <li key={i}>
+                  <span className="mono ink-3">{st.at.slice(11, 19)}</span>
+                  <span>{st.note.replace(/0x[0-9a-fA-F]{64}/g, "").trim()}</span>
+                  {st.tx ? <span><a className="mono" href={st.explorer} target="_blank" rel="noreferrer">{shortHash(st.tx)}</a>{st.status && st.status !== "success" ? <span className="t-small oxide"> {st.status === "reverted" ? "Reverted" : "Not found"}</span> : null}</span> : <span />}
+                </li>
+              ))}
+            </ol>
+            <p className="t-small ink-3">Recorded by apps/web/scripts/credit-flow-ui.mjs in <span className="mono">{p.creditFlow.file}</span>; each status is the transaction receipt.</p>
+          </Disclosure>
+        ) : null}
+
         <div id="limitations">
           <Disclosure summary={<span>Limitations <span className="ink-3 t-small">· {p.limitations.length} subsystems</span></span>} open>
             <p className="t-small ink-2">Where Kerb runs on a lower rung than it could, and what is testnet rather than mainnet. Stated here so nobody has to find it in the code.</p>
