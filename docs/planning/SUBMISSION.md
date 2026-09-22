@@ -34,9 +34,9 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 
 **Demo video.** 2 to 4 minutes, per `docs/v2/V2-DEMO.md`. Unlisted or public link that works logged out.
 
-**Product link.** `https://www.usekerb.xyz`. The Board, the Market, the Methodology, Market-Time Report #1 and the Proof page all load with no wallet and no account. Public API at `https://api.usekerb.xyz`.
+**Product link.** `https://www.usekerb.xyz` (V2 since 22 Sep). Home, the Board, every asset page, Research, Methodology, Proof and Developers load with no wallet and no account; Credit works with any browser wallet on X Layer testnet. Public API at `https://api.usekerb.xyz`.
 
-> **Open item:** the apex `usekerb.xyz` has no A record. `www` and `api` resolve. Either add an A record for `@` pointing at 62.171.182.75, or submit the `www` URL.
+The apex `usekerb.xyz` and `www` both serve the site.
 
 **Declaration.** Read it, then tick it.
 
@@ -78,7 +78,7 @@ Loan asset: USDG mainnet 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8. On testnet 
 Builder Code: `kt0hl6xyhlx8xmt`, ERC-8021 suffix on every Kerb transaction, decodable from mainnet calldata.
 
 ## The Kerb Terms Standard
-Link to docs/KTS-0.1.md. One paragraph on reproducibility, with the verify command.
+Link to docs/KTS-0.1.md and its 0.2 amendment docs/v2/KTS-0.2.md (live since 21 Sep). One paragraph on reproducibility, with the verify command.
 
 ## Run it locally
 Prereqs, env, pnpm install, pnpm dev, forge test.
@@ -105,12 +105,12 @@ Open-source libraries used, and the data sources with their licences.
 |---|---|
 | Mainnet risk plane | LIVE, posting all ten assets every 5 minutes |
 | Testnet credit plane | LIVE, full lifecycle executed on chain including a permissionless cure |
-| Web | LIVE at www.usekerb.xyz: Board, Market, Methodology, Reports, Proof |
+| Web | LIVE at www.usekerb.xyz (V2, tag v2.0.0): Home, Board, Asset, Credit, Research, Methodology, Proof, Developers |
 | API | LIVE at api.usekerb.xyz |
-| Tests | 494 TypeScript, 106 Solidity, all green |
+| Tests | 545 TypeScript, 106 Solidity, 47 E2E, all green in CI |
 | Slither | 67 results, none High, every one dispositioned in SECURITY.md |
 | IPFS pinning | live; `kerb verify <inputsHash>` reproduces the posted terms from the pinned bundle |
-| Market-Time Report #1 | published at /reports/1 from 35,130 measured readings |
+| Market-Time Reports | #1 at /research/1 from 35,130 measured readings; #2 generated Thu 24 Sep from the campaign-end captures |
 | Demo video | not recorded, final-stage item |
 | Repo public | not yet: approved, to be flipped before submitting |
 | Apex DNS | missing, operator action |
@@ -124,7 +124,7 @@ Open-source libraries used, and the data sources with their licences.
 - [ ] Builder Code decoded from a real transaction and displayed
 - [ ] A report's input bundle opens from the page, and `kerb verify` on it returns no diff
 - [ ] Board loads logged out, on mobile, on a different network
-- [x] `/reports/1` published with measured numbers (regenerate on the day so the window ends at submission)
+- [x] `/research/1` published with measured numbers; Report #2 generated from the 24 Sep captures
 - [ ] Test counts on `/proof` match a fresh run of `./scripts/test-report.sh`
 - [ ] Limitations section names: testnet credit, mirror collateral, jurisdiction, unaudited, current degradation rungs
 - [ ] No `.env`, key, or secret anywhere in git history (run a scan over the full history, not just HEAD)
