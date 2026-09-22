@@ -61,8 +61,8 @@ export default async function Home(): Promise<React.ReactElement> {
         <div className="hero-art" aria-hidden="false">
           <ArtPlate id="p1-kerbstone-night" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
           <ArtPlate id="p1-kerbstone-day" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
-          {lead ? <Callout side="left" style={{ left: "6%", top: "46%" }} label={`${lead.symbol} · ${lead.regime.value ? REGIME_WORD[lead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(lead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
-          {hkLead ? <Callout side="right" style={{ right: "3%", bottom: "21%" }} label={`${hkLead.symbol} · ${hkLead.regime.value ? REGIME_WORD[hkLead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(hkLead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
+          {lead ? <Callout side="left" style={{ left: "17%", top: "30%" }} label={`${lead.symbol} · ${lead.regime.value ? REGIME_WORD[lead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(lead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
+          {hkLead ? <Callout side="left" style={{ left: "30%", bottom: "13%" }} label={`${hkLead.symbol} · ${hkLead.regime.value ? REGIME_WORD[hkLead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(hkLead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
         </div>
         <div className="hero-copy">
           <div className="t-label hero-stack">Tokenized equities<br />Executable liquidity<br />Market time<br />X Layer 196<span className="rule" aria-hidden="true" /></div>
@@ -78,7 +78,10 @@ export default async function Home(): Promise<React.ReactElement> {
           <div className="hero-clocks-m show-sm"><MarketClocks compact /></div>
           <div className="t-label ink-3 hero-creed">Never lend more than you can liquidate.</div>
         </div>
-        <div className="hero-clocks hide-sm"><MarketClocks align="right" /></div>
+        <div className="hero-clocks hide-sm">
+          <MarketClocks align="right" />
+          {lastPostAge !== null ? <div className="t-label hero-post-line">Last terms posted<br /><span className="ink">{Math.max(1, Math.round(lastPostAge / 60))}m ago · X Layer 196</span></div> : null}
+        </div>
         <div className="hero-post t-label hide-sm">
           {lastPostAge !== null ? <>Last terms posted<br /><span className="ink">{Math.max(1, Math.round(lastPostAge / 60))}m ago · X Layer 196</span></> : null}
         </div>
