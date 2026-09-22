@@ -19,7 +19,8 @@
   .method-margins { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); margin-top: var(--s-5); }
   .mm { display: flex; flex-direction: column; gap: 6px; padding: 16px; border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); }
   .method-fig { margin: var(--s-6) 0 0; }
-  .method-fig img { width: 100%; height: auto; border: 1px solid var(--hair); border-radius: var(--r-2); background: #fbfbf9; }
+  .method-fig img { width: 100%; height: auto; border-radius: var(--r-2); background: #fbfbf9; }
+  .param-sub > div[data-legacy] dd { color: var(--ink-3); }
   .timeline { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
   .timeline li { display: flex; flex-direction: column; gap: 8px; padding: 16px 16px 0 0; border-top: 2px solid var(--ink-3); font-size: 14px; color: var(--ink-2); }
   .timeline li[data-brass] { border-top-color: var(--brass); }

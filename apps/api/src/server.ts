@@ -13,6 +13,7 @@ import { loadDeployments } from "@kerb/attester";
 import { resolveClock, timeline, type Segment } from "@kerb/calendar";
 import { buildBundle, computeReport, engineConfig, identifyBundle, loadParams } from "@kerb/engine";
 import { buildProof, decodeLatestBuilderCode } from "./proof.js";
+import { verifyPosted, type VerifyResult } from "./verify.js";
 import { buildCreditMarket, buildCreditPosition } from "./credit.js";
 import { buildBoard, type Board } from "./board.js";
 import { buildDemoClock, defaultReader, readOpenPositions, syncCreditLogs, type ChainReader } from "./v2credit.js";
@@ -310,16 +311,26 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
    * Everything needed to check Kerb against reality: the build period, the chain, the observation
    * store, a report with the command that recomputes it, and the degradation rung of each subsystem.
    */
+  const builderCache = new Map<string, string[]>();
   app.get("/v1/proof", async (_req, reply) => {
     const proof = await buildProof(deps.sql, now());
-    // Decode the Builder Code from a real transaction rather than repeating the configured value.
-    const first = proof.onchain.latestPosts[0];
-    if (first) {
-      const rpc = first.chainId === 196
+    // Decode the Builder Code from each real transaction rather than repeating the configured value.
+    // Calldata never changes, so each tx is decoded once.
+    await Promise.all(proof.onchain.latestPosts.map(async (post) => {
+      const known = builderCache.get(post.tx);
+      if (known !== undefined) { post.builderCode = known; return; }
+      const rpc = post.chainId === 196
         ? process.env["KERB_RPC_MAINNET"] ?? "https://rpc.xlayer.tech"
         : process.env["KERB_RPC_TESTNET"] ?? "https://testrpc.xlayer.tech";
-      first.builderCode = await decodeLatestBuilderCode(rpc, first.tx);
+      post.builderCode = await decodeLatestBuilderCode(rpc, post.tx);
+      if (post.builderCode) { if (builderCache.size > 500) builderCache.clear(); builderCache.set(post.tx, post.builderCode); }
+    }));
+    // The last verify result: the latest report recomputed from its bundle and compared with the chain.
+    let verify: VerifyResult | null = null;
+    if (proof.risk.report) {
+      try { verify = await verifyPosted(deps.sql, proof.risk.report.inputsHash); } catch { verify = null; }
     }
+    (proof as typeof proof & { verify: VerifyResult | null }).verify = verify;
     void reply.header("cache-control", "public, max-age=15");
     return proof;
   });

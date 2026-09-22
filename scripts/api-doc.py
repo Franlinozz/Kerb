@@ -71,3 +71,8 @@ for m, p, what, sample in E:
     out += [f"`{sample}`", "", "```json", json.dumps(trim(get(sample)), indent=1), "```"]
 open("docs/API.md", "w").write("\n".join(out) + "\n")
 print("wrote docs/API.md")
+
+# The web Developers page renders the endpoint table from this file, so the two never drift.
+with open("apps/web/src/lib/endpoints.json", "w") as f:
+    json.dump([{"method": m, "path": p, "what": w} for m, p, w, _ in E], f, indent=1)
+    f.write("\n")

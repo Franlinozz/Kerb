@@ -38,9 +38,13 @@ const SECTIONS = [
   { id: "covenant", label: "Covenant" }, { id: "reproducibility", label: "Reproducibility" }, { id: "parameters", label: "Parameters" }, { id: "limits", label: "Limits" },
 ];
 
-function ParamValue({ v }: { v: unknown }): React.ReactElement {
+const GROUP: Record<string, string> = { capacityDefaults: "Capacity", asymmetry: "Asymmetry", regime: "Regime", mark: "Mark", depth: "Depth", stress: "Stress" };
+/** Keys the running formula ignores, kept so older bundles recompute under their own rules. */
+const ONLY_01 = new Set(["carryMargin", "sessionMargin"]);
+
+function ParamValue({ v, kts }: { v: unknown; kts?: string | undefined }): React.ReactElement {
   if (Array.isArray(v)) return <ul className="param-list" role="list">{v.map((x, i) => <li key={i} className="mono">{String(x)}</li>)}</ul>;
-  if (v !== null && typeof v === "object") return <dl className="param-sub">{Object.entries(v as Record<string, unknown>).map(([k, x]) => <div key={k}><dt className="mono">{k}</dt><dd><ParamValue v={x} /></dd></div>)}</dl>;
+  if (v !== null && typeof v === "object") return <dl className="param-sub">{Object.entries(v as Record<string, unknown>).map(([k, x]) => <div key={k} data-legacy={(kts === "0.2" && ONLY_01.has(k)) || undefined}><dt className="mono">{k}{kts === "0.2" && ONLY_01.has(k) ? <span className="t-small ink-3"> KTS-0.1 only</span> : null}</dt><dd><ParamValue v={x} /></dd></div>)}</dl>;
   return <span className="mono">{String(v)}</span>;
 }
 
@@ -113,11 +117,14 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
                     </div>
                   ))}
                 </div>
-                <figure className="method-fig">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/kts-0.2-replay.svg" alt="KTS-0.2 replay: Carry and Session Max for every asset over 72 hours of real observations, with regime bands. They move with the market; under 0.1 they were flat." loading="lazy" width={900} height={1840} />
-                  <figcaption className="t-small ink-3">Before going live, 0.2 was replayed over 3,286 real bundles and posted 1,357 times through the real KerbTerms on a mainnet fork with no contract revert. <a href="https://github.com/Franlinozz/Kerb/blob/main/docs/v2/KTS-0.2.md">KTS-0.2</a>.</figcaption>
-                </figure>
+                <details className="disclosure method-fig">
+                  <summary>The replay: every asset, 72 hours of real observations, 0.1 against 0.2</summary>
+                  <div className="disclosure-body">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/kts-0.2-replay.svg" alt="KTS-0.2 replay: Carry and Session Max for every asset over 72 hours of real observations, with regime bands. Under 0.2 they move with the time to the next deep market; under 0.1, dashed, they were flat." loading="lazy" width={900} height={1840} />
+                  </div>
+                </details>
+                <p className="t-small ink-3 mt-3">Before going live, 0.2 was replayed over 3,286 real bundles and posted 1,357 times through the real KerbTerms on a mainnet fork with no contract revert. <a href="https://github.com/Franlinozz/Kerb/blob/main/docs/v2/KTS-0.2.md">The KTS-0.2 specification</a>.</p>
               </>
             ) : (
               <p className="method-rule">In KTS-0.1 the Carry to Session Max margin is fixed. What moves with market time is the debt ceiling, through measured depth, and the cure deadline.</p>
@@ -160,8 +167,8 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
                 <div className="params">
                   {(["capacityDefaults", "asymmetry", "regime", "mark", "depth", "stress"] as const).map((g) => (
                     <details key={g} className="disclosure" open={g === "capacityDefaults"}>
-                      <summary>{g}<ProvMark label="Observed" source="config/kts-params.json, served at /v1/params" /></summary>
-                      <div className="disclosure-body"><ParamValue v={params.data[g]} /></div>
+                      <summary>{GROUP[g]} <span className="mono t-small ink-3">{g}</span><ProvMark label="Observed" source="config/kts-params.json, served at /v1/params" /></summary>
+                      <div className="disclosure-body"><ParamValue v={params.data[g]} kts={g === "capacityDefaults" ? kts : undefined} /></div>
                     </details>
                   ))}
                 </div>

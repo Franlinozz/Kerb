@@ -315,6 +315,8 @@ export interface Proof {
   };
   risk: { report: { symbol: string | null; observedAt: string; inputsHash: string; cid: string | null; recomputeCommand: string } | null };
   limitations: { subsystem: string; rung: string; note: string }[];
+  /** The latest report recomputed from its stored bundle and compared field by field with the chain. */
+  verify?: { inputsHash: string; chainId: number; symbol: string | null; tx: string; kts: string; checkedAt: string; fields: { field: string; verdict: "matches" | "clamped tighter onchain" | "differs" }[]; ok: boolean } | null;
 }
 
 export const getProof = (): Promise<Read<Proof>> => read<Proof>("/v1/proof");

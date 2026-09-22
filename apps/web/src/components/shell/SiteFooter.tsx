@@ -6,7 +6,7 @@ const COLS: { label: string; links: { href: string; label: string; external?: bo
   { label: "Protocol", links: [{ href: "/methodology", label: "Methodology" }, { href: "/proof#contracts", label: "Contracts" }, { href: "/proof", label: "Proof" }] },
   { label: "Developers", links: [{ href: "/developers", label: "SDK" }, { href: "/developers#rest", label: "REST" }, { href: "https://github.com/Franlinozz/Kerb", label: "GitHub", external: true }] },
   // Studio links wait on the operator: no handle is published until it is confirmed.
-  { label: "Studio", links: [{ href: "https://github.com/Franlinozz/Kerb", label: "Xyndicate Labs", external: true }] },
+  { label: "Studio", links: [{ href: "https://github.com/Franlinozz/Kerb", label: "Xyndicate Labs", external: true }, { href: "https://x.com/xyndicatepro", label: "@xyndicatepro on X", external: true }] },
 ];
 
 export function SiteFooter(): React.ReactElement {

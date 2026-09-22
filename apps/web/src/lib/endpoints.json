@@ -1,0 +1,92 @@
+[
+ {
+  "method": "GET",
+  "path": "/health",
+  "what": "Observation freshness and post counts per chain."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/board?chain=196",
+  "what": "One row per asset: posted terms with provenance, the fixed LT, market, next transition, Last Call window, KTS version and margins, a 24 h C(1%) spark; plus a summary. Cache 15 s."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/terms/:chain/:asset",
+  "what": "Latest posted terms for one asset (symbol, token address or assetId), with the bundle link."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/clock/:chain/:asset?from&to",
+  "what": "The asset's market clock and session segments over a window (max 31 days)."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/report/:chain/:asset",
+  "what": "The full KTS report recomputed now from observations: depth curve, mark, stress, capacity, margins. Cache 60 s."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/proof",
+  "what": "Deployments and verification, recent posts, data coverage, pinning, limitations."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/params",
+  "what": "The live KTS parameter file."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/tape?limit=20",
+  "what": "Newest Terms posts across both chains (limit 1 to 100). Cache 15 s."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/stats",
+  "what": "Headline counts: observation rows, posts by chain, assets, markets, latest Market-Time Report. Cache 60 s."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/credit/:chain",
+  "what": "Credit market state: pool, collaterals with their fixed LT and relayed terms, disclaimer."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/credit/:chain/demo-clock",
+  "what": "The testnet demo clock as a schedule: phase, state, next Last Call. Cache 5 s."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/credit/:chain/positions?state=curable|all",
+  "what": "Every open position found from KerbCredit events, curable first, then by deadline. Cache 30 s."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/credit/:chain/position/:user/:assetId",
+  "what": "One position: debt, LTV, health against the fixed LT, covenant status."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/market-time",
+  "what": "Published Market-Time Reports."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/market-time/:id",
+  "what": "One Market-Time Report."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/reports",
+  "what": "Stored KTS report ids."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/reports/:id",
+  "what": "One stored KTS report."
+ },
+ {
+  "method": "GET",
+  "path": "/v1/bundle/:hash",
+  "what": "The exact input bundle posted under an inputsHash (or a report id). keccak256 of the bytes equals the hash."
+ }
+]

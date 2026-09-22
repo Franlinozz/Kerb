@@ -1,206 +1,90 @@
+/**
+ * Developers (V2-10, V2-DESIGN-SYSTEM.md section 11.8). The endpoint table is generated from
+ * docs/API.md by scripts/api-doc.py, so it cannot drift from the documented API.
+ */
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Prov } from "@/components/Value";
-import { SourceTrouble } from "@/components/States";
-import { getBoard, getCreditMarket, getProof, PUBLIC_API } from "@/lib/api";
-import { shortHash } from "@/lib/format";
+import { getAddress } from "viem";
+import { DevConsole } from "@/components/kerb/DevConsole";
 import { PageRail } from "@/components/kerb/PageRail";
+import { ErrorState } from "@/components/ui/ErrorState";
+import { getProof, PUBLIC_API } from "@/lib/api";
+import { shortHash } from "@/lib/format";
+import ENDPOINTS from "@/lib/endpoints.json";
 
 export const metadata: Metadata = { title: "Developers", description: "Read Kerb Terms from anywhere: the TypeScript SDK, the REST API and the onchain effectiveTerms call." };
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
-const SDK_SNIPPET = `import { Kerb, toDecimalString } from "@kerb/sdk";
-
-const kerb = new Kerb();                        // defaults to X Layer mainnet
-const terms = await kerb.terms("KOx");
-
-if (!terms.usable) return;                      // no new risk may be taken
-
-// Decimal strings all the way. Never parse a term into a float: that is how a risk
-// number quietly becomes wrong.
-toDecimalString(terms.carryLTV);                // "0.55"
-toDecimalString(terms.creditMark);              // "86.916770468522919603"
-toDecimalString(terms.debtCeiling);             // in loan-asset units, not WAD`;
-
-const VIEM_SNIPPET = `import { createPublicClient, http, keccak256, encodeAbiParameters } from "viem";
-import { KERB_TERMS_ABI } from "@kerb/sdk";
-
-const client = createPublicClient({ transport: http("https://rpc.xlayer.tech") });
-const assetId = keccak256(
-  encodeAbiParameters([{ type: "uint256" }, { type: "address" }], [196n, tokenAddress]),
-);
-
-// usable === false means "no new risk may be taken". It never means "liquidate everything".
-const [carryLTV, sessionMaxLTV, creditMark, regime, usable] = await client.readContract({
-  address: KERB_TERMS,
-  abi: KERB_TERMS_ABI,
-  functionName: "effectiveTerms",
-  args: [assetId],
-});`;
-
-const ENDPOINTS: { method: string; path: string; what: string }[] = [
-  { method: "GET", path: "/health", what: "Observation freshness and post counts per chain." },
-  { method: "GET", path: "/v1/board", what: "Every tracked asset with its regime, mark, depth and capacities, each with provenance." },
-  { method: "GET", path: "/v1/terms/:chain/:asset", what: "The latest posted Terms, the pinned bundle behind them, and the last 50 posts." },
-  { method: "GET", path: "/v1/clock/:chain/:asset", what: "Session now, next transition, next weakening, the Last Call window, and the week's session geometry." },
-  { method: "GET", path: "/v1/report/:chain/:asset", what: "The full Market-Time Report recomputed from current observations, including the impact curve venue by venue." },
-  { method: "GET", path: "/v1/credit/:chain", what: "The credit market: pool state, listed collateral, the fixed liquidation thresholds." },
-  { method: "GET", path: "/v1/credit/:chain/position/:user/:assetId", what: "A position's health, covenant target and exact cure amount. Public, because cure is permissionless." },
-  { method: "GET", path: "/v1/params", what: "The KTS parameter set the engine is running on." },
-  { method: "GET", path: "/v1/proof", what: "Build period, deployments, observation counts, the latest pinned bundle and the degradation rungs." },
-  { method: "GET", path: "/v1/market-time", what: "Published Market-Time Reports." },
-  { method: "GET", path: "/v1/bundle/:hash", what: "The canonical input bundle behind a report, by its inputs hash." },
+const BUILD: { who: string; what: string; code: string }[] = [
+  { who: "Lender", what: "Read Carry and the debt ceiling before accepting collateral, and size nothing past either.", code: "if (debt + ask > t.debtCeiling || ltv > t.carryLTV) reject();" },
+  { who: "Venue", what: "Use the regime and measured depth to set margin and size limits by market time.", code: "limits = t.regime.value === \"THIN\" ? tight : normal;" },
+  { who: "Agent", what: "Refuse new exposure whenever usable is false; keep repaying and curing.", code: "if (!t.usable) return hold();" },
 ];
+const ABIS = ["KerbTerms", "KerbClock", "KerbCredit"];
 
 export default async function DevelopersPage(): Promise<React.ReactElement> {
-  const [board, credit, proof] = await Promise.all([getBoard(), getCreditMarket(), getProof()]);
-  const mainnet = proof.ok ? proof.data.onchain.deployments.filter((d) => d.chainId === 196) : [];
-  const testnet = proof.ok ? proof.data.onchain.deployments.filter((d) => d.chainId === 1952) : [];
+  const proof = await getProof();
+  const deps = proof.ok ? proof.data.onchain.deployments : [];
+  const terms196 = deps.find((d) => d.chainId === 196 && d.contract === "KerbTerms");
 
   return (
-    <>
+    <div className="developers">
+      <header className="page-head">
+        <span className="t-label">Developers · public API, no key</span>
+        <h1>Read Kerb Terms from anywhere.</h1>
+        <p className="lede">Terms are posted on chain and served over a public read API, so a lender, venue or agent can act on them without rebuilding equity market risk. Everything below is live.</p>
+      </header>
       <PageRail subject={{ kind: "lanes" }} />
-      <h1>Developers</h1>
-      <p className="lede">
-        Kerb Terms are published on chain and over a public read API, so another lender, curator or venue
-        operator can act on them without rebuilding equity market risk logic. Everything below is live. Nothing
-        needs a key.
-      </p>
 
       <section className="section">
-        <h2>Read the Terms from the chain</h2>
-        <p className="section-note">
-          The authoritative source. No API in the path, no trust in Kerb&rsquo;s servers, just the contract.
-        </p>
-        <pre className="code">{VIEM_SNIPPET}</pre>
-        <p className="section-note">
-          <code className="mono">usable</code> is the field that matters: false means no new risk may be taken
-          against this asset right now, because the report is stale or the regime is STALE or HALTED. It never
-          means liquidate. Repayment and cures keep working in every state.
-        </p>
+        <DevConsole api={PUBLIC_API} kerbTerms={terms196 ? getAddress(terms196.address) : "KERB_TERMS_ADDRESS"} symbol="BRK.Bx" />
       </section>
 
       <section className="section">
-        <h2>Or with the SDK</h2>
-        <pre className="code">{SDK_SNIPPET}</pre>
-        <p className="section-note">
-          Every value is a decimal string with the provenance label it was published under. Ratios are WAD;
-          depth and ceilings are in loan-asset units, and the response says which.
-        </p>
+        <h2>What you can build</h2>
+        <ul className="dev-build" role="list">
+          {BUILD.map((b) => (
+            <li key={b.who}>
+              <span className="t-label">{b.who}</span>
+              <p>{b.what}</p>
+              <code className="mono">{b.code}</code>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="section">
-        <h2>REST</h2>
-        <p className="section-note">
-          Base URL <span className="mono">{PUBLIC_API}</span>. CORS is open for reads. No key, no rate limit
-          beyond what is reasonable, no secrets in any error payload.
-        </p>
-        <p className="scroll-hint">Scroll the table sideways for what each endpoint returns.</p>
-        <div className="scroll-x">
-          <table>
-            <thead>
-              <tr>
-                <th>Method</th>
-                <th>Path</th>
-                <th className="wrap-cell">Returns</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ENDPOINTS.map((e) => (
-                <tr key={e.path}>
-                  <td className="dim">{e.method}</td>
-                  <td className="mono">{e.path}</td>
-                  <td className="dim wrap-cell">{e.what}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="section-note" style={{ marginTop: 10 }}>
-          Try one now:{" "}
-          <a href={`${PUBLIC_API}/v1/board`} target="_blank" rel="noreferrer" className="mono">
-            {PUBLIC_API}/v1/board
-          </a>
-          {board.ok ? (
-            <>
-              {" "}
-              currently returns {board.data.rows.length} assets <Prov label="Observed" />
-            </>
-          ) : null}
-        </p>
+        <h2>Endpoints</h2>
+        <p className="t-small ink-2">Base URL <span className="mono">{PUBLIC_API}</span>. Every endpoint with a real captured response is in <a href="https://github.com/Franlinozz/Kerb/blob/main/docs/API.md">docs/API.md</a>.</p>
+        <dl className="dev-endpoints">
+          {ENDPOINTS.map((e) => (
+            <div key={e.path}>
+              <dt><span className="dev-method mono">{e.method}</span> <a className="mono" href={`${PUBLIC_API}${e.path.replace(":chain", "196").replace(":asset", "BRK.Bx").replace(/\?.*$/, "")}`} target="_blank" rel="noreferrer">{e.path}</a></dt>
+              <dd className="ink-2">{e.what}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <section className="section">
         <h2>Contracts and ABIs</h2>
-        <p className="section-note">
-          ABIs are the Foundry artefacts in <span className="mono">contracts/out/</span> of the repository, and
-          the source is verified on Sourcify for everything on mainnet.
+        <p className="t-small ink-2">
+          ABIs:{" "}
+          {ABIS.map((a, i) => <span key={a}>{i ? " · " : ""}<a href={`/abi/${a}.json`} download>{a}.json</a></span>)}
+          . Foundry artefacts from <span className="mono">contracts/out</span>, matching the verified sources.
         </p>
         {proof.ok ? (
-          <div className="scroll-x">
-            <table>
-              <thead>
-                <tr>
-                  <th>Contract</th>
-                  <th>Chain</th>
-                  <th>Address</th>
-                  <th>Source</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[...mainnet, ...testnet].map((d) => (
-                  <tr key={d.key}>
-                    <td>{d.contract}</td>
-                    <td className="dim">{d.chainId === 196 ? "mainnet 196" : "testnet 1952"}</td>
-                    <td>
-                      <a className="mono" href={d.explorer} target="_blank" rel="noreferrer">
-                        {shortHash(d.address, 10, 6)}
-                      </a>
-                    </td>
-                    <td className="dim">
-                      {d.verificationUrl ? (
-                        <a href={d.verificationUrl} target="_blank" rel="noreferrer">{d.verification}</a>
-                      ) : (
-                        d.verification ?? "in the repository"
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <SourceTrouble what="the deployment list" detail={proof.error} />
-        )}
+          <dl className="dev-endpoints">
+            {deps.map((d) => (
+              <div key={d.key}>
+                <dt>{d.contract.replace(":", " ")} <span className="t-small ink-3">· {d.chainId === 196 ? "X Layer mainnet" : "X Layer testnet"}</span></dt>
+                <dd><a className="mono" href={d.explorer} target="_blank" rel="noreferrer">{shortHash(d.address, 8, 6)}</a> · {d.verificationUrl ? <a href={d.verificationUrl} target="_blank" rel="noreferrer">{d.verification}</a> : d.verification ?? "Source in repo, verification pending"}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : <ErrorState source="The deployment list" />}
+        <p className="t-small ink-3 mt-4">Credit runs on X Layer testnet with mirror collateral and a compressed demo clock; the API flags both (<span className="mono">loanAsset.isMock</span>, <span className="mono">contracts.clockIsDemo</span>). <Link href="/methodology#reproducibility">Reproduce any number</Link>.</p>
       </section>
-
-      <section className="section">
-        <h2>The credit market</h2>
-        {credit.ok ? (
-          <p className="section-note">
-            <span className="mono">KerbCredit</span> at{" "}
-            <span className="mono">{credit.data.contracts.KerbCredit}</span> on X Layer testnet, loan asset{" "}
-            <span className="mono">{credit.data.loanAsset.symbol}</span>. Collateral is mirror collateral with no
-            claim on any security, and the clock is a compressed demo clock. Both are flagged in the API
-            response itself (<span className="mono">loanAsset.isMock</span> and{" "}
-            <span className="mono">contracts.clockIsDemo</span>), so an integrator cannot mistake this for a
-            production market even if they never read this page.
-          </p>
-        ) : (
-          <p className="section-note">The credit market is not reachable right now.</p>
-        )}
-      </section>
-
-      <section className="section">
-        <h2>Reproduce anything</h2>
-        <p className="section-note">
-          Every report pins its input bundle and posts the hash on chain.{" "}
-          <span className="mono">pnpm --filter @kerb/engine kerb verify &lt;inputsHash&gt;</span> fetches those
-          bytes, checks they hash to the CID they were pinned under, recomputes every number and compares the
-          result with what is on chain.{" "}
-          <Link href="/methodology">The methodology page walks the whole calculation →</Link>
-        </p>
-      </section>
-    </>
+    </div>
   );
 }

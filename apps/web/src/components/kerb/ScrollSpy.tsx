@@ -1,17 +1,27 @@
 "use client";
 import { useEffect, useState } from "react";
 
-/** A sticky contents rail that highlights the section in view. */
+/** A sticky contents rail that highlights the last section whose heading has passed the header. */
 export function ScrollSpy({ items }: { items: { id: string; label: string }[] }): React.ReactElement {
   const [active, setActive] = useState(items[0]?.id ?? "");
   useEffect(() => {
-    const els = items.map((i) => document.getElementById(i.id)).filter((e): e is HTMLElement => e !== null);
-    const io = new IntersectionObserver((entries) => {
-      const seen = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-      if (seen) setActive(seen.target.id);
-    }, { rootMargin: "-80px 0px -60% 0px" });
-    els.forEach((e) => io.observe(e));
-    return () => io.disconnect();
+    let raf = 0;
+    const pick = (): void => {
+      raf = 0;
+      let cur = items[0]?.id ?? "";
+      for (const i of items) {
+        const el = document.getElementById(i.id);
+        if (el && el.getBoundingClientRect().top <= 140) cur = i.id;
+      }
+      // At the very bottom the last short sections can never reach the line: take the last.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = items[items.length - 1]?.id ?? cur;
+      setActive(cur);
+    };
+    const on = (): void => { if (!raf) raf = requestAnimationFrame(pick); };
+    pick();
+    window.addEventListener("scroll", on, { passive: true });
+    window.addEventListener("resize", on);
+    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); if (raf) cancelAnimationFrame(raf); };
   }, [items]);
   return (
     <nav className="spy" aria-label="On this page">

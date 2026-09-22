@@ -1,0 +1,43 @@
+@layer pages {
+  .proof-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin: var(--s-6) 0 0; padding: 0; background: var(--hair-2); border: 1px solid var(--hair-2); border-radius: var(--r-2); overflow: hidden; }
+  .ptile { display: flex; flex-direction: column; gap: 8px; padding: 18px; background: var(--bg); min-width: 0; }
+  .ptile-value { font-size: 18px; font-weight: 500; overflow-wrap: anywhere; }
+  .ptile::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+  .ptile[data-state="ok"]::before { background: var(--moss); }
+  .ptile[data-state="warn"]::before { background: var(--brass); }
+  .ptile a { margin-top: auto; }
+  .proof-disclosures { margin-top: var(--s-6); display: flex; flex-direction: column; }
+  .ptable { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ptable th { text-align: left; font-weight: 500; color: var(--ink-3); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--hair-2); }
+  .ptable td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  .ptable .num { text-align: right; }
+  .proof-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); margin-top: var(--s-4); }
+  .commit-bars { display: flex; align-items: flex-end; gap: 14px; height: 140px; margin: 0 0 var(--s-4); }
+  .cb { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .cb-bar { width: 28px; background: var(--ink-2); border-radius: 4px 4px 0 0; }
+  .cb-n { font-size: 12px; color: var(--ink-2); }
+  .build-log { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-4); }
+  .build-log h3 { margin: 0 0 8px; }
+  .build-log ul { margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .build-log li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair); font-size: 14px; color: var(--ink-2); overflow-wrap: anywhere; }
+  .build-log code { font-family: var(--font-mono); font-size: 13px; }
+  .proof-dl { margin: var(--s-4) 0; display: flex; flex-direction: column; }
+  .proof-dl > div { display: grid; grid-template-columns: minmax(140px, 220px) minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--hair); }
+  .proof-dl dd { margin: 0; overflow-wrap: anywhere; min-width: 0; }
+  .verify-result { margin-top: var(--s-4); padding: 16px; border: 1px solid var(--hair-2); border-left: 2px solid var(--brass); border-radius: var(--r-2); display: flex; flex-direction: column; gap: 10px; }
+  .verify-result[data-ok] { border-left-color: var(--moss); }
+  .verify-result ul { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px 24px; }
+  .verify-result li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+  #reproduce, #limitations { scroll-margin-top: 80px; }
+  @media (max-width: 1100px) { .proof-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .proof-tiles { grid-template-columns: 1fr; }
+    .proof-two { grid-template-columns: 1fr; }
+    .proof-dl > div { grid-template-columns: 1fr; gap: 2px; }
+    .ptable thead { display: none; }
+    .ptable, .ptable tbody, .ptable tr, .ptable td { display: block; width: 100%; }
+    .ptable tr { padding: 10px 0; border-bottom: 1px solid var(--hair-2); }
+    .ptable td { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border: 0; text-align: right; }
+    .ptable td::before { content: attr(data-label); color: var(--ink-3); font-size: 12px; text-align: left; }
+  }
+}
