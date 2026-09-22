@@ -4,6 +4,7 @@
  * stands alone: a source that fails shows its own ErrorState and the page still renders.
  */
 import Link from "next/link";
+import { Suspense } from "react";
 import { ArtPlate } from "@/components/ui/ArtPlate";
 import { AddressChip } from "@/components/ui/AddressChip";
 import { ButtonLink } from "@/components/ui/Button";
@@ -61,6 +62,9 @@ export default async function Home(): Promise<React.ReactElement> {
         <div className="hero-art" aria-hidden="false">
           <ArtPlate id="p1-kerbstone-night" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
           <ArtPlate id="p1-kerbstone-day" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
+          {/* The painted theme is known only in the browser: promote that variant to eager right here,
+              before layout, so the hero is the first thing fetched and the other variant never is. */}
+          <script dangerouslySetInnerHTML={{ __html: "(function(){try{var t=document.documentElement.getAttribute('data-theme')||'night';var i=document.querySelector('.hero-art .art-'+t+' img');if(i){i.loading='eager';i.fetchPriority='high';}}catch(e){}})();" }} />
           {lead ? <Callout side="left" style={{ left: "17%", top: "30%" }} label={`${lead.symbol} · ${lead.regime.value ? REGIME_WORD[lead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(lead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
           {hkLead ? <Callout side="left" style={{ left: "24%", bottom: "7%" }} label={`${hkLead.symbol} · ${hkLead.regime.value ? REGIME_WORD[hkLead.regime.value] : "Not yet posted"}`} value={`C(1%) ${usd(hkLead.executableDepth1.value) ?? "not yet posted"}`} /> : null}
         </div>
@@ -86,13 +90,13 @@ export default async function Home(): Promise<React.ReactElement> {
         </nav>
       </section>
 
-      <div className="home-tape"><Tape initial={tape.ok ? tape.data : null} /></div>
+      <Suspense><div className="home-tape"><Tape initial={tape.ok ? tape.data : null} /></div></Suspense>
 
       {/* ---------------------------------------------------------------- hours */}
       <section className="home-section">
         <SectionHead label="Session rail · two markets · one clock" annotation={`${utcHm(Date.now())} UTC`} title="Every asset keeps its own hours."
           lede="New York and Hong Kong open, break and close on their own calendars. The tokens never stop trading. Kerb tracks the difference, live." />
-        {ny.ok && hk.ok ? <LanesRail initial={{ ny: ny.data, hk: hk.data }} /> : <ErrorState source="The Clock API" />}
+        <Suspense>{ny.ok && hk.ok ? <LanesRail initial={{ ny: ny.data, hk: hk.data }} /> : <ErrorState source="The Clock API" />}</Suspense>
       </section>
 
       {/* ---------------------------------------------------------------- measured */}
@@ -160,7 +164,7 @@ export default async function Home(): Promise<React.ReactElement> {
       {/* ---------------------------------------------------------------- board */}
       <section className="home-section">
         <SectionHead label={`The Board · X Layer 196 · ${rows.length} assets`} annotation={<Link href="/board">All {rows.length} assets</Link>} title="What each stock can safely support, right now." />
-        {rows.length ? <BoardPreview rows={rows.slice(0, 5)} /> : <ErrorState source="The Board" />}
+        <Suspense>{rows.length ? <BoardPreview rows={rows.slice(0, 5)} /> : <ErrorState source="The Board" />}</Suspense>
       </section>
 
       {/* ---------------------------------------------------------------- verify */}
