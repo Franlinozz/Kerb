@@ -146,9 +146,19 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       ORDER BY observed_at DESC LIMIT 1`;
     if (!r) return reply.status(404).send({ error: "no terms posted for this asset yet", assetId: id, chainId });
 
-    const history = await deps.sql<{ observed_at: Date; regime: number; carry_ltv: string; session_max_ltv: string; debt_ceiling: string; executable_depth1: string; credit_mark: string; tx_hash: string }[]>`
-      SELECT observed_at, regime, carry_ltv, session_max_ltv, debt_ceiling, executable_depth1, credit_mark, tx_hash
-      FROM terms_reports WHERE chain_id = ${chainId} AND lower(asset_id) = ${id} ORDER BY observed_at DESC LIMIT 50`;
+    // Default: the last 50 posts. ?historyHours=N (1 to 168) returns every post in that window instead,
+    // capped at 3,000 rows, for the terms-history chart.
+    const hoursQ = Number((req.query as { historyHours?: string }).historyHours);
+    const hours = Number.isFinite(hoursQ) && hoursQ >= 1 ? Math.min(168, Math.floor(hoursQ)) : null;
+    const history = hours === null
+      ? await deps.sql<{ observed_at: Date; regime: number; carry_ltv: string; session_max_ltv: string; debt_ceiling: string; executable_depth1: string; credit_mark: string; tx_hash: string }[]>`
+          SELECT observed_at, regime, carry_ltv, session_max_ltv, debt_ceiling, executable_depth1, credit_mark, tx_hash
+          FROM terms_reports WHERE chain_id = ${chainId} AND lower(asset_id) = ${id} ORDER BY observed_at DESC LIMIT 50`
+      : await deps.sql<{ observed_at: Date; regime: number; carry_ltv: string; session_max_ltv: string; debt_ceiling: string; executable_depth1: string; credit_mark: string; tx_hash: string }[]>`
+          SELECT observed_at, regime, carry_ltv, session_max_ltv, debt_ceiling, executable_depth1, credit_mark, tx_hash
+          FROM terms_reports WHERE chain_id = ${chainId} AND lower(asset_id) = ${id}
+            AND observed_at > ${new Date(now() - hours * 3_600_000).toISOString()}
+          ORDER BY observed_at DESC LIMIT 3000`;
 
     // The pinned bundle behind this report, so a reader can go from a number to its exact inputs.
     const [pin] = await deps.sql<{ bundle_cid: string | null; pin_status: string | null }[]>`
