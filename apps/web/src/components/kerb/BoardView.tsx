@@ -124,7 +124,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
       ) : null}
 
       {rows.length === 0 ? (
-        <div className="state state-empty mt-5"><h3>No asset matches this filter.</h3><p><button type="button" className="btn btn-quiet" onClick={() => router.replace(pathname, { scroll: false })}>Clear the filters</button></p></div>
+        <div className="state state-empty mt-5"><h3>No asset matches this filter.</h3><p><button type="button" className="btn btn-quiet" onClick={() => { window.history.replaceState(window.history.state, "", window.location.pathname); setQueryState(new URLSearchParams()); }}>Clear the filters</button></p></div>
       ) : (
         <>
           <div className="board-table hide-sm">
