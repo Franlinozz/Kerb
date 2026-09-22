@@ -23,8 +23,8 @@ const generalSans = localFont({
   display: "swap",
   fallback: ["Hanken Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
 });
-const instrumentSerif = Instrument_Serif({ weight: "400", style: ["normal", "italic"], subsets: ["latin"], variable: "--font-instrument-serif", display: "swap" });
-const plexMono = IBM_Plex_Mono({ weight: ["400", "500"], subsets: ["latin"], variable: "--font-plex-mono", display: "swap" });
+const instrumentSerif = Instrument_Serif({ weight: "400", style: ["normal", "italic"], subsets: ["latin"], variable: "--font-instrument-serif", display: "swap", preload: false });
+const plexMono = IBM_Plex_Mono({ weight: ["400", "500"], subsets: ["latin"], variable: "--font-plex-mono", display: "swap", preload: false });
 
 export const metadata: Metadata = {
   title: { default: "Kerb · Credit on the market's clock", template: "%s · Kerb" },

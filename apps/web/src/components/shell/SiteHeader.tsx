@@ -4,7 +4,7 @@ import { MobileMenu } from "./MobileMenu";
 import { NavLinks } from "./NavLinks";
 import { StatusPill } from "./StatusPill";
 import { ThemeMenu } from "./ThemeMenu";
-import { WalletButton } from "./WalletButton";
+import { LazyWallet } from "./LazyWallet";
 
 export function SiteHeader(): React.ReactElement {
   return (
@@ -14,8 +14,8 @@ export function SiteHeader(): React.ReactElement {
         <NavLinks className="main-nav" />
         <div className="header-tools">
           <StatusPill />
-          <span className="hide-sm"><WalletButton /></span>
-          <span className="show-sm"><WalletButton compact /></span>
+          <span className="hide-sm"><LazyWallet /></span>
+          <span className="show-sm"><LazyWallet compact /></span>
           <ThemeMenu />
           <MobileMenu />
         </div>
