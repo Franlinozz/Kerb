@@ -64,10 +64,10 @@
     --ink-3:     #625E55;   /* AA on --canvas-2 for 13px+ */
     --ink-inverse: #EFEBE3;
 
-    --olive:     #6E6C45;
+    --olive:     #63613D;
     --moss:      #4E6128;
     --moss-dim:  #A9B48C;
-    --brass:     #8A5E0C;   /* AA as text on --canvas and behind --ink-inverse */
+    --brass:     #845A0B;   /* AA as text on --canvas and behind --ink-inverse */
     --brass-dim: #E6D3A8;
     --oxide:     #A5402A;
 
