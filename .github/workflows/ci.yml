@@ -59,9 +59,13 @@ jobs:
 
   e2e:
     name: E2E (Playwright)
-    # Placeholder until V2-11 adds the golden-path suite. Allowed to fail until then.
-    continue-on-error: true
+    # The whole suite against a production build, with the API replaced by recorded real responses
+    # (apps/web/e2e/fixture-api.mjs replay): no network, every timestamp moved to "now".
     runs-on: ubuntu-latest
+    env:
+      KERB_API_INTERNAL: http://127.0.0.1:8799
+      KERB_API_PUBLIC: http://127.0.0.1:8799
+      KERB_WEB_URL: http://127.0.0.1:3301
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -70,4 +74,29 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @kerb/web e2e
+      - name: Fixture API
+        working-directory: apps/web
+        run: |
+          nohup node e2e/fixture-api.mjs replay > fixture-api.log 2>&1 &
+          for i in $(seq 20); do curl -sf http://127.0.0.1:8799/health >/dev/null && break; sleep 0.5; done
+      - run: pnpm --filter @kerb/web build
+      - name: Serve the build
+        working-directory: apps/web
+        run: |
+          nohup node node_modules/next/dist/bin/next start -p 3301 > next.log 2>&1 &
+          for i in $(seq 40); do curl -sf -o /dev/null http://127.0.0.1:3301/ && break; sleep 0.5; done
+      - name: Chromium
+        working-directory: apps/web
+        run: npx playwright install --with-deps chromium
+      - name: E2E
+        working-directory: apps/web
+        run: npx playwright test --workers=2
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: |
+            apps/web/test-results
+            apps/web/next.log
+            apps/web/fixture-api.log
+          retention-days: 7

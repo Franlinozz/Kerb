@@ -1,0 +1,1 @@
+{"key":"/v1/market-time","status":200,"capturedAt":1790077667837,"body":"{\"reports\":[{\"id\":1,\"title\":\"What happened to executable liquidity while the underlying markets were shut\",\"generatedAt\":\"2026-09-21T00:53:14.636Z\",\"window\":\"2026-09-19T06:37:30.540Z\",\"windowTo\":\"2026-09-21T00:52:26.368Z\",\"hours\":\"42.25\",\"observations\":35130}]}"}

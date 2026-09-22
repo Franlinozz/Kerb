@@ -1,0 +1,1 @@
+{"key":"/health","status":200,"capturedAt":1790077788272,"body":"{\"status\":\"ok\",\"now\":\"2026-09-22T11:49:48.270Z\",\"observations\":{\"poolRows\":66570,\"lastObservedAt\":\"2026-09-22T11:48:51.868Z\",\"ageSec\":56},\"posts\":[{\"chainId\":196,\"count\":2837,\"lastAt\":\"2026-09-22T11:49:12.776Z\"},{\"chainId\":1952,\"count\":3001,\"lastAt\":\"2026-09-22T11:49:36.795Z\"}]}"}
