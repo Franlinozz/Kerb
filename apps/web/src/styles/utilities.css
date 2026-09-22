@@ -10,3 +10,4 @@
   @media (max-width: 760px) { .hide-sm { display: none !important; } }
   @media (min-width: 761px) { .show-sm { display: none !important; } }
 }
+@layer utilities { .live-line { min-height: 1.6em; } }

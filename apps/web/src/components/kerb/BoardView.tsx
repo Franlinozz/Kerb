@@ -88,7 +88,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
       <header className="board-head">
         <span className="t-label">The Board · X Layer 196 · {board.rows.length} assets · {new Set(board.rows.map((r) => r.underlying.market)).size} markets</span>
         <h1>What each stock can safely support, right now.</h1>
-        <p className="t-small ink-3" aria-live="polite" suppressHydrationWarning>{live.updating ? "Updating" : generatedAgo === null ? "" : `Updated ${ago(generatedAgo)} · refreshes every 30 seconds`}</p>
+        <p className="t-small ink-3 live-line" aria-live="polite" suppressHydrationWarning>{live.updating ? "Updating" : generatedAgo === null ? "Refreshes every 30 seconds" : `Updated ${ago(generatedAgo)} · refreshes every 30 seconds`}</p>
       </header>
 
       {s ? (

@@ -7,6 +7,10 @@ export function Tabs({ tabs, initial = 0, label, onChange, value }: { tabs: { id
   // Controlled when a value is given: another part of the page can switch the tab.
   useEffect(() => { if (value === undefined) return; const i = tabs.findIndex((t) => t.id === value); if (i >= 0) setActive(i); }, [value, tabs]);
   const base = useId();
+  // A panel mounts the first time it is shown and stays mounted after, so its state survives a
+  // switch; panels nobody opens never hydrate.
+  const [seen, setSeen] = useState<Set<number>>(() => new Set([initial]));
+  useEffect(() => { setSeen((s) => (s.has(active) ? s : new Set(s).add(active))); }, [active]);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const select = (i: number): void => { setActive(i); refs.current[i]?.focus(); const t = tabs[i]; if (t && onChange) onChange(t.id); };
   return (
@@ -25,7 +29,7 @@ export function Tabs({ tabs, initial = 0, label, onChange, value }: { tabs: { id
       </div>
       {tabs.map((t, i) => (
         <div key={t.id} role="tabpanel" id={`${base}-p-${i}`} aria-labelledby={`${base}-t-${i}`} hidden={i !== active} className="tabs-panel" tabIndex={0}>
-          {t.content}
+          {seen.has(i) || i === active ? t.content : null}
         </div>
       ))}
     </div>
