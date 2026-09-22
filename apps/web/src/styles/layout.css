@@ -78,7 +78,7 @@
   .fog-page { position: relative; isolation: isolate; min-height: calc(100svh - 64px - 80px); display: flex; align-items: center; }
   .fog-art { position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; z-index: -1; }
   .fog-art .art-plate { position: absolute; inset: 0; }
-  .fog-art .art-mask-radial { -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0, black 30%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0, black 30%); mask-composite: intersect; }
+  .fog-art .art-mask-radial { -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0, transparent 22%, black 52%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0, transparent 22%, black 52%); mask-composite: intersect; }
   .fog-copy { position: relative; max-width: 520px; }
   .fog-copy h1 { margin-top: var(--s-3); }
   .fog-copy p { margin-top: var(--s-4); max-width: 40ch; }
