@@ -66,6 +66,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       <header className="report-head">
         <span className="t-label">Market-Time Report #{r.id} · generated {utcStamp(r.generatedAt)}</span>
         <h1 className="t-serif-xl report-title">{r.title}</h1>
+        {r.window.partial ? <p className="report-partial t-small">Partial: the record reaches {utcStamp(r.window.to)} of a planned {r.window.plannedTo ? utcStamp(r.window.plannedTo) : "longer window"}. This report is regenerated as it fills.</p> : null}
         <p className="ink-2">{utcStamp(r.window.from)} to {utcStamp(r.window.to)} · {r.window.hours} h · {group(String(r.window.observations))} readings across {r.window.pools} pools · largest hole {r.window.largestGap ?? "none"}</p>
         <div className="rs-nums">
           {headline(r).map((h) => <div key={h.label}><span className="t-num-xl">{h.value}</span><span className="t-small ink-2">{h.label}</span></div>)}
@@ -109,6 +110,47 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                     <td data-label="C(3%)"><ChangeBar v={c.c3ChangePct} max={campaignMax} /></td>
                     <td data-label="Credit Mark"><ChangeBar v={c.markChangePct} max={campaignMax} /></td>
                     <td data-label="Debt ceiling"><ChangeBar v={c.ceilingChangePct} max={campaignMax} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
+      {r.snapshots && r.snapshots.length ? (
+        <section className="section">
+          <h2>Executable depth at every capture</h2>
+          <p className="t-small ink-2">C(1%) in USDG: the largest sale that moves the price at most 1%, by walking the pool&apos;s ticks, at each capture{r.window.cliff ? `, around ${utcStamp(r.window.cliff)}` : ""}.</p>
+          <div className="scroll-x">
+            <table className="ptable report-table">
+              <thead><tr><th>Asset</th>{r.snapshots.map((sn) => <th key={sn.capturedAt} className="num">{sn.capturedAt.slice(11, 16)} UTC<span className="t-small ink-3"> {sn.label}</span></th>)}</tr></thead>
+              <tbody>
+                {[...new Set(r.snapshots.flatMap((sn) => sn.assets.map((a) => a.symbol)))].map((sym) => (
+                  <tr key={sym}>
+                    <td data-label="Asset">{sym}</td>
+                    {r.snapshots!.map((sn) => { const a = sn.assets.find((x) => x.symbol === sym); return <td key={sn.capturedAt} data-label={`${sn.capturedAt.slice(11, 16)} UTC`} className="num mono">{a && !a.error ? usd(a.c1 ?? null) ?? "Not measured" : "Not captured"}</td>; })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
+
+      {r.sessionVsClosed && r.sessionVsClosed.some((x) => x.regularReadings > 0) ? (
+        <section className="section">
+          <h2>Open against closed</h2>
+          <p className="t-small ink-2">How far in-range liquidity moved from one reading to the next, on average, while the underlying market was in its regular session and while it was shut. Basis points; never measured across a hole in the record.</p>
+          <div className="scroll-x">
+            <table className="ptable report-table">
+              <thead><tr><th>Asset</th><th>Market</th><th className="num">Open, bp per reading</th><th className="num">Readings</th><th className="num">Closed, bp per reading</th><th className="num">Readings</th></tr></thead>
+              <tbody>
+                {r.sessionVsClosed.map((x) => (
+                  <tr key={x.symbol}>
+                    <td data-label="Asset">{x.symbol}</td><td data-label="Market" className="ink-2">{x.market}</td>
+                    <td data-label="Open" className="num mono">{x.meanAbsMoveBpRegular ?? "No session"}</td><td data-label="Readings" className="num mono">{group(String(x.regularReadings))}</td>
+                    <td data-label="Closed" className="num mono">{x.meanAbsMoveBpClosed ?? "Not closed"}</td><td data-label="Readings" className="num mono">{group(String(x.closedReadings))}</td>
                   </tr>
                 ))}
               </tbody>

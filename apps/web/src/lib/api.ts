@@ -404,7 +404,10 @@ export interface MarketTimeReport {
   window: {
     from: string; to: string; hours: string; observations: number; pools: number;
     largestGap: string | null; underlyingOpenDuringWindow: boolean;
+    partial?: boolean; plannedTo?: string; cliff?: string;
   };
+  sessionVsClosed?: { symbol: string; market: string; regularReadings: number; closedReadings: number; meanAbsMoveBpRegular: string | null; meanAbsMoveBpClosed: string | null }[];
+  snapshots?: { label: string; capturedAt: string; assets: { symbol: string; error?: string; regime?: string | null; c1?: string | null; c3?: string | null; creditMark?: string | null; debtCeiling?: string | null }[] }[];
   method: string;
   pools: {
     pool: string; symbol: string | null; role: "asset" | "route"; observations: number;

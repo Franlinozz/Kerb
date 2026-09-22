@@ -57,3 +57,4 @@
     .cbar { grid-template-columns: 60px auto; }
   }
 }
+@layer pages { .report-partial { padding: 8px 12px; border-left: 2px solid var(--brass); background: var(--canvas-2); color: var(--ink-2); max-width: 72ch; } }
