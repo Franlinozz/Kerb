@@ -94,7 +94,8 @@ async function browserFor(who, browser, theme = "night") {
     window.ethereum = provider;
   }, { address: who.account.address, rpc: RPC, theme });
   const page = await ctx.newPage();
-  page.on("pageerror", (e) => note(`${who.label} page error: ${e.message.slice(0, 120)}`));
+  page.on("pageerror", (e) => note(`${who.label} page error: ${e.message.slice(0, 1500)}`));
+  page.on("console", (m) => { if (m.type() === "error" && /hydrat|did not match/i.test(m.text())) note(`${who.label} console: ${m.text().split("\n").filter((l) => /^\s*[+-]/.test(l)).slice(0, 16).join(" / ").slice(0, 1500)}`); });
   await page.goto(`${BASE}/credit`, { waitUntil: "networkidle" });
   return { ctx, page };
 }

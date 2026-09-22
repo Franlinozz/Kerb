@@ -313,5 +313,94 @@
     "In-range liquidity L is not executable depth in dollars. Kerb computes C(i) by walking ticks, which uses more of the stored state than L alone; L is used here because it is a single stored number per reading and needs no re-derivation.",
     "The record has a hole. It is reported in the window above rather than interpolated across."
   ],
-  "reproduce": "pnpm --filter @kerb/engine market-time-report regenerates this file from the observation store. Every row is a SELECT over append-only tables whose UPDATE, DELETE and TRUNCATE are rejected by database triggers."
+  "reproduce": "pnpm --filter @kerb/engine market-time-report regenerates this file from the observation store. Every row is a SELECT over append-only tables whose UPDATE, DELETE and TRUNCATE are rejected by database triggers.",
+  "appendix": {
+    "label": "added 22 Sep",
+    "addedAt": "2026-09-22T10:55:16.687Z",
+    "what": "Executable depth C(1%) in USDG near the window's first and last reading (each row says the exact moment: the first instant every engine input existed), recomputed from the stored pool state with the engine's tick walk. Added after publication; the report's original figures are unchanged.",
+    "paramsVersion": "2026-09-22.1",
+    "rows": [
+      {
+        "symbol": "BRK.Bx",
+        "startAt": "2026-09-19T06:37:30.540Z",
+        "c1AtStart": "27663.132812",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "17074.195312",
+        "changePct": "-38.27"
+      },
+      {
+        "symbol": "HKEXCx",
+        "startAt": "2026-09-19T06:47:30.540Z",
+        "c1AtStart": "12807.976562",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "14108.860351",
+        "changePct": "10.15"
+      },
+      {
+        "symbol": "COINx",
+        "startAt": "2026-09-19T06:47:30.540Z",
+        "c1AtStart": "8446.407512",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "6790.795507",
+        "changePct": "-19.60"
+      },
+      {
+        "symbol": "KUAIx",
+        "startAt": "2026-09-19T06:47:30.540Z",
+        "c1AtStart": "12599.829101",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "8740.413574",
+        "changePct": "-30.63"
+      },
+      {
+        "symbol": "ICEx",
+        "startAt": "2026-09-19T06:42:30.540Z",
+        "c1AtStart": "7275.236816",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "5997.280273",
+        "changePct": "-17.56"
+      },
+      {
+        "symbol": "MIXUx",
+        "startAt": "2026-09-19T06:47:30.540Z",
+        "c1AtStart": "11071.835937",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "5653.214843",
+        "changePct": "-48.94"
+      },
+      {
+        "symbol": "KOx",
+        "startAt": "2026-09-19T06:47:30.540Z",
+        "c1AtStart": "16864.172851",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "14876.130859",
+        "changePct": "-11.78"
+      },
+      {
+        "symbol": "SHEINx",
+        "startAt": "2026-09-19T06:47:30.540Z",
+        "c1AtStart": "7531.850585",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "7437.651367",
+        "changePct": "-1.25"
+      },
+      {
+        "symbol": "BMNRx",
+        "startAt": "2026-09-19T06:42:30.540Z",
+        "c1AtStart": "12450.363281",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "9302.911621",
+        "changePct": "-25.27"
+      },
+      {
+        "symbol": "SLVx",
+        "startAt": "2026-09-19T06:47:30.540Z",
+        "c1AtStart": "4063.17087",
+        "endAt": "2026-09-21T00:52:26.368Z",
+        "c1AtEnd": "4262.856445",
+        "changePct": "4.91"
+      }
+    ],
+    "reproduce": "pnpm --filter @kerb/engine exec tsx scripts/c1-appendix.ts 1"
+  }
 }
