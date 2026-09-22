@@ -1,45 +1,86 @@
 @layer components {
+  /*
+   * The header: always there (sticky, never hidden on scroll), translucent over the page with a
+   * blur, firmer and slimmer once the page moves. Brand left, the nav centred on the page, tools right.
+   */
   .site-header {
     position: sticky; top: 0; z-index: 40; height: 64px;
-    background: color-mix(in srgb, var(--canvas) 92%, transparent);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--hair);
+    background: color-mix(in srgb, var(--canvas) 64%, transparent);
+    backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    border-bottom: 1px solid transparent;
+    transition: height var(--t-panel) var(--ease), background-color var(--t-panel) var(--ease), border-color var(--t-panel) var(--ease), box-shadow var(--t-panel) var(--ease);
   }
-  .site-header-inner { display: flex; align-items: center; gap: 32px; height: 100%; }
-  .brand { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 500; font-size: 19px; letter-spacing: -0.03em; color: var(--ink); }
+  .site-header[data-scrolled] {
+    height: 56px;
+    background: color-mix(in srgb, var(--canvas) 80%, transparent);
+    border-bottom-color: var(--hair);
+    box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.45);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header, .site-header[data-scrolled] { background: var(--canvas); }
+  }
+  .site-header-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; height: 100%; }
+  .brand { justify-self: start; display: inline-flex; align-items: center; gap: 0.45em; font-weight: 500; font-size: 19px; letter-spacing: -0.03em; color: var(--ink); transition: opacity var(--t-fast) var(--ease); }
+  .brand:hover { opacity: 0.8; }
   .brand svg { width: 22px; height: 22px; }
-  .main-nav { display: flex; gap: 26px; margin-right: auto; height: 100%; }
-  .main-nav a {
-    display: inline-flex; align-items: center; height: 100%; font-size: 14.5px; color: var(--ink-2);
-    border-bottom: 2px solid transparent; padding-top: 2px; transition: color var(--t-fast) var(--ease);
+
+  .main-nav {
+    position: relative; justify-self: center; display: flex; align-items: center; gap: 2px; padding: 4px;
+    border: 1px solid var(--hair); border-radius: 999px;
+    background: color-mix(in srgb, var(--panel) 55%, transparent);
   }
-  .main-nav a:hover { color: var(--ink); }
-  .main-nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--moss); }
-  .header-tools { display: flex; align-items: center; gap: 10px; }
+  .main-nav a {
+    position: relative; z-index: 1; display: inline-flex; align-items: center; height: 32px; padding: 0 14px;
+    border-radius: 999px; font-size: 14px; color: var(--ink-2); white-space: nowrap;
+    transition: color var(--t-fast) var(--ease);
+  }
+  .main-nav a:hover, .main-nav a:focus-visible { color: var(--ink); }
+  .main-nav a[aria-current="page"] { color: var(--ink); }
+  .main-nav a[aria-current="page"]::after {
+    content: ""; position: absolute; left: 50%; bottom: 3px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--moss);
+  }
+  .main-nav a:focus-visible { outline: 2px solid var(--moss); outline-offset: 1px; }
+  .nav-pill {
+    position: absolute; top: 4px; left: 0; height: 32px; border-radius: 999px; pointer-events: none;
+    background: var(--panel-2); box-shadow: inset 0 0 0 1px var(--hair-2);
+    opacity: 0; transition: transform 320ms var(--ease), width 320ms var(--ease), opacity var(--t-fast) var(--ease);
+  }
+  .nav-pill[data-on] { opacity: 1; }
+  .header-tools { justify-self: end; display: flex; align-items: center; gap: 10px; }
 
   .status-pill {
     display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 11px; border-radius: 999px;
     border: 1px solid var(--hair-2); font-size: 12.5px; color: var(--ink-2); white-space: nowrap;
+    background: color-mix(in srgb, var(--canvas) 50%, transparent);
+    transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
   }
   .status-pill:hover { color: var(--ink); border-color: var(--ink-3); }
-  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--moss); box-shadow: 0 0 0 3px color-mix(in srgb, var(--moss) 22%, transparent); }
-  .status-pill[data-state="late"] .status-dot { background: var(--brass); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brass) 22%, transparent); }
-  .status-pill[data-state="down"] .status-dot { background: var(--oxide); box-shadow: 0 0 0 3px color-mix(in srgb, var(--oxide) 22%, transparent); }
-  .status-pill[data-state="loading"] .status-dot { background: var(--ink-3); box-shadow: none; }
+  .status-dot { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--moss); }
+  .status-dot::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; background: var(--moss); opacity: 0.25; }
+  .status-pill[data-state="late"] .status-dot, .status-pill[data-state="late"] .status-dot::after { background: var(--brass); }
+  .status-pill[data-state="down"] .status-dot, .status-pill[data-state="down"] .status-dot::after { background: var(--oxide); }
+  .status-pill[data-state="loading"] .status-dot, .status-pill[data-state="loading"] .status-dot::after { background: var(--ink-3); }
 
   .icon-btn.menu-btn { display: none; }
 
-  @media (max-width: 1080px) { .main-nav { gap: 18px; } .site-header-inner { gap: 20px; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .status-pill[data-state="ok"] .status-dot::after { animation: live-ping 2.4s var(--ease) infinite; }
+    @keyframes live-ping { 0% { transform: scale(0.6); opacity: 0.45; } 80%, 100% { transform: scale(2.2); opacity: 0; } }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header, .nav-pill, .main-nav a { transition: none; }
+  }
+
+  @media (max-width: 1180px) { .main-nav a { padding: 0 11px; } .status-pill .status-text { display: none; } .status-pill { padding: 0; width: 30px; justify-content: center; } }
   @media (max-width: 960px) {
-    .site-header { height: 56px; }
-    .main-nav, .status-pill .status-text, .header-tools .theme-menu { display: none; }
-    .status-pill { padding: 0; width: 30px; justify-content: center; }
-    .site-header-inner { gap: 12px; justify-content: space-between; }
+    .site-header, .site-header[data-scrolled] { height: 56px; }
+    .site-header-inner { display: flex; gap: 12px; justify-content: space-between; }
+    .main-nav, .header-tools .theme-menu { display: none; }
     .icon-btn.menu-btn { display: inline-grid; }
   }
 
   /* Drawer (mobile nav) */
-  .drawer-scrim { position: fixed; inset: 0; z-index: 60; background: var(--scrim); animation: fade-in var(--t-fast) var(--ease); }
+  .drawer-scrim { position: fixed; inset: 0; z-index: 60; background: var(--scrim); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: fade-in var(--t-fast) var(--ease); }
   .drawer {
     position: fixed; top: 0; right: 0; bottom: 0; z-index: 61; width: min(420px, 100vw);
     background: var(--canvas); border-left: 1px solid var(--hair-2); display: flex; flex-direction: column;
@@ -47,7 +88,8 @@
   }
   .drawer-head { display: flex; align-items: center; justify-content: space-between; height: 56px; flex-shrink: 0; }
   .drawer-nav { display: flex; flex-direction: column; margin-top: var(--s-4); }
-  .drawer-nav a { font-size: 22px; letter-spacing: -0.02em; padding: 14px 0; border-bottom: 1px solid var(--hair); color: var(--ink-2); }
+  .drawer-nav a { font-size: 22px; letter-spacing: -0.02em; padding: 14px 0; border-bottom: 1px solid var(--hair); color: var(--ink-2); transition: color var(--t-fast) var(--ease), padding var(--t-fast) var(--ease); }
+  .drawer-nav a:hover { color: var(--ink); padding-left: 6px; }
   .drawer-nav a[aria-current="page"] { color: var(--ink); box-shadow: inset 2px 0 0 var(--moss); padding-left: 12px; }
   .drawer-section { margin-top: var(--s-6); }
   @keyframes slide-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }

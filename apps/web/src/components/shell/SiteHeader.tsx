@@ -5,13 +5,14 @@ import { NavLinks } from "./NavLinks";
 import { StatusPill } from "./StatusPill";
 import { ThemeMenu } from "./ThemeMenu";
 import { LazyWallet } from "./LazyWallet";
+import { HeaderScroll } from "./HeaderScroll";
 
 export function SiteHeader(): React.ReactElement {
   return (
     <header className="site-header">
       <div className="wrap site-header-inner">
         <Link href="/" className="brand" aria-label="Kerb home"><Mark />Kerb</Link>
-        <NavLinks className="main-nav" />
+        <NavLinks className="main-nav" pill />
         <div className="header-tools">
           <StatusPill />
           <span className="hide-sm"><LazyWallet /></span>
@@ -20,6 +21,7 @@ export function SiteHeader(): React.ReactElement {
           <MobileMenu />
         </div>
       </div>
+      <HeaderScroll />
     </header>
   );
 }
