@@ -1,0 +1,74 @@
+[
+ {
+  "route": "/",
+  "theme": "night",
+  "width": 390,
+  "status": 200,
+  "appliedTheme": "night",
+  "overflowX": 6,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Credit on themarket’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/",
+  "theme": "night",
+  "width": 768,
+  "status": 200,
+  "appliedTheme": "night",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Credit on themarket’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/",
+  "theme": "night",
+  "width": 1440,
+  "status": 200,
+  "appliedTheme": "night",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Credit on themarket’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/",
+  "theme": "day",
+  "width": 390,
+  "status": 200,
+  "appliedTheme": "day",
+  "overflowX": 6,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Credit on themarket’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/",
+  "theme": "day",
+  "width": 768,
+  "status": 200,
+  "appliedTheme": "day",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Credit on themarket’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/",
+  "theme": "day",
+  "width": 1440,
+  "status": 200,
+  "appliedTheme": "day",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Credit on themarket’s clock.",
+  "errors": []
+ }
+]

@@ -1,0 +1,74 @@
+[
+ {
+  "route": "/credit",
+  "theme": "night",
+  "width": 390,
+  "status": 200,
+  "appliedTheme": "night",
+  "overflowX": 19,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Borrow against tokenized stocks, on the market’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/credit",
+  "theme": "night",
+  "width": 768,
+  "status": 200,
+  "appliedTheme": "night",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Borrow against tokenized stocks, on the market’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/credit",
+  "theme": "night",
+  "width": 1440,
+  "status": 200,
+  "appliedTheme": "night",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Borrow against tokenized stocks, on the market’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/credit",
+  "theme": "day",
+  "width": 390,
+  "status": 200,
+  "appliedTheme": "day",
+  "overflowX": 19,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Borrow against tokenized stocks, on the market’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/credit",
+  "theme": "day",
+  "width": 768,
+  "status": 200,
+  "appliedTheme": "day",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Borrow against tokenized stocks, on the market’s clock.",
+  "errors": []
+ },
+ {
+  "route": "/credit",
+  "theme": "day",
+  "width": 1440,
+  "status": 200,
+  "appliedTheme": "day",
+  "overflowX": 0,
+  "font": "generalSans",
+  "fontReady": true,
+  "h1": "Borrow against tokenized stocks, on the market’s clock.",
+  "errors": []
+ }
+]
