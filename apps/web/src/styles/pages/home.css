@@ -102,3 +102,4 @@
   main:has(.home) { padding-bottom: 0; }
   .band-verify { margin-bottom: 0; }
 }
+@layer pages { @media (max-width: 1100px) { .hero-callout { display: none; } } }
