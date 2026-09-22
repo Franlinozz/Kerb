@@ -18,6 +18,7 @@ export function WindowStrip({ fromMs, toMs, lanes, gaps }: {
         <div key={l.name} className="wstrip-lane">
           <span className="t-label">{l.name}</span>
           <div className="rail-band">
+            {l.clock && !l.clock.segments.some((s) => s.kind !== "CLOSED" && Date.parse(s.endsAt) > fromMs && Date.parse(s.startsAt) < toMs) ? <span className="wstrip-none t-small ink-3">Closed for the whole window</span> : null}
             {l.clock ? l.clock.segments.filter((s) => s.kind !== "CLOSED").map((s) => {
               const c = clip(Date.parse(s.startsAt), Date.parse(s.endsAt), fromMs, toMs);
               return c ? <span key={s.startsAt} className={`rail-seg rail-${s.kind}`} style={{ left: `${c.left}%`, width: `${c.width}%` }} title={`${s.kind.toLowerCase()} ${utcHm(Date.parse(s.startsAt))} to ${utcHm(Date.parse(s.endsAt))} UTC`} /> : null;

@@ -28,7 +28,7 @@ const liq = (raw: string): string => {
   const v = BigInt(raw);
   return group(`${v / 10n ** 18n}.${(v % 10n ** 18n).toString().padStart(18, "0").slice(0, 3)}`);
 };
-const pctText = (v: string | null): string => (v === null ? "Not measured" : `${v.startsWith("-") ? "" : "+"}${v}%`);
+const pctText = (v: string | null): string => (v === null ? "Not measured" : `${v.startsWith("-") || /^0(\.0+)?$/.test(v) ? "" : "+"}${v}%`);
 
 /** A change bar for a table cell: one shared ±scale per column, oxide falls, moss rises. */
 function ChangeBar({ v, max }: { v: string | null; max: number }): React.ReactElement {

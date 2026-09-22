@@ -26,7 +26,7 @@ export function DivergingBars({ rows, caption }: { rows: BarRow[]; caption: stri
                 <span className="dbar-zero" />
                 {v !== null ? <span className={`dbar-fill ${fall ? "is-fall" : "is-rise"}`} style={fall ? { right: "50%", width: `${w}%` } : { left: "50%", width: `${w}%` }} /> : null}
               </span>
-              <span className="dbar-value mono">{r.value === null ? "Not measured" : `${fall ? "" : "+"}${r.value}%`}</span>
+              <span className="dbar-value mono">{r.value === null ? "Not measured" : `${fall || v === 0 ? "" : "+"}${r.value}%`}</span>
             </li>
           );
         })}
