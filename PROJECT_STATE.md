@@ -17,11 +17,11 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | V2-00 Repo hygiene, CI, verification | backend | done 21 Sep: root clean, 38 em dashes to 0 with a CI check, CI green, five testnet contracts Sourcify exact match, mirror LT explained, pinning options below |
 | V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | LIVE 21 Sep 19:38 UTC on operator's go: first 0.2 posts mainnet 0x6212668a35862bb6753ffb84ec9843665df3b3bff9fed5999bb65a5fca139577, testnet 0x4f43fb62a91c0ebf48ab081c460ca55eb613b07c5d61612cd643e431e5eec053. Confirmed across the 20:00 UTC New York close: KOx Carry 55.60% to 51.57%, Session Max 61.20% to 54.47% ([0x70acaeaa](https://www.oklink.com/xlayer/tx/0x70acaeaa192d81e4fa9a5f58d6aebd1b560df55dc0e2f8f704fec614d0f6d9c5) then [0xfcc7616f](https://www.oklink.com/xlayer/tx/0xfcc7616f8aca33137359880b38c67de3624b12d271410b64481841712dfd6f40)) |
 | V2-02 API support for V2 | backend | done 21 Sep: board additions and summary, /v1/tape, /v1/stats, demo-clock, positions feed (rung 1, indexed from events), docs/API.md |
-| V2-03 Art batch and brand assets | backend + operator pick | blocked: needs the operator's cost approval and an OpenAI API key (none on the VPS). Mark, icon.svg, apple icon and interim OG cards done under V2-04 |
+| V2-03 Art batch and brand assets | backend + operator pick | done 22 Sep with the operator's own plates (no API cost): five placed, mapped by content (docs/v2/ART.md); The Seal has no approved image, Proof opens on the geometric Kerbstone; AVIF and WebP derivatives, phone crop, blur placeholders |
 | V2-04 Kerbstone foundation and app shell | frontend | done 21 Sep on staging: tokens and layers, fonts loaded, three themes, header, drawer, wallet sheet, error map, toasts, TxStepper, footer, 20 primitives, system routes, redirects, metadata; 60 screenshots in data/screens/v2/shell |
-| V2-05 Time components | frontend | not started |
-| V2-06 Home | frontend | not started |
-| V2-07 Board and Asset | frontend | not started |
+| V2-05 Time components | frontend | done 22 Sep: SessionRail full, compact, lanes and demo on tested geometry; countdown refetches at every transition (E2E across a mocked transition, video data/screens/v2/rail/transition-mocked.webm); MarketClocks from the API; the Tape; page rails about their subject (/credit shows the demo clock) |
+| V2-06 Home | frontend | done 22 Sep: Kerbstone hero with the approved Night and Day plates, live callouts, Tape, lanes, measured KPIs, how a term is made, Carry against Session Max with the LTV ladder, Board preview, verify band. 10-second test passed (fresh model named tokenized-stock lending tied to market liquidity). Lighthouse mobile: performance 64 accessibility 96 best-practices 100; performance below the 85 target, hydration cost carried to V2-11 |
+| V2-07 Board and Asset | frontend | done 22 Sep: Board with KPI band, URL filters, row-selected rail, sparklines, compact ladders, phone cards; Asset with KPI band, ladder with the KTS-0.2 margin line, tabs (overview from live values, impact curve, mark waterfall, 72 h terms history, onchain); 7 E2E tests pass |
 | V2-08 Credit, the hero workflow | both | not started |
 | V2-09 Research and Report #2 | both | not started |
 | V2-10 Methodology, Proof, Developers | frontend | not started |
@@ -34,7 +34,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 |---|---|---|
 | DNS: A record `v2.usekerb.xyz` -> 62.171.182.75 (staging) | now | |
 | Move the live site onto release directories (see V2 cutover, step 0) | before any live web deploy | **yes**; done 21 Sep 19:40 UTC, kerb-web now serves /root/kerb-deploy/live/current |
-| Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | asked 21 Sep; also needs an OpenAI API key, none exists on the VPS |
+| Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | operator generated the plates himself; five placed; P4 The Seal: approve docs/v2/art-unplaced/09-experimental-monolith-cube.png, or keep the geometric fallback |
 | KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | **go**, written by the operator 21 Sep |
 | Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | **C**, keep API-served bundles (operator, 21 Sep) |
 | Mirror LT: align or explain (V2-00) | V2-00 | explained (API disclaimer, docs/ARCHITECTURE.md). Aligning is not possible without a redeploy: a listed threshold has no setter and relisting reverts `AlreadyListed` |
@@ -259,6 +259,11 @@ One line each, every time the build departs from the plan.
 | 21 Sep | Font stacks in tokens.css start with the next/font CSS variable before "General Sans" | next/font serves loaded faces under generated family names; the rest of section 3 is pasted as written |
 | 21 Sep | Screenshots are committed as WebP (quality 72), not PNG | 60 full-page PNGs per phase came to 18 MB |
 | 21 Sep | Footer Studio links carry no X handle yet | None is confirmed for Kerb or Xyndicate Labs; asked the operator |
+| 22 Sep | Art mapped by what each image shows, not upload order: upload 3 is a Day kerb step (not The Record), and no upload shows The Seal | Visual inspection of all ten uploads; docs/v2/ART.md |
+| 22 Sep | Home "How a term is made" has no art plate | The operator's art pass forbids the forest variant and asks for one plate per page; P1 already opens Home |
+| 22 Sep | Terms history is two charts on one time axis, not one chart with a secondary scale | A dual-axis chart misleads; dollars and LTVs are drawn separately over the same regime bands |
+| 22 Sep | The wallet layer (wagmi, viem) loads as an island in the header and wraps only /credit | It was hydrating on every reading page; Lighthouse TBT |
+| 22 Sep | 404 copy is the operator's "No market here." rather than the design system's line | The operator's art brief, written later, replaces it |
 | 19 Sep | One row with mode='test' in obs_source_error from verifying the append-only trigger; it cannot be deleted by design | Trigger verification |
 
 ---
