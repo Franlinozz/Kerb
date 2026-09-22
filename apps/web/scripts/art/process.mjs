@@ -63,6 +63,8 @@ for (const [name, opts] of Object.entries(PLATES)) {
       }
     }
   }
+  // A 1200 x 630 JPEG for social cards: next/og renders PNG and JPEG, not AVIF or WebP.
+  await sharp(src).resize({ width: 1200, height: 630, fit: "cover", position: "attention" }).jpeg({ quality: 78, mozjpeg: true }).toFile(resolve(OUT, `${name}-og.jpg`));
   const blur = await sharp(src).resize({ width: 24 }).webp({ quality: 50 }).toBuffer();
   generated[name] = { width: meta.width, height: meta.height, widths, files, mobile, blur: `data:image/webp;base64,${blur.toString("base64")}` };
   console.log(`${name}: ${meta.width}x${meta.height}, widths ${widths.join(", ")}${mobile ? `, 4:5 crop ${mobile.width}x${mobile.height} from x=${mobile.left}` : ""}`);

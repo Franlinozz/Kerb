@@ -5,5 +5,5 @@ export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export default function Image(): ReturnType<typeof ogCard> {
-  return ogCard("Methodology", "The Kerb Terms Standard.");
+  return ogCard("Methodology", "The Kerb Terms Standard.", "p3-standard");
 }

@@ -5,5 +5,5 @@ export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export default function Image(): ReturnType<typeof ogCard> {
-  return ogCard("Proof", "Kerb is independently verifiable.");
+  return ogCard("Proof", "Kerb is independently verifiable.", "p4-seal");
 }

@@ -5,5 +5,5 @@ export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export default function Image(): ReturnType<typeof ogCard> {
-  return ogCard("Research", "Market-Time Reports.");
+  return ogCard("Research", "Market-Time Reports.", "p2-record");
 }
