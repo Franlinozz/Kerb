@@ -11,3 +11,4 @@
   @media (min-width: 761px) { .show-sm { display: none !important; } }
 }
 @layer utilities { .live-line { min-height: 1.6em; } }
+@layer utilities { @media (max-width: 1000px) { .hide-md { display: none !important; } } @media (min-width: 1001px) { .show-md { display: none !important; } } }

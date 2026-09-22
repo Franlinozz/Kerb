@@ -23,3 +23,4 @@
   .board .dt-under { white-space: normal; max-width: 220px; line-height: 1.35; }
   .board .dt td { padding-inline: 10px; }
 }
+@layer pages { @media (min-width: 600px) and (max-width: 1000px) { .board-cards { display: grid !important; grid-template-columns: 1fr 1fr; } } }

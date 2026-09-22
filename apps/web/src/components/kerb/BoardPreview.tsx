@@ -14,7 +14,7 @@ import { ProvMark } from "@/components/ui/ProvMark";
 export function BoardPreview({ rows }: { rows: BoardRow[] }): React.ReactElement {
   return (
     <>
-    <div className="dt-wrap hide-sm">
+    <div className="dt-wrap hide-md">
       <table className="dt dt-static" aria-label="The Board, leading assets" style={{ minWidth: 900 }}>
         <thead><tr><th>Asset</th><th>Regime</th><th className="num">Credit Mark</th><th className="num">C(1%)</th><th>Terms</th><th className="num">Debt ceiling</th><th className="num">Next</th></tr></thead>
         <tbody>
@@ -32,7 +32,7 @@ export function BoardPreview({ rows }: { rows: BoardRow[] }): React.ReactElement
         </tbody>
       </table>
     </div>
-    <ul className="board-cards show-sm" role="list">
+    <ul className="board-cards show-md" role="list">
       {rows.map((r) => (
         <li key={r.symbol}>
           <Link href={`/asset/${r.symbol}`} className="board-card plain">

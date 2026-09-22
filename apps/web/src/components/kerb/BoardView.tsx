@@ -127,10 +127,10 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
         <div className="state state-empty mt-5"><h3>No asset matches this filter.</h3><p><button type="button" className="btn btn-quiet" onClick={() => { window.history.replaceState(window.history.state, "", window.location.pathname); setQueryState(new URLSearchParams()); }}>Clear the filters</button></p></div>
       ) : (
         <>
-          <div className="board-table hide-sm">
+          <div className="board-table hide-md">
             <DataTable rows={rows} columns={columns} rowKey={(r) => r.symbol} href={(r) => `/asset/${r.symbol}`} label="The Board" onRowFocus={(r) => setSelected(r.symbol)} minWidth={1080} />
           </div>
-          <ul className="board-cards show-sm" role="list">
+          <ul className="board-cards show-md" role="list">
             {rows.map((r) => (
               <li key={r.symbol}>
                 <Link href={`/asset/${r.symbol}`} className="board-card plain">
