@@ -3,7 +3,7 @@ import { SourceTrouble } from "@/components/States";
 import { Prov } from "@/components/Value";
 import { getProof, PUBLIC_API } from "@/lib/api";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
-import { PageStrip } from "@/components/PageStrip";
+import { PageRail } from "@/components/kerb/PageRail";
 
 export const metadata: Metadata = { title: "Proof", description: "Every Kerb claim, checkable: contracts and verification, onchain posts, input bundles, the build period and the limitations." };
 export const dynamic = "force-dynamic";
@@ -22,7 +22,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
 
   return (
     <>
-      <PageStrip />
+      <PageRail subject={{ kind: "lanes" }} />
       <h1>Proof</h1>
       <p className="lede">
         Everything here is read from live state when this page loads: the repository, the chain, the observation

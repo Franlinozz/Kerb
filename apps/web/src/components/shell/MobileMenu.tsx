@@ -2,7 +2,7 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Drawer } from "@/components/ui/Drawer";
-import { MarketClocks } from "./MarketClocks";
+import { MarketClocks } from "@/components/kerb/MarketClocks";
 import { NavLinks } from "./NavLinks";
 import { ThemeChoices } from "./ThemeMenu";
 import { WalletButton } from "./WalletButton";

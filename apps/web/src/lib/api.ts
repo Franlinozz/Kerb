@@ -41,7 +41,26 @@ export interface BoardRow {
   reportAgeSec: number | null;
   poolObservedAt: string | null;
   poolObservationAgeSec: number | null;
+  // V2-02 additions.
+  kts?: "0.1" | "0.2" | null;
+  margins?: BoardMargins | null;
+  lt?: BoardValue;
+  market?: MarketMeta;
+  next?: { type: string; at: string; weakening: string; label: ProvenanceLabel } | null;
+  cure?: { opensAt: string; closesAt: string; open: boolean; label: ProvenanceLabel } | null;
+  spark?: { at: string; c1: string; regime: Regime }[];
 }
+
+export interface MarketMeta { code: string; city: string; tz: string; lat: number; lon: number; label?: string }
+
+export interface MarginTermCompact { margin: string; gap: string; exitCost: string; floor: string; horizonHours: string; horizonEndsAt: string }
+export interface BoardMargins {
+  label: ProvenanceLabel; inputsHash: string; stressMultiplier: string;
+  carry: MarginTermCompact; session: MarginTermCompact;
+  carryMarginUsed: string; sessionMarginUsed: string; horizonEndsAt: string;
+}
+
+export interface BoardSummary { inLastCall: number; c1Total: string; ceilingTotal: string; sourcesHealthy: number; sourcesTotal: number; lastPostAgeSec: number | null; label: ProvenanceLabel }
 
 export interface Board {
   chainId: number;
@@ -50,6 +69,7 @@ export interface Board {
   contracts: { KerbClock: string | null; KerbTerms: string | null; explorer?: string };
   rows: BoardRow[];
   sources?: { name: string; lastObservedAt: string | null; ageSec: number | null; healthy: boolean }[];
+  summary?: BoardSummary;
 }
 
 export interface Transition {
@@ -143,8 +163,24 @@ async function read<T>(path: string, revalidateSec = 0): Promise<Read<T>> {
 }
 
 export const getBoard = (chainId = CHAIN_ID): Promise<Read<Board>> => read<Board>(`/v1/board?chain=${chainId}`);
-export const getClock = (symbol: string, chainId = CHAIN_ID): Promise<Read<Clock>> =>
-  read<Clock>(`/v1/clock/${chainId}/${encodeURIComponent(symbol)}`);
+export const getClock = (symbol: string, chainId = CHAIN_ID, window?: { fromMs: number; toMs: number }): Promise<Read<Clock>> =>
+  read<Clock>(`/v1/clock/${chainId}/${encodeURIComponent(symbol)}${window ? `?from=${new Date(window.fromMs).toISOString()}&to=${new Date(window.toMs).toISOString()}` : ""}`);
+
+export interface DemoClock {
+  address: string; weekLengthSec: number; sessionEndSec: number; cureStartSec: number; epoch: number; now: string; phaseSec: number;
+  state: "SESSION" | "LAST_CALL" | "CLOSED"; nextCureOpensAt: string; nextCureClosesAt: string; nextSessionAt: string; cycleStartedAt: string;
+  label: ProvenanceLabel; note: string;
+}
+export const getDemoClock = (chainId = 1952): Promise<Read<DemoClock>> => read<DemoClock>(`/v1/credit/${chainId}/demo-clock`);
+
+export interface TapePost { symbol: string; chainId: number; regime: Regime; c1: string; carryLTV: string; sessionMaxLTV: string; tx: string; explorer: string; observedAt: string }
+export const getTape = (limit = 20): Promise<Read<{ label: ProvenanceLabel; posts: TapePost[] }>> => read(`/v1/tape?limit=${limit}`);
+
+export interface Stats {
+  label: ProvenanceLabel; obsPoolRows: number; obsTotalRows: number; postsByChain: { chainId: number; count: number }[]; assets: number; markets: number;
+  marketMeta: MarketMeta[]; latestReport: { id: string; title: string; headline: string | null; figure: string | null } | null;
+}
+export const getStats = (): Promise<Read<Stats>> => read<Stats>("/v1/stats", 60);
 export const getTerms = (symbol: string, chainId = CHAIN_ID): Promise<Read<Terms>> =>
   read<Terms>(`/v1/terms/${chainId}/${encodeURIComponent(symbol)}`);
 export const getHealth = (): Promise<Read<Health>> => read<Health>("/health");

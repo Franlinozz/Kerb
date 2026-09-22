@@ -117,3 +117,21 @@ describe("duration", () => {
     expect(duration(-1)).toBe("Updating");
   });
 });
+
+import { ltv, price, ratio, usd, usdFull } from "../src/lib/format";
+
+describe("V2 number format standard", () => {
+  it("formats USDG, LTVs, prices and ratios on strings", () => {
+    expect(usd("12400.5")).toBe("$12.4K");
+    expect(usd("8590.49")).toBe("$8,590");
+    expect(usd("10000")).toBe("$10.0K");
+    expect(usd("96875.707024")).toBe("$96.9K");
+    expect(usd("1250000")).toBe("$1.3M");
+    expect(usd(null)).toBeNull();
+    expect(usdFull("5880")).toBe("$5,880.00");
+    expect(ltv("0.556041938054855748")).toBe("55.6%");
+    expect(ltv("0.65")).toBe("65.0%");
+    expect(price("86.992360")).toBe("$86.99");
+    expect(ratio("1.3333")).toBe("1.33×");
+  });
+});

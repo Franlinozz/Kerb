@@ -11,7 +11,7 @@ import { SupplyPanel } from "@/components/SupplyPanel";
 import { Positions } from "@/components/Positions";
 import { explorerAddress, getCreditMarket, REGIME_BY_INDEX, CREDIT_CHAIN_ID } from "@/lib/api";
 import { group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
-import { PageStrip } from "@/components/PageStrip";
+import { PageRail } from "@/components/kerb/PageRail";
 
 export const metadata: Metadata = { title: "Credit", description: "Borrow against tokenized stocks on the market's clock: Carry or Session Max, Last Call and the cure, on X Layer testnet with mirror collateral." };
 export const dynamic = "force-dynamic";
@@ -33,7 +33,7 @@ export default async function MarketPage(): Promise<React.ReactElement> {
 
   return (
     <>
-      <PageStrip />
+      <PageRail subject={{ kind: "demo" }} />
       <div className="rowbar">
         <h1>Credit</h1>
         <span className="faint">

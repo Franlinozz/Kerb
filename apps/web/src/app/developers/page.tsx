@@ -4,7 +4,7 @@ import { Prov } from "@/components/Value";
 import { SourceTrouble } from "@/components/States";
 import { getBoard, getCreditMarket, getProof, PUBLIC_API } from "@/lib/api";
 import { shortHash } from "@/lib/format";
-import { PageStrip } from "@/components/PageStrip";
+import { PageRail } from "@/components/kerb/PageRail";
 
 export const metadata: Metadata = { title: "Developers", description: "Read Kerb Terms from anywhere: the TypeScript SDK, the REST API and the onchain effectiveTerms call." };
 export const dynamic = "force-dynamic";
@@ -59,7 +59,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
 
   return (
     <>
-      <PageStrip />
+      <PageRail subject={{ kind: "lanes" }} />
       <h1>Developers</h1>
       <p className="lede">
         Kerb Terms are published on chain and over a public read API, so another lender, curator or venue

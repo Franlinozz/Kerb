@@ -155,3 +155,39 @@ export function byDecimalDesc<T>(pick: (x: T) => string | null): (a: T, b: T) =>
     return -cmpDecimal(x, y);
   };
 }
+
+// ---------------------------------------------------------------- V2 format standard
+// V2-DESIGN-SYSTEM.md section 10: USDG as $12.4K / $8,590 in tables, full 2 dp in forms;
+// LTVs 1 dp with %; ratios 2 dp with x; prices 2 dp. All on strings.
+
+/** USDG amount for tables: $12.4K at or above ten thousand, $8,590 below. */
+export function usd(value: string | null): string | null {
+  if (value === null) return null;
+  const neg = value.startsWith("-");
+  const whole = (neg ? value.slice(1) : value).split(".")[0] ?? "0";
+  const sign = neg ? "-" : "";
+  if (whole.length > 9) return `${sign}$${round(shift(neg ? value.slice(1) : value, -9), 1)}B`;
+  if (whole.length > 6) return `${sign}$${round(shift(neg ? value.slice(1) : value, -6), 1)}M`;
+  if (whole.length > 4) return `${sign}$${round(shift(neg ? value.slice(1) : value, -3), 1)}K`;
+  return `${sign}$${group(round(neg ? value.slice(1) : value, 0))}`;
+}
+
+/** USDG amount for forms and receipts: full, 2 dp. */
+export function usdFull(value: string | null): string | null {
+  return value === null ? null : `$${group(round(value, 2))}`;
+}
+
+/** A 0..1 decimal ratio as an LTV: "0.556041" -> "55.6%". */
+export function ltv(value: string | null, places = 1): string | null {
+  return value === null ? null : `${round(shift(value, 2), places)}%`;
+}
+
+/** A price, 2 dp, grouped. */
+export function price(value: string | null): string | null {
+  return value === null ? null : `$${group(round(value, 2))}`;
+}
+
+/** A ratio, 2 dp with a multiplication sign. */
+export function ratio(value: string | null): string | null {
+  return value === null ? null : `${round(value, 2)}×`;
+}

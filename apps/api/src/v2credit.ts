@@ -114,9 +114,10 @@ const scans = new Map<number, { state: ScanState; running: Promise<void> | null 
 
 const scanFile = (chainId: number): string => process.env["KERB_CREDIT_SCAN_FILE"]?.replace("{chain}", String(chainId)) ?? resolve(repoRoot(), `var/credit-scan-${chainId}.json`);
 
-function loadScan(chainId: number, deployBlock: number): ScanState {
+function loadScan(chainId: number, deployBlock: number, persist: boolean): ScanState {
   const f = scanFile(chainId);
-  if (existsSync(f)) {
+  // A non-persisting scan (tests, a custom reader) never reads a file another process wrote.
+  if (persist && existsSync(f)) {
     try { return JSON.parse(readFileSync(f, "utf8")) as ScanState; } catch { /* rescan */ }
   }
   return { cursor: deployBlock - 1, pairs: [], events: 0 };
@@ -127,7 +128,7 @@ export async function syncCreditLogs(chainId: number, reader: ChainReader, persi
   const dep = loadDeployments()[`${chainId}:KerbCredit`] as { address: Address; deployedAtBlock?: string | number } | undefined;
   if (!dep) throw new Error("no credit market is deployed on this chain");
   let entry = scans.get(chainId);
-  if (!entry) { entry = { state: loadScan(chainId, Number(dep.deployedAtBlock ?? 0)), running: null }; scans.set(chainId, entry); }
+  if (!entry) { entry = { state: loadScan(chainId, Number(dep.deployedAtBlock ?? 0), persist), running: null }; scans.set(chainId, entry); }
   const e = entry;
   if (!e.running) {
     e.running = (async () => {

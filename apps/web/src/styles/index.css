@@ -14,5 +14,8 @@
 @import "./components/toast.css";
 @import "./components/sheet.css";
 @import "./components/misc.css";
+@import "./components/rail.css";
+@import "./components/data.css";
 @import "./pages-legacy.css";
+@import "./pages/home.css";
 @import "./utilities.css";

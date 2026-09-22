@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { SessionStrip } from "@/components/SessionStrip";
+import { AssetRail } from "@/components/kerb/SessionRail";
+import { railWindow } from "@/lib/time";
 import { ImpactCurve } from "@/components/ImpactCurve";
 import { RegimeTag, REGIME_MEANING } from "@/components/Regime";
 import { Field, Prov, Value } from "@/components/Value";
@@ -23,7 +24,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
   const symbol = decodeURIComponent(raw);
 
   const [board, clock, terms, report] = await Promise.all([
-    getBoard(), getClock(symbol), getTerms(symbol), getReport(symbol),
+    getBoard(), getClock(symbol, 196, railWindow(Date.now())), getTerms(symbol), getReport(symbol),
   ]);
 
   const row = board.ok ? board.data.rows.find((r) => r.symbol.toLowerCase() === symbol.toLowerCase()) : undefined;
@@ -32,7 +33,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
   return (
     <>
       {clock.ok ? (
-        <SessionStrip clock={clock.data} regime={row?.regime.value ?? (terms.ok ? terms.data.regime.value : null)} />
+        <AssetRail symbol={symbol} initial={clock.data} regime={row?.regime.value ?? (terms.ok ? terms.data.regime.value : null)} tz={row?.market?.tz ?? clock.data.timezone} />
       ) : (
         <SourceTrouble what="the Clock" detail={clock.error} />
       )}

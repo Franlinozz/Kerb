@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { BoardTable } from "@/components/BoardTable";
 import { SourceTrouble, Stale } from "@/components/States";
 import { getBoard, getClock } from "@/lib/api";
-import { SessionStrip } from "@/components/SessionStrip";
+import { AssetRail } from "@/components/kerb/SessionRail";
+import { railWindow } from "@/lib/time";
 import { age, byDecimalDesc, utcStamp } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Board", description: "What each tokenized stock can safely support right now: regime, Credit Mark, executable depth and terms, live from X Layer." };
@@ -21,13 +22,13 @@ export default async function BoardPage(): Promise<React.ReactElement> {
 
   const rows = [...board.data.rows].sort(byDecimalDesc((r) => r.debtCeiling.value));
   const lead = rows[0];
-  const clock = lead ? await getClock(lead.symbol) : null;
+  const clock = lead ? await getClock(lead.symbol, 196, railWindow(Date.now())) : null;
   const unhealthy = (board.data.sources ?? []).filter((s) => !s.healthy);
   const staleRows = rows.filter((r) => r.status !== "live");
 
   return (
     <>
-      {clock?.ok && lead ? <SessionStrip clock={clock.data} regime={lead.regime.value} compact /> : null}
+      {clock?.ok && lead ? <AssetRail symbol={lead.symbol} initial={clock.data} regime={lead.regime.value} tz={lead.market?.tz ?? clock.data.timezone} /> : null}
 
       <div className="rowbar" style={{ marginTop: 22 }}>
         <h1>Board</h1>

@@ -99,6 +99,11 @@
     --gutter: 24px;
     --margin: clamp(20px, 3.2vw, 48px);
 
+    /* Text on the forest band, which stays dark in both themes. */
+    --on-forest:   #ECE8DE;
+    --on-forest-2: #B8B3A6;
+    --on-forest-hair: rgba(236, 232, 222, 0.17);
+
     --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
     --t-fast: 160ms;
     --t-panel: 320ms;

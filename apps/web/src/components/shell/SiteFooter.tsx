@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MarketClocks } from "./MarketClocks";
+import { MarketClocks } from "@/components/kerb/MarketClocks";
 
 const COLS: { label: string; links: { href: string; label: string; external?: boolean }[] }[] = [
   { label: "Product", links: [{ href: "/board", label: "Board" }, { href: "/credit", label: "Credit" }, { href: "/research", label: "Research" }] },

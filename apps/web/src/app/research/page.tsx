@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SourceTrouble } from "@/components/States";
 import { getMarketTimeIndex } from "@/lib/api";
 import { group, utcStamp } from "@/lib/format";
-import { PageStrip } from "@/components/PageStrip";
+import { PageRail } from "@/components/kerb/PageRail";
 
 export const metadata: Metadata = { title: "Research", description: "Market-Time Reports: measured studies of what market time does to executable liquidity on X Layer." };
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ export default async function ReportsIndex(): Promise<React.ReactElement> {
 
   return (
     <>
-      <PageStrip />
+      <PageRail subject={{ kind: "lanes" }} />
       <h1>Market-Time Reports</h1>
       <p className="lede">
         Measured write-ups of what market time does to executable liquidity, generated from the observation store.
