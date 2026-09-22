@@ -36,3 +36,4 @@
   }
 }
 @layer pages { @media (max-width: 700px) { .impact { overflow-x: auto; -webkit-overflow-scrolling: touch; } .impact svg { min-width: 680px; } } }
+@layer pages { .th-title { display: block; margin-top: 18px; } @media (max-width: 700px) { .th-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; } .th-scroll .th-chart { min-width: 680px; } } }

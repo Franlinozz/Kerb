@@ -54,10 +54,14 @@ export function TermsHistory({ history, symbol }: { history: H[]; symbol: string
         <span><i style={{ background: "var(--ink)" }} />Carry</span><span><i style={{ background: "var(--brass)" }} />Session Max</span>
         {regimes.filter((r) => BAND[r]).map((r) => <span key={r}><i className="th-band" style={{ background: BAND[r] }} />{REGIME_WORD[r]}</span>)}
       </div>
-      <Chart rows={rows} label={`${symbol} debt ceiling and C(1%) over the window`} fmt={(v) => usd(round(String(v), 2)) ?? ""}
+      <div className="th-scroll">
+        <span className="t-label th-title">Debt ceiling and C(1%), USDG</span>
+        <Chart rows={rows} label={`${symbol} debt ceiling and C(1%) over the window`} fmt={(v) => usd(round(String(v), 2)) ?? ""}
         series={[{ key: "debtCeiling", name: "Debt ceiling", color: "var(--ink)", scaleBy: (h) => money(h.debtCeiling) }, { key: "executableDepth1", name: "C(1%)", color: "var(--moss)", scaleBy: (h) => money(h.executableDepth1) }]} />
-      <Chart rows={rows} label={`${symbol} Carry and Session Max over the window`} fmt={(v) => `${(v * 100).toFixed(1)}%`}
+        <span className="t-label th-title">Carry and Session Max, LTV</span>
+        <Chart rows={rows} label={`${symbol} Carry and Session Max over the window`} fmt={(v) => `${(v * 100).toFixed(1)}%`}
         series={[{ key: "carryLTV", name: "Carry", color: "var(--ink)", scaleBy: (h) => wad(h.carryLTV) }, { key: "sessionMaxLTV", name: "Session Max", color: "var(--brass)", scaleBy: (h) => wad(h.sessionMaxLTV) }]} />
+      </div>
       <div className="dt-wrap mt-5">
         <table className="dt" style={{ minWidth: 820 }}>
           <caption className="sr-only">{symbol} terms posts, newest first</caption>
