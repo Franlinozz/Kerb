@@ -13,7 +13,8 @@ import { ProvMark } from "@/components/ui/ProvMark";
 
 export function BoardPreview({ rows }: { rows: BoardRow[] }): React.ReactElement {
   return (
-    <div className="dt-wrap">
+    <>
+    <div className="dt-wrap hide-sm">
       <table className="dt dt-static" aria-label="The Board, leading assets" style={{ minWidth: 900 }}>
         <thead><tr><th>Asset</th><th>Regime</th><th className="num">Credit Mark</th><th className="num">C(1%)</th><th>Terms</th><th className="num">Debt ceiling</th><th className="num">Next</th></tr></thead>
         <tbody>
@@ -31,5 +32,22 @@ export function BoardPreview({ rows }: { rows: BoardRow[] }): React.ReactElement
         </tbody>
       </table>
     </div>
+    <ul className="board-cards show-sm" role="list">
+      {rows.map((r) => (
+        <li key={r.symbol}>
+          <Link href={`/asset/${r.symbol}`} className="board-card plain">
+            <span className="row between"><span className="dt-tick">{r.symbol}</span><RegimePill regime={r.regime.value} size="sm" /></span>
+            <span className="dt-under">{r.underlying.symbol} · {r.underlying.market}</span>
+            <span className="mt-3" style={{ display: "block" }}><LtvLadder compact carry={r.carryLTV.value} session={r.sessionMaxLTV.value} lt={r.lt?.value ?? null} label={r.symbol} /></span>
+            <span className="board-card-grid">
+              <span><span className="t-label">C(1%)</span>{usd(r.executableDepth1.value) ?? "Not yet posted"}</span>
+              <span><span className="t-label">Ceiling</span>{usd(r.debtCeiling.value) ?? "Not yet posted"}</span>
+              <span><span className="t-label">Next</span>{r.next ? <>{TRANSITION_SHORT[r.next.type] ?? r.next.type} in <Countdown to={r.next.at} due="now" /></> : "Reading"}</span>
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+    </>
   );
 }

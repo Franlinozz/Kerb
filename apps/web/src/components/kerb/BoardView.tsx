@@ -119,7 +119,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
       {sel ? (
         <div className="board-rail">
           <AssetRail key={sel.symbol} symbol={sel.symbol} initial={initialClock && initialClock.symbol === sel.symbol ? initialClock : null} regime={sel.regime.value} tz={sel.market?.tz ?? "UTC"} />
-          <p className="t-small ink-3 mt-2">Showing {sel.symbol}. Hover or focus a row to see its market.</p>
+          <p className="t-small ink-3 mt-2">Showing {sel.symbol}<span className="hide-sm">. Hover or focus a row to see its market.</span><span className="show-sm">, the largest by debt ceiling.</span></p>
         </div>
       ) : null}
 

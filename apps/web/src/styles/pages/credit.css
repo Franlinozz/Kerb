@@ -51,3 +51,4 @@
   }
 }
 @layer pages { .pos-note { font-size: 14px; color: var(--ink-2); padding: 8px 12px; border-left: 2px solid var(--moss); background: var(--canvas-2); } }
+@layer pages { @media (max-width: 520px) { .pool-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; } .pool-strip > .t-label:first-child { grid-column: 1 / -1; } } }

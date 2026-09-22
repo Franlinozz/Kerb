@@ -107,7 +107,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
       {/* ---------------------------------------------------------------- measured */}
       <section className="home-section">
-        <SectionHead label="Measured, not modelled" annotation={stats.ok ? `${stats.data.assets} assets · ${stats.data.markets} markets` : undefined} title="Measured, not modelled." />
+        <SectionHead label="The record so far" annotation={stats.ok ? `${stats.data.assets} assets · ${stats.data.markets} markets` : undefined} title="Measured, not modelled." />
         {stats.ok ? (
           <div className="kpi-row">
             <Kpi size="xl" label="Pool observations stored" value={group(String(stats.data.obsPoolRows))} prov="Observed" source="obs_pool_state, append-only, one row per pool per minute" href="/proof" />

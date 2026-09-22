@@ -5,3 +5,4 @@
   .kpi-delta { font-size: 13px; color: var(--ink-3); }
   .kpi-band { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--s-5) var(--gutter); padding: var(--s-5) 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
 }
+@layer components { @media (max-width: 520px) { .kpi-band { grid-template-columns: 1fr 1fr; gap: var(--s-4) var(--gutter); } } }
