@@ -101,3 +101,14 @@
 }
 @layer components {
 }
+@layer components {
+  /* Touch: every control at least 40 px, the tab row shows there is more to the right. */
+  @media (pointer: coarse) {
+    .chip button, .chip a { width: 40px; height: 40px; margin-block: -9px; }
+    .status-pill { height: 40px; min-width: 40px; }
+    .footer-cols a { min-height: 40px; margin: 0; }
+  }
+  @media (max-width: 520px) {
+    .tabs-list { -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); padding-right: 24px; }
+  }
+}
