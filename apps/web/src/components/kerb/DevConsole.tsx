@@ -34,7 +34,7 @@ function LivePanel({ url, pick }: { url: string; pick: (j: unknown) => unknown }
         <span className="t-label">Live response</span>
         <span className="t-small ink-3 mono">{live.state === "ok" ? `GET ${url.replace(/^https?:\/\/[^/]+/, "")} · ${utcStamp(live.at)}` : live.state === "loading" ? "Fetching" : "The API did not answer from this browser"}</span>
       </div>
-      <pre><code>{live.state === "ok" ? live.body : live.state === "loading" ? "" : `Open ${url} directly to see the response.`}</code></pre>
+      <pre tabIndex={0} aria-label="Live response body"><code>{live.state === "ok" ? live.body : live.state === "loading" ? "" : `Open ${url} directly to see the response.`}</code></pre>
     </div>
   );
 }

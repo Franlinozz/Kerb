@@ -33,7 +33,7 @@ export function ImpactChart({ venue, crosscheck }: { venue: Venue; crosscheck?: 
   const ticks = pts.filter((_, i) => i % 2 === 0);
   return (
     <figure className="impact">
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Price impact against notional sold on ${venue.path.join(" to ")}. ${marks.map((m) => `${m.k} ${usd(m.c.notional)}`).join(", ")}.`}
+      <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label={`Price impact against notional sold on ${venue.path.join(" to ")}. ${marks.map((m) => `${m.k} ${usd(m.c.notional)}`).join(", ")}.`}
         onMouseLeave={() => setHover(null)}>
         {grid.map((v) => (
           <g key={v}><line x1={P.l} x2={W - P.r} y1={Y(v)} y2={Y(v)} stroke="var(--hair)" /><text x={P.l - 8} y={Y(v) + 4} textAnchor="end" className="axis">{Math.round(v * 100)}%</text></g>
@@ -52,7 +52,7 @@ export function ImpactChart({ venue, crosscheck }: { venue: Venue; crosscheck?: 
         ) : null}
         {ticks.map((p) => <text key={p.notional} x={X(lx(p.notional))} y={H - P.b + 18} textAnchor="middle" className="axis">{usd(p.notional)}</text>)}
         {pts.map((p, i) => (
-          <rect key={p.notional} x={X(xs[i]!) - 14} y={P.t} width={28} height={H - P.t - P.b} fill="transparent" tabIndex={0}
+          <rect key={p.notional} x={X(xs[i]!) - 14} y={P.t} width={28} height={H - P.t - P.b} fill="transparent" tabIndex={0} role="img"
             onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} onBlur={() => setHover(null)} aria-label={`${usd(p.notional)} sold: ${round(shift(p.impact, 2), 2)}% impact, realised ${price(p.realisedPrice)}`} />
         ))}
         {h ? <circle cx={X(lx(h.notional))} cy={Y(Number(h.impact))} r={5} fill="none" stroke="var(--moss)" strokeWidth={2} /> : null}

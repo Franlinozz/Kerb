@@ -167,11 +167,12 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
                 <div className="params">
                   {(["capacityDefaults", "asymmetry", "regime", "mark", "depth", "stress"] as const).map((g) => (
                     <details key={g} className="disclosure" open={g === "capacityDefaults"}>
-                      <summary>{GROUP[g]} <span className="mono t-small ink-3">{g}</span><ProvMark label="Observed" source="config/kts-params.json, served at /v1/params" /></summary>
+                      <summary>{GROUP[g]} <span className="mono t-small ink-3">{g}</span></summary>
                       <div className="disclosure-body"><ParamValue v={params.data[g]} kts={g === "capacityDefaults" ? kts : undefined} /></div>
                     </details>
                   ))}
                 </div>
+                <p className="t-small ink-3 mt-3">Read from config/kts-params.json as served at /v1/params <ProvMark label="Observed" source="config/kts-params.json, served at /v1/params" /></p>
                 <p className="mt-4"><a className="btn btn-sm" href={`${PUBLIC_API}/v1/params`} target="_blank" rel="noreferrer">Download parameters JSON</a></p>
               </>
             ) : <ErrorState source="The parameter set" />}

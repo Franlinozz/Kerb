@@ -53,7 +53,7 @@ function Band({ segs, calls, fromMs, toMs, lane, onHover, focusable, label }: {
         const text = `${KIND_WORD[g.kind as ClockSegment["kind"]]} ${utcHm(g.startMs)} to ${utcHm(g.endMs)} UTC`;
         return (
           <span key={`${g.kind}${g.startMs}`} className={`rail-seg rail-${g.kind}`} style={{ left: `${c.left}%`, width: `${c.width}%` }}
-            tabIndex={focusable ? 0 : -1} aria-label={text}
+            role="img" tabIndex={focusable ? 0 : -1} aria-label={text}
             onMouseEnter={() => onHover({ seg: g, x: c.left + c.width / 2, lane })} onMouseLeave={() => onHover(null)}
             onFocus={() => onHover({ seg: g, x: c.left + c.width / 2, lane })} onBlur={() => onHover(null)} />
         );
@@ -63,7 +63,7 @@ function Band({ segs, calls, fromMs, toMs, lane, onHover, focusable, label }: {
         if (!c) return null;
         return (
           <span key={`lc${g.startMs}`} className="rail-seg rail-LAST_CALL" style={{ left: `${c.left}%`, width: `${Math.max(c.width, 0.25)}%` }}
-            tabIndex={focusable ? 0 : -1} aria-label={`Last Call ${utcHm(g.startMs)} to ${utcHm(g.endMs)} UTC`}
+            role="img" tabIndex={focusable ? 0 : -1} aria-label={`Last Call ${utcHm(g.startMs)} to ${utcHm(g.endMs)} UTC`}
             onMouseEnter={() => onHover({ seg: g, x: c.left + c.width / 2, lane })} onMouseLeave={() => onHover(null)}
             onFocus={() => onHover({ seg: g, x: c.left + c.width / 2, lane })} onBlur={() => onHover(null)} />
         );
