@@ -19,3 +19,7 @@
   .board-card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 14px; font-size: 14px; }
   .board-card-grid .t-label { display: block; margin-bottom: 4px; }
 }
+@layer pages {
+  .board .dt-under { white-space: normal; max-width: 220px; line-height: 1.35; }
+  .board .dt td { padding-inline: 10px; }
+}

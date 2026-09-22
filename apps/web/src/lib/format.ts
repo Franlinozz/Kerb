@@ -72,8 +72,10 @@ export function shift(value: string, n: number): string {
   const neg = value.startsWith("-");
   const v = neg ? value.slice(1) : value;
   const [whole = "0", frac = ""] = v.split(".");
-  const digits = whole + frac;
-  const point = whole.length + n;
+  let digits = whole + frac;
+  let point = whole.length + n;
+  // A shift left past the first digit pads with leading zeros: shift("500", -4) is "0.05".
+  if (point <= 0) { digits = "0".repeat(1 - point) + digits; point = 1; }
   const padded = point > digits.length ? digits.padEnd(point, "0") : digits;
   const w = padded.slice(0, point).replace(/^0+(?=\d)/, "") || "0";
   const f = padded.slice(point);

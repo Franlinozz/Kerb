@@ -21,7 +21,7 @@ import { Tape } from "@/components/kerb/Tape";
 import { getBoard, getClock, getProof, getReport, getStats, getTape, type BoardRow } from "@/lib/api";
 import { BUILDER_CODE } from "@/lib/builderCode";
 import { byDecimalDesc, group, price, shift, shortHash, round, usd, usdFull, ltv } from "@/lib/format";
-import { railWindow, utcHm, localHm, transitionWord } from "@/lib/time";
+import { dayHm, railWindow, utcHm, localHm, transitionWord } from "@/lib/time";
 import { KIND_WORD } from "@/lib/sessionWords";
 
 export const revalidate = 15;
@@ -147,7 +147,7 @@ export default async function Home(): Promise<React.ReactElement> {
               <div className="mode-card">
                 <span className="t-label">Carry</span>
                 <span className="t-num-xl">{usdFull(powerAt(lead.carryLTV.value)) ?? "Not yet posted"}</span>
-                <p className="ink-2">Sized to survive until {lead.margins ? `${utcHm(Date.parse(lead.margins.carry.horizonEndsAt))} UTC on ${new Date(lead.margins.carry.horizonEndsAt).toUTCString().slice(0, 3)}` : "the next deep market"} without you. No cure events.</p>
+                <p className="ink-2">Sized to survive until {lead.margins ? `${dayHm(Date.parse(lead.margins.carry.horizonEndsAt))} UTC` : "the next deep market"} without you. No cure events.</p>
               </div>
               <div className="mode-card mode-card-on">
                 <span className="t-label">Session Max</span>

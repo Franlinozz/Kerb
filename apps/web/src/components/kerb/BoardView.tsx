@@ -82,7 +82,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
   return (
     <div className="board">
       <header className="board-head">
-        <span className="t-label">The Board · X Layer 196 · {board.rows.length} assets · {new Set(board.rows.map((r) => r.underlying.market === "ARCX" ? "XNYS" : r.underlying.market === "XNAS" ? "XNYS" : r.underlying.market)).size} markets</span>
+        <span className="t-label">The Board · X Layer 196 · {board.rows.length} assets · {new Set(board.rows.map((r) => r.underlying.market)).size} markets</span>
         <h1>What each stock can safely support, right now.</h1>
         <p className="t-small ink-3" aria-live="polite" suppressHydrationWarning>{live.updating ? "Updating" : generatedAgo === null ? "" : `Updated ${ago(generatedAgo)} · refreshes every 30 seconds`}</p>
       </header>
@@ -124,7 +124,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
       ) : (
         <>
           <div className="board-table hide-sm">
-            <DataTable rows={rows} columns={columns} rowKey={(r) => r.symbol} href={(r) => `/asset/${r.symbol}`} label="The Board" onRowFocus={(r) => setSelected(r.symbol)} minWidth={1180} />
+            <DataTable rows={rows} columns={columns} rowKey={(r) => r.symbol} href={(r) => `/asset/${r.symbol}`} label="The Board" onRowFocus={(r) => setSelected(r.symbol)} minWidth={1080} />
           </div>
           <ul className="board-cards show-sm" role="list">
             {rows.map((r) => (

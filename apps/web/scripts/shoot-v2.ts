@@ -28,7 +28,8 @@ const ROUTES = [
   { path: "/proof", name: "proof" },
   { path: "/developers", name: "developers" },
   { path: "/no-such-page", name: "not-found" },
-].filter((r) => !filter || r.name.includes(filter));
+  ...["HKEXCx", "SLVx", "COINx"].map((s) => ({ path: `/asset/${s}`, name: `asset-${s}` })),
+].filter((r) => (filter ? r.name.includes(filter) : !r.name.startsWith("asset-")));
 
 async function main(): Promise<void> {
   mkdirSync(OUT, { recursive: true });

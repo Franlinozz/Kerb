@@ -115,3 +115,8 @@ export const TRANSITION_SHORT: Record<string, string> = {
   POST_OPEN: "After hours", POST_CLOSE: "Market closes", EARLY_CLOSE: "Early close",
 };
 export const transitionWord = (t: string): string => TRANSITION_WORD[t] ?? t.replace(/_/g, " ").toLowerCase();
+
+/** "Wed 13:30": weekday and time in UTC, for horizons more than a few hours away. */
+export function dayHm(ms: number): string {
+  return `${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date(ms).getUTCDay()]} ${utcHm(ms)}`;
+}

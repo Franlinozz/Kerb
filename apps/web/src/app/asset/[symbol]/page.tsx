@@ -19,9 +19,9 @@ import { REGIME_MEANING, RegimePill } from "@/components/kerb/RegimePill";
 import { AssetRail } from "@/components/kerb/SessionRail";
 import { TermsHistory } from "@/components/kerb/TermsHistory";
 import { explorerAddress, explorerTx, getBoard, getClock, getReport, getTerms, PUBLIC_API } from "@/lib/api";
-import { ltv, price, round, scale, shift, shortHash, usd } from "@/lib/format";
+import { ltv, price, round, scale, shortHash, usd } from "@/lib/format";
 import { instrument } from "@/lib/instruments";
-import { localHm, railWindow, transitionWord, utcHm } from "@/lib/time";
+import { dayHm, localHm, railWindow, transitionWord, utcHm } from "@/lib/time";
 
 export const revalidate = 15;
 
@@ -51,8 +51,8 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
         {row && clock.ok ? (
           <p className="t-body-l">
             {symbol} is a token that tracks {inst.name} ({inst.code} on {row.underlying.market}). Its market is {clock.data.clock.session.kind === "REGULAR" ? "open" : "not in its regular session"} right now.{" "}
-            A <b>Carry</b> loan can draw up to <b>{ltv(row.carryLTV.value)}</b> of the collateral&rsquo;s value and is sized to survive until {row.margins ? `${utcHm(Date.parse(row.margins.carry.horizonEndsAt))} UTC (${localHm(Date.parse(row.margins.carry.horizonEndsAt), tz)})` : "the next deep market"} with no action from you.{" "}
-            A <b>Session Max</b> loan can draw <b>{ltv(row.sessionMaxLTV.value)}</b>, on the promise that it is brought back to Carry when Last Call opens{row.cure ? ` at ${utcHm(Date.parse(row.cure.opensAt))} UTC (${localHm(Date.parse(row.cure.opensAt), tz)})` : ""}.{" "}
+            A <b>Carry</b> loan can draw up to <b>{ltv(row.carryLTV.value)}</b> of the collateral&rsquo;s value and is sized to survive until {row.margins ? `${dayHm(Date.parse(row.margins.carry.horizonEndsAt))} UTC (${localHm(Date.parse(row.margins.carry.horizonEndsAt), tz)})` : "the next deep market"} with no action from you.{" "}
+            A <b>Session Max</b> loan can draw <b>{ltv(row.sessionMaxLTV.value)}</b>, on the promise that it is brought back to Carry when Last Call opens{row.cure ? ` at ${dayHm(Date.parse(row.cure.opensAt))} UTC (${localHm(Date.parse(row.cure.opensAt), tz)})` : ""}.{" "}
             Either way the liquidation line stays at <b>{ltv(row.lt?.value ?? null) ?? "its listed level"}</b>: sessions move what you can borrow, never the line.
           </p>
         ) : <ErrorState source="The clock or the Board" />}
@@ -117,7 +117,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
         <div>
           <span className="t-label">{row?.underlying.market} · {inst.code} · X Layer 196</span>
           <h1 className="t-display mt-3">{symbol}</h1>
-          <p className="t-body-l ink-2 mt-3 asset-sub">{inst.name}{row ? <><span className="ink-3"> · Uniswap V3 pool in {row.pool.quote}, {round(shift(String(row.pool.fee), -4), 2)}% fee · </span><AddressChip value={row.pool.address} href={row.pool.explorer} label="pool" /></> : null}</p>
+          <p className="t-body-l ink-2 mt-3 asset-sub">{inst.name}{row ? <><span className="ink-3"> · Uniswap V3 pool in {row.pool.quote}, {round(scale(String(row.pool.fee), 4), 2)}% fee · </span><AddressChip value={row.pool.address} href={row.pool.explorer} label="pool" /></> : null}</p>
         </div>
         <div className="asset-hero-side">
           <RegimePill regime={row?.regime.value ?? null} />

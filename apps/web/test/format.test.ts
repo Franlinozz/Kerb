@@ -135,3 +135,13 @@ describe("V2 number format standard", () => {
     expect(ratio("1.3333")).toBe("1.33×");
   });
 });
+
+import { shift } from "../src/lib/format";
+describe("shift", () => {
+  it("pads with zeros when shifting left past the first digit", () => {
+    expect(shift("500", -4)).toBe("0.0500");
+    expect(shift("5", -1)).toBe("0.5");
+    expect(shift("123.45", -1)).toBe("12.345");
+    expect(shift("0.55", 2)).toBe("55");
+  });
+});
