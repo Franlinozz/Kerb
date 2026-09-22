@@ -6,7 +6,7 @@
  */
 import generated from "./art.generated.json";
 
-export type PlateId = "p1-kerbstone-night" | "p1-kerbstone-day" | "p2-record" | "p3-standard" | "p5-fog";
+export type PlateId = "p1-kerbstone-night" | "p1-kerbstone-day" | "p2-record" | "p3-standard" | "p4-seal" | "p5-fog";
 
 export interface Plate {
   id: PlateId;
@@ -38,6 +38,10 @@ export const PLATES: Record<PlateId, Plate> = {
   // Subject: stacked glass slabs over a mossy stone step, centred slightly left of the frame's centre.
   "p3-standard": {
     id: "p3-standard", name: "The Standard", page: "Methodology", focus: { desktop: "58% 42%", tablet: "58% 42%", mobile: "58% 40%" }, alt: "",
+  },
+  // Subject: two stone monoliths holding a lit glass cube, right of centre; fog and peaks left.
+  "p4-seal": {
+    id: "p4-seal", name: "The Seal", page: "Proof", focus: { desktop: "66% 40%", tablet: "66% 40%", mobile: "66% 42%" }, alt: "",
   },
   // Subject: a stone gate in fog, right third, lit from within.
   "p5-fog": {

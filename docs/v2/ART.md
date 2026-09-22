@@ -10,13 +10,12 @@ looking at each image, not by upload order. Embedded creation times: 21:20 to 21
 | `p2-record.png` | Stepped wall of stone and glass cubes rising right, fog and mountains left | Research | 64% 45% (phone 70%) |
 | `p3-standard.png` | Stacked glass slabs over a mossy stone step, golden hour | Methodology | 58% 42% |
 | `p5-fog.png` | A stone gate in fog, right third, lit from within | 404 | 74% 50% |
-| (none) | **The Seal (P4)**: no approved image shows it | Proof opens on the geometric Kerbstone | |
+| `p4-seal.png` | Two stone monoliths holding a lit glass cube, a beam through the seam, fog and peaks left (upload 09, approved by the operator 22 Sep) | Proof | 66% 40% |
 
 Not placed, kept in `docs/v2/art-unplaced/` for the operator: `03-kerb-step-day.png` (a Day
 kerb step with rising cubes, the literal P1 brief, no Night pair), `07-forest-variant.png`,
-and the three later experiments (`08` gate, `09` monolith holding a glowing cube, `10` ring).
-`09` reads as a seal (a sealed cube held in stone) and is the candidate for P4 if the operator
-approves it.
+and the two other experiments (`08` gate, `10` ring). `09` (a sealed cube held in stone) became
+P4 The Seal on the operator's approval, 22 Sep.
 
 Derivatives: `apps/web/scripts/art/process.mjs` (sharp). AVIF q68 (4:4:4) and WebP q80 at
 640, 960, 1280, 1600 and the master's 1672 px, never upscaled; a 4:5 phone crop of P1 at 480

@@ -24,6 +24,7 @@ const PLATES = {
   "p1-kerbstone-day": { mobileCentreX: 0.69 },
   "p2-record": {},
   "p3-standard": {},
+  "p4-seal": {},
   "p5-fog": {},
 };
 const LADDER = [640, 960, 1280, 1600];

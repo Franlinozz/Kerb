@@ -52,7 +52,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
   if (!proof.ok) {
     return (
       <>
-        <PlateHero plate="geometric" label="Proof" title="Kerb is independently verifiable." lede={<p>Everything here is read from live state when this page loads.</p>} />
+        <PlateHero plate="p4-seal" label="Proof" title="Kerb is independently verifiable." lede={<p>Everything here is read from live state when this page loads.</p>} />
         <ErrorState source="The proof endpoint" />
       </>
     );
@@ -66,7 +66,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
   return (
     <div className="proof">
       <PlateHero
-        plate="geometric"
+        plate="p4-seal"
         label={`Proof · generated ${utcStamp(p.generatedAt)}`}
         title="Kerb is independently verifiable."
         lede={<p>Read from live state when this page loads: the repository, the chain, the observation store and the test run. Nothing here is typed in by hand. Check any of it against the same public API at <span className="mono">{PUBLIC_API}</span>.</p>}
