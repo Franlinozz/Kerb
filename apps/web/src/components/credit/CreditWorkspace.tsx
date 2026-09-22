@@ -6,7 +6,7 @@
  * from the contracts or computed the way KerbCredit computes it, before anyone signs.
  */
 import { Check, CircleDashed, ExternalLink, TriangleAlert } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useHydratedAccount } from "@/lib/useHydrated";
 import type { Hex } from "viem";
@@ -207,6 +207,16 @@ function WithdrawTab({ market, c, pos }: { market: CreditMarket; c: CreditCollat
   const value = valueOf(left, BigInt(c.terms.creditMark), dec);
   const hf = hfOf(pos.owed, value, BigInt(c.liquidationThreshold));
   const unsafe = pos.owed > 0n && (hf === null || hf < WAD);
+  // Blocked only by the debt the page last read: read again every 3 s, so a node a few blocks
+  // behind (or a repay that just landed) cannot keep the button disabled.
+  const refreshPos = useRef(pos.refresh);
+  refreshPos.current = pos.refresh;
+  const blocked = unsafe && want > 0n;
+  useEffect(() => {
+    if (!blocked) return;
+    const t = setInterval(() => refreshPos.current(), 3000);
+    return () => clearInterval(t);
+  }, [blocked]);
   return (
     <div className="action">
       <Field label={`Withdraw collateral (k${c.mirrors})`} value={amount} onChange={setAmount} unit={`k${c.mirrors}`} onMax={() => setAmount(fmtUnits(pos.held, 18, 6).replace(/,/g, ""))}
