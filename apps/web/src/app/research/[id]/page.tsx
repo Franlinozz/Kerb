@@ -16,6 +16,8 @@ import { group, round, shortHash, usd, utcStamp } from "@/lib/format";
 import { headline } from "@/lib/research";
 
 export const revalidate = 300;
+/** Rendered on first request, then served from the cache and revalidated; unknown ids still 404. */
+export function generateStaticParams(): never[] { return []; }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;

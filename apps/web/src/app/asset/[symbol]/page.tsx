@@ -24,6 +24,8 @@ import { instrument } from "@/lib/instruments";
 import { dayHm, localHm, railWindow, transitionWord, utcHm } from "@/lib/time";
 
 export const revalidate = 15;
+/** Rendered on first request, then served from the cache and revalidated; unknown ids still 404. */
+export function generateStaticParams(): never[] { return []; }
 
 export async function generateMetadata({ params }: { params: Promise<{ symbol: string }> }): Promise<Metadata> {
   const { symbol } = await params;
