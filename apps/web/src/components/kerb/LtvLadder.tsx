@@ -21,9 +21,9 @@ export function marginSentence(kts: "0.1" | "0.2" | null | undefined, margins: B
   return "In KTS-0.1 the Carry to Session Max margin is fixed. What moves with market time is the debt ceiling, through measured depth, and the cure deadline.";
 }
 
-export function LtvLadder({ carry, session, lt, position, kts, margins, compact = false, label }: {
+export function LtvLadder({ carry, session, lt, position, kts, margins, compact = false, label, why = true }: {
   carry: string | null; session: string | null; lt: string | null; position?: string | null;
-  kts?: "0.1" | "0.2" | null; margins?: BoardMargins | null; compact?: boolean; label?: string;
+  kts?: "0.1" | "0.2" | null; margins?: BoardMargins | null; compact?: boolean; label?: string; why?: boolean;
 }): React.ReactElement {
   if (carry === null || session === null || lt === null) {
     return <span className="ink-3 t-small">Not yet posted</span>;
@@ -56,7 +56,7 @@ export function LtvLadder({ carry, session, lt, position, kts, margins, compact 
         <span className="ladder-mark ladder-mark-lt" style={{ left: `${l}%` }}>LIQUIDATION<b>{ltv(lt)} · FIXED</b></span>
         {p !== null && position ? <span className="ladder-mark ladder-mark-pos" style={{ left: `${p}%` }}>YOU<b>{ltv(position)}</b></span> : null}
       </div>
-      <figcaption className="ladder-why">{marginSentence(kts, margins)}</figcaption>
+      {why ? <figcaption className="ladder-why">{marginSentence(kts, margins)}</figcaption> : null}
     </figure>
   );
 }

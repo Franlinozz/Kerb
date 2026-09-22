@@ -70,7 +70,11 @@ export function useTxFlow(ctx: ErrorContext = {}, onDone?: () => void): {
     setNote(`${doneLabel}.`);
     setRunning(false);
     toast({ tone: "success", title: doneLabel, href: last ? `${EXPLORER}/tx/${last}` : undefined });
+    // The public RPC is load balanced: a read right after the receipt can come from a node that has
+    // not seen the block. Refresh now, and again a few seconds later.
     onDone?.();
+    setTimeout(() => onDone?.(), 3000);
+    setTimeout(() => onDone?.(), 9000);
     return true;
   }, [config, ctx, onDone]);
 

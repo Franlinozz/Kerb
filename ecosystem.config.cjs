@@ -128,6 +128,23 @@ module.exports = {
       error_file: "/root/.kerb/logs/mirror-relay.err.log",
     },
     {
+      // Demo position keeper (V2-08, gate 6). Testnet only. Not started until the operator approves:
+      //   pm2 start ecosystem.config.cjs --only kerb-demo-keeper && pm2 save
+      name: "kerb-demo-keeper",
+      cwd: __dirname + "/apps/attester",
+      script: "scripts/demo-keeper.ts",
+      interpreter: "node",
+      interpreter_args: `--env-file=${process.env.KERB_KEEPER_ENV_FILE || "/root/.kerb/keeper.env"} --import tsx`,
+      autorestart: true,
+      restart_delay: 30000,
+      max_restarts: 50,
+      min_uptime: 60000,
+      max_memory_restart: "400M",
+      time: true,
+      out_file: "/root/.kerb/logs/keeper.out.log",
+      error_file: "/root/.kerb/logs/keeper.err.log",
+    },
+    {
       name: "kerb-indexer",
       cwd: __dirname + "/apps/indexer",
       script: "src/main.ts",

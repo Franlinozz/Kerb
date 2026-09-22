@@ -51,7 +51,7 @@ export function PositionPanel({ market, c, pos, demo, onRepay, onAddCollateral }
         <div className="pos-big">{fmtUnits(pos.cureRequired, dec, 2)} {sym} <span className="t-body ink-2">cure required by {utcHm(deadline)} UTC{now === null ? "" : `, in ${countdown(deadline, now)}`}</span></div>
         <p>Repay or add collateral before the window closes. After that, anyone may cure the position back to its {pctWad(pos.carryTarget)} Carry target and earn a {pctWad(BigInt(c.cureBonus))} bonus. Only the difference, never the whole loan.</p>
         <div className="row"><button type="button" className="btn btn-primary" onClick={onRepay}>Repay {fmtUnits(pos.cureRequired, dec, 2)} {sym}</button><button type="button" className="btn" onClick={onAddCollateral}>Add collateral</button></div>
-        <LtvLadder carry={wadToStr(pos.carryTarget)} session={c.terms.sessionMaxLTV ? wadToStr(BigInt(c.terms.sessionMaxLTV)) : null} lt={wadToStr(lt)} position={pos.ltv === null ? null : wadToStr(pos.ltv)} />
+        <LtvLadder carry={wadToStr(pos.carryTarget)} session={c.terms.sessionMaxLTV ? wadToStr(BigInt(c.terms.sessionMaxLTV)) : null} lt={wadToStr(lt)} position={pos.ltv === null ? null : wadToStr(pos.ltv)} why={false} />
         <p className="t-small ink-3">Liquidation line {pctWad(lt)} is not moving.</p>
       </div>
     );
@@ -60,11 +60,11 @@ export function PositionPanel({ market, c, pos, demo, onRepay, onAddCollateral }
   return (
     <div className="pos">
       <span className="t-label">{cured ? "Cured · ready to carry" : "Ready to carry"} · k{c.mirrors} · {pos.mode === 1 ? "Session Max" : "Carry"}</span>
-      <div className="pos-big">Health {hfWad(pos.hf)}</div>
-      <LtvLadder carry={wadToStr(pos.carryTarget > 0n ? pos.carryTarget : BigInt(c.terms.carryLTV))} session={wadToStr(BigInt(c.terms.sessionMaxLTV))} lt={wadToStr(lt)} position={pos.ltv === null ? null : wadToStr(pos.ltv)} />
+      <div className="pos-big">{pos.owed === 0n ? "No debt" : `Health ${hfWad(pos.hf)}`}</div>
+      <LtvLadder carry={wadToStr(pos.carryTarget > 0n ? pos.carryTarget : BigInt(c.terms.carryLTV))} session={wadToStr(BigInt(c.terms.sessionMaxLTV))} lt={wadToStr(lt)} position={pos.owed === 0n || pos.ltv === null ? null : wadToStr(pos.ltv)} why={false} />
       <dl className="preview">
-        <div><dt className="t-label">Current LTV</dt><dd>{pctWad(pos.ltv)}</dd></div>
-        <div><dt className="t-label">Carry target</dt><dd>{pctWad(pos.carryTarget)}</dd></div>
+        <div><dt className="t-label">Current LTV</dt><dd>{pos.owed === 0n ? "No debt" : pctWad(pos.ltv)}</dd></div>
+        <div><dt className="t-label">Carry target</dt><dd>{pos.owed === 0n ? "Set when you borrow" : pctWad(pos.carryTarget)}</dd></div>
         <div><dt className="t-label">Owing</dt><dd>{fmtUnits(pos.owed, dec, 2)} {sym}</dd></div>
         <div><dt className="t-label">Next Last Call</dt><dd suppressHydrationWarning>{utcHm(Date.parse(demo.nextCureOpensAt))} UTC{now === null ? "" : `, in ${countdown(Date.parse(demo.nextCureOpensAt), now)}`}</dd></div>
       </dl>

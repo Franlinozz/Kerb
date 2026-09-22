@@ -167,7 +167,7 @@ function BorrowTab({ market, c, pos, demo }: { market: CreditMarket; c: CreditCo
         ["Owing after", `${fmtUnits(debtAfter, dec, 2)} ${sym}`],
         ["Liquidation line", `${pctWad(lt)}, fixed`],
       ]} />
-      <button type="button" className="btn btn-primary action-go" disabled={disabled} onClick={() => void flow.run(steps, want > 0n ? `Borrowed ${fmtUnits(want, dec, 2)} ${sym}` : `Deposited ${fmtUnits(addColl, 18, 2)} k${c.mirrors}`)}>{label}</button>
+      <button type="button" className="btn btn-primary action-go" disabled={disabled} onClick={async () => { if (await flow.run(steps, want > 0n ? `Borrowed ${fmtUnits(want, dec, 2)} ${sym}` : `Deposited ${fmtUnits(addColl, 18, 2)} k${c.mirrors}`)) { setCollIn(""); setAmount(""); } }}>{label}</button>
       {!pos.isConnected ? <p className="t-small ink-3">Connect a wallet in the setup steps to act. Everything here reads without one.</p> : null}
       {flow.steps.length ? <TxStepper steps={flow.steps} note={flow.note} tone={flow.tone} explorerHref={flow.hash ? `https://www.oklink.com/x-layer-testnet/tx/${flow.hash}` : null} /> : null}
     </div>
@@ -191,7 +191,7 @@ function RepayTab({ market, c, pos }: { market: CreditMarket; c: CreditCollatera
         help={`Owing ${fmtUnits(pos.owed, dec, 2)} · wallet ${fmtUnits(pos.loanBalance, dec, 2)} ${sym}. Repay works in every state, paused included.`}
         error={pay > pos.loanBalance && pay > 0n ? `The wallet holds ${fmtUnits(pos.loanBalance, dec, 2)} ${sym}. Mint more in the setup steps.` : null} />
       <Preview rows={[["LTV after", pctWad(ltvOf(after, value))], ["Health after", hfWad(hfOf(after, value, BigInt(c.liquidationThreshold)))], ["Owing after", `${fmtUnits(after, dec, 2)} ${sym}`]]} />
-      <button type="button" className="btn btn-primary action-go" disabled={flow.running || steps.length === 0 || pay > pos.loanBalance} onClick={() => void flow.run(steps, `Repaid ${fmtUnits(pay, dec, 2)} ${sym}`)}>{pay > 0n ? `Repay ${fmtUnits(pay, dec, 2)} ${sym}` : "Enter an amount"}</button>
+      <button type="button" className="btn btn-primary action-go" disabled={flow.running || steps.length === 0 || pay > pos.loanBalance} onClick={async () => { if (await flow.run(steps, `Repaid ${fmtUnits(pay, dec, 2)} ${sym}`)) setAmount(""); }}>{pay > 0n ? `Repay ${fmtUnits(pay, dec, 2)} ${sym}` : "Enter an amount"}</button>
       {flow.steps.length ? <TxStepper steps={flow.steps} note={flow.note} tone={flow.tone} explorerHref={flow.hash ? `https://www.oklink.com/x-layer-testnet/tx/${flow.hash}` : null} /> : null}
     </div>
   );
@@ -211,7 +211,7 @@ function WithdrawTab({ market, c, pos }: { market: CreditMarket; c: CreditCollat
       <Field label={`Withdraw collateral (k${c.mirrors})`} value={amount} onChange={setAmount} unit={`k${c.mirrors}`} onMax={() => setAmount(fmtUnits(pos.held, 18, 6).replace(/,/g, ""))}
         help={`Deposited ${fmtUnits(pos.held, 18, 2)} k${c.mirrors}.`} error={unsafe && want > 0n ? "That would leave the position below a health factor of 1. Repay first or withdraw less." : null} />
       <Preview rows={[["Collateral after", `${fmtUnits(left, 18, 2)} k${c.mirrors}`], ["LTV after", pctWad(ltvOf(pos.owed, value))], ["Health after", hfWad(hf)]]} />
-      <button type="button" className="btn btn-primary action-go" disabled={flow.running || want === 0n || want > pos.held || unsafe} onClick={() => void flow.run([{ label: `Withdraw ${fmtUnits(want, 18, 2)} k${c.mirrors}`, call: { address: pos.credit, abi: CREDIT_ABI, functionName: "withdrawCollateral", args: [pos.assetId, want] } }], `Withdrew ${fmtUnits(want, 18, 2)} k${c.mirrors}`)}>{want > 0n ? `Withdraw ${fmtUnits(want, 18, 2)} k${c.mirrors}` : "Enter an amount"}</button>
+      <button type="button" className="btn btn-primary action-go" disabled={flow.running || want === 0n || want > pos.held || unsafe} onClick={async () => { if (await flow.run([{ label: `Withdraw ${fmtUnits(want, 18, 2)} k${c.mirrors}`, call: { address: pos.credit, abi: CREDIT_ABI, functionName: "withdrawCollateral", args: [pos.assetId, want] } }], `Withdrew ${fmtUnits(want, 18, 2)} k${c.mirrors}`)) setAmount(""); }}>{want > 0n ? `Withdraw ${fmtUnits(want, 18, 2)} k${c.mirrors}` : "Enter an amount"}</button>
       {flow.steps.length ? <TxStepper steps={flow.steps} note={flow.note} tone={flow.tone} explorerHref={flow.hash ? `https://www.oklink.com/x-layer-testnet/tx/${flow.hash}` : null} /> : null}
     </div>
   );
@@ -241,7 +241,7 @@ function SupplyTab({ market, pos }: { market: CreditMarket; pos: PositionState }
       <Field label={`${dir === "supply" ? "Supply" : "Withdraw"} (${sym})`} value={amount} onChange={setAmount} unit={sym}
         onMax={() => setAmount(fmtUnits(dir === "supply" ? pos.loanBalance : (pos.supplied < available ? pos.supplied : available), dec, 6).replace(/,/g, ""))}
         help={`You have supplied ${fmtUnits(pos.supplied, dec, 2)} · wallet ${fmtUnits(pos.loanBalance, dec, 2)} · the pool has ${fmtUnits(available, dec, 2)} ${sym} not lent out.`} />
-      <button type="button" className="btn btn-primary action-go" disabled={flow.running || steps.length === 0} onClick={() => void flow.run(steps, `${dir === "supply" ? "Supplied" : "Withdrew"} ${fmtUnits(want, dec, 2)} ${sym}`)}>{want > 0n ? `${dir === "supply" ? "Supply" : "Withdraw"} ${fmtUnits(want, dec, 2)} ${sym}` : "Enter an amount"}</button>
+      <button type="button" className="btn btn-primary action-go" disabled={flow.running || steps.length === 0} onClick={async () => { if (await flow.run(steps, `${dir === "supply" ? "Supplied" : "Withdrew"} ${fmtUnits(want, dec, 2)} ${sym}`)) setAmount(""); }}>{want > 0n ? `${dir === "supply" ? "Supply" : "Withdraw"} ${fmtUnits(want, dec, 2)} ${sym}` : "Enter an amount"}</button>
       {flow.steps.length ? <TxStepper steps={flow.steps} note={flow.note} tone={flow.tone} explorerHref={flow.hash ? `https://www.oklink.com/x-layer-testnet/tx/${flow.hash}` : null} /> : null}
     </div>
   );

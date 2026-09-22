@@ -87,15 +87,24 @@ await B.page.getByRole("button", { name: /^Mint 10,000 mUSDG/ }).click();
 await flowDone(B.page, "Minted 10,000 mUSDG");
 await B.page.waitForTimeout(3000);
 await shots(B.page, "state-no-position");
-await B.page.getByLabel("Collateral to add (kKOx)").fill("100");
+// Size the position from the live terms: under the per-position cap, and between Carry and
+// Session Max so that it becomes curable when the demo Last Call opens.
+const m = await (await fetch("https://api.usekerb.xyz/v1/credit/1952")).json();
+const k = m.collaterals.find((c) => c.mirrors === "KOx");
+const W = 1e18, dec = 10 ** m.loanAsset.decimals;
+const carry = Number(k.terms.carryLTV) / W, smax = Number(k.terms.sessionMaxLTV) / W, mark = Number(k.terms.creditMark) / W, cap = Number(k.terms.maxPositionDebt) / dec;
+const debt = Math.floor(cap * 0.9 * 100) / 100;
+const targetLtv = carry + (smax - carry) * 0.75;
+const coll = Math.ceil((debt / targetLtv / mark) * 100) / 100;
+note(`sizing: carry ${(carry * 100).toFixed(2)}%, Session Max ${(smax * 100).toFixed(2)}%, cap ${cap.toFixed(2)}, mark ${mark.toFixed(2)} -> deposit ${coll} kKOx, borrow ${debt} mUSDG (LTV ${(targetLtv * 100).toFixed(2)}%)`);
+await B.page.getByLabel("Collateral to add (kKOx)").fill(String(coll));
 await B.page.getByRole("button", { name: /^Session Max/ }).click();
-// Session Max room, less 1%, so the position sits between Carry and Session Max.
-const smaxText = await B.page.locator(".mode-opt").nth(1).locator(".t-num-l").textContent();
-const room = Number((smaxText.match(/[\d,]+\.\d{2}/)?.[0] ?? "0").replace(/,/g, ""));
-const want = (Math.floor(room * 0.99 * 100) / 100).toFixed(2);
+const want = debt.toFixed(2);
 await B.page.getByLabel("Borrow (mUSDG)").fill(want);
-note(`borrowing ${want} mUSDG with Session Max (room ${room})`);
-await B.page.locator(".zone-centre .action-go").click();
+const go = B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go');
+await go.waitFor();
+if (await go.isDisabled()) throw new Error(`borrow button disabled: ${await B.page.locator(".zone-centre .fld-error").allTextContents()}`);
+await go.click();
 await flowDone(B.page, "Borrowed", 240_000);
 await B.page.waitForTimeout(8000);
 await shots(B.page, "state-ready-to-carry");
@@ -126,12 +135,12 @@ await B.page.locator(".pos").filter({ hasText: "Cured" }).waitFor({ timeout: 120
 await B.page.waitForTimeout(4000);
 await shots(B.page, "state-cured");
 await B.page.getByRole("tab", { name: "Repay" }).click();
-await B.page.locator(".zone-centre").getByRole("button", { name: "MAX" }).click();
-await B.page.locator(".zone-centre .action-go").click();
+await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden])').getByRole("button", { name: "MAX" }).click();
+await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go').click();
 await flowDone(B.page, "Repaid", 240_000);
 await B.page.getByRole("tab", { name: "Withdraw" }).click();
-await B.page.locator(".zone-centre").getByRole("button", { name: "MAX" }).click();
-await B.page.locator(".zone-centre .action-go").click();
+await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden])').getByRole("button", { name: "MAX" }).click();
+await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go').click();
 await flowDone(B.page, "Withdrew", 240_000);
 await B.page.waitForTimeout(4000);
 await shots(B.page, "state-closed");
