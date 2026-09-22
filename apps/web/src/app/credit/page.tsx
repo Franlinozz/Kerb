@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import { CreditWorkspace } from "@/components/credit/CreditWorkspace";
 import { CurableTable } from "@/components/credit/CurableTable";
 import { TestnetDrawer } from "@/components/credit/TestnetDrawer";
-import { fmtUnits } from "@/components/credit/usePosition";
+import { fmtUnits } from "@/lib/creditMath";
 import { DemoRail } from "@/components/kerb/SessionRail";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { ProvMark } from "@/components/ui/ProvMark";

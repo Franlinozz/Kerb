@@ -10,9 +10,9 @@ import type { Hex } from "viem";
 import type { CreditCollateral, CreditMarket } from "@/lib/api";
 import { CREDIT_ABI, ERC20_ABI } from "@/lib/creditAbi";
 
-export const WAD = 10n ** 18n;
-export const ZERO = "0x0000000000000000000000000000000000000000" as Hex;
-export const MAX = (1n << 255n) - 1n;
+import { WAD } from "@/lib/creditMath";
+export { WAD, ZERO, MAX, valueOf, ltvOf, hfOf, parseAmount, fmtUnits, pctWad, hfWad } from "@/lib/creditMath";
+import { ZERO } from "@/lib/creditMath";
 
 export function usePosition(market: CreditMarket, c: CreditCollateral, fastPoll: boolean) {
   const { address, isConnected } = useAccount();
@@ -65,38 +65,3 @@ export function usePosition(market: CreditMarket, c: CreditCollateral, fastPoll:
 
 export type PositionState = ReturnType<typeof usePosition>;
 
-/** Collateral value in loan units, exactly as KerbCredit values a mirror: shares * mark / WAD. */
-export function valueOf(shares: bigint, mark: bigint, loanDecimals: number): bigint {
-  return (shares * mark) / WAD / 10n ** BigInt(18 - loanDecimals);
-}
-
-/** LTV in WAD, rounded up: against the borrower. */
-export function ltvOf(debt: bigint, value: bigint): bigint | null {
-  return value === 0n ? null : (debt * WAD + value - 1n) / value;
-}
-
-/** Health factor in WAD against the fixed threshold, rounded down. */
-export function hfOf(debt: bigint, value: bigint, lt: bigint): bigint | null {
-  return debt === 0n ? null : (value * lt) / debt;
-}
-
-/** Parse a typed amount without throwing on a half-typed number. */
-export function parseAmount(v: string, decimals: number): bigint {
-  const t = v.trim();
-  if (!t || !/^\d*\.?\d*$/.test(t) || t === ".") return 0n;
-  const [w = "0", f = ""] = t.split(".");
-  return BigInt(w || "0") * 10n ** BigInt(decimals) + BigInt((f + "0".repeat(decimals)).slice(0, decimals) || "0");
-}
-
-export function fmtUnits(v: bigint, decimals: number, places = 2): string {
-  const neg = v < 0n; const a = neg ? -v : v;
-  const s = 10n ** BigInt(decimals); const whole = a / s; const frac = a % s;
-  const scaled = (frac * 10n ** BigInt(places) + s / 2n) / s;
-  const carry = scaled >= 10n ** BigInt(places) ? 1n : 0n;
-  const f = (carry ? scaled - 10n ** BigInt(places) : scaled).toString().padStart(places, "0");
-  const w = (whole + carry).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return `${neg ? "-" : ""}${w}${places ? `.${f}` : ""}`;
-}
-
-export const pctWad = (v: bigint | null, places = 1): string => (v === null ? "No debt" : `${fmtUnits(v * 100n, 18, places)}%`);
-export const hfWad = (v: bigint | null): string => (v === null ? "No debt" : v > WAD * 1000n ? "Above 1,000" : fmtUnits(v, 18, 2));
