@@ -64,7 +64,7 @@
   .evidence-num { display: flex; flex-direction: column; gap: 6px; }
   .evidence-num .t-num-l { color: var(--ink); }
   /* Copy stays readable over the plate's fade in both themes. */
-  .plate-hero-copy > * { text-shadow: 0 0 18px var(--canvas), 0 0 4px var(--canvas); }
+  .plate-hero-copy h1, .plate-hero-copy p, .plate-hero-copy .t-label, .plate-hero-copy .t-num-l { text-shadow: 0 0 18px var(--canvas), 0 0 4px var(--canvas); }
   @media (max-width: 900px) {
     .plate-hero { display: flex; flex-direction: column; min-height: 0; padding-top: 0; }
     .plate-hero-art { position: relative; inset: auto; width: 100vw; margin-left: calc(50% - 50vw); aspect-ratio: 16 / 10; z-index: 0; }
@@ -75,14 +75,14 @@
   }
 }
 @layer layout {
-  .fog-page { position: relative; min-height: calc(100svh - 64px - 80px); display: flex; align-items: center; }
+  .fog-page { position: relative; isolation: isolate; min-height: calc(100svh - 64px - 80px); display: flex; align-items: center; }
   .fog-art { position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; z-index: -1; }
   .fog-art .art-plate { position: absolute; inset: 0; }
   .fog-art .art-mask-radial { -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0, black 30%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to bottom, black 70%, transparent 100%), linear-gradient(to right, transparent 0, black 30%); mask-composite: intersect; }
   .fog-copy { position: relative; max-width: 520px; }
   .fog-copy h1 { margin-top: var(--s-3); }
   .fog-copy p { margin-top: var(--s-4); max-width: 40ch; }
-  .fog-copy > * { text-shadow: 0 0 18px var(--canvas); }
+  .fog-copy h1, .fog-copy p, .fog-copy .t-label { text-shadow: 0 0 18px var(--canvas); }
   @media (max-width: 760px) {
     .fog-page { flex-direction: column; align-items: stretch; min-height: 0; }
     .fog-art { position: relative; left: auto; margin-left: calc(50% - 50vw); aspect-ratio: 4 / 3.4; z-index: 0; }

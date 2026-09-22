@@ -197,7 +197,7 @@ export function LanesRail({ initial, compact = false }: { initial: { ny: Clock; 
       <div className="rail-lanes-grid">
         {lanes.map((l, i) => (
           <div key={l.city} className="rail-lane">
-            <div className="rail-lane-label t-label">{l.city}<span className="ink-3"> · {l.code}</span></div>
+            <div className="rail-lane-label t-label">{l.city}{compact ? null : <span className="ink-3"> · {l.code}</span>}</div>
             <div className="rail-body">
               <Band segs={segmentsOf(l.c)} calls={lastCalls(l.c)} fromMs={w.fromMs} toMs={w.toMs} lane={i} onHover={setHover} focusable={!compact}
                 label={`${l.city}: ${sessionWord(l.c)}. ${transitionWord(l.c.clock.nextTransition.type)} at ${utcHm(Date.parse(l.c.clock.nextTransition.at))} UTC.`} />

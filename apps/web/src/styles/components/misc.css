@@ -92,7 +92,12 @@
     -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, black 24%), linear-gradient(to top, transparent 0, black 16%); mask-composite: intersect;
   }
   .art-mask-radial { -webkit-mask-image: radial-gradient(ellipse 70% 70% at 60% 50%, black 55%, transparent 100%); mask-image: radial-gradient(ellipse 70% 70% at 60% 50%, black 55%, transparent 100%); }
-  .art-mask-band { -webkit-mask-image: linear-gradient(to right, transparent 0, black 18%), linear-gradient(to top, transparent 0, black 22%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, black 18%), linear-gradient(to top, transparent 0, black 22%); mask-composite: intersect; }
+  .art-mask-band {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 18%), linear-gradient(to top, transparent 0, black 22%), linear-gradient(to bottom, transparent 0, black 10%);
+    -webkit-mask-composite: source-in, source-in;
+    mask-image: linear-gradient(to right, transparent 0, black 18%), linear-gradient(to top, transparent 0, black 22%), linear-gradient(to bottom, transparent 0, black 10%);
+    mask-composite: intersect;
+  }
 }
 @layer components {
   .review-crop { height: 100%; }
