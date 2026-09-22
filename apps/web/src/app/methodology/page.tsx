@@ -6,6 +6,7 @@ import { SourceTrouble } from "@/components/States";
 import { getBoard, getClock, getParams, getReport, getTerms, type Regime } from "@/lib/api";
 import { byDecimalDesc, duration, group, round, scale, shift, shortHash, utcStamp } from "@/lib/format";
 import { PageRail } from "@/components/kerb/PageRail";
+import { PlateHero } from "@/components/kerb/PlateHero";
 
 export const metadata: Metadata = { title: "Methodology", description: "The Kerb Terms Standard worked through on live numbers: regime, depth, mark, capacity, the cure covenant and reproducibility." };
 export const dynamic = "force-dynamic";
@@ -27,10 +28,15 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
 
   return (
     <>
+      <PlateHero
+        plate="p3-standard"
+        label={`Methodology · KTS ${params.ok ? params.data.kts : "0.2"} · params ${params.ok ? params.data.paramsVersion : ""}`}
+        title="The Kerb Terms Standard."
+        lede={<p>Clock, Depth, Mark, Capacity, Terms and the cure covenant: the rules that turn observations into credit terms, each worked through below on live numbers.</p>}
+      />
       <PageRail subject={{ kind: "lanes" }} />
-      <h1>Methodology</h1>
       <p className="lede">
-        The Kerb Terms Standard, version 0.1, is the rulebook that turns observations into credit terms. This page
+        The Kerb Terms Standard (KTS {params.ok ? params.data.kts : "0.2"}: version 0.1 with the horizon-bound margins of 0.2) is the rulebook that turns observations into credit terms. This page
         states each rule and then works it through on <strong>{symbol}</strong> using the numbers Kerb is publishing
         right now. <strong>Nothing here is illustrative.</strong> The specification carries a worked example marked
         &ldquo;not measured&rdquo;; it is deliberately not reproduced, because a placeholder number on a page that

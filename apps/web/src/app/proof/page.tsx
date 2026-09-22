@@ -4,6 +4,7 @@ import { Prov } from "@/components/Value";
 import { getProof, PUBLIC_API } from "@/lib/api";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
 import { PageRail } from "@/components/kerb/PageRail";
+import { PlateHero } from "@/components/kerb/PlateHero";
 
 export const metadata: Metadata = { title: "Proof", description: "Every Kerb claim, checkable: contracts and verification, onchain posts, input bundles, the build period and the limitations." };
 export const dynamic = "force-dynamic";
@@ -22,13 +23,13 @@ export default async function ProofPage(): Promise<React.ReactElement> {
 
   return (
     <>
+      <PlateHero
+        plate="geometric"
+        label={`Proof · X Layer mainnet 196 · ${p.onchain.postCounts.find((c) => c.chainId === 196)?.count ?? 0} posts`}
+        title="Kerb is independently verifiable."
+        lede={<p>Everything here is read from live state when this page loads: the repository, the chain, the observation store and the test run. Nothing on this page is typed in by hand. Check any of it against the same public API at <span className="mono">{PUBLIC_API}</span>.</p>}
+      />
       <PageRail subject={{ kind: "lanes" }} />
-      <h1>Proof</h1>
-      <p className="lede">
-        Everything here is read from live state when this page loads: the repository, the chain, the observation
-        store and the test run. Nothing on this page is typed in by hand. Check any of it yourself against the
-        same public API at <span className="mono">{PUBLIC_API}</span>.
-      </p>
 
       {/* --------------------------------------------------------- build */}
       <section className="section">
