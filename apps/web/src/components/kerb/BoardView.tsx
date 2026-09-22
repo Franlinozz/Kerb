@@ -6,8 +6,7 @@
  * card list on phones, and the sources in a disclosure. Refreshes every 30 s.
  */
 import Link from "@/components/ui/Link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Board, BoardRow, Clock, Regime } from "@/lib/api";
 import { byDecimalDesc, price, ratio, usd } from "@/lib/format";
 import { instrument } from "@/lib/instruments";
@@ -41,16 +40,21 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
   const live = useLive<Board>("/v1/board?chain=196", initial, 30_000);
   const board = live.data ?? initial;
   const now = useNow();
-  const params = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const market = (params.get("market") ?? "all") as MarketId;
-  const regimeFilter = params.get("regime") as Regime | null;
+  // The filters live in the URL, read after mount rather than with useSearchParams: on a
+  // statically rendered page that hook makes Next skip server-rendering the whole table.
+  const [query, setQueryState] = useState<URLSearchParams>(() => new URLSearchParams());
+  useEffect(() => {
+    const read = (): void => setQueryState(new URLSearchParams(window.location.search));
+    read(); window.addEventListener("popstate", read); return () => window.removeEventListener("popstate", read);
+  }, []);
+  const market = (query.get("market") ?? "all") as MarketId;
+  const regimeFilter = query.get("regime") as Regime | null;
 
   const setQuery = (k: string, v: string | null): void => {
-    const q = new URLSearchParams(params.toString());
+    const q = new URLSearchParams(query.toString());
     if (v === null) q.delete(k); else q.set(k, v);
-    router.replace(`${pathname}${q.size ? `?${q}` : ""}`, { scroll: false });
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${q.size ? `?${q}` : ""}`);
+    setQueryState(q);
   };
 
   const all = useMemo(() => [...board.rows].sort(byDecimalDesc((r) => r.debtCeiling.value)), [board.rows]);
