@@ -27,7 +27,7 @@
   .rail-REGULAR { background: var(--r-deep); opacity: 0.9; }
   .rail-PRE, .rail-POST { background: var(--r-thin); opacity: 0.5; }
   .rail-LUNCH { background: var(--canvas-2); border-left: 1px solid var(--ink-3); border-right: 1px solid var(--ink-3); top: 40%; }
-  .rail-LAST_CALL { background: repeating-linear-gradient(135deg, var(--brass) 0 3px, transparent 3px 6px); min-width: 3px; z-index: 1; }
+  .rail-LAST_CALL { background: repeating-linear-gradient(135deg, var(--brass) 0 3px, var(--brass-dim) 3px 6px); min-width: 3px; z-index: 1; }
   .rail-seg:hover, .rail-seg:focus-visible { outline: 1px solid var(--moss); z-index: 2; }
   .rail[data-changed] .rail-band { animation: tone 1.2s var(--ease); }
   @keyframes tone { from { filter: brightness(1.35); } to { filter: none; } }
@@ -62,7 +62,9 @@
 
   .rail-demo .rail-band { height: 40px; }
   .rail-demo[data-state="LAST_CALL"] { border-color: var(--brass); }
-  .rail-demo-scale { display: flex; justify-content: space-between; margin-top: 8px; gap: 8px; }
+  .rail-demo-scale { position: relative; height: 18px; margin-top: 8px; }
+  .rail-demo-scale span { position: absolute; top: 0; white-space: nowrap; }
+  .rail-demo-scale span:last-child { transform: translateX(-100%); }
 
   .page-rail { margin-bottom: var(--s-6); }
 
@@ -72,7 +74,7 @@
     .rail-lane, .rail-lanes-compact .rail-lane { grid-template-columns: 1fr; gap: 6px; }
     .rail-lanes-cursor, .rail-lanes-compact .rail-lanes-cursor { display: none; }
     .rail-lanes-days { margin-left: 0; }
-    .rail-demo-scale span:nth-child(2), .rail-demo-scale span:nth-child(3) { display: none; }
+    .rail-demo-scale span:nth-child(2) { display: none; }
   }
 
   /* The Tape */

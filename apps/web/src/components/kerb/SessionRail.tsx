@@ -94,7 +94,7 @@ function Tip({ hover, tzs }: { hover: Hover | null; tzs: string[] }): React.Reac
     <div className="rail-tip" role="status" style={{ left: `${Math.min(88, Math.max(12, hover.x))}%` }}>
       <strong>{word}{g.names?.length ? ` · ${g.names.join(", ")}` : ""}</strong>
       <span>{utcHm(g.startMs)} to {utcHm(g.endMs)} UTC</span>
-      <span className="ink-3">{localHm(g.startMs, tz)} to {localHm(g.endMs, tz)}</span>
+      {tz === "UTC" ? null : <span className="ink-3">{localHm(g.startMs, tz)} to {localHm(g.endMs, tz)}</span>}
     </div>
   );
 }
@@ -260,7 +260,10 @@ export function DemoRail({ initial, compact = false }: { initial: DemoClock; com
       </div>
       {compact ? null : (
         <div className="rail-demo-scale t-label ink-3" aria-hidden="true">
-          <span>{utcHm(g.fromMs)} UTC · cycle start</span><span>{utcHm(g.lastCall.startMs)} Last Call</span><span>{utcHm(g.lastCall.endMs)} closed</span><span>{utcHm(g.toMs)}</span>
+          <span style={{ left: 0 }}>{utcHm(g.fromMs)} UTC · session</span>
+          <span style={{ left: `${pct(g.lastCall.startMs, g.fromMs, g.toMs)}%` }}>{utcHm(g.lastCall.startMs)} Last Call</span>
+          <span style={{ left: `${pct(g.lastCall.endMs, g.fromMs, g.toMs)}%` }}>{utcHm(g.lastCall.endMs)} closed</span>
+          <span style={{ left: "100%" }}>{utcHm(g.toMs)}</span>
         </div>
       )}
     </section>

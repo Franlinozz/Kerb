@@ -6,6 +6,8 @@ import { expect, test } from "@playwright/test";
  * passes, the rail must say "Updating" until the refetched Clock (mocked here, slowed down so the
  * state is observable) arrives with the following transition.
  */
+test.use({ video: process.env["KERB_E2E_VIDEO"] ? { mode: "on", size: { width: 1440, height: 900 } } : "off" });
+
 test("the countdown never shows a dash across a transition", async ({ page, request }) => {
   const api = process.env["KERB_API_PUBLIC"] ?? "https://api.usekerb.xyz";
   const real = await (await request.get(`${api}/v1/clock/196/KOx`)).json();
@@ -25,12 +27,15 @@ test("the countdown never shows a dash across a transition", async ({ page, requ
 
   await page.clock.install({ time: nextAt - 5000 });
   await page.goto("/asset/KOx");
+  await expect(page.locator(".rail-full .rail-next strong").first()).toBeVisible();
+  await page.evaluate(() => document.querySelector(".rail-full")?.scrollIntoView({ block: "center" }));
   const count = page.locator(".rail-full .rail-next strong").first();
   await expect(count).toBeVisible();
 
   const seen: string[] = [];
   for (let i = 0; i < 12; i++) {
     await page.clock.runFor(1000);
+    if (process.env["KERB_E2E_VIDEO"]) await page.waitForTimeout(600);
     if (i === 4) passed = true;
     const t = (await count.textContent())?.trim() ?? "";
     seen.push(t);
