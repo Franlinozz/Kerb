@@ -20,8 +20,8 @@ export function ogCard(section: string, line = "Credit on the market's clock.", 
     (
       <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: "#0B0C0A", color: "#ECE8DE" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={art(plate)} width={1200} height={630} alt="" style={{ position: "absolute", inset: 0, objectFit: "cover" }} />
-        <div style={{ position: "absolute", inset: 0, display: "flex", background: "linear-gradient(90deg, rgba(11,12,10,0.96) 0%, rgba(11,12,10,0.86) 38%, rgba(11,12,10,0.25) 70%, rgba(11,12,10,0.05) 100%)" }} />
+        <img src={art(plate)} width={1200} height={630} alt="" style={{ position: "absolute", top: 0, left: 0, width: 1200, height: 630, objectFit: "cover" }} />
+        <div style={{ position: "absolute", top: 0, left: 0, width: 1200, height: 630, display: "flex", backgroundImage: "linear-gradient(90deg, rgba(11,12,10,0.96) 0%, rgba(11,12,10,0.86) 38%, rgba(11,12,10,0.25) 70%, rgba(11,12,10,0.05) 100%)" }} />
         <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, width: "100%" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 40, letterSpacing: -1 }}>
             <svg viewBox="0 0 24 24" width="48" height="48"><path d="M2 8.5h11v5h9V20H2z" fill="#ECE8DE" /><rect x="15.5" y="4" width="4" height="4" fill="#D6A64F" /></svg>
