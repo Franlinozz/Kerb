@@ -1,6 +1,6 @@
 @layer pages {
   .proof-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin: var(--s-6) 0 0; padding: 0; background: var(--hair-2); border: 1px solid var(--hair-2); border-radius: var(--r-2); overflow: hidden; }
-  .ptile { display: flex; flex-direction: column; gap: 8px; padding: 18px; background: var(--bg); min-width: 0; }
+  .ptile { display: flex; flex-direction: column; gap: 8px; padding: 18px; background: var(--canvas); min-width: 0; }
   .ptile-value { font-size: 18px; font-weight: 500; overflow-wrap: anywhere; }
   .ptile::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
   .ptile[data-state="ok"]::before { background: var(--moss); }
@@ -24,10 +24,11 @@
   .proof-dl { margin: var(--s-4) 0; display: flex; flex-direction: column; }
   .proof-dl > div { display: grid; grid-template-columns: minmax(140px, 220px) minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--hair); }
   .proof-dl dd { margin: 0; overflow-wrap: anywhere; min-width: 0; }
+  .proof-rung { display: block; margin-top: 4px; }
   .verify-result { margin-top: var(--s-4); padding: 16px; border: 1px solid var(--hair-2); border-left: 2px solid var(--brass); border-radius: var(--r-2); display: flex; flex-direction: column; gap: 10px; }
   .verify-result[data-ok] { border-left-color: var(--moss); }
   .verify-result ul { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px 24px; }
-  .verify-result li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+  .verify-result li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; padding: 4px 0; border-bottom: 1px solid var(--hair); }
   #reproduce, #limitations { scroll-margin-top: 80px; }
   @media (max-width: 1100px) { .proof-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 640px) {
@@ -35,9 +36,10 @@
     .proof-two { grid-template-columns: 1fr; }
     .proof-dl > div { grid-template-columns: 1fr; gap: 2px; }
     .ptable thead { display: none; }
-    .ptable, .ptable tbody, .ptable tr, .ptable td { display: block; width: 100%; }
+    .ptable, .ptable tbody, .ptable tr, .ptable td { display: block; width: 100%; min-width: 0; }
     .ptable tr { padding: 10px 0; border-bottom: 1px solid var(--hair-2); }
-    .ptable td { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border: 0; text-align: right; }
+    .scroll-x .ptable td { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border: 0; text-align: right; white-space: normal; overflow-wrap: anywhere; }
+    .ptable td::before { flex: none; }
     .ptable td::before { content: attr(data-label); color: var(--ink-3); font-size: 12px; text-align: left; }
   }
 }

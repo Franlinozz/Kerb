@@ -209,7 +209,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
           <Disclosure summary={<span>Limitations <span className="ink-3 t-small">· {p.limitations.length} subsystems</span></span>} open>
             <p className="t-small ink-2">Where Kerb runs on a lower rung than it could, and what is testnet rather than mainnet. Stated here so nobody has to find it in the code.</p>
             <dl className="proof-dl">
-              {p.limitations.map((l) => <div key={l.subsystem}><dt>{l.subsystem}<span className="t-small ink-3"> · rung {l.rung.replace(/^rung\s*/i, "")}</span></dt><dd className="ink-2">{l.note}</dd></div>)}
+              {p.limitations.map((l) => <div key={l.subsystem}><dt>{l.subsystem}</dt><dd className="ink-2">{l.note}{/^n\/?a$/i.test(l.rung.trim()) ? null : <span className="proof-rung t-small ink-3">Rung {l.rung}</span>}</dd></div>)}
             </dl>
           </Disclosure>
         </div>

@@ -25,7 +25,7 @@
   .timeline li { display: flex; flex-direction: column; gap: 8px; padding: 16px 16px 0 0; border-top: 2px solid var(--ink-3); font-size: 14px; color: var(--ink-2); }
   .timeline li[data-brass] { border-top-color: var(--brass); }
   .params { display: flex; flex-direction: column; }
-  .params summary { font-family: var(--font-mono); font-size: 14px; }
+  .params summary { font-size: 15px; gap: 10px; }
   .param-sub { margin: 0; display: flex; flex-direction: column; }
   .param-sub > div { display: grid; grid-template-columns: minmax(120px, 220px) minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair); }
   .param-sub dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }

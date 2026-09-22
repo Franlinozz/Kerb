@@ -20,6 +20,12 @@ const BUILD: { who: string; what: string; code: string }[] = [
   { who: "Venue", what: "Use the regime and measured depth to set margin and size limits by market time.", code: "limits = t.regime.value === \"THIN\" ? tight : normal;" },
   { who: "Agent", what: "Refuse new exposure whenever usable is false; keep repaying and curing.", code: "if (!t.usable) return hold();" },
 ];
+/** A runnable example for an endpoint, or null when it needs an id only the reader has. */
+function exampleUrl(path: string): string | null {
+  const credit = path.startsWith("/v1/credit");
+  const u = path.replace(":chain", credit ? "1952" : "196").replace(":asset", "BRK.Bx").replace(/\?.*$/, "");
+  return u.includes(":") ? null : u;
+}
 const ABIS = ["KerbTerms", "KerbClock", "KerbCredit"];
 
 export default async function DevelopersPage(): Promise<React.ReactElement> {
@@ -59,7 +65,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
         <dl className="dev-endpoints">
           {ENDPOINTS.map((e) => (
             <div key={e.path}>
-              <dt><span className="dev-method mono">{e.method}</span> <a className="mono" href={`${PUBLIC_API}${e.path.replace(":chain", "196").replace(":asset", "BRK.Bx").replace(/\?.*$/, "")}`} target="_blank" rel="noreferrer">{e.path}</a></dt>
+              <dt><span className="dev-method mono">{e.method}</span> {exampleUrl(e.path) ? <a className="mono" href={`${PUBLIC_API}${exampleUrl(e.path)}`} target="_blank" rel="noreferrer">{e.path}</a> : <span className="mono">{e.path}</span>}</dt>
               <dd className="ink-2">{e.what}</dd>
             </div>
           ))}
