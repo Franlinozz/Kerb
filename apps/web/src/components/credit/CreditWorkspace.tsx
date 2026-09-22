@@ -8,6 +8,7 @@
 import { Check, CircleDashed, ExternalLink, TriangleAlert } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useHydratedAccount } from "@/lib/useHydrated";
 import type { Hex } from "viem";
 import type { CreditCollateral, CreditMarket, DemoClock } from "@/lib/api";
 import { REGIME_BY_INDEX } from "@/lib/api";
@@ -60,7 +61,7 @@ function SetupStep({ n, title, state, children }: { n: number; title: string; st
 }
 
 function Setup({ market, c, pos }: { market: CreditMarket; c: CreditCollateral; pos: PositionState }): React.ReactElement {
-  const { isConnected } = useAccount();
+  const { isConnected } = useHydratedAccount(useAccount());
   const chainId = useChainId();
   const { switchChainAsync, isPending } = useSwitchChain();
   const [sheet, setSheet] = useState(false);

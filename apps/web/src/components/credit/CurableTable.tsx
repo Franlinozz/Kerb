@@ -7,6 +7,7 @@
  */
 import { readContract } from "wagmi/actions";
 import { useAccount, useConfig } from "wagmi";
+import { useHydratedAccount } from "@/lib/useHydrated";
 import type { Hex } from "viem";
 import type { CreditMarket, DemoClock } from "@/lib/api";
 import { CREDIT_ABI, ERC20_ABI } from "@/lib/creditAbi";
@@ -22,7 +23,7 @@ interface P { user: Hex; assetId: Hex; symbol: string | null; mode: string; debt
 export function CurableTable({ market, demo }: { market: CreditMarket; demo: DemoClock }): React.ReactElement {
   const live = useLive<{ positions: P[] }>("/v1/credit/1952/positions?state=curable", null, 15_000);
   const now = useNow();
-  const { address } = useAccount();
+  const { address } = useHydratedAccount(useAccount());
   const config = useConfig();
   const dec = market.loanAsset.decimals, sym = market.loanAsset.symbol;
   const credit = market.contracts.KerbCredit as Hex, loan = market.contracts.loanAsset as Hex;

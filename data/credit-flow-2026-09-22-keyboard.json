@@ -1,0 +1,156 @@
+{
+ "base": "http://127.0.0.1:3397",
+ "borrower": "0x0264f1947703b4190E6826349F9FE07d7495021E",
+ "curer": "0x615CA2C262B4B3d89D7cEEF63723de3895cE4fE0",
+ "steps": [
+  {
+   "at": "2026-09-22T10:57:44.231Z",
+   "what": "borrower 0x0264f1947703b4190E6826349F9FE07d7495021E funded with 0.004 test OKB",
+   "tx": "0xadf09b50fd997e73f02b9a33b625d9713d7355e4b1583053822a40a2d0c7cd70",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xadf09b50fd997e73f02b9a33b625d9713d7355e4b1583053822a40a2d0c7cd70"
+  },
+  {
+   "at": "2026-09-22T10:57:46.393Z",
+   "what": "curer 0x615CA2C262B4B3d89D7cEEF63723de3895cE4fE0 funded with 0.004 test OKB",
+   "tx": "0xc82e4b60767ac1af8aa06ba05ec111558966701d67a1945a93fad7de279b4cba",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xc82e4b60767ac1af8aa06ba05ec111558966701d67a1945a93fad7de279b4cba"
+  },
+  {
+   "at": "2026-09-22T10:57:48.568Z",
+   "what": "borrower console: - A server/client branch `if (typeof window !== 'undefined')`. / - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called. / - Date formatting in a user's locale which doesn't match the server. / - External changing data without sending a snapshot of it along with the HTML. / - Invalid HTML tag nesting. / -                                 style={{caret-color:\"transparent\"}} / -                                 style={{caret-color:\"transparent\"}} / -                                 style={{caret-color:\"transparent\"}} / -                                 style={{caret-color:\"transparent\"}} / -                                 style={{caret-color:\"transparent\"}}"
+  },
+  {
+   "at": "2026-09-22T10:57:52.233Z",
+   "what": "borrower called faucet",
+   "tx": "0x8fbe1d29ea9bb3ea2e8809b4371ef91c6ac60587cc6b2ff33ce1b156db07ec00",
+   "to": "0x11827f0f59d516e3778951fde36bd0d961af4a16",
+   "selector": "0x57915897",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x8fbe1d29ea9bb3ea2e8809b4371ef91c6ac60587cc6b2ff33ce1b156db07ec00",
+   "call": "faucet"
+  },
+  {
+   "at": "2026-09-22T10:57:55.064Z",
+   "what": "borrower called faucet",
+   "tx": "0x52994963db5680d208dc344df6629cef0fb71b41aa415085530ac06855aabd8f",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x57915897",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x52994963db5680d208dc344df6629cef0fb71b41aa415085530ac06855aabd8f",
+   "call": "faucet"
+  },
+  {
+   "at": "2026-09-22T10:58:01.858Z",
+   "what": "sizing: carry 53.87%, Session Max 58.44%, cap 2927.34, mark 86.99 -> deposit 52.86 kKOx, borrow 2634.6 mUSDG (LTV 57.30%)"
+  },
+  {
+   "at": "2026-09-22T10:58:04.063Z",
+   "what": "borrower called approve",
+   "tx": "0x330b68e19b9d15a64bf4b5f4b8d4902014409ee3f62b9c12c8f045cb596764e3",
+   "to": "0x11827f0f59d516e3778951fde36bd0d961af4a16",
+   "selector": "0x095ea7b3",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x330b68e19b9d15a64bf4b5f4b8d4902014409ee3f62b9c12c8f045cb596764e3",
+   "call": "approve"
+  },
+  {
+   "at": "2026-09-22T10:58:06.298Z",
+   "what": "borrower called deposit",
+   "tx": "0x3ba0e112dd374154c3ba9494a48c6a8cf89dd1ecf0d74b85f3e88e37f1f23d3a",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0x1de26e16",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x3ba0e112dd374154c3ba9494a48c6a8cf89dd1ecf0d74b85f3e88e37f1f23d3a",
+   "call": "deposit"
+  },
+  {
+   "at": "2026-09-22T10:58:08.532Z",
+   "what": "borrower called borrow",
+   "tx": "0x4fcae47315bb0c5d7d51eb4e4b32c9f8a0020f80acec7c7f2a6ee88a505ca417",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0xa3821d9f",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x4fcae47315bb0c5d7d51eb4e4b32c9f8a0020f80acec7c7f2a6ee88a505ca417",
+   "call": "borrow"
+  },
+  {
+   "at": "2026-09-22T10:58:17.559Z",
+   "what": "waiting for the demo Last Call"
+  },
+  {
+   "at": "2026-09-22T10:58:20.491Z",
+   "what": "Last Call on the borrower's panel: 347.45 mUSDG cure required by 11:03 UTC, in 5m 38s"
+  },
+  {
+   "at": "2026-09-22T10:58:27.648Z",
+   "what": "curer called faucet",
+   "tx": "0x9876a612937a12e587429f0063f87b1b92d746c69cea1ea04a7327c27665475f",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x57915897",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x9876a612937a12e587429f0063f87b1b92d746c69cea1ea04a7327c27665475f",
+   "call": "faucet"
+  },
+  {
+   "at": "2026-09-22T10:58:30.435Z",
+   "what": "curer called approve",
+   "tx": "0x724343ffd171379b4b31d27894b3aa5e89ef8dd5ca9aefc1d578fcf7b01242a4",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x095ea7b3",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x724343ffd171379b4b31d27894b3aa5e89ef8dd5ca9aefc1d578fcf7b01242a4",
+   "call": "approve"
+  },
+  {
+   "at": "2026-09-22T10:58:33.410Z",
+   "what": "curer called cure",
+   "tx": "0x0cd0bab90d6014dfc2ea72f6be58eb5c910d8ed7adb658aab35db633ba1a47b2",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0xe8eb1881",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x0cd0bab90d6014dfc2ea72f6be58eb5c910d8ed7adb658aab35db633ba1a47b2",
+   "call": "cure"
+  },
+  {
+   "at": "2026-09-22T10:58:34.271Z",
+   "what": "curer cured the position from the public table"
+  },
+  {
+   "at": "2026-09-22T10:58:36.115Z",
+   "what": "borrower page error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\nhttps://react.dev/link/hydration-mismatch\n\n  ...\n    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>\n      <RedirectBoundary>\n        <RedirectErrorBoundary router={{...}}>\n          <InnerLayoutRouter url=\"/credit\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n            <SegmentViewNode type=\"page\" pagePath=\"credit/pag...\">\n              <SegmentTrieNode>\n              <CreditPage>\n                <div className=\"credit\">\n                  <header>\n                  <div>\n                  <CreditWorkspace market={{chainId:1952, ...}} demo={{address:\"0...\", ...}}>\n                    <div className=\"credit-zones\">\n                      <aside className=\"zone zone-...\" aria-label=\"Collateral...\">\n                        <span>\n                        <div>\n                        <Se"
+  },
+  {
+   "at": "2026-09-22T10:58:44.524Z",
+   "what": "borrower called approve",
+   "tx": "0x7c9085c46f36b6a006df50c90b9528ef2e0412eef90a34b424d3161416df70eb",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x095ea7b3",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x7c9085c46f36b6a006df50c90b9528ef2e0412eef90a34b424d3161416df70eb",
+   "call": "approve"
+  },
+  {
+   "at": "2026-09-22T10:58:46.051Z",
+   "what": "borrower called repay",
+   "tx": "0xaa900c14d5c11cdc014ba0bd7045f89f868488b7ad024ccb84bc2851017863ca",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0x00f989ad",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xaa900c14d5c11cdc014ba0bd7045f89f868488b7ad024ccb84bc2851017863ca",
+   "call": "repay"
+  },
+  {
+   "at": "2026-09-22T10:58:50.033Z",
+   "what": "borrower called withdrawCollateral",
+   "tx": "0xce694f450e1ee8c3ada6eea2ec003270ffcf31c99b4599333cb9dfd459a00c3a",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0xa1e93482",
+   "status": "success",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xce694f450e1ee8c3ada6eea2ec003270ffcf31c99b4599333cb9dfd459a00c3a",
+   "call": "withdrawCollateral"
+  }
+ ],
+ "what": "Keyboard-only run of the real credit flow (V2-08 step 9): every control reached with Tab and pressed with Enter, tabs moved with the arrow keys, amounts typed; no pointer event. Fresh borrower and curer; deposit, Session Max borrow, cure by the stranger from Curable now, full repay, full withdraw."
+}

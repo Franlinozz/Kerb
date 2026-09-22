@@ -12,7 +12,7 @@ import { DivergingBars } from "@/components/kerb/DivergingBars";
 import { PageRail } from "@/components/kerb/PageRail";
 import { WindowStrip } from "@/components/kerb/WindowStrip";
 import { explorerAddress, getClock, getMarketTimeGaps, getMarketTimeReport, PUBLIC_API } from "@/lib/api";
-import { group, round, shortHash, usd, utcStamp } from "@/lib/format";
+import { group, shortHash, usd, usdFull, utcStamp } from "@/lib/format";
 import { headline } from "@/lib/research";
 
 export const revalidate = 300;
@@ -160,6 +160,32 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           </table>
         </div>
       </section>
+
+      {r.appendix ? (
+        <section className="section">
+          <h2>Appendix: executable depth in dollars <span className="t-label ink-3">· {r.appendix.label}</span></h2>
+          <p className="t-small ink-2">{r.appendix.what}</p>
+          <DivergingBars caption="Change in C(1%) across the window by asset" rows={r.appendix.rows.map((x) => ({ key: x.symbol, label: x.symbol, value: x.changePct, href: `/asset/${x.symbol}` }))} />
+          <div className="scroll-x mt-4">
+            <table className="ptable report-table">
+              <thead><tr><th>Asset</th><th className="num">C(1%) near start, USDG</th><th>At</th><th className="num">C(1%) at end, USDG</th><th>At</th><th className="num">Change</th></tr></thead>
+              <tbody>
+                {r.appendix.rows.map((x) => (
+                  <tr key={x.symbol}>
+                    <td data-label="Asset">{x.symbol}</td>
+                    <td data-label="C(1%) near start" className="num mono">{usdFull(x.c1AtStart) ?? "Not computable"}</td>
+                    <td data-label="At" className="ink-3">{x.startAt ? utcStamp(x.startAt) : "n/a"}</td>
+                    <td data-label="C(1%) at end" className="num mono">{usdFull(x.c1AtEnd) ?? "Not computable"}</td>
+                    <td data-label="At" className="ink-3">{x.endAt ? utcStamp(x.endAt) : "n/a"}</td>
+                    <td data-label="Change" className="num mono">{pctText(x.changePct)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <CodeBlock variants={[{ lang: "shell", code: r.appendix.reproduce }]} />
+        </section>
+      ) : null}
 
       <section className="section">
         <h2>Reproduce it</h2>

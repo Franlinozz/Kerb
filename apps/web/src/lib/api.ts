@@ -428,6 +428,8 @@ export interface MarketTimeReport {
   findings: { claim: string; evidence: string }[];
   limitations: string[];
   reproduce: string;
+  /** Added after publication without changing the figures above (V2-09 step 3). */
+  appendix?: { label: string; addedAt: string; what: string; paramsVersion: string | null; reproduce: string; rows: { symbol: string; startAt: string | null; c1AtStart: string | null; endAt: string | null; c1AtEnd: string | null; changePct: string | null }[] };
 }
 
 export const getMarketTimeReport = (id: number): Promise<Read<MarketTimeReport>> =>

@@ -9,13 +9,14 @@ import { useAccount, useBalance, useReadContract } from "wagmi";
 import type { Hex } from "viem";
 import type { CreditCollateral, CreditMarket } from "@/lib/api";
 import { CREDIT_ABI, ERC20_ABI } from "@/lib/creditAbi";
+import { useHydratedAccount } from "@/lib/useHydrated";
 
 import { WAD } from "@/lib/creditMath";
 export { WAD, ZERO, MAX, valueOf, ltvOf, hfOf, parseAmount, fmtUnits, pctWad, hfWad } from "@/lib/creditMath";
 import { ZERO } from "@/lib/creditMath";
 
 export function usePosition(market: CreditMarket, c: CreditCollateral, fastPoll: boolean) {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useHydratedAccount(useAccount());
   const credit = market.contracts.KerbCredit as Hex;
   const loan = market.contracts.loanAsset as Hex;
   const token = c.token as Hex;
