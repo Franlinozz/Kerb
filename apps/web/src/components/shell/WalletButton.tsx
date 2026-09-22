@@ -14,7 +14,10 @@ const EXPLORER = "https://www.oklink.com/x-layer-testnet";
 
 /** EIP-6963 discovered wallets first (OKX Wallet at the top), the generic injected one last. */
 function ordered(connectors: readonly Connector[]): Connector[] {
-  const discovered = connectors.filter((c) => c.id !== "injected");
+  // One entry per wallet: an EIP-6963 wallet can be announced more than once (two wallet layers
+  // share one config), and its connector id is its rdns, so keep the first of each id.
+  const seen = new Set<string>();
+  const discovered = connectors.filter((c) => c.id !== "injected" && !seen.has(c.id) && seen.add(c.id) !== undefined);
   const generic = connectors.filter((c) => c.id === "injected");
   const okxFirst = [...discovered].sort((a, b) => Number(/okx/i.test(b.name)) - Number(/okx/i.test(a.name)));
   return [...okxFirst, ...(discovered.length ? [] : generic)];

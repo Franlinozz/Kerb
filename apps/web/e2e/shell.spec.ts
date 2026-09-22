@@ -29,8 +29,8 @@ async function wallet(page: Page, mode: "reject" | "ok" | "wrong-chain"): Promis
 test("home renders its h1 and either board rows or a labelled error", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toHaveCount(1);
-  const rows = await page.locator(".board-preview a, .bp-row, [data-board-row]").count();
-  const err = await page.locator(".error-state").count();
+  const rows = await page.locator("table.dt tbody tr").count();
+  const err = await page.locator(".state-error").count();
   expect(rows + err).toBeGreaterThan(0);
 });
 
@@ -78,7 +78,7 @@ test("wallet: an EIP-6963 wallet is listed, a rejection says Connection cancelle
   await wallet(page, "reject");
   await page.goto("/credit");
   await page.locator(".header-tools").getByRole("button", { name: /Connect/ }).first().click();
-  await expect(page.locator(".wallet-option").filter({ hasText: "Test Wallet" })).toBeVisible();
+  await expect(page.locator(".wallet-option").filter({ hasText: "Test Wallet" })).toHaveCount(1);
   await page.locator(".wallet-option").filter({ hasText: "Test Wallet" }).click();
   await expect(page.locator(".toast").filter({ hasText: "Connection cancelled" })).toBeVisible();
   expect(/rejected the request|viem|UserRejected/i.test(await page.locator("body").innerText())).toBe(false);
