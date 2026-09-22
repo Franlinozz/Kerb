@@ -14,7 +14,7 @@ import { loadDeployments } from "@kerb/attester";
 
 export interface ChainReader {
   readContract(args: { address: Address; abi: readonly unknown[]; functionName: string; args?: readonly unknown[] }): Promise<unknown>;
-  getLogs(args: { address: Address; events: readonly unknown[]; fromBlock: bigint; toBlock: bigint }): Promise<{ args: Record<string, unknown>; blockNumber: bigint | null }[]>;
+  getLogs(args: { address: Address; events: readonly unknown[]; fromBlock: bigint; toBlock: bigint }): Promise<{ args: Record<string, unknown>; blockNumber: bigint | null; transactionHash?: string | null; eventName?: string }[]>;
   getBlockNumber(): Promise<bigint>;
 }
 
@@ -107,7 +107,8 @@ export function demoSchedule(address: Address, im: { weekLength: number; session
 // Positions
 // ---------------------------------------------------------------------------------------------
 
-interface ScanState { cursor: number; pairs: string[]; events: number }
+export interface LastCure { tx: string | null; block: number; repaid: string; seized: string; target: string; curer: string }
+interface ScanState { cursor: number; pairs: string[]; events: number; cures?: Record<string, LastCure> }
 const LOG_SPAN = 100n; // the public X Layer RPC refuses a wider getLogs range
 const CONCURRENCY = 8;
 const scans = new Map<number, { state: ScanState; running: Promise<void> | null }>();
@@ -124,7 +125,7 @@ function loadScan(chainId: number, deployBlock: number, persist: boolean): ScanS
 }
 
 /** Scan Borrowed, Repaid, Cured and Liquidated from the deploy block, incrementally, in bounded chunks. */
-export async function syncCreditLogs(chainId: number, reader: ChainReader, persist = true): Promise<{ scannedTo: number; head: number; pairs: string[]; events: number }> {
+export async function syncCreditLogs(chainId: number, reader: ChainReader, persist = true): Promise<{ scannedTo: number; head: number; pairs: string[]; events: number; cures: Record<string, LastCure> }> {
   const dep = loadDeployments()[`${chainId}:KerbCredit`] as { address: Address; deployedAtBlock?: string | number } | undefined;
   if (!dep) throw new Error("no credit market is deployed on this chain");
   let entry = scans.get(chainId);
@@ -148,6 +149,14 @@ export async function syncCreditLogs(chainId: number, reader: ChainReader, persi
             const user = l.args["user"] as string | undefined;
             const asset = l.args["assetId"] as string | undefined;
             if (user && asset) pairs.add(`${user.toLowerCase()}|${asset.toLowerCase()}`);
+            if (user && asset && l.eventName === "Cured") {
+              e.state.cures ??= {};
+              e.state.cures[`${user.toLowerCase()}|${asset.toLowerCase()}`] = {
+                tx: l.transactionHash ?? null, block: Number(l.blockNumber ?? 0n),
+                repaid: String(l.args["repaid"] ?? "0"), seized: String(l.args["seized"] ?? "0"),
+                target: String(l.args["target"] ?? "0"), curer: String(l.args["curer"] ?? ""),
+              };
+            }
             e.state.events++;
           }
         }
@@ -162,7 +171,7 @@ export async function syncCreditLogs(chainId: number, reader: ChainReader, persi
     })().finally(() => { e.running = null; });
   }
   await e.running;
-  return { scannedTo: e.state.cursor, head: e.state.cursor, pairs: e.state.pairs, events: e.state.events };
+  return { scannedTo: e.state.cursor, head: e.state.cursor, pairs: e.state.pairs, events: e.state.events, cures: e.state.cures ?? {} };
 }
 
 export interface OpenPosition {
@@ -175,6 +184,8 @@ export interface OpenPosition {
   carryTarget: string;
   healthFactor: string | null;
   cure: { eligible: boolean; deadline: string | null; requiredRepay: string };
+  /** The most recent cure of this position, from the Cured events; null if never cured. */
+  lastCure: LastCure | null;
   label: "Verified";
 }
 
@@ -189,7 +200,7 @@ export function mirrorSymbols(chainId: number): Map<string, string> {
   return out;
 }
 
-export async function readOpenPositions(chainId: number, reader: ChainReader, pairs: string[]): Promise<OpenPosition[]> {
+export async function readOpenPositions(chainId: number, reader: ChainReader, pairs: string[], cures: Record<string, LastCure> = {}, includeClosed = false): Promise<OpenPosition[]> {
   const credit = loadDeployments()[`${chainId}:KerbCredit`]?.address as Address | undefined;
   if (!credit) return [];
   const symbols = mirrorSymbols(chainId);
@@ -198,7 +209,7 @@ export async function readOpenPositions(chainId: number, reader: ChainReader, pa
   for (const pair of pairs) {
     const [user, assetId] = pair.split("|") as [Address, Hex];
     const debt = (await read("debtOf", [user, assetId])) as bigint;
-    if (debt === 0n) continue;
+    if (debt === 0n && !includeClosed) continue;
     const [p, status] = await Promise.all([
       read("position", [user, assetId]) as Promise<{ carryTarget: bigint; mode: number }>,
       read("cureStatus", [user, assetId]) as Promise<readonly [boolean, bigint, bigint]>,
@@ -214,6 +225,7 @@ export async function readOpenPositions(chainId: number, reader: ChainReader, pa
       mode: p.mode === 1 ? "Session Max" : "Carry",
       debt: debt.toString(), positionLTV: ltv, carryTarget: p.carryTarget.toString(), healthFactor: hf,
       cure: { eligible: status[0], deadline: status[1] === 0n ? null : new Date(Number(status[1]) * 1000).toISOString(), requiredRepay: status[2].toString() },
+      lastCure: cures[pair] ?? null,
       label: "Verified",
     });
   }

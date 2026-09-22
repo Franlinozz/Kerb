@@ -428,16 +428,24 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
   app.get("/v1/credit/:chain/positions", async (req, reply) => {
     const chainId = Number((req.params as { chain: string }).chain);
     const state = (req.query as { state?: string }).state ?? "all";
+    const userQ = (req.query as { user?: string }).user;
+    if (userQ !== undefined && !/^0x[0-9a-fA-F]{40}$/.test(userQ)) return reply.status(400).send({ error: "bad address" });
     if (!Number.isFinite(chainId)) return reply.status(400).send({ error: "bad chain" });
     if (state !== "all" && state !== "curable") return reply.status(400).send({ error: "state must be curable or all" });
     if (!loadDeployments()[`${chainId}:KerbCredit`]) return reply.status(404).send({ error: "no credit market is deployed on this chain", chainId });
     try {
       const body = await cached(`positions:${chainId}`, 30_000, async () => {
         const scan = await syncCreditLogs(chainId, reader(chainId), deps.reader === undefined);
-        const positions = await readOpenPositions(chainId, reader(chainId), scan.pairs);
-        return { chainId, label: "Verified" as const, scannedToBlock: scan.scannedTo, eventsSeen: scan.events, positions };
+        const positions = await readOpenPositions(chainId, reader(chainId), scan.pairs, scan.cures);
+        return { chainId, label: "Verified" as const, scannedToBlock: scan.scannedTo, eventsSeen: scan.events, positions, cures: scan.cures };
       });
-      return state === "curable" ? { ...body, positions: body.positions.filter((p) => p.cure.eligible) } : body;
+      const { cures, ...rest } = body;
+      if (userQ) {
+        // One address: every position it has had, open or closed, with its last cure.
+        const mine = Object.entries(cures).filter(([k]) => k.startsWith(`${userQ.toLowerCase()}|`));
+        return { ...rest, positions: rest.positions.filter((p) => p.user.toLowerCase() === userQ.toLowerCase()), lastCures: Object.fromEntries(mine) };
+      }
+      return state === "curable" ? { ...rest, positions: rest.positions.filter((p) => p.cure.eligible) } : rest;
     } catch (err) {
       return chainError(reply, err, chainId);
     }
