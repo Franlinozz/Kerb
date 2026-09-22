@@ -9,9 +9,14 @@ export function buildRows(md: string | null): { date: string; task: string; what
   });
 }
 
-/** Inline markdown in a BUILD_PERIOD cell: code spans and bold, nothing else. */
+/** Inline markdown in a BUILD_PERIOD cell: code spans, bold and links, nothing else. */
 export function Inline({ text }: { text: string }): React.ReactElement {
-  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).filter(Boolean);
-  return <>{parts.map((p, i) => p.startsWith("`") ? <code key={i}>{p.slice(1, -1)}</code> : p.startsWith("**") ? <b key={i}>{p.slice(2, -2)}</b> : <span key={i}>{p}</span>)}</>;
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\(https?:[^)\s]+\))/g).filter(Boolean);
+  return <>{parts.map((p, i) => {
+    if (p.startsWith("`")) return <code key={i}>{p.slice(1, -1)}</code>;
+    if (p.startsWith("**")) return <b key={i}><Inline text={p.slice(2, -2)} /></b>;
+    const link = /^\[([^\]]+)\]\((https?:[^)\s]+)\)$/.exec(p);
+    if (link) return <a key={i} href={link[2]} target="_blank" rel="noreferrer">{link[1]}</a>;
+    return <span key={i}>{p}</span>;
+  })}</>;
 }
-
