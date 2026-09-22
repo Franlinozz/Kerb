@@ -44,11 +44,16 @@ export function PositionPanel({ market, c, pos, demo, onRepay, onAddCollateral }
       </div>
     );
   }
+  // A cure brings the loan exactly to its Carry target; seconds of interest can put it a few cents
+  // over again. Say that a cure already happened rather than looking as if nothing did.
+  const windowOpensMs = deadline - (demo.sessionEndSec - demo.cureStartSec) * 1000;
+  const curedThisWindow = Number(pos.lastCureAt) * 1000 >= windowOpensMs;
   if (lastCall) {
     return (
       <div className="pos pos-lastcall" aria-live="polite">
         <span className="t-label brass">Last Call</span>
         <div className="pos-big">{fmtUnits(pos.cureRequired, dec, 2)} {sym} <span className="t-body ink-2">cure required by {utcHm(deadline)} UTC{now === null ? "" : `, in ${countdown(deadline, now)}`}</span></div>
+        {curedThisWindow ? <p className="pos-note">Cured at {utcHm(Number(pos.lastCureAt) * 1000)} UTC. Interest has accrued since, so the position sits {fmtUnits(pos.cureRequired, dec, 2)} {sym} above its Carry target again; the contract still counts that as curable.</p> : null}
         <p>Repay or add collateral before the window closes. After that, anyone may cure the position back to its {pctWad(pos.carryTarget)} Carry target and earn a {pctWad(BigInt(c.cureBonus))} bonus. Only the difference, never the whole loan.</p>
         <div className="row"><button type="button" className="btn btn-primary" onClick={onRepay}>Repay {fmtUnits(pos.cureRequired, dec, 2)} {sym}</button><button type="button" className="btn" onClick={onAddCollateral}>Add collateral</button></div>
         <LtvLadder carry={wadToStr(pos.carryTarget)} session={c.terms.sessionMaxLTV ? wadToStr(BigInt(c.terms.sessionMaxLTV)) : null} lt={wadToStr(lt)} position={pos.ltv === null ? null : wadToStr(pos.ltv)} why={false} />
