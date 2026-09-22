@@ -1,3 +1,13 @@
+/*
+ * A metric-matched stand-in for General Sans while it loads: the same overrides next/font computes
+ * for Arial, applied to Arial and to the fonts drawn on Arial's metrics (Liberation Sans, Arimo)
+ * and Helvetica, so the swap does not move a line on machines that have no Arial.
+ */
+@font-face {
+  font-family: "Kerb Sans Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans"), local("Arimo"), local("Helvetica Neue"), local("Helvetica");
+  ascent-override: 99.89%; descent-override: 23.74%; line-gap-override: 9.89%; size-adjust: 101.11%;
+}
 /* Typography scale and element defaults: V2-DESIGN-SYSTEM.md section 4. */
 @layer base {
   html {

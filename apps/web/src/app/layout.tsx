@@ -22,7 +22,10 @@ const generalSans = localFont({
   ],
   variable: "--font-general-sans",
   display: "swap",
-  fallback: ["Hanken Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
+  // "Kerb Sans Fallback" (styles/base.css) carries the same metric overrides as the generated Arial
+  // fallback but also matches Liberation Sans, Arimo and Helvetica, so a machine without Arial
+  // does not reflow when General Sans arrives.
+  fallback: ["Kerb Sans Fallback", "Hanken Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
 });
 const instrumentSerif = Instrument_Serif({ weight: "400", style: ["normal", "italic"], subsets: ["latin"], variable: "--font-instrument-serif", display: "swap", preload: false });
 const plexMono = IBM_Plex_Mono({ weight: ["400", "500"], subsets: ["latin"], variable: "--font-plex-mono", display: "swap", preload: false });
