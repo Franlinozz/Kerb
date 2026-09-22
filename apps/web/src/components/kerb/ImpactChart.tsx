@@ -9,7 +9,7 @@ import { useState } from "react";
 import type { Venue } from "@/lib/api";
 import { price, round, shift, usd } from "@/lib/format";
 
-const W = 720, H = 260, P = { t: 18, r: 20, b: 36, l: 52 };
+const W = 1100, H = 320, P = { t: 22, r: 24, b: 36, l: 52 };
 
 export function ImpactChart({ venue, crosscheck }: { venue: Venue; crosscheck?: { quoted: string; source: string } | null }): React.ReactElement {
   const pts = venue.curve.filter((p) => p.filled);
@@ -17,7 +17,9 @@ export function ImpactChart({ venue, crosscheck }: { venue: Venue; crosscheck?: 
   if (pts.length < 2) return <p className="t-small ink-3">This venue could not fill two points on the notional ladder, so there is no curve to draw. The excluded venues below say why.</p>;
   const lx = (v: string): number => Math.log10(Number(v)); // axis geometry only
   const xs = pts.map((p) => lx(p.notional));
-  const maxImpact = Math.max(0.035, ...pts.map((p) => Number(p.impact)));
+  const maxImpact = Math.ceil(Math.max(0.035, ...pts.map((p) => Number(p.impact))) * 100) / 100;
+  const step = maxImpact > 0.06 ? 0.02 : 0.01;
+  const grid = Array.from({ length: Math.floor(maxImpact / step) + 1 }, (_, i) => Math.round(i * step * 100) / 100);
   const X = (v: number): number => P.l + ((v - xs[0]!) / (xs[xs.length - 1]! - xs[0]! || 1)) * (W - P.l - P.r);
   const Y = (imp: number): number => H - P.b - (imp / maxImpact) * (H - P.t - P.b);
   const line = pts.map((p, i) => `${i ? "L" : "M"}${X(xs[i]!).toFixed(1)},${Y(Number(p.impact)).toFixed(1)}`).join("");
@@ -33,8 +35,8 @@ export function ImpactChart({ venue, crosscheck }: { venue: Venue; crosscheck?: 
     <figure className="impact">
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Price impact against notional sold on ${venue.path.join(" to ")}. ${marks.map((m) => `${m.k} ${usd(m.c.notional)}`).join(", ")}.`}
         onMouseLeave={() => setHover(null)}>
-        {[0, 0.01, 0.02, 0.03].filter((v) => v <= maxImpact).map((v) => (
-          <g key={v}><line x1={P.l} x2={W - P.r} y1={Y(v)} y2={Y(v)} stroke="var(--hair)" /><text x={P.l - 8} y={Y(v) + 4} textAnchor="end" className="axis">{v * 100}%</text></g>
+        {grid.map((v) => (
+          <g key={v}><line x1={P.l} x2={W - P.r} y1={Y(v)} y2={Y(v)} stroke="var(--hair)" /><text x={P.l - 8} y={Y(v) + 4} textAnchor="end" className="axis">{Math.round(v * 100)}%</text></g>
         ))}
         <path d={area} fill="var(--ink)" opacity={0.08} />
         <path d={line} fill="none" stroke="var(--ink)" strokeWidth={2} />
@@ -42,7 +44,7 @@ export function ImpactChart({ venue, crosscheck }: { venue: Venue; crosscheck?: 
           <g key={m.k}>
             <line x1={X(lx(m.c.notional))} x2={X(lx(m.c.notional))} y1={Y(m.imp)} y2={H - P.b} stroke={m.k === "C(1%)" ? "var(--brass)" : "var(--ink-3)"} strokeWidth={m.k === "C(1%)" ? 1.5 : 1} />
             <circle cx={X(lx(m.c.notional))} cy={Y(m.imp)} r={4} fill={m.k === "C(1%)" ? "var(--brass)" : "var(--ink-2)"} />
-            <text x={X(lx(m.c.notional)) + 6} y={Y(m.imp) - 6} className="axis axis-strong">{m.k} {usd(m.c.notional)}</text>
+            <text x={X(lx(m.c.notional)) - 6} y={Y(m.imp) - 12} textAnchor="end" className="axis axis-strong">{m.k} {usd(m.c.notional)}</text>
           </g>
         ))}
         {crosscheck && Number(crosscheck.quoted) > 0 ? (

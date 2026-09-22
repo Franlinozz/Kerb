@@ -15,6 +15,7 @@
   .plain-list { margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; }
   .waterfall { display: flex; flex-direction: column; }
   .wf-row { display: grid; grid-template-columns: 220px minmax(0, 1fr) 110px; grid-template-areas: "l t v" "n n n"; gap: 6px 16px; padding: 14px 0; border-bottom: 1px solid var(--hair); align-items: center; }
+  .wf-note { overflow-wrap: anywhere; }
   .wf-label { grid-area: l; } .wf-track { grid-area: t; position: relative; height: 10px; background: var(--canvas-2); } .wf-value { grid-area: v; } .wf-note { grid-area: n; }
   .wf-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink-2); }
   .wf-bar-final { background: var(--ink); }
