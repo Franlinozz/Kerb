@@ -262,8 +262,15 @@ export interface Report {
   };
   capacity: {
     LT: string; carryLTV: string; sessionMaxLTV: string; stressLTVWeak: string; stressLTVCure: string;
-    debtCeiling: string; maxPositionDebt: string; coverageRatioAtCeiling: string; clamped: string[];
+    debtCeiling: string; maxPositionDebt: string; coverageRatioAtCeiling: string; clamped: unknown[];
+    margins?: {
+      kts: "0.2"; stressMultiplier: string; gapMethod: string;
+      carry: { gap: string; volScaler: string; exitCost: string; raw: string; floor: string; used: string; horizonHours: string; horizonEndsAt: string };
+      session: { gap: string; volScaler: string; exitCost: string; raw: string; floor: string; used: string; horizonHours: string; horizonEndsAt: string };
+    };
   };
+  kts?: "0.1" | "0.2";
+  regimeInputs?: { calendarSession: string; rule: number; reason: string; cureWindowOpensAt: string; cureWindowOpen: boolean; nextWeakening: { type: string; at: string } };
   stress: {
     horizonHoursWeak: string; horizonHoursCure: string; sessionsWeak: number; sessionsCure: number;
     quantile: string; gapQuantileWeak: string; gapQuantileCure: string; volScaler: string;
