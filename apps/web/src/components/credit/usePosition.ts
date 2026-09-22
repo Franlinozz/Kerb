@@ -12,7 +12,7 @@ import { CREDIT_ABI, ERC20_ABI } from "@/lib/creditAbi";
 import { useHydratedAccount } from "@/lib/useHydrated";
 
 import { WAD } from "@/lib/creditMath";
-export { WAD, ZERO, MAX, valueOf, ltvOf, hfOf, parseAmount, fmtUnits, pctWad, hfWad } from "@/lib/creditMath";
+export { WAD, ZERO, MAX, valueOf, ltvOf, hfOf, parseAmount, fmtUnits, toInput, pctWad, hfWad } from "@/lib/creditMath";
 import { ZERO } from "@/lib/creditMath";
 
 export function usePosition(market: CreditMarket, c: CreditCollateral, fastPoll: boolean) {

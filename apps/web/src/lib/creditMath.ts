@@ -41,5 +41,19 @@ export function fmtUnits(v: bigint, decimals: number, places = 2): string {
   return `${neg ? "-" : ""}${w}${places ? `.${f}` : ""}`;
 }
 
+/**
+ * An amount for an input field: never rounded up, so a MAX can never ask for more than exists.
+ * Exact to `places` (all decimals by default), trailing zeros trimmed, no thousands separators.
+ */
+export function toInput(v: bigint, decimals: number, places = decimals): string {
+  if (v <= 0n) return "0";
+  const s = 10n ** BigInt(decimals);
+  const cut = 10n ** BigInt(decimals - Math.min(places, decimals));
+  const floored = (v / cut) * cut;
+  const whole = floored / s;
+  const frac = (floored % s).toString().padStart(decimals, "0").slice(0, Math.min(places, decimals)).replace(/0+$/, "");
+  return frac ? `${whole}.${frac}` : `${whole}`;
+}
+
 export const pctWad = (v: bigint | null, places = 1): string => (v === null ? "No debt" : `${fmtUnits(v * 100n, 18, places)}%`);
 export const hfWad = (v: bigint | null): string => (v === null ? "No debt" : v > WAD * 1000n ? "Above 1,000" : fmtUnits(v, 18, 2));

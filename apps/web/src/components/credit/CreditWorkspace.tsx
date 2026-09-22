@@ -24,7 +24,7 @@ import { WalletSheet } from "@/components/shell/WalletButton";
 import { RegimePill } from "@/components/kerb/RegimePill";
 import { scheduleAt } from "@/components/kerb/SessionRail";
 import { useNow } from "@/components/kerb/useLive";
-import { fmtUnits, hfOf, hfWad, ltvOf, MAX, parseAmount, pctWad, usePosition, valueOf, WAD, type PositionState } from "./usePosition";
+import { fmtUnits, toInput, hfOf, hfWad, ltvOf, MAX, parseAmount, pctWad, usePosition, valueOf, WAD, type PositionState } from "./usePosition";
 import { PositionPanel } from "./PositionPanel";
 
 const FAUCET = "https://www.okx.com/xlayer/faucet";
@@ -143,7 +143,7 @@ function BorrowTab({ market, c, pos, demo }: { market: CreditMarket; c: CreditCo
   const disabled = flow.running || steps.length === 0 || over || overCap || (want > 0n && !c.terms.usable) || noColl || !pos.isConnected;
   return (
     <div className="action">
-      <Field label={`Collateral to add (k${c.mirrors})`} value={collIn} onChange={setCollIn} unit={`k${c.mirrors}`} onMax={() => setCollIn(fmtUnits(pos.collBalance, 18, 6).replace(/,/g, ""))}
+      <Field label={`Collateral to add (k${c.mirrors})`} value={collIn} onChange={setCollIn} unit={`k${c.mirrors}`} onMax={() => setCollIn(toInput(pos.collBalance, 18))}
         help={`Wallet ${fmtUnits(pos.collBalance, 18, 2)} · deposited ${fmtUnits(pos.held, 18, 2)} · valued at the Credit Mark $${fmtUnits(mark, 18, 2)}`} />
       <fieldset className="modes-q">
         <legend>How long should this loan survive without you?</legend>
@@ -160,7 +160,7 @@ function BorrowTab({ market, c, pos, demo }: { market: CreditMarket; c: CreditCo
           </button>
         </div>
       </fieldset>
-      <Field label={`Borrow (${sym})`} value={amount} onChange={setAmount} unit={sym} onMax={() => setAmount(fmtUnits(mode === 1 ? smaxRoom : carryRoom, dec, 2).replace(/,/g, ""))}
+      <Field label={`Borrow (${sym})`} value={amount} onChange={setAmount} unit={sym} onMax={() => setAmount(toInput(mode === 1 ? smaxRoom : carryRoom, dec, 2))}
         error={over ? `Above the ${mode === 1 ? "Session Max" : "Carry"} limit of ${pctWad(limit)}. ${mode === 0 && ltvAfter !== null && ltvAfter <= smax ? "Session Max allows it, with the cure covenant." : "Borrow less or add collateral."}` : overCap ? `One position may owe at most ${fmtUnits(BigInt(c.terms.maxPositionDebt), dec, 2)} ${sym}.` : null} />
       <Preview rows={[
         ["LTV after", ltvAfter === null ? "No debt" : pctWad(ltvAfter)],
@@ -188,7 +188,7 @@ function RepayTab({ market, c, pos }: { market: CreditMarket; c: CreditCollatera
   if (pay > 0n) steps.push({ label: `Repay ${fmtUnits(pay, dec, 2)} ${sym}`, call: { address: pos.credit, abi: CREDIT_ABI, functionName: "repay", args: [pos.assetId, want >= pos.owed ? MAX : pay] } });
   return (
     <div className="action">
-      <Field label={`Repay (${sym})`} value={amount} onChange={setAmount} unit={sym} onMax={() => setAmount(fmtUnits(pos.owed, dec, 6).replace(/,/g, ""))}
+      <Field label={`Repay (${sym})`} value={amount} onChange={setAmount} unit={sym} onMax={() => setAmount(toInput(pos.owed, dec))}
         help={`Owing ${fmtUnits(pos.owed, dec, 2)} · wallet ${fmtUnits(pos.loanBalance, dec, 2)} ${sym}. Repay works in every state, paused included.`}
         error={pay > pos.loanBalance && pay > 0n ? `The wallet holds ${fmtUnits(pos.loanBalance, dec, 2)} ${sym}. Mint more in the setup steps.` : null} />
       <Preview rows={[["LTV after", pctWad(ltvOf(after, value))], ["Health after", hfWad(hfOf(after, value, BigInt(c.liquidationThreshold)))], ["Owing after", `${fmtUnits(after, dec, 2)} ${sym}`]]} />
@@ -219,7 +219,7 @@ function WithdrawTab({ market, c, pos }: { market: CreditMarket; c: CreditCollat
   }, [blocked]);
   return (
     <div className="action">
-      <Field label={`Withdraw collateral (k${c.mirrors})`} value={amount} onChange={setAmount} unit={`k${c.mirrors}`} onMax={() => setAmount(fmtUnits(pos.held, 18, 6).replace(/,/g, ""))}
+      <Field label={`Withdraw collateral (k${c.mirrors})`} value={amount} onChange={setAmount} unit={`k${c.mirrors}`} onMax={() => setAmount(toInput(pos.held, 18))}
         help={`Deposited ${fmtUnits(pos.held, 18, 2)} k${c.mirrors}.`} error={unsafe && want > 0n ? "That would leave the position below a health factor of 1. Repay first or withdraw less." : null} />
       <Preview rows={[["Collateral after", `${fmtUnits(left, 18, 2)} k${c.mirrors}`], ["LTV after", pctWad(ltvOf(pos.owed, value))], ["Health after", hfWad(hf)]]} />
       <button type="button" className="btn btn-primary action-go" disabled={flow.running || want === 0n || want > pos.held || unsafe} onClick={async () => { if (await flow.run([{ label: `Withdraw ${fmtUnits(want, 18, 2)} k${c.mirrors}`, call: { address: pos.credit, abi: CREDIT_ABI, functionName: "withdrawCollateral", args: [pos.assetId, want] } }], `Withdrew ${fmtUnits(want, 18, 2)} k${c.mirrors}`)) setAmount(""); }}>{want > 0n ? `Withdraw ${fmtUnits(want, 18, 2)} k${c.mirrors}` : "Enter an amount"}</button>
@@ -250,7 +250,7 @@ function SupplyTab({ market, pos }: { market: CreditMarket; pos: PositionState }
         <button type="button" role="radio" aria-checked={dir === "withdraw"} onClick={() => setDir("withdraw")}>Withdraw</button>
       </div>
       <Field label={`${dir === "supply" ? "Supply" : "Withdraw"} (${sym})`} value={amount} onChange={setAmount} unit={sym}
-        onMax={() => setAmount(fmtUnits(dir === "supply" ? pos.loanBalance : (pos.supplied < available ? pos.supplied : available), dec, 6).replace(/,/g, ""))}
+        onMax={() => setAmount(toInput(dir === "supply" ? pos.loanBalance : (pos.supplied < available ? pos.supplied : available), dec))}
         help={`You have supplied ${fmtUnits(pos.supplied, dec, 2)} · wallet ${fmtUnits(pos.loanBalance, dec, 2)} · the pool has ${fmtUnits(available, dec, 2)} ${sym} not lent out.`} />
       <button type="button" className="btn btn-primary action-go" disabled={flow.running || steps.length === 0} onClick={async () => { if (await flow.run(steps, `${dir === "supply" ? "Supplied" : "Withdrew"} ${fmtUnits(want, dec, 2)} ${sym}`)) setAmount(""); }}>{want > 0n ? `${dir === "supply" ? "Supply" : "Withdraw"} ${fmtUnits(want, dec, 2)} ${sym}` : "Enter an amount"}</button>
       {flow.steps.length ? <TxStepper steps={flow.steps} note={flow.note} tone={flow.tone} explorerHref={flow.hash ? `https://www.oklink.com/x-layer-testnet/tx/${flow.hash}` : null} /> : null}
