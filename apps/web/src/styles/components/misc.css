@@ -100,6 +100,4 @@
   }
 }
 @layer components {
-  .review-crop { height: 100%; }
-  .review-crop.art-day, .review-crop.art-night { display: block !important; }
 }
