@@ -4,7 +4,7 @@
  * loads; nothing is typed in by hand, and no cell ever reads a bare "no".
  */
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Disclosure } from "@/components/ui/Disclosure";
 import { CodeBlock } from "@/components/ui/CodeBlock";

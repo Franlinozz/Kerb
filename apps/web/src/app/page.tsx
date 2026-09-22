@@ -3,7 +3,7 @@
  * revalidated every 15 s; the rails, clocks and the Tape refresh on the client. Every section
  * stands alone: a source that fails shows its own ErrorState and the page still renders.
  */
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { Suspense } from "react";
 import { ArtPlate } from "@/components/ui/ArtPlate";
 import { AddressChip } from "@/components/ui/AddressChip";

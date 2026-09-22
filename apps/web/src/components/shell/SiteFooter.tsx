@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { MarketClocks } from "@/components/kerb/MarketClocks";
 
 const COLS: { label: string; links: { href: string; label: string; external?: boolean }[] }[] = [

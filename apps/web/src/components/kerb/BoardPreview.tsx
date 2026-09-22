@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import type { BoardRow } from "@/lib/api";
 import { price, usd } from "@/lib/format";
 import { countdown, TRANSITION_SHORT } from "@/lib/time";

@@ -4,7 +4,7 @@
  * grouped lists that wrap: nothing is ever off-screen.
  */
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { ProvMark } from "@/components/ui/ProvMark";

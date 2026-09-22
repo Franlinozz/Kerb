@@ -4,7 +4,7 @@
  * Terms history, Onchain. An unknown symbol is the not-found page.
  */
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { notFound } from "next/navigation";
 import { AddressChip } from "@/components/ui/AddressChip";
 import { CodeBlock } from "@/components/ui/CodeBlock";

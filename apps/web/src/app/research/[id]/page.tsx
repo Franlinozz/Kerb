@@ -4,7 +4,7 @@
  * store through /v1/market-time/:id/gaps. The report's own figures are never recomputed here.
  */
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { notFound } from "next/navigation";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { ErrorState } from "@/components/ui/ErrorState";

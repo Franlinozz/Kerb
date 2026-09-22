@@ -5,7 +5,7 @@
  * (reflected in the URL), a full SessionRail for the selected row, the DataTable on desktop and a
  * card list on phones, and the sources in a disclosure. Refreshes every 30 s.
  */
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { Board, BoardRow, Clock, Regime } from "@/lib/api";

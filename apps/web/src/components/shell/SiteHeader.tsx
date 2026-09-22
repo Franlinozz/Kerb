@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { Mark } from "@/components/ui/Mark";
 import { MobileMenu } from "./MobileMenu";
 import { NavLinks } from "./NavLinks";

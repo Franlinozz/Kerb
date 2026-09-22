@@ -4,7 +4,7 @@
  * row for the next report with a live countdown.
  */
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Countdown } from "@/components/kerb/Countdown";
 import { PageRail } from "@/components/kerb/PageRail";

@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { useEffect, useState } from "react";
 import { PUBLIC_API } from "@/lib/api";
 import { age } from "@/lib/format";

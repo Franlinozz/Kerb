@@ -3,7 +3,7 @@
  * docs/API.md by scripts/api-doc.py, so it cannot drift from the documented API.
  */
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { getAddress } from "viem";
 import { DevConsole } from "@/components/kerb/DevConsole";
 import { PageRail } from "@/components/kerb/PageRail";

@@ -1,6 +1,6 @@
 "use client";
 import { Info } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { useState } from "react";
 import type { CreditMarket } from "@/lib/api";
 import { Drawer } from "@/components/ui/Drawer";
