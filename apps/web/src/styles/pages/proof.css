@@ -17,7 +17,7 @@
   .cb-bar { width: 28px; background: var(--ink-2); border-radius: 4px 4px 0 0; }
   .cb-n { font-size: 12px; color: var(--ink-2); }
   .build-log { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-4); }
-  .build-log h3 { margin: 0 0 8px; }
+  .build-log h2, .build-log h3 { margin: 0 0 8px; }
   .build-log ul { margin: 0; padding: 0; display: flex; flex-direction: column; }
   .build-log li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair); font-size: 14px; color: var(--ink-2); overflow-wrap: anywhere; }
   .build-log code { font-family: var(--font-mono); font-size: 13px; }
@@ -29,7 +29,7 @@
   .verify-result[data-ok] { border-left-color: var(--moss); }
   .verify-result ul { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px 24px; }
   .verify-result li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; padding: 4px 0; border-bottom: 1px solid var(--hair); }
-  #reproduce, #limitations { scroll-margin-top: 80px; }
+  #reproduce, #limitations, #contracts { scroll-margin-top: 80px; }
   @media (max-width: 1100px) { .proof-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 640px) {
     .proof-tiles { grid-template-columns: 1fr; }

@@ -53,7 +53,13 @@ export function CurableTable({ market, demo }: { market: CreditMarket; demo: Dem
         <div className="section-head-row"><span className="t-label" id="curable-title">Curable now · public · anyone may cure</span><span className="t-label ink-3">{live.updating ? "Updating" : `${rows.length} in Last Call`}</span></div>
       </div>
       {rows.length === 0 ? (
-        <p className="ink-2">No position needs a cure right now. The next demo Last Call opens in <span suppressHydrationWarning>{now === null ? "" : countdown(Date.parse(demo.nextCureOpensAt), now)}</span>, at {utcHm(Date.parse(demo.nextCureOpensAt))} UTC.</p>
+        <div className="curable-empty">
+          {demo.state === "LAST_CALL"
+            ? <p className="ink-2">Last Call is open until {utcHm(Date.parse(demo.nextCureClosesAt))} UTC and no position needs a cure right now.</p>
+            : <p className="ink-2">No position needs a cure right now. The next demo Last Call opens in <span suppressHydrationWarning>{now === null ? "" : countdown(Date.parse(demo.nextCureOpensAt), now)}</span>, at {utcHm(Date.parse(demo.nextCureOpensAt))} UTC.</p>}
+          {/* AGENTS.md 12.8, demo position rung 3: no keeper holds a standing position, so say where one comes from. */}
+          <p className="t-small ink-3">Kerb does not keep a standing demo position. Borrow with Session Max and your position appears here when Last Call opens; a second wallet, or anyone, may then cure it.</p>
+        </div>
       ) : (
         <div className="dt-wrap">
           <table className="dt" style={{ minWidth: 860 }}>

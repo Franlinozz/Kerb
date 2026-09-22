@@ -55,6 +55,12 @@ const pickOnchain = (j: unknown): unknown => {
 };
 
 export function DevConsole({ api, kerbTerms, symbol }: { api: string; kerbTerms: string; symbol: string }): React.ReactElement {
+  // /developers#rest and #solidity open that tab (the footer links there); the tab keeps the hash.
+  const [tab, setTab] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    const read = (): void => { const h = window.location.hash.slice(1); if (h === "sdk" || h === "rest" || h === "solidity") setTab(h); };
+    read(); window.addEventListener("hashchange", read); return () => window.removeEventListener("hashchange", read);
+  }, []);
   const sdk = `import { Kerb, toDecimalString } from "./kerb";
 
 const kerb = new Kerb();                       // X Layer mainnet, ${api}
@@ -93,7 +99,7 @@ contract Lender {
 }`;
 
   return (
-    <Tabs label="Integration" tabs={[
+    <Tabs label="Integration" {...(tab ? { value: tab } : {})} onChange={(id) => { setTab(id); history.replaceState(null, "", `#${id}`); }} tabs={[
       { id: "sdk", label: "SDK", content: (
         <div className="dev-tab">
           <p className="t-small ink-2">One TypeScript file with no dependencies. It is not on npm yet, so take it from the repository:</p>

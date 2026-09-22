@@ -12,6 +12,7 @@ import { PageRail } from "@/components/kerb/PageRail";
 import { PlateHero } from "@/components/kerb/PlateHero";
 import { getHealth, getProof, PUBLIC_API, type Proof } from "@/lib/api";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
+import { buildRows, Inline } from "@/components/kerb/BuildLog";
 
 export const metadata: Metadata = { title: "Proof", description: "Every Kerb claim, checkable: contracts and verification, onchain posts, input bundles, the build period and the limitations." };
 export const revalidate = 30;
@@ -20,21 +21,6 @@ type State = "ok" | "warn" | "info";
 interface Tile { name: string; value: string; note: string; state: State; href: string; hrefLabel: string; external?: boolean }
 
 const chainName = (id: number): string => (id === 196 ? "X Layer mainnet" : "X Layer testnet");
-
-/** BUILD_PERIOD.md is a table of date, task, what; rendered grouped by day. */
-function buildRows(md: string | null): { date: string; task: string; what: string }[] {
-  if (!md) return [];
-  return md.split("\n").filter((l) => /^\|\s*\d{1,2} \w{3}/.test(l)).map((l) => {
-    const [date = "", task = "", what = ""] = l.split("|").slice(1, -1).map((c) => c.trim());
-    return { date, task, what };
-  });
-}
-
-/** Inline markdown in a BUILD_PERIOD cell: code spans and bold, nothing else. */
-function Inline({ text }: { text: string }): React.ReactElement {
-  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).filter(Boolean);
-  return <>{parts.map((p, i) => p.startsWith("`") ? <code key={i}>{p.slice(1, -1)}</code> : p.startsWith("**") ? <b key={i}>{p.slice(2, -2)}</b> : <span key={i}>{p}</span>)}</>;
-}
 
 function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: string | null }[] | null): Tile[] {
   const main = p.onchain.postCounts.find((c) => c.chainId === 196)?.count ?? 0;
@@ -99,6 +85,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
       </ul>
 
       <div className="proof-disclosures">
+        <div id="contracts">
         <Disclosure summary={<span>Contracts <span className="ink-3 t-small">· {p.onchain.deployments.length} deployed</span></span>} open>
           <div className="scroll-x">
             <table className="ptable">
@@ -117,6 +104,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
             </table>
           </div>
         </Disclosure>
+        </div>
 
         <Disclosure summary={<span>Latest Terms posts <span className="ink-3 t-small">· {p.onchain.postCounts.map((c) => `${group(String(c.count))} on ${c.chainId}`).join(", ")}</span></span>}>
           <div className="scroll-x">
