@@ -14,7 +14,9 @@ import { ProvMark } from "@/components/ui/ProvMark";
 import { getCreditMarket, getDemoClock } from "@/lib/api";
 
 export const metadata: Metadata = { title: "Credit", description: "Borrow against tokenized stocks on the market's clock: Carry or Session Max, Last Call and the cure, on X Layer testnet with mirror collateral." };
-export const dynamic = "force-dynamic";
+// Not per-request: a live chain read held the whole page (and its h1) for seconds. The page is
+// regenerated every 5 s; balances, positions and the curable feed are read live in the browser.
+export const revalidate = 5;
 
 export default async function CreditPage(): Promise<React.ReactElement> {
   const [market, demo] = await Promise.all([getCreditMarket(), getDemoClock()]);

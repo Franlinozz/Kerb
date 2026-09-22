@@ -6,6 +6,7 @@
 import Link from "@/components/ui/Link";
 import { Suspense } from "react";
 import { ArtPlate } from "@/components/ui/ArtPlate";
+import { mobileSrcSet, srcSet } from "@/lib/art";
 import { AddressChip } from "@/components/ui/AddressChip";
 import { ButtonLink } from "@/components/ui/Button";
 import { ErrorState } from "@/components/ui/ErrorState";
@@ -59,6 +60,11 @@ export default async function Home(): Promise<React.ReactElement> {
         <div className="construct-grid" aria-hidden="true" />
         <span className="cross hero-cross-tl" aria-hidden="true" /><span className="cross hero-cross-tr" aria-hidden="true" />
         <span className="cross hero-cross-bl" aria-hidden="true" /><span className="cross hero-cross-br" aria-hidden="true" />
+        {/* The hero is the Largest Contentful Paint. Its <img> is lazy until the theme is known, so
+            the preload scanner cannot find it: preload the Night variant (the default) here, the
+            phone crop and the desktop set under their own media queries. */}
+        <link rel="preload" as="image" type="image/avif" fetchPriority="high" media="(max-width: 760px)" imageSrcSet={mobileSrcSet("p1-kerbstone-night", "avif") ?? undefined} imageSizes="100vw" />
+        <link rel="preload" as="image" type="image/avif" fetchPriority="high" media="(min-width: 761px)" imageSrcSet={srcSet("p1-kerbstone-night", "avif")} imageSizes="62vw" />
         <div className="hero-art" aria-hidden="false">
           <ArtPlate id="p1-kerbstone-night" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
           <ArtPlate id="p1-kerbstone-day" sizes="(max-width: 760px) 100vw, 62vw" priority mask="hero" className="hero-plate" />
