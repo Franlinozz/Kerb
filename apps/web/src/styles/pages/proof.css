@@ -35,6 +35,7 @@
     .proof-tiles { grid-template-columns: 1fr; }
     .proof-two { grid-template-columns: 1fr; }
     .proof-dl > div { grid-template-columns: 1fr; gap: 2px; }
+    .scroll-x:has(> .ptable) { -webkit-mask-image: none; mask-image: none; overflow: visible; }
     .ptable thead { display: none; }
     .ptable, .ptable tbody, .ptable tr, .ptable td { display: block; width: 100%; min-width: 0; }
     .ptable tr { padding: 10px 0; border-bottom: 1px solid var(--hair-2); }
