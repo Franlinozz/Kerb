@@ -1,0 +1,44 @@
+name: Lighthouse
+
+# On demand: Lighthouse mobile against a deployed Kerb, on an idle runner, three runs per route,
+# median reported. The VPS that serves Kerb is too busy to measure itself fairly.
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Site to measure
+        default: https://v2.usekerb.xyz
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm i -g lighthouse@12
+      - name: Measure
+        env:
+          BASE: ${{ inputs.base }}
+        run: |
+          mkdir -p lh
+          for r in / /board /asset/BRK.Bx /credit /research /research/1 /methodology /proof /developers /changelog; do
+            n=$(echo "$r" | tr '/.' '__')
+            for i in 1 2 3; do
+              lighthouse "$BASE$r" --quiet --chrome-flags="--headless=new --no-sandbox" --only-categories=performance,accessibility,best-practices --output=json --output-path="lh/$n-$i.json" || true
+            done
+          done
+          node -e '
+            const fs = require("fs"); const rows = {};
+            for (const f of fs.readdirSync("lh")) { const d = JSON.parse(fs.readFileSync("lh/" + f)); const r = f.replace(/-\d\.json$/, "");
+              (rows[r] ??= []).push({ p: d.categories.performance.score * 100, a: d.categories.accessibility.score * 100, b: d.categories["best-practices"].score * 100, lcp: d.audits["largest-contentful-paint"].numericValue, tbt: d.audits["total-blocking-time"].numericValue, cls: d.audits["cumulative-layout-shift"].numericValue }); }
+            const med = (xs) => xs.sort((x, y) => x - y)[Math.floor(xs.length / 2)];
+            const out = ["| Route | Performance | Accessibility | Best practices | LCP ms | TBT ms | CLS |", "|---|---|---|---|---|---|---|"];
+            for (const [r, v] of Object.entries(rows)) out.push(`| ${r.replace(/_/g, "/")} | ${med(v.map((x) => x.p))} | ${med(v.map((x) => x.a))} | ${med(v.map((x) => x.b))} | ${Math.round(med(v.map((x) => x.lcp)))} | ${Math.round(med(v.map((x) => x.tbt)))} | ${med(v.map((x) => x.cls)).toFixed(3)} |`);
+            fs.writeFileSync("lh/summary.md", out.join("\n") + "\n"); console.log(out.join("\n"));
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, out.join("\n") + "\n");'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: lh
+          retention-days: 14
