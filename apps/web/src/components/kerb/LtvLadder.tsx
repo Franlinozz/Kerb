@@ -18,6 +18,7 @@ export function marginSentence(kts: "0.1" | "0.2" | null | undefined, margins: B
   if (kts === "0.2" && margins) {
     return `Margin below the fixed line: ${margins.stressMultiplier} × the stressed gap to ${horizonWords(margins.carry.horizonEndsAt)}, plus ${round(shift(margins.carry.exitCost, 2), 1)}% exit cost.`;
   }
+  if (kts === "0.2") return "Under KTS 0.2 each margin below the fixed line follows the time its mode must survive: Carry to the next deep market, Session Max to the next Last Call.";
   return "In KTS-0.1 the Carry to Session Max margin is fixed. What moves with market time is the debt ceiling, through measured depth, and the cure deadline.";
 }
 
