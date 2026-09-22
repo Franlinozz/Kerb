@@ -12,7 +12,7 @@ import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 const RPC = "https://testrpc.xlayer.tech";
 const BASE = process.env.KERB_WEB_URL ?? "http://127.0.0.1:3301";
-const OUT = resolve(process.cwd(), "../../data/screens/v2/credit-states");
+const OUT = resolve(process.cwd(), process.env.KERB_KEYBOARD === "1" ? "../../data/screens/v2/credit-keyboard" : "../../data/screens/v2/credit-states");
 mkdirSync(OUT, { recursive: true });
 const chain = { id: 1952, name: "X Layer testnet", nativeCurrency: { name: "OKB", symbol: "OKB", decimals: 18 }, rpcUrls: { default: { http: [RPC] } } };
 const funder = createWalletClient({ account: privateKeyToAccount(process.env.KERB_DEPLOYER_KEY), chain, transport: http(RPC) }).extend(publicActions);
@@ -32,6 +32,40 @@ async function fresh(label) {
   await funder.waitForTransactionReceipt({ hash });
   note(`${label} ${account.address} funded with 0.004 test OKB`, { tx: hash });
   return { label, account, wallet: createWalletClient({ account, chain, transport: http(RPC) }).extend(publicActions) };
+}
+
+
+// KERB_KEYBOARD=1 runs the whole flow from the keyboard (V2-08 step 9): every control is reached
+// with Tab and pressed with Enter or Space, every field typed into; no pointer event is sent.
+const KEYBOARD = process.env.KERB_KEYBOARD === "1";
+async function tabTo(loc) {
+  await loc.waitFor();
+  const page = loc.page();
+  const el = await loc.elementHandle();
+  for (let i = 0; i < 400; i++) {
+    if (await el.evaluate((e) => e === document.activeElement)) return;
+    await page.keyboard.press("Tab");
+  }
+  throw new Error(`keyboard could not reach ${loc}`);
+}
+async function act(loc) {
+  if (!KEYBOARD) return loc.click();
+  const role = await loc.evaluate((e) => e.getAttribute("role") ?? e.tagName.toLowerCase());
+  if (role === "tab") {
+    // Roving tabindex: Tab reaches the selected tab only; the arrow keys move between tabs.
+    const list = loc.locator("xpath=ancestor::*[@role='tablist'][1]");
+    await tabTo(list.locator('[role="tab"][aria-selected="true"]'));
+    for (let i = 0; i < 8 && (await loc.getAttribute("aria-selected")) !== "true"; i++) await loc.page().keyboard.press("ArrowRight");
+    return;
+  }
+  await tabTo(loc);
+  await loc.page().keyboard.press("Enter");
+}
+async function fill(loc, value) {
+  if (!KEYBOARD) return loc.fill(value);
+  await tabTo(loc);
+  await loc.page().keyboard.press("ControlOrMeta+a");
+  await loc.page().keyboard.type(String(value));
 }
 
 async function browserFor(who, browser, theme = "night") {
@@ -66,8 +100,8 @@ async function browserFor(who, browser, theme = "night") {
 }
 
 async function connect(page) {
-  await page.getByRole("button", { name: "Connect a wallet" }).first().click();
-  await page.getByRole("button", { name: /Browser wallet|Injected|MetaMask/ }).first().click();
+  await act(page.getByRole("button", { name: "Connect a wallet" }).first());
+  await act(page.getByRole("button", { name: /Browser wallet|Injected|MetaMask/ }).first());
   await page.getByText("Connected on chain 1952.").waitFor({ timeout: 30_000 });
 }
 
@@ -85,9 +119,9 @@ const curer = await fresh("curer");
 const B = await browserFor(borrower, browser);
 await shots(B.page, "state-no-wallet");
 await connect(B.page);
-await B.page.getByRole("button", { name: /^Mint 100 kKOx/ }).click();
+await act(B.page.getByRole("button", { name: /^Mint 100 kKOx/ }));
 await flowDone(B.page, "Minted 100 kKOx");
-await B.page.getByRole("button", { name: /^Mint 10,000 mUSDG/ }).click();
+await act(B.page.getByRole("button", { name: /^Mint 10,000 mUSDG/ }));
 await flowDone(B.page, "Minted 10,000 mUSDG");
 await B.page.waitForTimeout(3000);
 await shots(B.page, "state-no-position");
@@ -101,14 +135,14 @@ const debt = Math.floor(cap * 0.9 * 100) / 100;
 const targetLtv = carry + (smax - carry) * 0.75;
 const coll = Math.ceil((debt / targetLtv / mark) * 100) / 100;
 note(`sizing: carry ${(carry * 100).toFixed(2)}%, Session Max ${(smax * 100).toFixed(2)}%, cap ${cap.toFixed(2)}, mark ${mark.toFixed(2)} -> deposit ${coll} kKOx, borrow ${debt} mUSDG (LTV ${(targetLtv * 100).toFixed(2)}%)`);
-await B.page.getByLabel("Collateral to add (kKOx)").fill(String(coll));
-await B.page.getByRole("button", { name: /^Session Max/ }).click();
+await fill(B.page.getByLabel("Collateral to add (kKOx)"), String(coll));
+await act(B.page.getByRole("button", { name: /^Session Max/ }));
 const want = debt.toFixed(2);
-await B.page.getByLabel("Borrow (mUSDG)").fill(want);
+await fill(B.page.getByLabel("Borrow (mUSDG)"), want);
 const go = B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go');
 await go.waitFor();
 if (await go.isDisabled()) throw new Error(`borrow button disabled: ${await B.page.locator(".zone-centre .fld-error").allTextContents()}`);
-await go.click();
+await act(go);
 await flowDone(B.page, "Borrowed", 240_000);
 await B.page.waitForTimeout(8000);
 await shots(B.page, "state-ready-to-carry");
@@ -124,12 +158,12 @@ note(`Last Call on the borrower's panel: ${required}`);
 // ---- curer: a stranger cures from "Curable now"
 const C = await browserFor(curer, browser);
 await connect(C.page);
-await C.page.getByRole("button", { name: /^Mint 10,000 mUSDG/ }).click();
+await act(C.page.getByRole("button", { name: /^Mint 10,000 mUSDG/ }));
 await flowDone(C.page, "Minted 10,000 mUSDG");
 const row = C.page.locator(".curable tbody tr").filter({ hasText: borrower.account.address.slice(0, 6) });
 await row.waitFor({ timeout: 120_000 });
 await C.page.locator(".curable").screenshot({ path: resolve(OUT, "curable-now-1440.png") });
-await row.getByRole("button", { name: "Cure" }).click();
+await act(row.getByRole("button", { name: "Cure" }));
 await flowDone(C.page, "Cured", 240_000);
 note("curer cured the position from the public table");
 
@@ -138,17 +172,17 @@ await B.page.reload({ waitUntil: "networkidle" });
 await B.page.locator(".pos").filter({ hasText: "Cured" }).waitFor({ timeout: 120_000 }).catch(() => note("cured state not shown yet (positions feed caches 30 s)"));
 await B.page.waitForTimeout(4000);
 await shots(B.page, "state-cured");
-await B.page.getByRole("tab", { name: "Repay" }).click();
-await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden])').getByRole("button", { name: "MAX" }).click();
-await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go').click();
+await act(B.page.getByRole("tab", { name: "Repay" }));
+await act(B.page.locator('.zone-centre [role="tabpanel"]:not([hidden])').getByRole("button", { name: "MAX" }));
+await act(B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go'));
 await flowDone(B.page, "Repaid", 240_000);
-await B.page.getByRole("tab", { name: "Withdraw" }).click();
-await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden])').getByRole("button", { name: "MAX" }).click();
-await B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go').click();
+await act(B.page.getByRole("tab", { name: "Withdraw" }));
+await act(B.page.locator('.zone-centre [role="tabpanel"]:not([hidden])').getByRole("button", { name: "MAX" }));
+await act(B.page.locator('.zone-centre [role="tabpanel"]:not([hidden]) .action-go'));
 await flowDone(B.page, "Withdrew", 240_000);
 await B.page.waitForTimeout(4000);
 await shots(B.page, "state-closed");
 
-writeFileSync(resolve(process.cwd(), `../../data/credit-flow-${new Date().toISOString().slice(0, 10)}.json`), JSON.stringify({ base: BASE, borrower: borrower.account.address, curer: curer.account.address, steps: log }, null, 1));
+writeFileSync(resolve(process.cwd(), `../../data/credit-flow-${new Date().toISOString().slice(0, 10)}${process.env.KERB_KEYBOARD === "1" ? "-keyboard" : ""}.json`), JSON.stringify({ base: BASE, borrower: borrower.account.address, curer: curer.account.address, steps: log }, null, 1));
 await browser.close();
 console.log("done");
