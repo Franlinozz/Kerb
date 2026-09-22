@@ -11,7 +11,9 @@
     "shoot": "tsx scripts/screenshots.ts",
     "test": "vitest run",
     "cure-from-ui": "tsx scripts/cure-from-ui.ts",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "e2e:live": "KERB_WEB_URL=${KERB_WEB_URL:-https://www.usekerb.xyz} KERB_API_PUBLIC=https://api.usekerb.xyz playwright test",
+    "e2e:fixtures": "node e2e/fixture-api.mjs replay"
   },
   "dependencies": {
     "@kerb/sdk": "workspace:*",
