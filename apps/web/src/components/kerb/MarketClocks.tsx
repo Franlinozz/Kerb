@@ -41,11 +41,11 @@ function Row({ m, now, compact }: { m: MarketMeta; now: number | null; compact: 
   );
 }
 
-export function MarketClocks({ layout = "column", compact = false, align = "left" }: { layout?: "column" | "row"; compact?: boolean; align?: "left" | "right" }): React.ReactElement {
+export function MarketClocks({ layout = "column", compact = false, align = "left", only }: { layout?: "column" | "row"; compact?: boolean; align?: "left" | "right"; only?: "XNYS" | "XHKG" }): React.ReactElement {
   const now = useNow();
   const stats = useLive<{ marketMeta?: MarketMeta[] }>("/v1/stats", null, 300_000);
   const meta = stats.data?.marketMeta ?? FALLBACK;
-  const markets = ["XNYS", "XHKG"].map((c) => meta.find((m) => m.code === c) ?? FALLBACK.find((m) => m.code === c)!);
+  const markets = (only ? [only] : ["XNYS", "XHKG"]).map((c) => meta.find((m) => m.code === c) ?? FALLBACK.find((m) => m.code === c)!);
   return (
     <div className={`clocks${layout === "row" ? " clocks-row" : ""}${align === "right" ? " clocks-right" : ""}`}>
       {markets.map((m) => <Row key={m.code} m={m} now={now} compact={compact} />)}

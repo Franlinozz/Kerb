@@ -181,8 +181,8 @@ export interface Stats {
   marketMeta: MarketMeta[]; latestReport: { id: string; title: string; headline: string | null; figure: string | null } | null;
 }
 export const getStats = (): Promise<Read<Stats>> => read<Stats>("/v1/stats", 60);
-export const getTerms = (symbol: string, chainId = CHAIN_ID): Promise<Read<Terms>> =>
-  read<Terms>(`/v1/terms/${chainId}/${encodeURIComponent(symbol)}`);
+export const getTerms = (symbol: string, chainId = CHAIN_ID, historyHours?: number): Promise<Read<Terms>> =>
+  read<Terms>(`/v1/terms/${chainId}/${encodeURIComponent(symbol)}${historyHours ? `?historyHours=${historyHours}` : ""}`);
 export const getHealth = (): Promise<Read<Health>> => read<Health>("/health");
 
 export const explorerTx = (hash: string, chainId = CHAIN_ID): string =>

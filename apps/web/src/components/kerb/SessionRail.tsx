@@ -133,7 +133,22 @@ function useDisplayWindow(data: { fromMs: number; toMs: number }, now: number | 
 
 // ------------------------------------------------------------------------------ full / compact
 
-export function AssetRail({ symbol, initial, regime, tz, compact = false }: { symbol: string; initial: Clock; regime: Regime | null; tz: string; compact?: boolean }): React.ReactElement {
+export function AssetRail(props: { symbol: string; initial: Clock | null; regime: Regime | null; tz: string; compact?: boolean }): React.ReactElement {
+  const { clock } = useClock(props.symbol, props.initial);
+  const c = clock ?? props.initial;
+  if (!c) {
+    return (
+      <section className={`rail rail-${props.compact ? "compact" : "full"}`} aria-label={`Session rail for ${props.symbol}`} aria-busy="true">
+        <div className="rail-head"><span className="ink-3">Reading the clock for {props.symbol}</span></div>
+        <div className="rail-body"><div className="rail-band skel" /></div>
+        {props.compact ? null : <div className="rail-days" />}
+      </section>
+    );
+  }
+  return <AssetRailInner {...props} initial={c} />;
+}
+
+function AssetRailInner({ symbol, initial, regime, tz, compact = false }: { symbol: string; initial: Clock; regime: Regime | null; tz: string; compact?: boolean }): React.ReactElement {
   const { clock, updating, now } = useClock(symbol, initial);
   const c = clock ?? initial;
   const data = { fromMs: Date.parse(c.window.from), toMs: Date.parse(c.window.to) };

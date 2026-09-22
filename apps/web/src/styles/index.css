@@ -19,4 +19,6 @@
 @import "./pages-legacy.css";
 @import "./pages/home.css";
 @import "./pages/plates.css";
+@import "./pages/board.css";
+@import "./pages/asset.css";
 @import "./utilities.css";
