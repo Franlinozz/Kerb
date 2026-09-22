@@ -22,6 +22,13 @@ export function useClock(symbol: string, initial: Clock | null): { clock: Clock 
   const next = live.data ? Date.parse(live.data.clock.nextTransition.at) : null;
   const passed = now !== null && next !== null && now >= next;
   const { refetch } = live;
-  useEffect(() => { if (passed) refetch(); }, [passed, next, refetch]);
+  // Past the transition: fetch now, and keep asking every 5 s until the Clock names the next one,
+  // in case the first answer still carried the old transition (server skew, a cached response).
+  useEffect(() => {
+    if (!passed) return undefined;
+    refetch();
+    const t = setInterval(refetch, 5000);
+    return () => clearInterval(t);
+  }, [passed, next, refetch]);
   return { clock: live.data, updating: live.updating || passed, failed: live.failed, now };
 }
