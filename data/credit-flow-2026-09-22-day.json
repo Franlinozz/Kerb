@@ -1,0 +1,140 @@
+{
+ "base": "https://v2.usekerb.xyz",
+ "theme": "day",
+ "what": "Day-theme run of the real browser credit flow: deposit, Session Max borrow, Last Call, a stranger's cure from Curable now, full repay. Its withdraw stopped on a disabled button, which found the MAX rounding bug; after the fix the same borrower withdrew through the UI.",
+ "borrower": "0xE6c32ce3bE87B9B8540d10b3F1d1336D324090DB",
+ "curer": "0x2FEBF6eC657F61df8945C3CF1e12D97a6e480905",
+ "steps": [
+  {
+   "at": "2026-09-22T11:32:10Z",
+   "what": "borrower 0xE6c32ce3bE87B9B8540d10b3F1d1336D324090DB funded with 0.004 test OKB",
+   "tx": "0x70c70ee4a078aa7390645fae0976d3d0670f66df257a73674055f76bcd23f8eb",
+   "status": "success",
+   "block": 41617893,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x70c70ee4a078aa7390645fae0976d3d0670f66df257a73674055f76bcd23f8eb"
+  },
+  {
+   "at": "2026-09-22T11:32:11Z",
+   "what": "curer 0x2FEBF6eC657F61df8945C3CF1e12D97a6e480905 funded with 0.004 test OKB",
+   "tx": "0xf839471f3b357db922a702fbbbc1ad5896ed77bb8061eb9f36ac2d94b15c6195",
+   "status": "success",
+   "block": 41617895,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xf839471f3b357db922a702fbbbc1ad5896ed77bb8061eb9f36ac2d94b15c6195"
+  },
+  {
+   "at": "2026-09-22T11:32:23Z",
+   "what": "borrower called faucet",
+   "tx": "0xab71c17b0fc41c4cab1c3af9b801cc7263cc3b6e80e5f8ee24bc5771debbbdd1",
+   "status": "success",
+   "block": 41617907,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xab71c17b0fc41c4cab1c3af9b801cc7263cc3b6e80e5f8ee24bc5771debbbdd1",
+   "call": "faucet"
+  },
+  {
+   "at": "2026-09-22T11:32:25Z",
+   "what": "borrower called faucet",
+   "tx": "0x702a6ae9e9f6fd317b7db46bec232dbb449eb808f53f8f593ab36a95e1fb436b",
+   "status": "success",
+   "block": 41617909,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x702a6ae9e9f6fd317b7db46bec232dbb449eb808f53f8f593ab36a95e1fb436b",
+   "call": "faucet"
+  },
+  {
+   "at": "2026-09-22T11:32:33Z",
+   "what": "sizing: carry 53.96%, Session Max 58.63%, cap 2927.34, mark 86.99 -> deposit 52.72 kKOx, borrow 2634.6 mUSDG (LTV 57.46%)"
+  },
+  {
+   "at": "2026-09-22T11:32:35Z",
+   "what": "borrower called approve",
+   "tx": "0xe6e0e18b702bc28fd2d70ef3ce6ee726cda29040f90b0a3aff31cc6509711e28",
+   "status": "success",
+   "block": 41617919,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xe6e0e18b702bc28fd2d70ef3ce6ee726cda29040f90b0a3aff31cc6509711e28",
+   "call": "approve"
+  },
+  {
+   "at": "2026-09-22T11:32:36Z",
+   "what": "borrower called deposit",
+   "tx": "0x414a50bf0a3c8c8099a1ce0d42d48257366e1463f627a604b314074de138671a",
+   "status": "success",
+   "block": 41617921,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x414a50bf0a3c8c8099a1ce0d42d48257366e1463f627a604b314074de138671a",
+   "call": "deposit"
+  },
+  {
+   "at": "2026-09-22T11:32:39Z",
+   "what": "borrower called borrow",
+   "tx": "0x799d302799189dea6dc3e7553a56f94c64ba1d756ee3b191efd8aff37a4da5f7",
+   "status": "success",
+   "block": 41617923,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x799d302799189dea6dc3e7553a56f94c64ba1d756ee3b191efd8aff37a4da5f7",
+   "call": "borrow"
+  },
+  {
+   "at": "2026-09-22T11:32:49Z",
+   "what": "waiting for the demo Last Call"
+  },
+  {
+   "at": "2026-09-22T11:54:07Z",
+   "what": "Last Call on the borrower's panel: 355.01 mUSDG cure required by 12:03 UTC, in 9m 51s"
+  },
+  {
+   "at": "2026-09-22T11:54:13Z",
+   "what": "curer called faucet",
+   "tx": "0xdaf08dfc5ad2ce7b9d5312bbabc0b721b694b2bda3d2442e617ba4b747467e70",
+   "status": "success",
+   "block": 41619217,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xdaf08dfc5ad2ce7b9d5312bbabc0b721b694b2bda3d2442e617ba4b747467e70",
+   "call": "faucet"
+  },
+  {
+   "at": "2026-09-22T11:54:27Z",
+   "what": "curer called approve",
+   "tx": "0xad55da721d8889b72dfae1ccda42c9ff8e94b7135f4542070c61ce4993d3ad59",
+   "status": "success",
+   "block": 41619231,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xad55da721d8889b72dfae1ccda42c9ff8e94b7135f4542070c61ce4993d3ad59",
+   "call": "approve"
+  },
+  {
+   "at": "2026-09-22T11:54:30Z",
+   "what": "curer called cure",
+   "tx": "0x9699e734b9210589f7e8c6c7375e01a946e54a86a4eeada95b34368127b8204f",
+   "status": "success",
+   "block": 41619234,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x9699e734b9210589f7e8c6c7375e01a946e54a86a4eeada95b34368127b8204f",
+   "call": "cure"
+  },
+  {
+   "at": "2026-09-22T11:54:30Z",
+   "what": "curer cured the position from the public table"
+  },
+  {
+   "at": "2026-09-22T11:54:44Z",
+   "what": "borrower called approve",
+   "tx": "0xd4b89791a2b5f5ba03cc7a7d682bf6144d0d7f4a45af74bdaf98f559d392b026",
+   "status": "success",
+   "block": 41619248,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xd4b89791a2b5f5ba03cc7a7d682bf6144d0d7f4a45af74bdaf98f559d392b026",
+   "call": "approve"
+  },
+  {
+   "at": "2026-09-22T11:54:48Z",
+   "what": "borrower called repay",
+   "tx": "0xf3ad446bade7e17665935c2d88782436b0d26a98466655863b0f6b85ee216448",
+   "status": "success",
+   "block": 41619252,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xf3ad446bade7e17665935c2d88782436b0d26a98466655863b0f6b85ee216448",
+   "call": "repay"
+  },
+  {
+   "at": "2026-09-22T12:13:09Z",
+   "what": "borrower called withdrawCollateral",
+   "tx": "0x1c38e402798b01c1000df8cd403a0cee9b6e731bc26f8c93fb52612be54f74a3",
+   "status": "success",
+   "block": 41620353,
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x1c38e402798b01c1000df8cd403a0cee9b6e731bc26f8c93fb52612be54f74a3",
+   "call": "withdrawCollateral"
+  }
+ ]
+}
