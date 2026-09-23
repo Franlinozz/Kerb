@@ -78,6 +78,8 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 
 | Date | Deviation | Why |
 |---|---|---|
+| 23 Sep | Docs added to the top navigation, and /faq, /whitepaper, /legal/* added | Operator request after a walkthrough (discoverability); AGENTS.md 13.10 lists new top-level navigation as killed, the operator overrides it |
+| 23 Sep | An AI copilot was considered and declined; a deterministic guided tour, the FAQ and the "why" sentences serve onboarding | Guardrail 2 and 13.10: no model near the numbers; documented in docs/release/V3-GAP-AUDIT.md section 6 |
 | 23 Sep | A first USDT0 funding send reverted (`0x29bf2074…`, empty recipient from a key-generation parse error); only gas was spent, no USDT0 moved; resent correctly | Script error, caught by the receipt status |
 | 23 Sep | The paid mainnet call was made by a script with Kerb's own wallet, not an Onchain OS Agentic Wallet | OKX.AI and Onchain OS skipped by the operator; any x402 client is an agent to the endpoint, and the claim says it was our wallet |
 | 23 Sep | The engine report's provenance note ("Produced by KTS-0.1 from the pinned input bundle") is left as it is; claims-check exempts that exact string | It is inside every posted report's byte-identical recompute (`apps/engine/test/recompute.test.ts` fails if it changes), so it is frozen engine output; UI and docs now say "published" |
