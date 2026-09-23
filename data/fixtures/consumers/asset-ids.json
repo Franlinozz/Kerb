@@ -1,0 +1,55 @@
+{
+ "chainId": 196,
+ "assets": [
+  {
+   "symbol": "BRK.Bx",
+   "token": "0x12992613fDd35aBe95DEc5a4964331b1ee23B50d",
+   "assetId": "0xc41fc9c6ee0af5f7f915c31452ee7b1c351302a87e12702053c1de8ddeec8cc2"
+  },
+  {
+   "symbol": "HKEXCx",
+   "token": "0x64c1C1A6453Abb3ebBFC69e3E8f8e75953ABd46a",
+   "assetId": "0xceef091e9b937d639d95fcf4656486bded3108c3125a76fa4174553f533e01d3"
+  },
+  {
+   "symbol": "COINx",
+   "token": "0x364f210f430eC2448Fc68A49203040F6124096F0",
+   "assetId": "0x744b8427556a5a831489a2b1ee8f12bf647bb3ecbe7d95d6c07872b805ad0929"
+  },
+  {
+   "symbol": "KUAIx",
+   "token": "0xFA8a6a57Fc83e416cF45b04b7b92B4f48Da9e7B8",
+   "assetId": "0x4cb69f958f4dea040df745bf3c711c89bf6feda7b4ddaf0af434d97c0b9febec"
+  },
+  {
+   "symbol": "ICEx",
+   "token": "0xDe916B8089Cbd5E52551Bd933c3eA2eA5C903465",
+   "assetId": "0xe9efa8ee6fbe620e48c2891c4a667b89048cfa96f4e99c9a9e546cdfb72417c8"
+  },
+  {
+   "symbol": "MIXUx",
+   "token": "0x8Fa39Ff32B316E2296630aA05BDD6A4a2e4b7598",
+   "assetId": "0xfb48b707a42488889c661ac6b06a5b8d99efb29fbd99e3878ae48ef7bf0d6129"
+  },
+  {
+   "symbol": "KOx",
+   "token": "0xdCC1a2699441079dA889B1F49e12B69cC791129b",
+   "assetId": "0x2052b48fd37e4b80adfb4e2e758dd0ca050b129a4cf7b648e9fbde5aa3c32b27"
+  },
+  {
+   "symbol": "SHEINx",
+   "token": "0x4d0ba049C430a7a80a61E7EBdF50b6dAac6c3Bd6",
+   "assetId": "0xca189148771ede3541a660d8e9a66e726f4764614207b8d20e5110f7a1267656"
+  },
+  {
+   "symbol": "BMNRx",
+   "token": "0xaeB681B69E5094E04d11BCeF51A71358A374C3ED",
+   "assetId": "0x396c23de8238f701f59fdc25914ea8af8f0e8b07d7eaef32cebe0055d1e21eab"
+  },
+  {
+   "symbol": "SLVx",
+   "token": "0x4833e7f4f0460f4B72A3a5879A6C9841bCC5B58B",
+   "assetId": "0xf17a1c397c439684f230e33a4c39e3702ce6705145c5999f11332db454c58ccc"
+  }
+ ]
+}

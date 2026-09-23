@@ -43,11 +43,9 @@ export function httpUpstream(base = process.env["KERB_API_INTERNAL"] ?? "http://
     if (cache.size > 200) cache.clear();
     return v;
   }
-  // The Credit Mark prices the token that trades in the pools: the xStocks wrapper where there is one.
-  const refs = resolvedAssets(loadAssets()).map((a) => {
-    const t = a.poolToken === "wrapper" && a.wrapper ? a.wrapper : a.token;
-    return { symbol: a.symbol, token: t.address, tokenDecimals: t.decimals, assetId: "" };
-  });
+  // The Credit Mark prices one asset token (one KOx), never a wrapper share (engine mark.ts), and
+  // the mainnet assetId is keyed by that token: amounts are in asset tokens.
+  const refs = resolvedAssets(loadAssets()).map((a) => ({ symbol: a.symbol, token: a.token.address, tokenDecimals: a.token.decimals, assetId: "" }));
   let withIds: AssetRef[] | null = null;
   return {
     assets: () => withIds ?? refs,
