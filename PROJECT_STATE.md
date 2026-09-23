@@ -32,13 +32,13 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 | V3-00 Kickoff, current truth, truth sweep | A | Wed morning | A0 | done 23 Sep: CHECKPOINT 0 below, truth sweep, `scripts/claims-check.sh` in CI |
 | V3-01 Freshness guarantee | B (+A warmer) | Wed morning | A0 | **done 23 Sep**, live `3423fab`: first paint 9 to 32 s old (was 2 h 17 m), warmer `kerb-web-warmer` running, E2E `freshness.idle.spec.ts` green in CI incl. the lagged-render case (`--grep @lag`, run alone) |
 | V3-02 Standing demo position | A | Wed morning | A0 | **running 23 Sep** (operator: go keeper, 0.025 test OKB): cycle 1 opened 11:32 UTC (borrow `0x6b3bf5f1…86ca`), stranger cure in a real browser on www 12:00 UTC (`0x5468b5ed…89ca`, data/keeper-cure-2026-09-23.json); 3-cycle observation continuing |
-| V3-03 Kerb for Agents (x402, OKX.AI, MCP) | A | Wed afternoon, register by 18:00 | A1 | **live on testnet x402** 23 Sep: `kerb-agents` behind api.usekerb.xyz, public 402 verified, MCP 6 tools, facilitator accepts the existing OKX key on 196 and 1952. Listing skipped (operator). Settled payment waits on test USDT0 or the mainnet go (Requests) |
+| V3-03 Kerb for Agents (x402, OKX.AI, MCP) | A | Wed afternoon, register by 18:00 | A1 | **x402 on MAINNET 23 Sep** (operator: go x402 mainnet); first paid call settled `0xb0befc3e64d4ba3e62bd2ab0b5be95ca720a1b2b787df0c6f6cf075a314e982e`, payer Kerb's own wallet `0xeB3e…2e8E` funded 0.10 USDT0 from the deployer. Not registered on OKX.AI (operator). Earlier: `kerb-agents` behind api.usekerb.xyz, public 402 verified, MCP 6 tools, facilitator accepts the existing OKX key on 196 and 1952. Listing skipped (operator). Settled payment waits on test USDT0 or the mainnet go (Requests) |
 | V3-04 Term attribution | A then B | Wed evening | A1 | **done and live 23 Sep**: engine attribution (exact split, zero residual on 2,186 real changes), `kerb-attribution` job + `term_changes`, `/why` and `/changes`, UI on Asset, Credit, Home, Board; golden tests on 5 real pairs. Rung 1 |
-| V3-05 Onchain consumers | A | Wed night, deploy Thu after 09:00 | A1 | **testnet done 23 Sep**: KerbQuote `0xfd688bc3…1c05`, factory `0xc363050c…be6b`, ten feeds, demo-clock KerbQuote `0x3caa62ff…6815`, all Sourcify exact; parity with KerbCredit fuzzed and live (block 41707514); mainnet fork tests green. Rung 3 until "go consumers mainnet" (about 0.00015 OKB) |
+| V3-05 Onchain consumers | A | Wed night, deploy Thu after 09:00 | A1 | **MAINNET 23 Sep 17:1x UTC** (operator: go consumers mainnet): KerbQuote `0x223d5e2a97d751403300b55aa92c88a42920e52a`, factory `0x6aababf6d83fcfb81459f8ffee3f6dd9b83d7f6f`, ten feeds, all Sourcify exact, 0.00014 OKB; cast quoteToken(BRK.Bx,10,Carry) max borrow 2,842.51 USDG at block 71414524. Rung 1. Testnet earlier: KerbQuote `0xfd688bc3…1c05`, factory `0xc363050c…be6b`, ten feeds, demo-clock KerbQuote `0x3caa62ff…6815`, all Sourcify exact; parity with KerbCredit fuzzed and live (block 41707514); mainnet fork tests green. Rung 3 until "go consumers mainnet" (about 0.00015 OKB) |
 | V3-06 Exit evidence | A then B | Wed night or Thu | A2 | **done and live 23 Sep**: `exit_checks` per post, `/v1/exit`, Asset Exit check panel with strip, Proof counts |
 | V3-07 Consumers and positioning surfaces | B | Thu | A1 | **done 23 Sep**: Home consumers, Developers four tabs with live KerbQuote read, Proof Agents tile and Consumers group, keeper-aware Credit, README first screen + FAQ, CLAIM_EVIDENCE rows |
 | V3-08 Last Call alerts | B (+A) | Thu, cut first | A2 | **done 23 Sep** (browser notifications, open tab; no Telegram bot, no token given) |
-| V3-09 Report #2 and dataset | A then B | Thu after 09:00 | A0 | captures scheduled (crontab), generator dry-run OK 23 Sep |
+| V3-09 Report #2 and dataset | A then B | Thu after 09:00 | A0 | prepared 23 Sep: generator gives per-asset verdicts, versions every run, marks partial/final; dataset `/v1/datasets/depth-hourly.{csv,json}` (hourly cron at :25, skips Thu 05-09 UTC); Research links, Home KPI label. Data half runs Thu after 09:00 |
 | V3-10 Hardening, freeze 22:00 | both | Thu 16:00 to 22:00 | A0 | not started |
 | V3-11 Certification, tag v3.0.0 | both | Fri 00:00 to 04:00 | A0 | not started |
 | V3-12 Film and submit | operator + both | Fri 06:00 to 16:00 | A0 | not started |
@@ -65,10 +65,21 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 | 23 Sep | A | B | Credit empty state: replace "Kerb does not keep a standing demo position" with V3-POSITIONING section 2 copy, reading `/v1/credit/1952/keeper` | done (V3-07) |
 | 23 Sep | A | operator | x402 settled payment: either test USDT0 from the faucet to a payer wallet, or "go x402 mainnet" plus about 0.10 USDT0 moved from the deployer (holds 3.73) to a throwaway payer | open |
 
+### V3 additions requested by the operator (23 Sep, beyond the pack)
+
+| What | Where | Evidence |
+|---|---|---|
+| Your account: holdings, supplied liquidity, positions with LTV, health and Last Call, the address's own dated history, paid agent calls; any address via `?addr=` | `/account`, API `/v1/credit/1952/account/:address` | data/screens/v3/profile; linked from the wallet menu and footer, not the top navigation (13.10) |
+| Docs: concepts, borrow and cure, REST and SDK, contracts, agents, verify, live addresses, limits, glossary | `/docs` | linked from Home, Developers and footer |
+| Home motion: scroll reveal (script-added), layers light in data order, a pulse into the four consumers; off under reduced motion | Home | |
+| Full credit cycle on production in a real browser: fresh wallets, Session Max borrow, Last Call, stranger cure, repay, withdraw | www.usekerb.xyz | `data/credit-flow-2026-09-23.json` |
+
 ### V3 deviations
 
 | Date | Deviation | Why |
 |---|---|---|
+| 23 Sep | A first USDT0 funding send reverted (`0x29bf2074…`, empty recipient from a key-generation parse error); only gas was spent, no USDT0 moved; resent correctly | Script error, caught by the receipt status |
+| 23 Sep | The paid mainnet call was made by a script with Kerb's own wallet, not an Onchain OS Agentic Wallet | OKX.AI and Onchain OS skipped by the operator; any x402 client is an agent to the endpoint, and the claim says it was our wallet |
 | 23 Sep | The engine report's provenance note ("Produced by KTS-0.1 from the pinned input bundle") is left as it is; claims-check exempts that exact string | It is inside every posted report's byte-identical recompute (`apps/engine/test/recompute.test.ts` fails if it changes), so it is frozen engine output; UI and docs now say "published" |
 | 23 Sep | One test row (`network = 't'`, id 1) sits in `agent_calls`: the append-only trigger was checked with a real insert and, correctly, refused the delete. `/v1/agents/stats` counts only `eip155:*` networks | Append-only by design; rolled forward, not deleted |
 | 23 Sep | The agents value `amount` in asset tokens (one xStock), not wrapper shares: the Credit Mark prices the asset token (engine mark.ts); fixed the same day | Found while writing KerbQuote |
