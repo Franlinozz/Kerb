@@ -1,7 +1,74 @@
 # PROJECT_STATE.md
 ## Living state. Update at every checkpoint. A new agent must be able to resume from this file alone.
 
-Last updated: 21 Sep 2026. V1 phases 0-6 complete and evidenced. V2 started 21 Sep: see the V2 section directly below.
+Last updated: 23 Sep 2026. V1 and V2 complete (V2 live since the 22 Sep cutover, tag `v2.0.0`). V3 started 23 Sep: see the V3 section directly below.
+
+---
+
+## V3 (23 to 25 Sep 2026)
+
+V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, contracts through KerbQuote, developers through SDK and MCP), fixes stale first paint, and ships Report #2, the video and the form. Plan: `docs/v3/V3-BUILD-PROMPTS.md`; rules: AGENTS.md section 13. One agent (Claude Code) runs both lanes, single-agent order. Feature freeze Thu 24 Sep 22:00 UTC; code freeze and tag `v3.0.0` Fri 25 Sep 04:00 UTC. Protected windows: Thu 24 Sep 05:00 to 09:00 UTC and Fri 25 Sep 06:00 to 10:30 UTC, no production deploys.
+
+### V3-00 CHECKPOINT 0 (23 Sep 2026, 10:50 UTC)
+
+| Item | Reading |
+|---|---|
+| HEAD, CI | `51d3da2` (operator's pack upload), tree clean apart from untracked V2 screenshots and window captures; CI run 35848804786 success |
+| Production web | live and staging both `9292a51` (`/root/kerb-deploy/*/releases/20260922T16*-9292a51`) |
+| /health | newest observation 13 s old (87,255 pool rows); last post 196 at 10:43:44, 1952 at 10:43:57 |
+| Last mainnet posts | MIXUx `0x12c14c0d…2347`, KUAIx `0x881ce830…c525`, COINx `0x1ec734ad…133f`, each about 1 min old, Builder Code decodes to `kt0hl6xyhlx8xmt` on all three |
+| Keeper | `kerb-demo-keeper` not in PM2 (never started); `0xacCd…C0f4` holds 0 on 1952 and 196 |
+| Report #2 | crontab in Europe/Berlin (UTC+2): window-watch Thu 05:00 UTC, campaign-pre 06:30 and 06:55, campaign-post 07:05, 07:30 and 08:30, window-end Fri 07:00; generator Thu 09:30 and 19:00, Fri 07:15 UTC. `--dry-run` wrote `data/reports/market-time-2.dry.json` (partial) |
+| Deployer `0x0d63…53F2` | 196: 0.01688 OKB; 1952: 0.02545 OKB |
+| Poster `0x1b95…0816` (pays attester gas) | 196: 0.00869 OKB, burned 0.00235 in the last 24 h, hard stop at 0.002, so about 2.8 days: stops around Sat 26 Sep 07:00 UTC. 1952: 0.02267, burned 0.00261 a day, about 7.9 days. The attester key itself holds nothing (signs only) |
+| OKX Developer Portal credentials | yes (`OKX_DEX_API_*` in collector and secrets env); Payments permission cannot be read from the VPS |
+| Pinning | last 24 h: 2,735 of 2,735 bundles retrievable, 0 from IPFS, 2,735 from the API |
+| First paint (L-01) | first cold request 10:49:58 UTC: /board `generatedAt` 08:33:03 (2 h 17 m old), /credit terms `observedAt` 08:12:57 (2 h 37 m old); the next request 11 s later was fresh. /proof was 2 min old (recently visited). L-01 confirmed |
+
+### Phases
+
+| Phase | Lane | Target (UTC) | Priority | Status |
+|---|---|---|---|---|
+| V3-00 Kickoff, current truth, truth sweep | A | Wed morning | A0 | done 23 Sep: CHECKPOINT 0 below, truth sweep, `scripts/claims-check.sh` in CI |
+| V3-01 Freshness guarantee | B (+A warmer) | Wed morning | A0 | not started |
+| V3-02 Standing demo position | A | Wed morning | A0 | not started; keeper wallet unfunded |
+| V3-03 Kerb for Agents (x402, OKX.AI, MCP) | A | Wed afternoon, register by 18:00 | A1 | not started; OKX.AI listing on hold (operator) |
+| V3-04 Term attribution | A then B | Wed evening | A1 | not started |
+| V3-05 Onchain consumers | A | Wed night, deploy Thu after 09:00 | A1 | not started |
+| V3-06 Exit evidence | A then B | Wed night or Thu | A2 | not started |
+| V3-07 Consumers and positioning surfaces | B | Thu | A1 | not started |
+| V3-08 Last Call alerts | B (+A) | Thu, cut first | A2 | not started |
+| V3-09 Report #2 and dataset | A then B | Thu after 09:00 | A0 | captures scheduled (crontab), generator dry-run OK 23 Sep |
+| V3-10 Hardening, freeze 22:00 | both | Thu 16:00 to 22:00 | A0 | not started |
+| V3-11 Certification, tag v3.0.0 | both | Fri 00:00 to 04:00 | A0 | not started |
+| V3-12 Film and submit | operator + both | Fri 06:00 to 16:00 | A0 | not started |
+
+### Operator actions
+
+| # | Action | Deadline | Answer |
+|---|---|---|---|
+| 1 | Claim 0.02 test OKB from the X Layer faucet to the keeper `0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4`, write "go keeper" | Wed 23, when V3-02 asks | |
+| 2 | Onchain OS install and Agentic Wallet email login | Wed 23, early | |
+| 3 | Confirm the OKX Developer Portal key (existing DEX key or a new one with Payments) and a receive-only X Layer address for payments | Wed 23 | |
+| 4 | Register the A2MCP ASP and request listing (agent drives, operator approves) | Wed 23 by 18:00 UTC | on hold: operator is inclined to suspend the OKX.AI listing (23 Sep); nothing else in V3 depends on it |
+| 5 | About 2 USDT0 on X Layer mainnet in the Agentic Wallet | Thu 24 | |
+| 6 | "go consumers mainnet" for KerbQuote and KerbMarkFeed | Thu 24 | |
+| 7 | Hands off production Thu 24 05:00 to 09:00 UTC | Thu 24 | |
+| 8 | Record the video, Fri 25 07:30 to 08:00 UTC | Fri 25 | |
+| 9 | Fill and submit the form from `docs/v3/V3-SUBMISSION.md` | Fri 25 by 16:00 UTC | |
+| 10 | Top up the mainnet poster `0x1b9587AD7e0bd6E1AC3588799999C62d0f0f0816` (added by V3-00, see CHECKPOINT 0) | before Fri 25 | |
+
+### Requests
+
+| Date | From | To | Request | Status |
+|---|---|---|---|---|
+
+### V3 deviations
+
+| Date | Deviation | Why |
+|---|---|---|
+| 23 Sep | The engine report's provenance note ("Produced by KTS-0.1 from the pinned input bundle") is left as it is; claims-check exempts that exact string | It is inside every posted report's byte-identical recompute (`apps/engine/test/recompute.test.ts` fails if it changes), so it is frozen engine output; UI and docs now say "published" |
+| 23 Sep | `docs/planning/BUILD_PLAN.md` is exempt from claims-check like the master plan | It is the dated V1 plan and records what was intended on 18 Sep |
 
 ---
 
@@ -17,14 +84,14 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 | V2-00 Repo hygiene, CI, verification | backend | done 21 Sep: root clean, 38 em dashes to 0 with a CI check, CI green, five testnet contracts Sourcify exact match, mirror LT explained, pinning options below |
 | V2-01 KTS-0.2 horizon-bound margins (gated, Tue 22 Sep 18:00 UTC) | backend | LIVE 21 Sep 19:38 UTC on operator's go: first 0.2 posts mainnet 0x6212668a35862bb6753ffb84ec9843665df3b3bff9fed5999bb65a5fca139577, testnet 0x4f43fb62a91c0ebf48ab081c460ca55eb613b07c5d61612cd643e431e5eec053. Confirmed across the 20:00 UTC New York close: KOx Carry 55.60% to 51.57%, Session Max 61.20% to 54.47% ([0x70acaeaa](https://www.oklink.com/xlayer/tx/0x70acaeaa192d81e4fa9a5f58d6aebd1b560df55dc0e2f8f704fec614d0f6d9c5) then [0xfcc7616f](https://www.oklink.com/xlayer/tx/0xfcc7616f8aca33137359880b38c67de3624b12d271410b64481841712dfd6f40)) |
 | V2-02 API support for V2 | backend | done 21 Sep: board additions and summary, /v1/tape, /v1/stats, demo-clock, positions feed (rung 1, indexed from events), docs/API.md |
-| V2-03 Art batch and brand assets | backend + operator pick | done 22 Sep with the operator's own plates (no API cost): five placed, mapped by content (docs/v2/ART.md); The Seal has no approved image, Proof opens on the geometric Kerbstone; AVIF and WebP derivatives, phone crop, blur placeholders |
+| V2-03 Art batch and brand assets | backend + operator pick | done 22 Sep with the operator's own plates (no API cost): five placed, mapped by content (docs/v2/ART.md); The Seal (upload 09) approved by the operator and placed on Proof 22 Sep in `787f66e`; AVIF and WebP derivatives, phone crop, blur placeholders |
 | V2-04 Kerbstone foundation and app shell | frontend | done 21 Sep on staging: tokens and layers, fonts loaded, three themes, header, drawer, wallet sheet, error map, toasts, TxStepper, footer, 20 primitives, system routes, redirects, metadata; 60 screenshots in data/screens/v2/shell |
 | V2-05 Time components | frontend | done 22 Sep: SessionRail full, compact, lanes and demo on tested geometry; countdown refetches at every transition (E2E across a mocked transition, video data/screens/v2/rail/transition-mocked.webm); MarketClocks from the API; the Tape; page rails about their subject (/credit shows the demo clock) |
 | V2-06 Home | frontend | done 22 Sep: Kerbstone hero with the approved Night and Day plates, live callouts, Tape, lanes, measured KPIs, how a term is made, Carry against Session Max with the LTV ladder, Board preview, verify band. 10-second test passed (fresh model named tokenized-stock lending tied to market liquidity). Lighthouse mobile: performance 64 accessibility 96 best-practices 100; performance below the 85 target, hydration cost carried to V2-11 |
 | V2-07 Board and Asset | frontend | done 22 Sep: Board with KPI band, URL filters, row-selected rail, sparklines, compact ladders, phone cards; Asset with KPI band, ladder with the KTS-0.2 margin line, tabs (overview from live values, impact curve, mark waterfall, 72 h terms history, onchain); 7 E2E tests pass |
 | V2-08 Credit, the hero workflow | both | done 22 Sep on staging. Four real browser runs on X Layer testnet, every receipt checked: run 1 (old build; withdraw ran out of gas, which found the gas estimate bug), run 2 full lifecycle `data/credit-flow-2026-09-22.json` (shown on /proof), keyboard only `-keyboard.json` (Tab, Enter and arrows; no pointer), Day theme `-day.json` (its withdraw found the MAX rounding bug; finished through the UI after the fix). Fixed from the runs: gas padding, MAX exact and rounded down, a Last Call panel that says a cure already happened, wallet state gated until hydration (React 418 gone in the Day run). Screenshots of every reachable state in both themes: data/screens/v2/credit-states and credit-states-day. Liquidatable cannot be produced on testnet without moving a price; its panel is covered by review only. Keeper waits for the operator (rung 3 stated on the page) |
 | V2-09 Research and Report #2 | both | frontend done 22 Sep (index with Scheduled row and countdown, report page with diverging bars, window strip with real gap positions from `/v1/market-time/:id/gaps`); data half (Report #2) runs Thu 24 Sep after 09:00 UTC. Captures are scheduled in root's crontab (local time, UTC+2): window-start Wed 07:00 UTC, window-watch Thu 05:00 to 09:00 UTC, campaign-pre 06:30 and 06:55, campaign-post 07:05, 07:30 and 08:30, window-end Fri 07:00 UTC; tested under cron's environment 22 Sep. Report #2 (`apps/engine/scripts/market-time-report-2.ts`, dry-run on the 21 Sep record) generates Thu 09:30 and 19:00 UTC and Fri 07:15 UTC, marked partial until the window closes. Report #1 C(1%) appendix done 22 Sep (`scripts/c1-appendix.ts`), original figures unchanged |
-| V2-10 Methodology, Proof, Developers | frontend | done 22 Sep: contents rail with scroll-spy, live regime rule, 0.2 margins, wrapping parameters; Proof status matrix with live recompute against chain and per-row Builder Codes; Developers tabs with live responses; 5 E2E tests (no overflow at 390 and 1440, no bare "no"). The Seal plate is still unapproved, so Proof keeps the geometric Kerbstone |
+| V2-10 Methodology, Proof, Developers | frontend | done 22 Sep: contents rail with scroll-spy, live regime rule, 0.2 margins, wrapping parameters; Proof status matrix with live recompute against chain and per-row Builder Codes; Developers tabs with live responses; 5 E2E tests (no overflow at 390 and 1440, no bare "no"). The Seal plate was approved and placed on Proof 22 Sep (`787f66e`) |
 | V2-11 Hardening and cutover (freeze Thu 24 Sep 20:00 UTC) | both | **done 22 Sep; cut over 16:00 to 16:02 UTC**, tag `v2.0.0` (`c8a72c0`). CI green with E2E required; 47 E2E (functional, links, shell, axe on 10 routes in both themes) pass on production via `e2e:live`; Lighthouse mobile on production 94 to 100 (a11y 99 to 100, best practices 96 to 100); 277 buttons, none dead; secret scan clean; golden path on the release build with fresh wallets, 13 txs all successful. Real-user walkthrough (`apps/web/scripts/walkthrough.mjs`, 90 page checks and 12 interactions) run on production, findings fixed and redeployed (`9292a51`). Caddy holds requests through a release swap (no 502). Rollback: `bash scripts/deploy-web.sh rollback live` |
 | V2-12 Certification, video, submission | both + operator | not started |
 
@@ -34,7 +101,7 @@ V2 rebuilds how Kerb is experienced and makes one gated engine change (KTS-0.2).
 |---|---|---|
 | DNS: A record `v2.usekerb.xyz` -> 62.171.182.75 (staging) | now | done; cert issued after a Caddy reload |
 | Move the live site onto release directories (see V2 cutover, step 0) | before any live web deploy | **yes**; done 21 Sep 19:40 UTC, kerb-web now serves /root/kerb-deploy/live/current |
-| Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | operator generated the plates himself; five placed; P4 The Seal: approve docs/v2/art-unplaced/09-experimental-monolith-cube.png, or keep the geometric fallback |
+| Art batch cost approval, then the pick per plate (V2-03) | Mon 21 Sep | operator generated the plates; all six placed; P4 The Seal (upload 09) approved 22 Sep and placed on Proof in `787f66e` |
 | KTS-0.2 go or no-go (V2-01) | Tue 22 Sep 18:00 UTC | **go**, written by the operator 21 Sep |
 | Pinning: upgrade Pinata, switch provider, or keep API-served bundles (V2-00) | V2-00 | **C**, keep API-served bundles (operator, 21 Sep) |
 | Mirror LT: align or explain (V2-00) | V2-00 | explained (API disclaimer, docs/ARCHITECTURE.md). Aligning is not possible without a redeploy: a listed threshold has no setter and relisting reverts `AlreadyListed` |
