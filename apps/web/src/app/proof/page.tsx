@@ -11,7 +11,8 @@ import { Disclosure } from "@/components/ui/Disclosure";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { PageRail } from "@/components/kerb/PageRail";
 import { PlateHero } from "@/components/kerb/PlateHero";
-import { getHealth, getProof, getStats, PUBLIC_API, type Proof, type Stats } from "@/lib/api";
+import { getAgentStats, getHealth, getProof, getStats, PUBLIC_API, type AgentStats, type Proof, type Stats } from "@/lib/api";
+import { Fragment } from "react";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
 import { buildRows, Inline } from "@/components/kerb/BuildLog";
 
@@ -21,9 +22,26 @@ export const revalidate = 30;
 type State = "ok" | "warn" | "info";
 interface Tile { name: string; value: string; note: string; state: State; href: string; hrefLabel: string; external?: boolean }
 
+/** V3-03: paid calls settled on X Layer. Real data only; before the first payment it says so. */
+function agentsTile(a: AgentStats | null): Tile {
+  const listing = a ? { unregistered: "not listed on OKX.AI", registered: "registered on OKX.AI", under_review: "OKX.AI listing under review", listed: "listed on OKX.AI" }[a.listingStatus] : "listing unknown";
+  const main = a?.paidCalls.find((c) => c.network === "eip155:196");
+  const test = a?.paidCalls.find((c) => c.network === "eip155:1952");
+  const latest = main?.latest ?? test?.latest ?? null;
+  if (!a) return { name: "Agents (x402)", value: "Not readable", note: "The agents record could not be read", state: "warn", href: "/developers#agents", hrefLabel: "Kerb for Agents" };
+  const net = a.live.network === "eip155:196" ? "mainnet" : "testnet";
+  return {
+    name: "Agents (x402)",
+    value: main ? `${main.count} paid ${main.count === 1 ? "call" : "calls"} settled on X Layer` : `x402 live on ${net}, no settled mainnet call yet`,
+    note: `${latest ? `Latest ${shortHash(latest.tx)}${test && !main ? " on testnet" : ""}. ` : ""}${a.live.price} in ${a.live.currency} per call; ${listing}`,
+    state: main ? "ok" : "info",
+    href: latest?.explorer ?? "/developers#agents", hrefLabel: latest ? "The settlement transaction" : "Kerb for Agents", ...(latest ? { external: true } : {}),
+  };
+}
+
 const chainName = (id: number): string => (id === 196 ? "X Layer mainnet" : "X Layer testnet");
 
-function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: string | null }[] | null, stats: Stats | null): Tile[] {
+function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: string | null }[] | null, stats: Stats | null, agents: AgentStats | null = null): Tile[] {
   // The headline count comes from /v1/stats, the same source as Home, so the two agree (L-09).
   const main = stats?.postsByChain.find((c) => c.chainId === 196)?.count ?? p.onchain.postCounts.find((c) => c.chainId === 196)?.count ?? 0;
   const mainLast = healthPosts?.find((h) => h.chainId === 196)?.lastAt ?? p.onchain.latestPosts.find((x) => x.chainId === 196)?.observedAt ?? null;
@@ -45,12 +63,13 @@ function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: 
     { name: "Input bundles", value: `${group(String(pin.retrievable))} of ${group(String(pin.recentPosts))} retrievable`, note: `Last 24 h: ${pin.pinned} from IPFS, ${group(String(pin.storedByApi))} from the API. Since K-43`, state: pin.retrievable === pin.recentPosts ? "ok" : "warn", href: p.data.latestBundle ? `${PUBLIC_API}${p.data.latestBundle.apiUrl}` : "#reproduce", hrefLabel: "The latest bundle", external: true },
     { name: "Recompute", value: v ? (v.ok ? "Reproduces the chain" : "Mismatch") : "Not checked", note: v ? `${v.symbol ?? "Latest"} under KTS ${v.kts}, ${v.fields.length} fields, checked ${utcStamp(v.checkedAt)}` : "The latest bundle could not be read", state: v?.ok ? "ok" : "warn", href: "#reproduce", hrefLabel: "The field by field result" },
     { name: "Tests", value: t ? `${t.typescript.passed} TS · ${t.solidity.passed} Sol` : "Not recorded", note: t ? `${fails} failing, run ${utcStamp(t.finishedAt)} on ${t.commit.slice(0, 7)}` : "No test run recorded", state: t && fails === 0 ? "ok" : "warn", href: `${p.build.repo}/blob/main/data/test-report.json`, hrefLabel: "The test report", external: true },
+    agentsTile(agents),
     { name: "Mainnet user funds", value: "None held", note: "The mainnet contracts carry terms, not money. Credit runs on testnet", state: "info", href: "#limitations", hrefLabel: "Limitations" },
   ];
 }
 
 export default async function ProofPage(): Promise<React.ReactElement> {
-  const [proof, health, stats] = await Promise.all([getProof(), getHealth(), getStats()]);
+  const [proof, health, stats, agents] = await Promise.all([getProof(), getHealth(), getStats(), getAgentStats()]);
   if (!proof.ok) {
     return (
       <>
@@ -76,7 +95,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
       <PageRail subject={{ kind: "lanes" }} />
 
       <ul className="proof-tiles" role="list">
-        {tiles(p, hp, stats.ok ? stats.data : null).map((t) => (
+        {tiles(p, hp, stats.ok ? stats.data : null, agents.ok ? agents.data : null).map((t) => (
           <li key={t.name} className="ptile" data-state={t.state}>
             <span className="t-label">{t.name}</span>
             <span className="ptile-value">{t.value}</span>
@@ -93,14 +112,17 @@ export default async function ProofPage(): Promise<React.ReactElement> {
             <table className="ptable">
               <thead><tr><th>Contract</th><th>Chain</th><th>Address</th><th className="num">Block</th><th>Verification</th></tr></thead>
               <tbody>
-                {p.onchain.deployments.map((d) => (
-                  <tr key={d.key}>
+                {[...p.onchain.deployments].sort((a, b) => (a.group === "consumers" ? 1 : 0) - (b.group === "consumers" ? 1 : 0)).map((d, i, all) => (
+                  <Fragment key={d.key}>
+                  {d.group === "consumers" && all[i - 1]?.group !== "consumers" ? <tr className="ptable-group"><td colSpan={5}><span className="t-label">Consumers · read-only, hold nothing, no owner</span></td></tr> : null}
+                  <tr>
                     <td data-label="Contract">{d.contract.replace(":", " ")}</td>
                     <td data-label="Chain" className="ink-2">{chainName(d.chainId)}</td>
                     <td data-label="Address"><a className="mono" href={d.explorer} target="_blank" rel="noreferrer">{shortHash(d.address, 8, 6)}</a></td>
                     <td data-label="Block" className="num mono">{d.block ?? "Not recorded"}</td>
                     <td data-label="Verification">{d.verificationUrl ? <a href={d.verificationUrl} target="_blank" rel="noreferrer">{d.verification}</a> : d.verification ?? "Source in repo, verification pending"}</td>
                   </tr>
+                  </Fragment>
                 ))}
               </tbody>
             </table>

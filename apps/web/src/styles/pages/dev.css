@@ -18,3 +18,12 @@
     .dev-endpoints > div { grid-template-columns: 1fr; gap: 4px; }
   }
 }
+
+@layer pages {
+  /* V3-07: KerbQuote and the live read. */
+  .dev-use { display: grid; gap: var(--s-4); padding-bottom: var(--s-5); border-bottom: 1px solid var(--hair); }
+  .quote-live { padding: var(--s-4); border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); }
+  .quote-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-3); margin: var(--s-3) 0 0; }
+  .quote-grid dd { margin: 4px 0 0; }
+  @media (max-width: 760px) { .quote-grid { grid-template-columns: 1fr 1fr; } }
+}

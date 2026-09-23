@@ -8,7 +8,11 @@
 import { useEffect, useState } from "react";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { Tabs } from "@/components/ui/Tabs";
-import { utcStamp } from "@/lib/format";
+import { shortHash, utcStamp } from "@/lib/format";
+import type { AgentStats } from "@/lib/api";
+import { QuoteLive } from "./QuoteLive";
+
+export interface ConsumerInfo { quote: `0x${string}`; chainId: number; token: `0x${string}`; symbol: string; feeds: { symbol: string; address: string; explorer: string }[]; verification: string | null }
 
 type Live = { state: "loading" } | { state: "ok"; at: string; body: string } | { state: "error" };
 
@@ -54,11 +58,11 @@ const pickOnchain = (j: unknown): unknown => {
   return { "effectiveTerms(assetId)": { carryLTV: raw("carryLTV"), sessionMaxLTV: raw("sessionMaxLTV"), creditMark: raw("creditMark"), regime: (t["regime"] as { index?: number } | undefined)?.index, usable: t["usable"] }, postedIn: t["tx"] };
 };
 
-export function DevConsole({ api, kerbTerms, symbol }: { api: string; kerbTerms: string; symbol: string }): React.ReactElement {
+export function DevConsole({ api, kerbTerms, symbol, consumer = null, agents = null }: { api: string; kerbTerms: string; symbol: string; consumer?: ConsumerInfo | null; agents?: AgentStats | null }): React.ReactElement {
   // /developers#rest and #solidity open that tab (the footer links there); the tab keeps the hash.
   const [tab, setTab] = useState<string | undefined>(undefined);
   useEffect(() => {
-    const read = (): void => { const h = window.location.hash.slice(1); if (h === "sdk" || h === "rest" || h === "solidity") setTab(h); };
+    const read = (): void => { const h = window.location.hash.slice(1); if (h === "sdk" || h === "rest" || h === "solidity" || h === "agents") setTab(h); };
     read(); window.addEventListener("hashchange", read); return () => window.removeEventListener("hashchange", read);
   }, []);
   const sdk = `import { Kerb, toDecimalString } from "./kerb";
@@ -98,12 +102,29 @@ contract Lender {
     }
 }`;
 
+  const kq = consumer ? `KerbQuote.Quote memory q = KerbQuote(${consumer.quote}).quoteToken(TOKEN, amount, KerbQuote.Mode.Carry);
+require(q.usable, "Kerb: terms not usable");
+require(debt <= q.maxBorrow, "Kerb: above Carry capacity");
+// q.cureDeadline (Session Max), q.inputsHash: the bundle that recomputes these numbers` : "";
+  const cast = consumer ? `cast call ${consumer.quote} "quoteToken(address,uint256,uint8)((bool,uint16,uint64,uint128,uint64,uint64,uint256,uint256,uint128,uint128,uint128,uint64,uint64,bytes32))" ${consumer.token} 10000000000000000000 0 --rpc-url ${consumer.chainId === 196 ? "https://rpc.xlayer.tech" : "https://testrpc.xlayer.tech"}` : "";
+  const mcp = `{
+  "mcpServers": {
+    "kerb": { "type": "http", "url": "${api}/mcp" }
+  }
+}`;
+  const pay = `curl -i -X POST ${api}/agents/credit-check \
+  -H 'content-type: application/json' \
+  -d '{"asset":"HKEXCx","amount":"100","mode":"session_max"}'
+# HTTP 402 with PAYMENT-REQUIRED: sign the EIP-3009 transfer it describes and retry
+# with PAYMENT-SIGNATURE. Any x402 client does this, for example @okxweb3/x402-fetch.`;
+  const latestPaid = agents?.paidCalls.find((p) => p.network === "eip155:196")?.latest ?? agents?.paidCalls.find((p) => p.latest)?.latest ?? null;
+
   return (
     <Tabs label="Integration" {...(tab ? { value: tab } : {})} onChange={(id) => { setTab(id); history.replaceState(null, "", `#${id}`); }} tabs={[
       { id: "sdk", label: "SDK", content: (
         <div className="dev-tab">
-          <p className="t-small ink-2">One TypeScript file with no dependencies. It is not on npm yet, so take it from the repository:</p>
-          <CodeBlock variants={[{ lang: "shell", code: "curl -o kerb.ts https://raw.githubusercontent.com/Franlinozz/Kerb/main/packages/sdk/src/index.ts" }]} />
+          <p className="t-small ink-2">One TypeScript file with no dependencies. It is not on npm yet, so take it from the repository, as one file or the whole package:</p>
+          <CodeBlock variants={[{ lang: "shell", code: "curl -o kerb.ts https://raw.githubusercontent.com/Franlinozz/Kerb/main/packages/sdk/src/index.ts" }, { lang: "degit", code: "npx degit Franlinozz/Kerb/packages/sdk kerb-sdk" }]} />
           <CodeBlock variants={[{ lang: "typescript", code: sdk }]} />
           <LivePanel url={`${api}/v1/terms/196/${encodeURIComponent(symbol)}`} pick={pickTerms} />
         </div>
@@ -118,11 +139,41 @@ contract Lender {
       ) },
       { id: "solidity", label: "Solidity", content: (
         <div className="dev-tab">
+          {consumer ? (
+            <div className="dev-use">
+              <h3>Use Kerb from your contract</h3>
+              <p className="t-small ink-2">KerbQuote reads the posted terms and the clock and returns max borrow, cure deadline and usability in one call, valuing collateral exactly as Kerb Credit does. It holds nothing and has no owner. {consumer.chainId === 196 ? "On X Layer mainnet" : "On X Layer testnet for now; the mainnet deployment is pending"}, <a className="mono" href={`https://www.oklink.com/${consumer.chainId === 196 ? "xlayer" : "x-layer-testnet"}/address/${consumer.quote}`} target="_blank" rel="noreferrer">{shortHash(consumer.quote, 8, 6)}</a>{consumer.verification ? `, ${consumer.verification}` : ""}.</p>
+              <CodeBlock variants={[{ lang: "solidity", code: kq }]} />
+              <QuoteLive quote={consumer.quote} chainId={consumer.chainId} token={consumer.token} symbol={consumer.symbol} />
+              <CodeBlock variants={[{ lang: "shell", code: cast }]} />
+              {consumer.feeds.length ? (
+                <>
+                  <p className="t-small ink-2 mt-4">KerbMarkFeed puts the Credit Mark behind a Chainlink-shaped latestRoundData (8 decimals), and fails closed when the terms are not usable. The mark is conservative by construction, not a mid-market price.</p>
+                  <dl className="dev-endpoints">{consumer.feeds.map((f) => <div key={f.address}><dt>{f.symbol}</dt><dd><a className="mono" href={f.explorer} target="_blank" rel="noreferrer">{shortHash(f.address, 8, 6)}</a></dd></div>)}</dl>
+                </>
+              ) : null}
+            </div>
+          ) : null}
+          <h3 className="mt-5">Or read KerbTerms directly</h3>
           <p className="t-small ink-2">The authoritative source: no API and no Kerb server in the path. assetId is keccak256(abi.encode(chainId, token)).</p>
           <CodeBlock variants={[{ lang: "shell", code: `cast call ${kerbTerms} "effectiveTerms(bytes32)(uint64,uint64,uint128,uint16,bool)" <assetId> --rpc-url https://rpc.xlayer.tech` }]} />
           <CodeBlock variants={[{ lang: "solidity", code: sol }]} />
           <LivePanel url={`${api}/v1/terms/196/${encodeURIComponent(symbol)}`} pick={pickOnchain} />
           <p className="t-small ink-3">The panel shows the values as last posted; the contract adds its own freshness check to usable at the block you read.</p>
+        </div>
+      ) },
+      { id: "agents", label: "Agents", content: (
+        <div className="dev-tab">
+          <p className="t-small ink-2">Kerb Credit Check answers how much can be borrowed against a tokenized stock on X Layer, and until when, with the transaction and inputs hash that recompute it. Deterministic: no model anywhere in the path.</p>
+          <dl className="dev-endpoints">
+            <div><dt>Price</dt><dd>{agents ? `${agents.live.price} in ${agents.live.currency} per call, x402 on ${agents.live.network === "eip155:196" ? "X Layer mainnet" : "X Layer testnet"}` : "$0.01 in USDT0 per call, x402 on X Layer"}</dd></div>
+            <div><dt>OKX.AI</dt><dd>{agents ? { unregistered: "Not listed", registered: "Registered", under_review: "Registered, listing under review", listed: "Listed as an A2MCP service" }[agents.listingStatus] : "Status unavailable"}</dd></div>
+            <div><dt>Latest settled payment</dt><dd>{latestPaid ? <a className="mono" href={latestPaid.explorer} target="_blank" rel="noreferrer">{shortHash(latestPaid.tx, 10, 8)}</a> : "None settled yet"}</dd></div>
+          </dl>
+          <CodeBlock variants={[{ lang: "shell", code: pay }]} />
+          <h3 className="mt-5">Free MCP server</h3>
+          <p className="t-small ink-2">Six read-only tools for Claude, Cursor or any MCP client: kerb_terms, kerb_board, kerb_clock, kerb_why, kerb_position, kerb_paid_tools. Streamable HTTP, 60 calls a minute.</p>
+          <CodeBlock variants={[{ lang: "json", code: mcp }]} />
         </div>
       ) },
     ]} />

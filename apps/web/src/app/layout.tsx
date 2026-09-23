@@ -32,7 +32,7 @@ const plexMono = IBM_Plex_Mono({ weight: ["400", "500"], subsets: ["latin"], var
 
 export const metadata: Metadata = {
   title: { default: "Kerb · Credit on the market's clock", template: "%s · Kerb" },
-  description: "The market-time risk layer for tokenized stocks on X Layer. Kerb measures the exit in real pools, then lends against it. Never lend more than you can liquidate.",
+  description: "The market-time risk layer for tokenized stocks on X Layer. Never lend more than you can liquidate.",
   metadataBase: new URL("https://usekerb.xyz"),
   applicationName: "Kerb",
   openGraph: { type: "website", siteName: "Kerb", url: "https://usekerb.xyz" },

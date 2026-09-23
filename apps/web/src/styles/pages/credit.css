@@ -58,3 +58,4 @@
   .mode-why { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
   @media (max-width: 760px) { .mode-why { grid-template-columns: 1fr; } }
 }
+@layer pages { .keeper-line { margin-top: var(--s-3); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; } }

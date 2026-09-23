@@ -108,7 +108,9 @@ export function demoSchedule(address: Address, im: { weekLength: number; session
 // ---------------------------------------------------------------------------------------------
 
 export interface LastCure { tx: string | null; block: number; repaid: string; seized: string; target: string; curer: string }
-interface ScanState { cursor: number; pairs: string[]; events: number; cures?: Record<string, LastCure> }
+interface ScanState { v?: number; cursor: number; pairs: string[]; events: number; cures?: Record<string, LastCure>; borrows?: number; cureCount?: number; lastCure?: LastCure | null }
+/** Bumped when the scan starts counting something new: an older cache is rescanned from the deploy block. */
+const SCAN_VERSION = 2;
 const LOG_SPAN = 100n; // the public X Layer RPC refuses a wider getLogs range
 const CONCURRENCY = 8;
 const scans = new Map<number, { state: ScanState; running: Promise<void> | null }>();
@@ -119,13 +121,13 @@ function loadScan(chainId: number, deployBlock: number, persist: boolean): ScanS
   const f = scanFile(chainId);
   // A non-persisting scan (tests, a custom reader) never reads a file another process wrote.
   if (persist && existsSync(f)) {
-    try { return JSON.parse(readFileSync(f, "utf8")) as ScanState; } catch { /* rescan */ }
+    try { const st = JSON.parse(readFileSync(f, "utf8")) as ScanState; if (st.v === SCAN_VERSION) return st; } catch { /* rescan */ }
   }
-  return { cursor: deployBlock - 1, pairs: [], events: 0 };
+  return { v: SCAN_VERSION, cursor: deployBlock - 1, pairs: [], events: 0, borrows: 0, cureCount: 0, lastCure: null };
 }
 
 /** Scan Borrowed, Repaid, Cured and Liquidated from the deploy block, incrementally, in bounded chunks. */
-export async function syncCreditLogs(chainId: number, reader: ChainReader, persist = true): Promise<{ scannedTo: number; head: number; pairs: string[]; events: number; cures: Record<string, LastCure> }> {
+export async function syncCreditLogs(chainId: number, reader: ChainReader, persist = true): Promise<{ scannedTo: number; head: number; pairs: string[]; events: number; cures: Record<string, LastCure>; activity: { borrows: number; cures: number; lastCure: LastCure | null } }> {
   const dep = loadDeployments()[`${chainId}:KerbCredit`] as { address: Address; deployedAtBlock?: string | number } | undefined;
   if (!dep) throw new Error("no credit market is deployed on this chain");
   let entry = scans.get(chainId);
@@ -149,13 +151,17 @@ export async function syncCreditLogs(chainId: number, reader: ChainReader, persi
             const user = l.args["user"] as string | undefined;
             const asset = l.args["assetId"] as string | undefined;
             if (user && asset) pairs.add(`${user.toLowerCase()}|${asset.toLowerCase()}`);
+            if (l.eventName === "Borrowed") e.state.borrows = (e.state.borrows ?? 0) + 1;
             if (user && asset && l.eventName === "Cured") {
               e.state.cures ??= {};
-              e.state.cures[`${user.toLowerCase()}|${asset.toLowerCase()}`] = {
+              const cure = {
                 tx: l.transactionHash ?? null, block: Number(l.blockNumber ?? 0n),
                 repaid: String(l.args["repaid"] ?? "0"), seized: String(l.args["seized"] ?? "0"),
                 target: String(l.args["target"] ?? "0"), curer: String(l.args["curer"] ?? ""),
               };
+              e.state.cures[`${user.toLowerCase()}|${asset.toLowerCase()}`] = cure;
+              e.state.cureCount = (e.state.cureCount ?? 0) + 1;
+              if (!e.state.lastCure || cure.block >= e.state.lastCure.block) e.state.lastCure = cure;
             }
             e.state.events++;
           }
@@ -171,7 +177,7 @@ export async function syncCreditLogs(chainId: number, reader: ChainReader, persi
     })().finally(() => { e.running = null; });
   }
   await e.running;
-  return { scannedTo: e.state.cursor, head: e.state.cursor, pairs: e.state.pairs, events: e.state.events, cures: e.state.cures ?? {} };
+  return { scannedTo: e.state.cursor, head: e.state.cursor, pairs: e.state.pairs, events: e.state.events, cures: e.state.cures ?? {}, activity: { borrows: e.state.borrows ?? 0, cures: e.state.cureCount ?? 0, lastCure: e.state.lastCure ?? null } };
 }
 
 export interface OpenPosition {

@@ -41,7 +41,7 @@ function CollateralCard({ c, selected, onSelect, demo }: { c: CreditCollateral; 
       <span className="coll-terms">
         <span><span className="t-label">Carry</span>{pctWad(BigInt(c.terms.carryLTV))}</span>
         <span><span className="t-label">Session Max</span>{pctWad(BigInt(c.terms.sessionMaxLTV))}</span>
-        <span><span className="t-label">Liquidation</span>{pctWad(BigInt(c.liquidationThreshold))}</span>
+        <span title="The mirror listing on testnet carries its own fixed liquidation threshold, three points above mainnet; the Testnet drawer says why."><span className="t-label">Liquidation</span>{pctWad(BigInt(c.liquidationThreshold))} <span className="ink-3 t-small">(mirror listing)</span></span>
       </span>
       <span className="t-small ink-3">Next Last Call {utcHm(Date.parse(demo.nextCureOpensAt))} UTC · relayed from mainnet {c.relayedFrom?.symbol ?? ""}</span>
       {!c.terms.usable ? <span className="t-small brass">New borrowing paused: the relayed terms are not usable right now.</span> : null}
@@ -169,7 +169,7 @@ function BorrowTab({ market, c, pos, demo }: { market: CreditMarket; c: CreditCo
         ["LTV after", ltvAfter === null ? "No debt" : pctWad(ltvAfter)],
         ["Health after", hfWad(hfAfter)],
         ["Owing after", `${fmtUnits(debtAfter, dec, 2)} ${sym}`],
-        ["Liquidation line", `${pctWad(lt)}, fixed`],
+        ["Liquidation line", `${pctWad(lt)}, fixed (mirror listing)`],
       ]} />
       <button type="button" className="btn btn-primary action-go" disabled={disabled} onClick={async () => { if (await flow.run(steps, want > 0n ? `Borrowed ${fmtUnits(want, dec, 2)} ${sym}` : `Deposited ${fmtUnits(addColl, 18, 2)} k${c.mirrors}`)) { setCollIn(""); setAmount(""); } }}>{label}</button>
       {!pos.isConnected ? <p className="t-small ink-3">Connect a wallet in the setup steps to act. Everything here reads without one.</p> : null}

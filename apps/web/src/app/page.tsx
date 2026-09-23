@@ -5,6 +5,8 @@
  */
 import { LiveRoot } from "@/components/kerb/LiveRoot";
 import { WhyTerms } from "@/components/kerb/WhyTerms";
+import { Consumers } from "@/components/kerb/Consumers";
+import ENDPOINTS from "@/lib/endpoints.json";
 import Link from "@/components/ui/Link";
 import { Suspense } from "react";
 import { ArtPlate } from "@/components/ui/ArtPlate";
@@ -21,7 +23,7 @@ import { MarketClocks } from "@/components/kerb/MarketClocks";
 import { REGIME_WORD } from "@/components/kerb/RegimePill";
 import { LanesRail } from "@/components/kerb/SessionRail";
 import { Tape } from "@/components/kerb/Tape";
-import { getBoard, getClock, getProof, getReport, getStats, getTape, getWhy, type BoardRow } from "@/lib/api";
+import { getBoard, getClock, getProof, getReport, getStats, getTape, getWhy, getPositions, getAgentStats, type BoardRow } from "@/lib/api";
 import { BUILDER_CODE } from "@/lib/builderCode";
 import { byDecimalDesc, group, price, shift, shortHash, round, usd, usdFull, ltv } from "@/lib/format";
 import { dayHm, railWindow, utcHm, localHm, transitionWord } from "@/lib/time";
@@ -46,7 +48,7 @@ function Callout({ style, label, value, side }: { style: React.CSSProperties; la
 
 export default async function Home(): Promise<React.ReactElement> {
   const w = railWindow(Date.now());
-  const [board, stats, tape, ny, hk, proof] = await Promise.all([getBoard(), getStats(), getTape(40), getClock("KOx", 196, w), getClock("HKEXCx", 196, w), getProof()]);
+  const [board, stats, tape, ny, hk, proof, positions, agents] = await Promise.all([getBoard(), getStats(), getTape(40), getClock("KOx", 196, w), getClock("HKEXCx", 196, w), getProof(), getPositions(), getAgentStats()]);
   const rows: BoardRow[] = board.ok ? [...board.data.rows].sort(byDecimalDesc((r) => r.debtCeiling.value)) : [];
   const lead = rows[0];
   const hkLead = rows.find((r) => r.underlying.market === "XHKG" && r !== lead);
@@ -82,7 +84,7 @@ export default async function Home(): Promise<React.ReactElement> {
             <span className="hero-line">Credit on the</span>
             <span className="hero-line t-olive">market&rsquo;s clock.</span>
           </h1>
-          <p className="t-body-l ink-2 hero-lede">Tokenized stocks trade around the clock. Liquidation conditions don&rsquo;t. Kerb measures the exit in real X Layer pools, then lends against it.</p>
+          <p className="t-body-l ink-2 hero-lede">Tokenized stocks trade around the clock. Liquidation conditions don&rsquo;t. Kerb measures the exit in real X Layer pools and turns it into credit terms. Kerb Credit lends against them. So can anyone.</p>
           <div className="row hero-actions">
             <ButtonLink href="/board" variant="primary">Open the Board</ButtonLink>
             <ButtonLink href="/credit">Borrow on testnet</ButtonLink>
@@ -144,6 +146,12 @@ export default async function Home(): Promise<React.ReactElement> {
             </ol>
           ) : <div className="layers"><ErrorState source="The report for the lead asset" /></div>}
         </div>
+      </section>
+
+      {/* ---------------------------------------------------------------- consumers (V3-07) */}
+      <section className="home-section">
+        <SectionHead label="Kerb Terms · one term, four consumers" title="Read by a credit market, contracts, agents and code." />
+        <Consumers positions={positions.ok ? positions.data : null} agents={agents.ok ? agents.data : null} deployments={proof.ok ? proof.data.onchain.deployments : []} endpoints={ENDPOINTS.length} />
       </section>
 
       {/* ---------------------------------------------------------------- survive */}

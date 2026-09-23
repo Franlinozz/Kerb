@@ -2,7 +2,7 @@
 
 Every public claim on the site, in the README and in the submission text, mapped to something a
 reader can check. Anything that could not be backed was changed or removed from the copy.
-Checked 22 Sep 2026 on commit given in RELEASE_STATE.md. `/proof` re-checks the live ones on every load.
+Checked 22 Sep 2026 on commit given in RELEASE_STATE.md; V3 rows added 23 Sep. `/proof` re-checks the live ones on every load.
 
 | Claim | Where it appears | Evidence |
 |---|---|---|
@@ -23,6 +23,12 @@ Checked 22 Sep 2026 on commit given in RELEASE_STATE.md. `/proof` re-checks the 
 | 545 TypeScript and 106 Solidity tests; 47 E2E | README, Proof | `data/test-report.json`; CI runs on every push (badge); E2E count from `pnpm --filter @kerb/web e2e` |
 | Zero serious or critical accessibility issues on every route in both themes | README | `apps/web/e2e/a11y.spec.ts` in CI |
 | Mainnet contracts hold no user funds | Proof, README | KerbClock and KerbTerms have no token transfer paths; credit is testnet only |
+| First paint is never shown stale: live values are under 60 s old or visibly Refreshing | Every live route | `apps/web/e2e/freshness.idle.spec.ts` (CI, including a render lagged by 3 h); `data/freshness/*.tsv`: production first-paint ages 9 to 32 s on 23 Sep, against 2 h 17 m before V3-01 |
+| A standing demo position becomes curable at every demo Last Call | Credit, README | `kerb-demo-keeper` (PM2) on X Layer testnet, wallet `0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4`, `/v1/credit/1952/keeper`; first borrow `0x6b3bf5f16e02746a41cde8828a61033fed91bb7eda56f39c1e30bf7fdc0d86ca`; a stranger cured it through the real Credit page, cure `0x5468b5ed9f5228da9881ff7a31882b5508a9493d9a4cbfab6bed73a4336089ca` (`data/keeper-cure-2026-09-23.json`) |
+| Every term change explains itself with its own numbers | Asset, Credit, Home, Board | `apps/engine/src/attribution.ts`; golden tests on real posts in `apps/api/test/attribution.golden.test.ts` (KOx Carry 55.60% to 51.57% across the 21 Sep close, horizon); `term_changes` backfilled from the first mainnet post with zero unexplained residual; `/v1/terms/196/:asset/why` and `/changes` |
+| The OKX DEX cross-check is a record, not a sentence | Asset (Liquidity), Proof | `exit_checks` table, one row per mainnet post; `/v1/exit/196/:asset`; the Proof limitations row states the 24 h counts |
+| Agents can pay one cent in USDT0 over x402 on X Layer for a credit check | Home, Developers, README | `kerb-agents`; `curl -i -X POST https://api.usekerb.xyz/agents/credit-check` answers 402 with the requirements; testnet `eip155:1952` until the operator's go; settled calls in `agent_calls` and `/v1/agents/stats`. Not claimed: a settled mainnet call, or an OKX.AI listing |
+| KerbQuote reads Kerb Terms in one call, valuing collateral exactly as Kerb Credit does | Developers, Home, README | `contracts/src/consumers/KerbQuote.sol`; fuzzed parity against a local KerbCredit (`test/consumers/KerbQuote.t.sol`); mainnet fork tests; testnet `0xfd688bc3a93d04976bfced0b2ea7f90c11561c05` and demo-clock `0x3caa62ff2f6fea6375fb801992b2c19070586815`, Sourcify exact match; live parity with `KerbCredit.positionLTV` at testnet block 41707514. Mainnet only once deployed |
 | Unaudited | Footer, Proof, README | Stated; no audit claimed anywhere |
 
 Removed or changed during V2 because they could not be backed as written: the "Interim card" social

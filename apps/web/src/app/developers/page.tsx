@@ -8,11 +8,12 @@ import { getAddress } from "viem";
 import { DevConsole } from "@/components/kerb/DevConsole";
 import { PageRail } from "@/components/kerb/PageRail";
 import { ErrorState } from "@/components/ui/ErrorState";
-import { getProof, PUBLIC_API } from "@/lib/api";
+import { getAgentStats, getProof, PUBLIC_API } from "@/lib/api";
+import type { ConsumerInfo } from "@/components/kerb/DevConsole";
 import { shortHash } from "@/lib/format";
 import ENDPOINTS from "@/lib/endpoints.json";
 
-export const metadata: Metadata = { title: "Developers", description: "Read Kerb Terms from anywhere: the TypeScript SDK, the REST API and the onchain effectiveTerms call." };
+export const metadata: Metadata = { title: "Developers", description: "Read Kerb Terms from anywhere: the SDK, the REST API, KerbQuote from any X Layer contract, and paid checks for agents over x402." };
 export const revalidate = 60;
 
 const BUILD: { who: string; what: string; code: string }[] = [
@@ -29,8 +30,14 @@ function exampleUrl(path: string): string | null {
 const ABIS = ["KerbTerms", "KerbClock", "KerbCredit"];
 
 export default async function DevelopersPage(): Promise<React.ReactElement> {
-  const proof = await getProof();
+  const [proof, agents] = await Promise.all([getProof(), getAgentStats()]);
   const deps = proof.ok ? proof.data.onchain.deployments : [];
+  // KerbQuote on mainnet when it is there, else testnet (V3-05); the demo-clock copy is for Credit only.
+  const q = deps.find((d) => d.chainId === 196 && d.contract === "KerbQuote") ?? deps.find((d) => d.chainId === 1952 && d.contract === "KerbQuote");
+  const consumer: ConsumerInfo | null = q ? {
+    quote: getAddress(q.address), chainId: q.chainId, token: getAddress("0x12992613fDd35aBe95DEc5a4964331b1ee23B50d"), symbol: "BRK.Bx", verification: q.verification,
+    feeds: deps.filter((d) => d.chainId === q.chainId && d.contract.startsWith("KerbMarkFeed:")).map((d) => ({ symbol: d.contract.split(":")[1] ?? "", address: d.address, explorer: d.explorer })),
+  } : null;
   const terms196 = deps.find((d) => d.chainId === 196 && d.contract === "KerbTerms");
 
   return (
@@ -43,7 +50,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
       <PageRail subject={{ kind: "lanes" }} />
 
       <section className="section">
-        <DevConsole api={PUBLIC_API} kerbTerms={terms196 ? getAddress(terms196.address) : "KERB_TERMS_ADDRESS"} symbol="BRK.Bx" />
+        <DevConsole api={PUBLIC_API} kerbTerms={terms196 ? getAddress(terms196.address) : "KERB_TERMS_ADDRESS"} symbol="BRK.Bx" consumer={consumer} agents={agents.ok ? agents.data : null} />
       </section>
 
       <section className="section">

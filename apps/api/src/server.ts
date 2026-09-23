@@ -19,7 +19,7 @@ import { buildCreditMarket, buildCreditPosition } from "./credit.js";
 import { buildBoard, type Board } from "./board.js";
 import { buildDemoClock, defaultReader, readOpenPositions, syncCreditLogs, type ChainReader } from "./v2credit.js";
 import { MARKET_META } from "./markets.js";
-import { explorerTx } from "@kerb/adapters";
+import { explorerTx, publicClient } from "@kerb/adapters";
 import { fromUnits } from "@kerb/types";
 
 export const BOARD_CACHE_MS = 15_000;
@@ -609,7 +609,10 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       const body = await cached(`positions:${chainId}`, 30_000, async () => {
         const scan = await syncCreditLogs(chainId, reader(chainId), deps.reader === undefined);
         const positions = await readOpenPositions(chainId, reader(chainId), scan.pairs, scan.cures);
-        return { chainId, label: "Verified" as const, scannedToBlock: scan.scannedTo, eventsSeen: scan.events, positions, cures: scan.cures };
+        // V3-07: the market's own record for the Home consumers card: borrows and cures ever.
+        const lc = scan.activity.lastCure;
+        const lastCureAt = lc ? await blockTime(chainId, lc.block) : null;
+        return { chainId, label: "Verified" as const, scannedToBlock: scan.scannedTo, eventsSeen: scan.events, activity: { ...scan.activity, lastCureAt }, positions, cures: scan.cures };
       });
       const { cures, ...rest } = body;
       if (userQ) {
@@ -766,6 +769,20 @@ async function readLiquidationThresholds(reader: ChainReader, chainId: number, i
   }));
   ltCache.set(chainId, { at: Date.now(), lts });
   return lts;
+}
+
+const blockTimes = new Map<string, string>();
+/** A block's timestamp, cached forever (blocks do not move); null if the chain does not answer. */
+async function blockTime(chainId: number, block: number): Promise<string | null> {
+  const k = `${chainId}:${block}`;
+  const hit = blockTimes.get(k);
+  if (hit) return hit;
+  try {
+    const b = await publicClient(chainId as 196 | 1952).getBlock({ blockNumber: BigInt(block) });
+    const iso = new Date(Number(b.timestamp) * 1000).toISOString();
+    blockTimes.set(k, iso);
+    return iso;
+  } catch { return null; }
 }
 
 const KEEPER_ADDRESS = "0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4";

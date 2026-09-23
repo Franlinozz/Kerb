@@ -32,7 +32,7 @@ export interface Proof {
     tests: unknown | null;
   };
   onchain: {
-    deployments: { key: string; chainId: number; contract: string; address: string; block: string | null; deployedAt: string | null; verification: string | null; verificationUrl: string | null; explorer: string }[];
+    deployments: { key: string; chainId: number; contract: string; address: string; block: string | null; deployedAt: string | null; verification: string | null; verificationUrl: string | null; explorer: string; group: "core" | "consumers" }[];
     latestPosts: { chainId: number; symbol: string | null; observedAt: string; tx: string; explorer: string; gasUsed: string | null; builderCode: string[] | null }[];
     postCounts: { chainId: number; count: number }[];
   };
@@ -122,6 +122,7 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
       verified?: boolean;
       explorer?: string;
       verification?: { service: string; match: string; url: string };
+      group?: string;
     };
     return {
       key,
@@ -133,6 +134,8 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
       verification: verificationLabel(record.verification),
       verificationUrl: record.verification?.url ?? null,
       explorer: record.explorer ?? `${explorerFor(chainId)}/address/${record.address}`,
+      // V3-05: the read-only consumers of Kerb Terms are listed as their own group.
+      group: record.group === "consumers" ? "consumers" as const : "core" as const,
     };
   });
 

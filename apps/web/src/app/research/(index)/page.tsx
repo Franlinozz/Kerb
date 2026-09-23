@@ -31,7 +31,7 @@ export default async function ReportsIndex(): Promise<React.ReactElement> {
         serif
         label={`Research · ${reports.length} published`}
         title="Market-Time Reports"
-        lede={<p>Measured studies of what market time does to executable liquidity on X Layer. Generated from the append-only observation store; where the record has a hole, the report marks it instead of drawing across it.</p>}
+        lede={<p>Measured studies of what market time does to executable liquidity on X Layer. Generated from the append-only observation store; where the record has a hole, the report marks it instead of drawing across it. Report #2 measures what happened to executable depth in X Layer xStocks pools when the X Liquidity incentives ended on 24 Sep.</p>}
       />
       <PageRail subject={{ kind: "lanes" }} />
 

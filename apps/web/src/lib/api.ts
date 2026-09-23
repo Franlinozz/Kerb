@@ -308,7 +308,7 @@ export interface Proof {
     } | null;
   };
   onchain: {
-    deployments: { key: string; chainId: number; contract: string; address: string; block: string | null; deployedAt: string | null; verification: string | null; verificationUrl: string | null; explorer: string }[];
+    deployments: { key: string; chainId: number; contract: string; address: string; block: string | null; deployedAt: string | null; verification: string | null; verificationUrl: string | null; explorer: string; group?: "core" | "consumers" }[];
     latestPosts: { chainId: number; symbol: string | null; observedAt: string; tx: string; explorer: string; gasUsed: string | null; builderCode: string[] | null }[];
     postCounts: { chainId: number; count: number }[];
   };
@@ -490,3 +490,22 @@ export interface ExitCheck {
   strip: { at: string; bound: string }[];
 }
 export const getExit = (symbol: string, hours = 72): Promise<Read<ExitCheck>> => read<ExitCheck>(`/v1/exit/196/${encodeURIComponent(symbol)}?hours=${hours}`, 30);
+
+// ---- V3-07 consumers ---------------------------------------------------------------------------
+
+export interface AgentStats {
+  label: ProvenanceLabel; generatedAt: string; listingStatus: "unregistered" | "registered" | "under_review" | "listed";
+  live: { network: string; price: string; currency: string }; endpoints: Record<string, string>;
+  paidCalls: { network: string; count: number; latest: { tx: string; at: string | null; explorer: string } | null }[];
+}
+export const getAgentStats = (): Promise<Read<AgentStats>> => read<AgentStats>("/v1/agents/stats", 30);
+
+export interface KeeperStatus {
+  running: boolean; address: string; label: ProvenanceLabel; note?: string; updatedAt?: string; ageSec?: number;
+  state?: "SESSION" | "LAST_CALL" | "CLOSED"; position?: "open" | "none" | "collateral only"; debt?: string; next?: string; nextAt?: string;
+  lastAction?: { action: string; at: string; tx: string | null } | null;
+}
+export const getKeeper = (): Promise<Read<KeeperStatus>> => read<KeeperStatus>("/v1/credit/1952/keeper", 15);
+
+export interface PositionsFeed { positions: { user: string; lastCure: { at?: string; tx?: string } | null }[]; eventsSeen: number }
+export const getPositions = (): Promise<Read<PositionsFeed>> => read<PositionsFeed>("/v1/credit/1952/positions?state=all", 30);

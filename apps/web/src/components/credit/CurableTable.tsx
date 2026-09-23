@@ -9,7 +9,7 @@ import { readContract } from "wagmi/actions";
 import { useAccount, useConfig } from "wagmi";
 import { useHydratedAccount } from "@/lib/useHydrated";
 import type { Hex } from "viem";
-import type { CreditMarket, DemoClock } from "@/lib/api";
+import type { CreditMarket, DemoClock, KeeperStatus } from "@/lib/api";
 import { CREDIT_ABI, ERC20_ABI } from "@/lib/creditAbi";
 import { useTxFlow } from "@/lib/txflow";
 import { countdown, utcHm } from "@/lib/time";
@@ -23,6 +23,7 @@ interface P { user: Hex; assetId: Hex; symbol: string | null; mode: string; debt
 
 export function CurableTable({ market, demo }: { market: CreditMarket; demo: DemoClock }): React.ReactElement {
   const live = useLive<{ positions: P[] }>("/v1/credit/1952/positions?state=curable", null, 15_000);
+  const keeper = useLive<KeeperStatus>("/v1/credit/1952/keeper", null, 30_000).data;
   const now = useNow();
   // The server's demo clock may be from an older render: project it to now, like the rail does.
   const d = now === null ? demo : scheduleAt(demo, now);
@@ -61,8 +62,13 @@ export function CurableTable({ market, demo }: { market: CreditMarket; demo: Dem
           {d.state === "LAST_CALL"
             ? <p className="ink-2">Last Call is open until <span suppressHydrationWarning>{utcHm(Date.parse(d.nextCureClosesAt))}</span> UTC and no position needs a cure right now.</p>
             : <p className="ink-2">No position needs a cure right now. The next demo Last Call opens in <span suppressHydrationWarning>{now === null ? "" : countdown(Date.parse(d.nextCureOpensAt), now)}</span>, at <span suppressHydrationWarning>{utcHm(Date.parse(d.nextCureOpensAt))}</span> UTC.</p>}
-          {/* AGENTS.md 12.8, demo position rung 3: no keeper holds a standing position, so say where one comes from. */}
-          <p className="t-small ink-3">Kerb does not keep a standing demo position. Borrow with Session Max and your position appears here when Last Call opens; a second wallet, or anyone, may then cure it.</p>
+          {keeper?.running ? (
+            // V3-02: the keeper holds a standing Session Max position every demo cycle (demo position rung 1).
+            <p className="t-small ink-2">A standing demo position opens every cycle and becomes curable when the demo Last Call opens{d.state === "LAST_CALL" ? "" : <> in <span suppressHydrationWarning>{now === null ? "" : countdown(Date.parse(d.nextCureOpensAt), now)}</span></>}. Cure it from any wallet and earn the bonus in mirror collateral.</p>
+          ) : (
+            // AGENTS.md 12.8, demo position rung 3: the keeper is not running, so say where a position comes from.
+            <p className="t-small ink-3">No standing demo position is open right now. Borrow with Session Max and your position appears here when Last Call opens; a second wallet, or anyone, may then cure it.</p>
+          )}
         </div>
       ) : (
         <div className="dt-wrap">
@@ -86,6 +92,9 @@ export function CurableTable({ market, demo }: { market: CreditMarket; demo: Dem
       )}
       {!address && rows.length > 0 ? <p className="t-small ink-3 mt-3">Connect a wallet to cure. The cure is paid in {sym} and returns the collateral plus the bonus.</p> : null}
       {flow.steps.length ? <TxStepper steps={flow.steps} note={flow.note} tone={flow.tone} explorerHref={flow.hash ? `https://www.oklink.com/x-layer-testnet/tx/${flow.hash}` : null} /> : null}
+      {keeper?.running ? (
+        <p className="t-small ink-3 keeper-line">Demo keeper <AddressChip value={keeper.address} href={`https://www.oklink.com/x-layer-testnet/address/${keeper.address}`} label="demo keeper" /> · {keeper.position === "open" ? `position open, ${keeper.debt} ${sym}` : "no position open"} · next: {keeper.next?.toLowerCase()}{keeper.nextAt ? ` at ${utcHm(Date.parse(keeper.nextAt))} UTC` : ""}{keeper.lastAction?.tx ? <> · last: <a className="mono" href={`https://www.oklink.com/x-layer-testnet/tx/${keeper.lastAction.tx}`} target="_blank" rel="noreferrer">{keeper.lastAction.action}</a></> : null}</p>
+      ) : null}
     </section>
   );
 }

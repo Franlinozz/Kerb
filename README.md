@@ -2,14 +2,32 @@
 
 [![CI](https://github.com/Franlinozz/Kerb/actions/workflows/ci.yml/badge.svg)](https://github.com/Franlinozz/Kerb/actions/workflows/ci.yml)
 
-**Credit on the market's clock.** Tokenized stocks trade on X Layer around the clock; the markets
-behind them do not. Kerb measures the exit that is really there, hour by hour, and turns it into
-credit terms posted on X Layer mainnet.
+**Credit on the market's clock.** Kerb is the market-time risk layer for tokenized stocks on X Layer.
+It measures the exit that is really there in X Layer pools, and how long a loan must survive before
+the next deep market, and posts both as credit terms on X Layer mainnet every few minutes.
+Kerb Credit lends against them. So can any contract, agent or app.
 
 [![Kerb, the Home page in Night](docs/media/home-night.webp)](https://www.usekerb.xyz)
 
-**Live:** [www.usekerb.xyz](https://www.usekerb.xyz) · API [api.usekerb.xyz](https://api.usekerb.xyz/health)
-· **Demo video:** linked here on submission day (25 Sep 2026) · Built for OKX Dev Day 2026, Build a Market.
+**Live:** [www.usekerb.xyz](https://www.usekerb.xyz) · **API:** [api.usekerb.xyz](https://api.usekerb.xyz/health)
+· **Demo video:** linked here on submission day (25 Sep 2026) · Built for OKX Dev Day 2026 · Build a Market · Remote
+
+## For judges: five minutes
+
+1. **Board:** which stocks are in Last Call now, and what each can safely support. [/board](https://www.usekerb.xyz/board)
+2. **An asset:** the exit check (tick-walk against the OKX DEX quote) and why its terms moved. [/asset/HKEXCx](https://www.usekerb.xyz/asset/HKEXCx)
+3. **Credit:** borrow at Session Max, watch the demo Last Call, cure the standing position. [/credit](https://www.usekerb.xyz/credit)
+4. **Proof:** every contract, the Builder Code decoded, a term recomputed from its inputs. [/proof](https://www.usekerb.xyz/proof)
+5. **Agents and contracts:** the x402 credit check on X Layer, and KerbQuote, one read from any contract. [/developers](https://www.usekerb.xyz/developers#agents)
+
+## One term, four consumers
+
+| Consumer | How it reads Kerb Terms |
+|---|---|
+| **Kerb Credit** | The reference market: Carry or Session Max, Last Call and a permissionless cure, on X Layer testnet with mirror collateral |
+| **Agents** | `api.usekerb.xyz/agents/credit-check` and `/exit-check`, one cent in USDT0 over x402 on X Layer, no model in the path; a free MCP server at `api.usekerb.xyz/mcp` |
+| **Contracts** | `KerbQuote`: max borrow, cure deadline and usability in one view call, valued exactly as Kerb Credit values collateral; `KerbMarkFeed`: the Credit Mark behind a Chainlink-shaped feed. Deployed and Sourcify-verified on X Layer testnet; mainnet pending |
+| **Developers** | REST with no key, the TypeScript SDK, and the MCP server |
 
 ## How it works
 
@@ -70,6 +88,14 @@ cd contracts && forge test
 pnpm --filter @kerb/web e2e          # against a running app (KERB_WEB_URL)
 pnpm --filter @kerb/web e2e:live     # against www.usekerb.xyz
 ```
+
+## FAQ
+
+**Isn't this what Aave or Morpho do?** Tokenized-stock lending exists: Kamino runs an xStocks market on Solana, Morpho lists Ondo and Coinbase stock tokens on Ethereum and Base, and Aave has announced equity lending for V4. Those markets price collateral with oracles and set risk parameters per market; a Morpho market fixes its liquidation LTV when it is created. Kerb is the layer such a market would read: a measured, recomputable answer to how much of a position the onchain pool could absorb and how long a loan must survive before the next deep market, published on X Layer. Chainlink's 24/5 equity streams tell you what a stock is worth and whether its market is open; Kerb tells you whether the exit is there. They complement each other, and Chainlink is Kerb's planned rung-1 reference once credentials are in place.
+
+Sources: [Morpho on Ondo tokenized stocks](https://morpho.org/stories/ondo); The Block on Kamino's xStocks market (July 2025); Aave's V4 tokenized-stock announcement (26 June 2026); Chainlink's blog on 24/5 US Equities Streams (20 January 2026).
+
+**Is there a model anywhere in Kerb?** No. Every number is a pure function of observed data, and every term recomputes from its published input bundle with `kerb verify`. The agent endpoints sell that computed answer; they do not generate one.
 
 ## Limitations
 
