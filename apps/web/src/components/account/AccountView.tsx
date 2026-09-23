@@ -101,7 +101,7 @@ export function AccountView(): React.ReactElement {
           <p className="ink-2">No xStocks held on X Layer mainnet (all {hq.data.assetsChecked} checked at block {hq.data.block}). For a worked example, open <a href={`/account?addr=0x34Fa7515d3364648F558aa876F73feC12e2bA507`}>the BRK.Bx pool</a>.</p>
         ) : (
           <div className="dt-wrap"><table className="dt" style={{ minWidth: 640 }}>
-            <thead><tr><th>Asset</th><th className="num">Held</th><th className="num">Value at Credit Mark</th><th className="num">Carry max borrow</th><th className="num">Session Max max borrow</th></tr></thead>
+            <thead><tr><th>Asset</th><th className="num">Held</th><th className="num">Value at Credit Mark</th><th className="num">Max at Carry</th><th className="num">Max at Session Max</th></tr></thead>
             <tbody>{hq.data.holdings.map((h) => (
               <tr key={h.symbol}><td><Link href={`/asset/${h.symbol}`}>{h.symbol}</Link>{h.wrappedPart && h.wrappedPart !== "0" ? <span className="dt-under">includes wrapped shares</span> : null}</td>
                 <td className="num">{group(round(h.balance, 4))}</td><td className="num">{usdFull(h.valueUSDG ?? null) ?? "Not priced"}</td>
