@@ -31,6 +31,8 @@ export function Tour(): React.ReactElement | null {
   const [box, setBox] = useState<DOMRect | null>(null);
 
   useEffect(() => {
+    // The mount may have been triggered by a start request made before this code loaded.
+    if ((window as Window & { __kerbTourAsked?: boolean }).__kerbTourAsked) { (window as Window & { __kerbTourAsked?: boolean }).__kerbTourAsked = false; setOffer(false); set(sessionStorage, STEP, "0"); setStep(0); }
     const s = get(sessionStorage, STEP);
     if (s !== null) setStep(Number(s));
     else if (path === "/" && get(localStorage, SEEN) === null) { const t = setTimeout(() => setOffer(true), 2500); return () => clearTimeout(t); }
