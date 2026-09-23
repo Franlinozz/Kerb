@@ -480,3 +480,13 @@ export interface TermChange {
 export interface TermChanges { chainId: number; symbol: string; hours: number; label: ProvenanceLabel; generatedAt: string; changes: TermChange[] }
 export const getWhy = (symbol: string): Promise<Read<Why>> => read<Why>(`/v1/terms/196/${encodeURIComponent(symbol)}/why`);
 export const getChanges = (symbol: string, hours = 72): Promise<Read<TermChanges>> => read<TermChanges>(`/v1/terms/196/${encodeURIComponent(symbol)}/changes?hours=${hours}`, 30);
+
+// ---- V3-06 exit evidence -----------------------------------------------------------------------
+
+export interface ExitCheck {
+  chainId: number; symbol: string; hours: number; label: ProvenanceLabel; generatedAt: string;
+  latest: { at: string; tx: string; explorer: string; inputsHash: string; simulatedC1: string | null; quotedC1: string | null; usedC1: string | null; delta: string | null; bound: "tick-walk" | "okx-quote" | "unavailable"; unavailableReason: string | null; quoteAgeSec: number | null; router: string | null; source: string } | null;
+  summary: { checks: number; okxBound: number; medianDelta: string | null; maxDelta: string | null; unavailable: number; unavailableReasons: Record<string, number> };
+  strip: { at: string; bound: string }[];
+}
+export const getExit = (symbol: string, hours = 72): Promise<Read<ExitCheck>> => read<ExitCheck>(`/v1/exit/196/${encodeURIComponent(symbol)}?hours=${hours}`, 30);

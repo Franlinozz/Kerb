@@ -101,6 +101,11 @@
  },
  {
   "method": "GET",
+  "path": "/v1/exit/:chain/:asset?hours=72",
+  "what": "The exit check (V3-06): the latest post's tick-walk C(1%) against the OKX DEX quote at the same notionals, which bound the capacity, the quote's age, and a summary of the window with a strip of checks. Cache 30 s."
+ },
+ {
+  "method": "GET",
   "path": "/v1/credit/:chain/keeper",
   "what": "The demo keeper's status line (V3-02): its address, the demo state, its position, the last action with its transaction, and what it does next. Read-only. Testnet 1952."
  },

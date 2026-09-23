@@ -157,6 +157,46 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     return body;
   });
 
+  /**
+   * The exit check (V3-06): the latest post's tick-walk C(1%) against the OKX DEX quote at the same
+   * notionals, which one bound the capacity, and a summary of the window. Unavailable says why.
+   */
+  app.get("/v1/exit/:chain/:asset", async (req, reply) => {
+    const { chain, asset } = req.params as { chain: string; asset: string };
+    if (chain !== "196") return reply.status(404).send({ error: "exit checks cover the mainnet terms, chain 196" });
+    const found = findAsset(asset);
+    if (!found) return reply.status(404).send({ error: "unknown asset" });
+    const hours = Math.min(168, Math.max(1, Number((req.query as { hours?: string }).hours ?? 72) || 72));
+    void reply.header("cache-control", "public, max-age=30");
+    return cached(`exit:${found.symbol}:${hours}`, 30_000, async () => {
+      const rows = await deps.sql<{ at: Date; tx: string; inputs_hash: string; simulated_c1: string | null; quoted_c1: string | null; used_c1: string | null; delta: string | null; bound: string; unavailable_reason: string | null; quote_age_sec: number | null; router: string | null }[]>`
+        SELECT at, tx, inputs_hash, simulated_c1, quoted_c1, used_c1, delta, bound, unavailable_reason, quote_age_sec, router
+        FROM exit_checks WHERE chain_id = 196 AND symbol = ${found.symbol} AND at > now() - make_interval(hours => ${hours}) ORDER BY at DESC`;
+      const latest = rows[0];
+      const avail = rows.filter((r) => r.bound !== "unavailable" && r.delta !== null);
+      const deltas = avail.map((r) => Number(r.delta)).sort((a, b) => a - b); // summary statistics only, never a posted value
+      const reasons: Record<string, number> = {};
+      for (const r of rows) if (r.unavailable_reason) reasons[r.unavailable_reason] = (reasons[r.unavailable_reason] ?? 0) + 1;
+      return {
+        chainId: 196, symbol: found.symbol, hours, label: "Computed" as const, generatedAt: new Date().toISOString(),
+        latest: latest ? {
+          at: new Date(latest.at).toISOString(), tx: latest.tx, explorer: explorerTx(196, latest.tx as `0x${string}`), inputsHash: latest.inputs_hash,
+          simulatedC1: latest.simulated_c1, quotedC1: latest.quoted_c1, usedC1: latest.used_c1, delta: latest.delta, bound: latest.bound,
+          unavailableReason: latest.unavailable_reason, quoteAgeSec: latest.quote_age_sec, router: latest.router, source: "okx-dex:v6-quote",
+        } : null,
+        summary: {
+          checks: rows.length,
+          okxBound: rows.filter((r) => r.bound === "okx-quote").length,
+          medianDelta: deltas.length ? String(deltas[Math.floor(deltas.length / 2)]) : null,
+          maxDelta: deltas.length ? String(deltas[deltas.length - 1]) : null,
+          unavailable: rows.length - avail.length,
+          unavailableReasons: reasons,
+        },
+        strip: rows.slice(0, 288).map((r) => ({ at: new Date(r.at).toISOString(), bound: r.bound })),
+      };
+    });
+  });
+
   /** Every material term change in the last hours, newest first, with its computed causes (V3-04). */
   app.get("/v1/terms/:chain/:asset/changes", async (req, reply) => {
     const { chain, asset } = req.params as { chain: string; asset: string };

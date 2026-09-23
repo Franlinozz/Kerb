@@ -19,8 +19,9 @@ import { MarkWaterfall } from "@/components/kerb/MarkWaterfall";
 import { REGIME_MEANING, RegimePill } from "@/components/kerb/RegimePill";
 import { AssetRail } from "@/components/kerb/SessionRail";
 import { TermsHistory } from "@/components/kerb/TermsHistory";
-import { explorerAddress, explorerTx, getBoard, getChanges, getClock, getReport, getTerms, getWhy, PUBLIC_API } from "@/lib/api";
+import { explorerAddress, explorerTx, getBoard, getChanges, getClock, getExit, getReport, getTerms, getWhy, PUBLIC_API } from "@/lib/api";
 import { WhyTerms } from "@/components/kerb/WhyTerms";
+import { ExitCheckPanel } from "@/components/kerb/ExitCheckPanel";
 import { ltv, price, round, scale, shortHash, usd } from "@/lib/format";
 import { instrument } from "@/lib/instruments";
 import { dayHm, localHm, railWindow, transitionWord, utcHm } from "@/lib/time";
@@ -42,7 +43,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
   const row = board.ok ? board.data.rows.find((r) => r.symbol.toLowerCase() === wanted.toLowerCase()) : undefined;
   if (board.ok && !row) notFound();
   const symbol = row?.symbol ?? wanted;
-  const [clock, terms, report, why, changes] = await Promise.all([getClock(symbol, 196, railWindow(Date.now())), getTerms(symbol, 196, 72), getReport(symbol), getWhy(symbol), getChanges(symbol, 72)]);
+  const [clock, terms, report, why, changes, exit] = await Promise.all([getClock(symbol, 196, railWindow(Date.now())), getTerms(symbol, 196, 72), getReport(symbol), getWhy(symbol), getChanges(symbol, 72), getExit(symbol, 72)]);
   const inst = instrument(symbol);
   const tz = row?.market?.tz ?? (clock.ok ? clock.data.timezone : "UTC");
   const home = row?.underlying.market === "XHKG" ? "XHKG" : "XNYS";
@@ -77,6 +78,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
 
   const liquidity = report.ok ? (
     <div>
+      <ExitCheckPanel exit={exit.ok ? exit.data : null} />
       {mainVenue ? <ImpactChart venue={mainVenue} crosscheck={cc ? { quoted: cc.quoted, source: cc.source } : null} /> : <p>No venue could be walked.</p>}
       <div className="dt-wrap mt-5">
         <table className="dt" style={{ minWidth: 640 }}>

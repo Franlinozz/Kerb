@@ -1,0 +1,1 @@
+{"key":"/v1/exit/196/COINx?hours=72","status":200,"capturedAt":1790166986824,"body":"{\"chainId\":196,\"symbol\":\"COINx\",\"hours\":72,\"label\":\"Computed\",\"generatedAt\":\"2026-09-23T12:36:26.822Z\",\"latest\":null,\"summary\":{\"checks\":0,\"okxBound\":0,\"medianDelta\":null,\"maxDelta\":null,\"unavailable\":0,\"unavailableReasons\":{}},\"strip\":[]}"}

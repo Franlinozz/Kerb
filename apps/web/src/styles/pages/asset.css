@@ -56,3 +56,15 @@
     .change-tl .row.between { flex-direction: column; align-items: flex-start; gap: 10px; }
   }
 }
+
+@layer pages {
+  /* V3-06: the exit check panel. */
+  .exit-check { padding: var(--s-5); border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); margin-bottom: var(--s-6); }
+  .exit-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-4); margin: 0; }
+  .exit-grid dd { margin: 4px 0 0; }
+  .exit-strip { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 10px; }
+  .exit-strip i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--ink-3); }
+  .exit-strip i[data-bound="okx-quote"] { background: var(--brass); border-color: var(--brass); }
+  .exit-strip i[data-bound="unavailable"] { border-style: dashed; opacity: 0.5; }
+  @media (max-width: 760px) { .exit-grid { grid-template-columns: 1fr 1fr; } }
+}

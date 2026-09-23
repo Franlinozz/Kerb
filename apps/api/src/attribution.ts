@@ -17,7 +17,7 @@ export interface PostRow {
   carry_ltv: string; session_max_ltv: string; debt_ceiling: string; clamped: { field: string; from: string; to: string }[] | null;
 }
 
-interface Loaded { report: Report | null; kts: string; ceilingK: DecString | null; referenceSize: DecString | null }
+interface Loaded { report: Report | null; kts: string; ceilingK: DecString | null; referenceSize: DecString | null; quoteAgeSec: number | null; router: string | null }
 const cache = new Map<string, Loaded>();
 
 /** The report of a stored bundle, only if its bytes hash to the posted inputsHash. */
@@ -26,13 +26,19 @@ export function loadBundle(inputsHash: string): Loaded {
   const hit = cache.get(key);
   if (hit) return hit;
   const path = resolve(BUNDLE_DIR, `${key}.json`);
-  let out: Loaded = { report: null, kts: "unknown", ceilingK: null, referenceSize: null };
+  let out: Loaded = { report: null, kts: "unknown", ceilingK: null, referenceSize: null, quoteAgeSec: null, router: null };
   if (existsSync(path)) {
     const text = readFileSync(path, "utf8");
     if (keccakText(text).toLowerCase() === key) {
-      const b = JSON.parse(text) as InputBundle & { config: { capacity?: { k?: DecString; referenceLiquidationSize?: DecString } } };
+      const b = JSON.parse(text) as InputBundle & { config: { capacity?: { k?: DecString; referenceLiquidationSize?: DecString } }; observedAtMs?: number; quotes?: { observedAtMs?: number; router?: string }[] };
       const report = computeReport(b, engineConfigFromBundle(b));
-      out = { report, kts: String(b.kts ?? "0.1"), ceilingK: b.config.capacity?.k ?? null, referenceSize: b.config.capacity?.referenceLiquidationSize ?? null };
+      const qs = (b.quotes ?? []).filter((q) => typeof q.observedAtMs === "number");
+      const newest = qs.length ? Math.max(...qs.map((q) => q.observedAtMs as number)) : null;
+      out = {
+        report, kts: String(b.kts ?? "0.1"), ceilingK: b.config.capacity?.k ?? null, referenceSize: b.config.capacity?.referenceLiquidationSize ?? null,
+        quoteAgeSec: newest !== null && typeof b.observedAtMs === "number" ? Math.max(0, Math.round((b.observedAtMs - newest) / 1000)) : null,
+        router: qs[0]?.router ?? null,
+      };
     }
   }
   cache.set(key, out);
@@ -92,6 +98,35 @@ export async function attributeNewPosts(sql: Sql, chainId = 196, log: (s: string
     }
     const lastRow = rows[rows.length - 1];
     if (lastRow) cursor.set(`${chainId}:${symbol}`, BigInt(lastRow.id));
+  }
+  return added;
+}
+
+/**
+ * V3-06: one exit_checks row per post after the last one recorded: the tick-walk C(1%) against the
+ * OKX DEX quote, which bound the capacity, and the quote's age. Unavailable says why, never zero.
+ */
+const exitCursor = new Map<string, bigint>();
+export async function exitChecksForNewPosts(sql: Sql, chainId = 196): Promise<number> {
+  const symbols = await sql<{ symbol: string }[]>`SELECT DISTINCT symbol FROM terms_posts WHERE chain_id = ${chainId}`;
+  let added = 0;
+  for (const { symbol } of symbols) {
+    const [last] = await sql<{ id: string | null }[]>`SELECT max(post_id)::text AS id FROM exit_checks WHERE chain_id = ${chainId} AND symbol = ${symbol}`;
+    const mem = exitCursor.get(symbol) ?? 0n, db = BigInt(last?.id ?? "0");
+    const after = (mem > db ? mem : db).toString();
+    const rows = await sql.unsafe<PostRow[]>(`SELECT ${COLS} FROM terms_posts WHERE chain_id = $1 AND symbol = $2 AND id > $3 ORDER BY id LIMIT 600`, [chainId, symbol, after]);
+    for (const row of rows) {
+      const l = loadBundle(row.inputs_hash);
+      const c = l.report?.depth.crosscheck as { status?: string; reason?: string; simulated?: string; quoted?: string; delta?: string; used?: string } | undefined;
+      const unavailable = !l.report ? "input bundle not retrievable" : c?.status === "unavailable" || c?.quoted === undefined ? (c?.reason ?? "no OKX DEX quote in the bundle") : null;
+      const bound = unavailable ? "unavailable" : c?.used !== undefined && c.simulated !== undefined && Number(c.used) < Number(c.simulated) ? "okx-quote" : "tick-walk";
+      const r = await sql`INSERT INTO exit_checks (chain_id, symbol, at, post_id, tx, inputs_hash, simulated_c1, quoted_c1, used_c1, delta, bound, unavailable_reason, quote_age_sec, router)
+        VALUES (${chainId}, ${symbol}, ${row.ts}, ${row.id}, ${row.tx_hash}, ${row.inputs_hash}, ${unavailable ? null : c?.simulated ?? null}, ${unavailable ? null : c?.quoted ?? null}, ${l.report ? l.report.depth.C_1 : null}, ${unavailable ? null : c?.delta ?? null}, ${bound}, ${unavailable}, ${l.quoteAgeSec}, ${l.router})
+        ON CONFLICT (chain_id, tx) DO NOTHING`;
+      added += r.count;
+    }
+    const lastRow = rows[rows.length - 1];
+    if (lastRow) exitCursor.set(symbol, BigInt(lastRow.id));
   }
   return added;
 }

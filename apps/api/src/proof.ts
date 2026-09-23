@@ -220,9 +220,20 @@ export async function buildProof(sql: Sql, nowMs: number): Promise<Proof> {
           }
         : null,
     },
-    limitations: LIMITATIONS,
+    limitations: await withExitCounts(sql),
     creditFlow: latestCreditFlow(root),
   };
+}
+
+/** V3-06: the executable depth row states how often the cross-check ran and bound, in the last 24 h. */
+async function withExitCounts(sql: Sql): Promise<Proof["limitations"]> {
+  try {
+    const [r] = await sql<{ n: string; k: string }[]>`SELECT count(*) AS n, count(*) FILTER (WHERE bound = 'okx-quote') AS k FROM exit_checks WHERE chain_id = 196 AND at > now() - interval '24 hours'`;
+    if (!r || Number(r.n) === 0) return LIMITATIONS;
+    return LIMITATIONS.map((l) => (l.subsystem === "Executable depth" ? { ...l, note: `${l.note} Cross-checked ${Number(r.n).toLocaleString("en-US")} times in the last 24 h; OKX bound the capacity ${Number(r.k).toLocaleString("en-US")} times.` } : l));
+  } catch {
+    return LIMITATIONS;
+  }
 }
 
 /** The rung each subsystem is actually on, per the ladders in AGENTS.md section 7. */

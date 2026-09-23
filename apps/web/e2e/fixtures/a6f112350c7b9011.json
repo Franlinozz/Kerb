@@ -1,0 +1,1 @@
+{"key":"/v1/exit/196/SHEINx?hours=72","status":200,"capturedAt":1790166991028,"body":"{\"chainId\":196,\"symbol\":\"SHEINx\",\"hours\":72,\"label\":\"Computed\",\"generatedAt\":\"2026-09-23T12:36:31.020Z\",\"latest\":null,\"summary\":{\"checks\":0,\"okxBound\":0,\"medianDelta\":null,\"maxDelta\":null,\"unavailable\":0,\"unavailableReasons\":{}},\"strip\":[]}"}

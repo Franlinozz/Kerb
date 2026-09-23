@@ -2,7 +2,7 @@
 
 Base URL `https://api.usekerb.xyz`. Read-only, JSON, CORS open for GET. Every number carries a provenance label: Verified, Observed, Attested or Computed. A chain or source that does not answer returns a labelled error (502 with `label: "Unavailable"`), never a stack trace.
 
-Examples below were captured from production on 23 Sep 2026 12:15 UTC by `scripts/api-doc.py`. Arrays are cut to their first two items and long strings shortened; nothing is invented.
+Examples below were captured from production on 23 Sep 2026 12:36 UTC by `scripts/api-doc.py`. Arrays are cut to their first two items and long strings shortened; nothing is invented.
 
 | Method | Path | What |
 |---|---|---|
@@ -26,6 +26,7 @@ Examples below were captured from production on 23 Sep 2026 12:15 UTC by `script
 | GET | `/v1/bundle/:hash` | The exact input bundle posted under an inputsHash (or a report id). keccak256 of the bytes equals the hash. |
 | GET | `/v1/terms/:chain/:asset/why` | Why the current terms are what they are (V3-04): three sentences with their numbers, computed from the latest post's own input bundle. Chain 196. Cached by inputsHash. |
 | GET | `/v1/terms/:chain/:asset/changes?hours=72` | Every material term change in the window (1 to 168 hours), newest first, each with its computed causes and the post that made it (V3-04). Cache 30 s. |
+| GET | `/v1/exit/:chain/:asset?hours=72` | The exit check (V3-06): the latest post's tick-walk C(1%) against the OKX DEX quote at the same notionals, which bound the capacity, the quote's age, and a summary of the window with a strip of checks. Cache 30 s. |
 | GET | `/v1/credit/:chain/keeper` | The demo keeper's status line (V3-02): its address, the demo state, its position, the last action with its transaction, and what it does next. Read-only. Testnet 1952. |
 | GET | `/v1/agents/stats` | Kerb for Agents (V3-03): settled x402 calls by network with the latest settlement, the OKX.AI listing status, and the endpoints. Cache 15 s. |
 | GET | `/agents/terms/:asset` | Kerb for Agents, free: the latest posted terms for one asset with the why sentences. Served by kerb-agents. |
@@ -39,22 +40,22 @@ Observation freshness and post counts per chain.
 ```json
 {
  "status": "ok",
- "now": "2026-09-23T12:15:32.592Z",
+ "now": "2026-09-23T12:36:52.030Z",
  "observations": {
-  "poolRows": 88560,
-  "lastObservedAt": "2026-09-23T12:14:59.561Z",
-  "ageSec": 33
+  "poolRows": 88875,
+  "lastObservedAt": "2026-09-23T12:35:59.827Z",
+  "ageSec": 52
  },
  "posts": [
   {
    "chainId": 196,
-   "count": 4508,
-   "lastAt": "2026-09-23T12:14:09.549Z"
+   "count": 4529,
+   "lastAt": "2026-09-23T12:33:51.378Z"
   },
   {
    "chainId": 1952,
-   "count": 4691,
-   "lastAt": "2026-09-23T12:14:33.433Z"
+   "count": 4714,
+   "lastAt": "2026-09-23T12:34:24.742Z"
   }
  ]
 }
@@ -70,7 +71,7 @@ One row per asset: posted terms with provenance, the fixed LT, market, next tran
 {
  "chainId": 196,
  "loanAsset": "USDG",
- "generatedAt": "2026-09-23T12:15:19.905Z",
+ "generatedAt": "2026-09-23T12:36:52.044Z",
  "contracts": {
   "KerbClock": "0xf765d374e0ce576860a463f0d796ad45c62161b8",
   "KerbTerms": "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
@@ -95,88 +96,88 @@ One row per asset: posted terms with provenance, the fixed LT, market, next tran
     "value": "NORMAL",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:12:59.000Z",
-    "tx": "https://www.oklink.com/xlayer/tx/0x125929d52dca59d74d647ed5894bbe54606a71106ac49d5288327db8b4be3816"
+    "observedAt": "2026-09-23T12:32:59.000Z",
+    "tx": "https://www.oklink.com/xlayer/tx/0xe3bce94c4ce9703164c1d7b4e73c3bc1d8edc4dc857b3b573d162a11d852e95a"
    },
    "creditMark": {
-    "value": "503.093036456257777184",
+    "value": "503.149273586653644832",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:12:59.000Z",
-    "inputsHash": "0x0f935a976f796f1fd0301044a455d70f0d3f3c32fd46825a15b3abc755ad25f7",
-    "tx": "https://www.oklink.com/xlayer/tx/0x125929d52dca59d74d647ed5894bbe54606a71106ac49d5288327db8b4be3816"
+    "observedAt": "2026-09-23T12:32:59.000Z",
+    "inputsHash": "0x7f2dbac24e198e1d1ec2a4672900d8dffda19a4930e9b72158a44d8bf4b4889e",
+    "tx": "https://www.oklink.com/xlayer/tx/0xe3bce94c4ce9703164c1d7b4e73c3bc1d8edc4dc857b3b573d162a11d852e95a"
    },
    "executableDepth1": {
     "value": "17539.791015",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:12:59.000Z",
-    "inputsHash": "0x0f935a976f796f1fd0301044a455d70f0d3f3c32fd46825a15b3abc755ad25f7",
-    "tx": "https://www.oklink.com/xlayer/tx/0x125929d52dca59d74d647ed5894bbe54606a71106ac49d5288327db8b4be3816"
+    "observedAt": "2026-09-23T12:32:59.000Z",
+    "inputsHash": "0x7f2dbac24e198e1d1ec2a4672900d8dffda19a4930e9b72158a44d8bf4b4889e",
+    "tx": "https://www.oklink.com/xlayer/tx/0xe3bce94c4ce9703164c1d7b4e73c3bc1d8edc4dc857b3b573d162a11d852e95a"
    },
    "carryLTV": {
     "value": "0.554033884783457259",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:12:59.000Z",
-    "inputsHash": "0x0f935a976f796f1fd0301044a455d70f0d3f3c32fd46825a15b3abc755ad25f7",
-    "tx": "https://www.oklink.com/xlayer/tx/0x125929d52dca59d74d647ed5894bbe54606a71106ac49d5288327db8b4be3816"
+    "observedAt": "2026-09-23T12:32:59.000Z",
+    "inputsHash": "0x7f2dbac24e198e1d1ec2a4672900d8dffda19a4930e9b72158a44d8bf4b4889e",
+    "tx": "https://www.oklink.com/xlayer/tx/0xe3bce94c4ce9703164c1d7b4e73c3bc1d8edc4dc857b3b573d162a11d852e95a"
    },
    "sessionMaxLTV": {
     "value": "0.59672435843782424",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:12:59.000Z",
-    "inputsHash": "0x0f935a976f796f1fd0301044a455d70f0d3f3c32fd46825a15b3abc755ad25f7",
-    "tx": "https://www.oklink.com/xlayer/tx/0x125929d52dca59d74d647ed5894bbe54606a71106ac49d5288327db8b4be3816"
+    "observedAt": "2026-09-23T12:32:59.000Z",
+    "inputsHash": "0x7f2dbac24e198e1d1ec2a4672900d8dffda19a4930e9b72158a44d8bf4b4889e",
+    "tx": "https://www.oklink.com/xlayer/tx/0xe3bce94c4ce9703164c1d7b4e73c3bc1d8edc4dc857b3b573d162a11d852e95a"
    },
    "debtCeiling": {
     "value": "576.173741",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:12:59.000Z",
-    "inputsHash": "0x0f935a976f796f1fd0301044a455d70f0d3f3c32fd46825a15b3abc755ad25f7",
-    "tx": "https://www.oklink.com/xlayer/tx/0x125929d52dca59d74d647ed5894bbe54606a71106ac49d5288327db8b4be3816"
+    "observedAt": "2026-09-23T12:32:59.000Z",
+    "inputsHash": "0x7f2dbac24e198e1d1ec2a4672900d8dffda19a4930e9b72158a44d8bf4b4889e",
+    "tx": "https://www.oklink.com/xlayer/tx/0xe3bce94c4ce9703164c1d7b4e73c3bc1d8edc4dc857b3b573d162a11d852e95a"
    },
    "coverageRatio": {
     "value": "30.441844",
     "label": "Computed",
     "source": "C(1%) / debtCeiling",
-    "observedAt": "2026-09-23T12:12:59.000Z"
+    "observedAt": "2026-09-23T12:32:59.000Z"
    },
-   "reportAgeSec": 141,
-   "poolObservedAt": "2026-09-23T12:14:59.309Z",
-   "poolObservationAgeSec": 21,
+   "reportAgeSec": 233,
+   "poolObservedAt": "2026-09-23T12:35:58.033Z",
+   "poolObservationAgeSec": 54,
    "kts": "0.2",
    "margins": {
     "label": "Computed",
-    "inputsHash": "0x0f935a976f796f1fd0301044a455d70f0d3f3c32fd46825a15b3abc755ad25f7",
+    "inputsHash": "0x7f2dbac24e198e1d1ec2a4672900d8dffda19a4930e9b72158a44d8bf4b4889e",
     "stressMultiplier": "2.5",
     "carry": {
-     "margin": "0.095966115216542741",
-     "gap": "0.046205696994308162",
+     "margin": "0.095709196168247804",
+     "gap": "0.046073826447146112",
      "exitCost": "0.005945076",
      "floor": "0.05",
-     "horizonHours": "25.2834",
+     "horizonHours": "24.9502",
      "horizonEndsAt": "2026-09-24T13:30:00.000Z"
     },
     "session": {
-     "margin": "0.05327564156217576",
-     "gap": "0.024293673900770143",
+     "margin": "0.052098568564989447",
+     "gap": "0.023689509821778058",
      "exitCost": "0.005945076",
      "floor": "0.03",
-     "horizonHours": "6.7834",
+     "horizonHours": "6.4502",
      "horizonEndsAt": "2026-09-23T19:00:00.000Z"
     },
-    "carryMarginUsed": "0.095966115216542741",
-    "sessionMarginUsed": "0.05327564156217576",
+    "carryMarginUsed": "0.095709196168247804",
+    "sessionMarginUsed": "0.052098568564989447",
     "horizonEndsAt": "2026-09-24T13:30:00.000Z"
    },
    "lt": {
     "value": "0.65",
     "label": "Verified",
     "source": "KerbTerms 196 guardrails",
-    "observedAt": "2026-09-23T12:15:19.905Z"
+    "observedAt": "2026-09-23T12:36:52.044Z"
    },
    "market": {
     "code": "XNYS",
@@ -199,14 +200,14 @@ One row per asset: posted terms with provenance, the fixed LT, market, next tran
    },
    "spark": [
     {
-     "at": "2026-09-22T12:57:52.000Z",
-     "c1": "18246.55664",
-     "regime": "NORMAL"
-    },
-    {
      "at": "2026-09-22T13:22:51.000Z",
      "c1": "18611.711914",
      "regime": "NORMAL"
+    },
+    {
+     "at": "2026-09-22T13:52:52.000Z",
+     "c1": "15832.871093",
+     "regime": "RECOVERY"
     },
     "... 46 more"
    ]
@@ -229,88 +230,88 @@ One row per asset: posted terms with provenance, the fixed LT, market, next tran
     "value": "REFERENCE_CLOSED",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:07:59.000Z",
-    "tx": "https://www.oklink.com/xlayer/tx/0x43b33cfc80c3be2bd5c10642bcae53a61ba07c7a5e7d2cedf75d5f0dcb5ee756"
+    "observedAt": "2026-09-23T12:28:00.000Z",
+    "tx": "https://www.oklink.com/xlayer/tx/0x43b6c1976ee313cfffe6acdbdcb6ae9ebff0338d8c87f10639724c5e340b6803"
    },
    "creditMark": {
-    "value": "49.276638929084169811",
+    "value": "49.278229050458649233",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:07:59.000Z",
-    "inputsHash": "0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
-    "tx": "https://www.oklink.com/xlayer/tx/0x43b33cfc80c3be2bd5c10642bcae53a61ba07c7a5e7d2cedf75d5f0dcb5ee756"
+    "observedAt": "2026-09-23T12:28:00.000Z",
+    "inputsHash": "0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
+    "tx": "https://www.oklink.com/xlayer/tx/0x43b6c1976ee313cfffe6acdbdcb6ae9ebff0338d8c87f10639724c5e340b6803"
    },
    "executableDepth1": {
     "value": "17061.879882",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:07:59.000Z",
-    "inputsHash": "0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
-    "tx": "https://www.oklink.com/xlayer/tx/0x43b33cfc80c3be2bd5c10642bcae53a61ba07c7a5e7d2cedf75d5f0dcb5ee756"
+    "observedAt": "2026-09-23T12:28:00.000Z",
+    "inputsHash": "0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
+    "tx": "https://www.oklink.com/xlayer/tx/0x43b6c1976ee313cfffe6acdbdcb6ae9ebff0338d8c87f10639724c5e340b6803"
    },
    "carryLTV": {
     "value": "0.491718424024139429",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:07:59.000Z",
-    "inputsHash": "0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
-    "tx": "https://www.oklink.com/xlayer/tx/0x43b33cfc80c3be2bd5c10642bcae53a61ba07c7a5e7d2cedf75d5f0dcb5ee756"
+    "observedAt": "2026-09-23T12:28:00.000Z",
+    "inputsHash": "0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
+    "tx": "https://www.oklink.com/xlayer/tx/0x43b6c1976ee313cfffe6acdbdcb6ae9ebff0338d8c87f10639724c5e340b6803"
    },
    "sessionMaxLTV": {
     "value": "0.496368318579332179",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:07:59.000Z",
-    "inputsHash": "0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
-    "tx": "https://www.oklink.com/xlayer/tx/0x43b33cfc80c3be2bd5c10642bcae53a61ba07c7a5e7d2cedf75d5f0dcb5ee756"
+    "observedAt": "2026-09-23T12:28:00.000Z",
+    "inputsHash": "0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
+    "tx": "https://www.oklink.com/xlayer/tx/0x43b6c1976ee313cfffe6acdbdcb6ae9ebff0338d8c87f10639724c5e340b6803"
    },
    "debtCeiling": {
     "value": "2424.143139",
     "label": "Attested",
     "source": "KerbTerms 196",
-    "observedAt": "2026-09-23T12:07:59.000Z",
-    "inputsHash": "0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
-    "tx": "https://www.oklink.com/xlayer/tx/0x43b33cfc80c3be2bd5c10642bcae53a61ba07c7a5e7d2cedf75d5f0dcb5ee756"
+    "observedAt": "2026-09-23T12:28:00.000Z",
+    "inputsHash": "0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
+    "tx": "https://www.oklink.com/xlayer/tx/0x43b6c1976ee313cfffe6acdbdcb6ae9ebff0338d8c87f10639724c5e340b6803"
    },
    "coverageRatio": {
     "value": "7.038314",
     "label": "Computed",
     "source": "C(1%) / debtCeiling",
-    "observedAt": "2026-09-23T12:07:59.000Z"
+    "observedAt": "2026-09-23T12:28:00.000Z"
    },
-   "reportAgeSec": 441,
-   "poolObservedAt": "2026-09-23T12:14:57.370Z",
-   "poolObservationAgeSec": 23,
+   "reportAgeSec": 532,
+   "poolObservedAt": "2026-09-23T12:35:57.784Z",
+   "poolObservationAgeSec": 54,
    "kts": "0.2",
    "margins": {
     "label": "Computed",
-    "inputsHash": "0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
+    "inputsHash": "0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
     "stressMultiplier": "2.5",
     "carry": {
-     "margin": "0.108281575975860571",
-     "gap": "0.050111006177270249",
+     "margin": "0.107266531624196397",
+     "gap": "0.049613268133637371",
      "exitCost": "0.0060894803",
      "floor": "0.05",
-     "horizonHours": "16.8667",
+     "horizonHours": "16.5333",
      "horizonEndsAt": "2026-09-24T05:00:00.000Z"
     },
     "session": {
-     "margin": "0.103631681420667821",
-     "gap": "0.047830879781604599",
+     "margin": "0.102567728084148949",
+     "gap": "0.04730915868501671",
      "exitCost": "0.0060894803",
      "floor": "0.03",
-     "horizonHours": "15.3667",
+     "horizonHours": "15.0333",
      "horizonEndsAt": "2026-09-24T03:30:00.000Z"
     },
-    "carryMarginUsed": "0.108281575975860571",
-    "sessionMarginUsed": "0.103631681420667821",
+    "carryMarginUsed": "0.107266531624196397",
+    "sessionMarginUsed": "0.102567728084148949",
     "horizonEndsAt": "2026-09-24T05:00:00.000Z"
    },
    "lt": {
     "value": "0.6",
     "label": "Verified",
     "source": "KerbTerms 196 guardrails",
-    "observedAt": "2026-09-23T12:15:19.905Z"
+    "observedAt": "2026-09-23T12:36:52.044Z"
    },
    "market": {
     "code": "XHKG",
@@ -350,25 +351,25 @@ One row per asset: posted terms with provenance, the fixed LT, market, next tran
  "sources": [
   {
    "name": "okx-dex:v6-quote",
-   "lastObservedAt": "2026-09-23T12:15:19.762Z",
-   "ageSec": 0,
+   "lastObservedAt": "2026-09-23T12:35:24.114Z",
+   "ageSec": 88,
    "healthy": true
   },
   {
    "name": "xlayer:uniswap-v3",
-   "lastObservedAt": "2026-09-23T12:14:59.561Z",
-   "ageSec": 20,
+   "lastObservedAt": "2026-09-23T12:35:59.827Z",
+   "ageSec": 52,
    "healthy": true
   },
   "... 12 more"
  ],
  "summary": {
   "inLastCall": 0,
-  "c1Total": "110445.92685",
-  "ceilingTotal": "35868.440571",
+  "c1Total": "110440.6623",
+  "ceilingTotal": "36120.031565",
   "sourcesHealthy": 14,
   "sourcesTotal": 14,
-  "lastPostAgeSec": 80,
+  "lastPostAgeSec": 233,
   "label": "Computed"
  }
 }
@@ -385,8 +386,8 @@ Latest posted terms for one asset (symbol, token address or assetId), with the b
  "chainId": 196,
  "assetId": "0x2052b48fd37e4b80adfb4e2e758dd0ca050b129a4cf7b648e9fbde5aa3c32b27",
  "symbol": "KOx",
- "observedAt": "2026-09-23T12:12:59.000Z",
- "ageSec": 154,
+ "observedAt": "2026-09-23T12:28:00.000Z",
+ "ageSec": 534,
  "usable": true,
  "regime": {
   "value": "NORMAL",
@@ -394,17 +395,17 @@ Latest posted terms for one asset (symbol, token address or assetId), with the b
   "label": "Attested"
  },
  "creditMark": {
-  "raw": "88479841292817312785",
+  "raw": "88446147542817312785",
   "decimals": 18,
   "label": "Attested"
  },
  "carryLTV": {
-  "raw": "540392155143082430",
+  "raw": "541413023829781982",
   "decimals": 18,
   "label": "Attested"
  },
  "sessionMaxLTV": {
-  "raw": "587620268300281583",
+  "raw": "589898630852145874",
   "decimals": 18,
   "label": "Attested"
  },
@@ -422,41 +423,41 @@ Latest posted terms for one asset (symbol, token address or assetId), with the b
   "symbol": "USDG",
   "decimals": 6
  },
- "inputsHash": "0x5491e40ad98e967977b0bb0322760efcf4375987cf7213416f828000d461c654",
+ "inputsHash": "0x48fc1601ae67a75efe130a25d93f505aee6c5eadabffac9d95bc0e9ef4f7f770",
  "bundle": {
-  "cid": "bafkreifdoz5m4cr5ao6bfp67rjswvzwgy4lrtqlnipfitcqd3cdwen3oua",
+  "cid": "bafkreifjox4uo45sfle3nhoq5cx3r2vdprn7yrarrvvmt4hb2oz7lfyabu",
   "pinStatus": "unpinned",
   "pinned": false,
   "ipfsUrl": null,
-  "url": "/v1/bundle/0x5491e40ad98e967977b0bb0322760efcf4375987cf7213416f828000d461c654",
+  "url": "/v1/bundle/0x48fc1601ae67a75efe130a25d93f505aee6c5eadabffac9d95bc0e9ef4f7f770",
   "servedByApi": true,
-  "verifyCommand": "pnpm --filter @kerb/engine kerb verify 0x5491e40ad98e967977b0bb0322760efcf4375987cf7213416f828000d461c654"
+  "verifyCommand": "pnpm --filter @kerb/engine kerb verify 0x48fc1601ae67a75efe130a25d93f505aee6c5eadabffac9d95bc0e9ef4f7f770"
  },
- "tx": "0x9c1284326530f1c56d0cff0c7dbb45af0f364c81062c13d8583b84ef230b4a08",
+ "tx": "0xf13f8939190aa0ffad69aadbf09b28bbd95d7a08ccd0cd4610b96043ce881bb1",
  "contracts": {
   "clock": "0xf765d374e0ce576860a463f0d796ad45c62161b8",
   "terms": "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5"
  },
  "history": [
   {
-   "observedAt": "2026-09-23T12:12:59.000Z",
+   "observedAt": "2026-09-23T12:28:00.000Z",
    "regime": "NORMAL",
-   "carryLTV": "540392155143082430",
-   "sessionMaxLTV": "587620268300281583",
-   "debtCeiling": "9256902832",
-   "executableDepth1": "12342537109",
-   "creditMark": "88479841292817312785",
-   "tx": "0x9c1284326530f1c56d0cff0c7dbb45af0f364c81062c13d8583b84ef230b4a08"
-  },
-  {
-   "observedAt": "2026-09-23T12:02:59.000Z",
-   "regime": "NORMAL",
-   "carryLTV": "540392155143082430",
-   "sessionMaxLTV": "587620268300281583",
+   "carryLTV": "541413023829781982",
+   "sessionMaxLTV": "589898630852145874",
    "debtCeiling": "9256902832",
    "executableDepth1": "12342537109",
    "creditMark": "88446147542817312785",
-   "tx": "0xb51a8eea64b2fd7e2bd625baeaa83359ccd2f13ad4851d6b198705672303203e"
+   "tx": "0xf13f8939190aa0ffad69aadbf09b28bbd95d7a08ccd0cd4610b96043ce881bb1"
+  },
+  {
+   "observedAt": "2026-09-23T12:18:59.000Z",
+   "regime": "NORMAL",
+   "carryLTV": "541413023829781982",
+   "sessionMaxLTV": "589898630852145874",
+   "debtCeiling": "9256902832",
+   "executableDepth1": "12342537109",
+   "creditMark": "88446147542817312785",
+   "tx": "0x8bf4dce2211f30f3bbe2130958fda81a42f3ad43fc3cebdae1393e246e4bd5fe"
   },
   "... 48 more"
  ]
@@ -475,12 +476,12 @@ The asset's market clock and session segments over a window (max 31 days).
  "symbol": "KOx",
  "market": "XNYS",
  "timezone": "America/New_York",
- "at": "2026-09-23T12:15:32.664Z",
+ "at": "2026-09-23T12:36:53.686Z",
  "label": "Computed",
  "clock": {
   "calendarVersion": "kerb-calendar@0.1.0 (2025-12-01..2027-12-31)",
   "market": "XNYS",
-  "at": "2026-09-23T12:15:32.664Z",
+  "at": "2026-09-23T12:36:53.686Z",
   "session": {
    "kind": "PRE",
    "reason": "SESSION",
@@ -529,11 +530,11 @@ The asset's market clock and session segments over a window (max 31 days).
    "closesAt": "2026-09-23T20:00:00.000Z",
    "open": false
   },
-  "horizonHours": "25.2409"
+  "horizonHours": "24.885"
  },
  "window": {
-  "from": "2026-09-20T12:15:32.664Z",
-  "to": "2026-09-27T12:15:32.664Z"
+  "from": "2026-09-20T12:36:53.686Z",
+  "to": "2026-09-27T12:36:53.686Z"
  },
  "segments": [
   {
@@ -574,7 +575,7 @@ The full KTS report recomputed now from observations: depth curve, mark, stress,
   "market": "XNYS",
   "multiplier": "1.0225601246249238"
  },
- "observedAt": "2026-09-23T12:14:00.287Z",
+ "observedAt": "2026-09-23T12:35:59.827Z",
  "regime": "NORMAL",
  "regimeInputs": {
   "calendarSession": "PRE",
@@ -593,8 +594,8 @@ The full KTS report recomputed now from observations: depth curve, mark, stress,
   },
   "cureWindowOpensAt": "2026-09-23T19:00:00.000Z",
   "cureWindowOpen": false,
-  "sourceMaxAgeSec": 22,
-  "dispersion": "0.000723641342224439",
+  "sourceMaxAgeSec": 21,
+  "dispersion": "0.000780050329645438",
   "rule": 9,
   "reason": "underlying open with adequate depth",
   "asymmetry": {
@@ -605,7 +606,7 @@ The full KTS report recomputed now from observations: depth curve, mark, stress,
  },
  "mark": {
   "reference": {
-   "value": "88.7075",
+   "value": "88.7025",
    "label": "Observed",
    "sources": [
     "xstocks:price-data",
@@ -626,13 +627,13 @@ The full KTS report recomputed now from observations: depth curve, mark, stress,
    "basis": "twap",
    "twapWindowSec": 900
   },
-  "creditMark": "88.453635042817312785",
+  "creditMark": "88.446147542817312785",
   "band": [
-   "87.569098692389139657",
-   "88.7075"
+   "87.561686067389139657",
+   "88.7025"
   ],
-  "haircut": "0.00286182067111222",
-  "dispersion": "0.000723641342224439",
+  "haircut": "0.002890025164822719",
+  "dispersion": "0.000780050329645438",
   "dispersionBreach": false,
   "quoteAssumption": "USDG is treated as 1 USD; the USDG peg is observed separately and reported"
  },
@@ -698,8 +699,8 @@ The full KTS report recomputed now from observations: depth curve, mark, stress,
  },
  "capacity": {
   "LT": "0.65",
-  "carryLTV": "0.541271138477824075",
-  "sessionMaxLTV": "0.589577424930831151",
+  "carryLTV": "0.541899348042133588",
+  "sessionMaxLTV": "0.591011478885663704",
   "stressLTVWeak": "0.862456934046140302",
   "stressLTVCure": "0.862456934046140302",
   "debtCeiling": "9256.902832",
@@ -711,35 +712,35 @@ The full KTS report recomputed now from observations: depth curve, mark, stress,
    "stressMultiplier": "2.5",
    "gapMethod": "hours/24 = d; d <= 1: g(1 session) * sqrt(d); d > 1: variance-interpolated between g(floor d) and g(ceil d) sessions, nearest larger bucket when a session co...",
    "carry": {
-    "gap": "0.043476109123042837",
+    "gap": "0.043204395542497956",
     "volScaler": "0.924811432759057336",
     "exitCost": "0.0082108546",
-    "raw": "0.108728861522175925",
+    "raw": "0.108100651957866412",
     "floor": "0.05",
-    "used": "0.108728861522175925",
-    "horizonHours": "25.2666",
+    "used": "0.108100651957866412",
+    "horizonHours": "24.9",
     "horizonEndsAt": "2026-09-24T13:30:00.000Z"
    },
    "session": {
-    "gap": "0.022582644902389158",
+    "gap": "0.021962387018874792",
     "volScaler": "0.924811432759057336",
     "exitCost": "0.0082108546",
-    "raw": "0.060422575069168849",
+    "raw": "0.058988521114336296",
     "floor": "0.03",
-    "used": "0.060422575069168849",
-    "horizonHours": "6.7666",
+    "used": "0.058988521114336296",
+    "horizonHours": "6.4",
     "horizonEndsAt": "2026-09-23T19:00:00.000Z"
    }
   }
  },
  "stress": {
-  "horizonHoursWeak": "25.2666",
-  "horizonHoursCure": "6.7666",
+  "horizonHoursWeak": "24.9",
+  "horizonHoursCure": "6.4",
   "sessionsWeak": 1,
   "sessionsCure": 1,
   "quantile": "0.99",
-  "gapQuantileWeak": "0.043476109123042837",
-  "gapQuantileCure": "0.022582644902389158",
+  "gapQuantileWeak": "0.043204395542497956",
+  "gapQuantileCure": "0.021962387018874792",
   "volScaler": "0.924811432759057336",
   "impactAtReferenceSize": "0.0082108546",
   "liquidationBonus": "0.07",
@@ -747,8 +748,8 @@ The full KTS report recomputed now from observations: depth curve, mark, stress,
   "historySufficient": true,
   "seriesDigest": "0xdab7c28662e154d9dedc50ee0d258268e3e2c4e27377349f44d9e2a2ad892d6d"
  },
- "inputsHash": "0x86fded1a7d805d95849332f22058cf91b23ee0b507e80a2b3aa8d890dfd1f948",
- "inputsCidV1Raw": "bafkreighuoqpvvh3hu6jz5r5ddrecxehzlob3nmcscuxf6tai75fjumwxu",
+ "inputsHash": "0x1629489f744f1190b2ed57b98ae01c6c551a881a3bfe203448d134fef0f2c08b",
+ "inputsCidV1Raw": "bafkreicfxejcy7t4oftbsnope5zbqh6d6t65zi6ecdybzbfn5shkcoegyu",
  "provenance": {
   "label": "Computed",
   "note": "Produced by KTS-0.1 from the pinned input bundle; recompute with `kerb verify`"
@@ -766,12 +767,12 @@ Deployments and verification, recent posts, data coverage, pinning, limitations.
 
 ```json
 {
- "generatedAt": "2026-09-23T12:15:32.800Z",
+ "generatedAt": "2026-09-23T12:36:53.824Z",
  "build": {
   "repo": "https://github.com/Franlinozz/Kerb",
   "firstCommitAt": "2026-09-18T23:38:38+01:00",
-  "latestCommitAt": "2026-09-23T14:01:46+02:00",
-  "commits": 200,
+  "latestCommitAt": "2026-09-23T14:31:44+02:00",
+  "commits": 203,
   "commitsPerDay": [
    {
     "date": "2026-09-18",
@@ -824,15 +825,15 @@ Deployments and verification, recent posts, data coverage, pinning, limitations.
     "verificationUrl": "https://repo.sourcify.dev/contracts/full_match/1952/0x5a4942f55e37994370745ef984a21321edb75f7e/",
     "explorer": "https://www.oklink.com/x-layer-testnet/address/0x5a4942f55e37994370745ef984a21321edb75f7e"
    },
-   "... 7 more"
+   "... 20 more"
   ],
   "latestPosts": [
    {
     "chainId": 1952,
     "symbol": "BMNRx",
-    "observedAt": "2026-09-23T12:14:00.000Z",
-    "tx": "0xbc9b215b49af8b9233b1b26cfc80473c77ebe44ce8dcafd75c21c9072713e71e",
-    "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xbc9b215b49af8b9233b1b26cfc80473c77ebe44ce8dcafd75c21c9072713e71e",
+    "observedAt": "2026-09-23T12:33:59.000Z",
+    "tx": "0xa0503cc4a3a71bc0699c75c7fbb282bde62a45eaa89f2cc3bac65499d2d7123b",
+    "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xa0503cc4a3a71bc0699c75c7fbb282bde62a45eaa89f2cc3bac65499d2d7123b",
     "gasUsed": "69533",
     "builderCode": [
      "kt0hl6xyhlx8xmt"
@@ -840,11 +841,11 @@ Deployments and verification, recent posts, data coverage, pinning, limitations.
    },
    {
     "chainId": 1952,
-    "symbol": "SHEINx",
-    "observedAt": "2026-09-23T12:14:00.000Z",
-    "tx": "0xa93772e40b35bf7631acdb2b043227afdb419c4b3ee881dc7eeac1a0c603badb",
-    "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xa93772e40b35bf7631acdb2b043227afdb419c4b3ee881dc7eeac1a0c603badb",
-    "gasUsed": "66745",
+    "symbol": "ICEx",
+    "observedAt": "2026-09-23T12:33:58.000Z",
+    "tx": "0x5312dbe9cbfc43108c7218b7e895a581b44ebd59ed57233d6a7a4890713748c5",
+    "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x5312dbe9cbfc43108c7218b7e895a581b44ebd59ed57233d6a7a4890713748c5",
+    "gasUsed": "66829",
     "builderCode": [
      "kt0hl6xyhlx8xmt"
     ]
@@ -854,11 +855,11 @@ Deployments and verification, recent posts, data coverage, pinning, limitations.
   "postCounts": [
    {
     "chainId": 196,
-    "count": 4508
+    "count": 4529
    },
    {
     "chainId": 1952,
-    "count": 4691
+    "count": 4714
    }
   ]
  },
@@ -866,53 +867,53 @@ Deployments and verification, recent posts, data coverage, pinning, limitations.
   "sources": [
    {
     "source": "xlayer:uniswap-v3",
-    "lastObservedAt": "2026-09-23T12:14:59.561Z",
-    "ageSec": 33,
-    "rows": 88560
+    "lastObservedAt": "2026-09-23T12:35:59.827Z",
+    "ageSec": 54,
+    "rows": 88875
    },
    {
     "source": "xstocks:price-data",
-    "lastObservedAt": "2026-09-23T12:15:08.555Z",
-    "ageSec": 24,
-    "rows": 58484
+    "lastObservedAt": "2026-09-23T12:36:38.865Z",
+    "ageSec": 15,
+    "rows": 58742
    },
    "... 14 more"
   ],
   "totals": [
    {
-    "table": "terms_posts",
-    "rows": 9199
+    "table": "obs_multiplier",
+    "rows": 11906
    },
    {
-    "table": "obs_multiplier",
-    "rows": 11866
+    "table": "terms_posts",
+    "rows": 9243
    },
    "... 4 more"
   ],
   "latestBundle": {
    "symbol": "BMNRx",
-   "inputsHash": "0xbc9102798e627d352a0ae9b85fe58536ad03fbdbcb1e02244770fc44fca0583f",
-   "cid": "bafkreig7kytmk7vxrqzds2h6k42vgxtqgt2yjn6adz47h3ivbrewsfnv2u",
+   "inputsHash": "0x7338a61a4b86f4abd2a64356bf98345fc5ffc043ce84babba6c198acdd212530",
+   "cid": "bafkreifmkpdz2aqif37yxmscses2itjmuiovo24jrpvjdwq67y4hnzaf54",
    "pinStatus": "unpinned",
    "gateway": null,
-   "apiUrl": "/v1/bundle/0xbc9102798e627d352a0ae9b85fe58536ad03fbdbcb1e02244770fc44fca0583f"
+   "apiUrl": "/v1/bundle/0x7338a61a4b86f4abd2a64356bf98345fc5ffc043ce84babba6c198acdd212530"
   },
   "pinning": {
-   "recentPosts": 2744,
+   "recentPosts": 2740,
    "pinned": 0,
-   "unpinned": 2744,
-   "storedByApi": 2744,
-   "retrievable": 2744,
+   "unpinned": 2740,
+   "storedByApi": 2740,
+   "retrievable": 2740,
    "note": "Every bundle posted after K-43 resolves from its inputsHash through the Kerb API. Earlier posts have a documented IPFS gap caused by the pinning quota. In th..."
   }
  },
  "risk": {
   "report": {
    "symbol": "BMNRx",
-   "observedAt": "2026-09-23T12:14:00.000Z",
-   "inputsHash": "0xbc9102798e627d352a0ae9b85fe58536ad03fbdbcb1e02244770fc44fca0583f",
-   "cid": "bafkreig7kytmk7vxrqzds2h6k42vgxtqgt2yjn6adz47h3ivbrewsfnv2u",
-   "recomputeCommand": "pnpm --filter @kerb/engine kerb verify 0xbc9102798e627d352a0ae9b85fe58536ad03fbdbcb1e02244770fc44fca0583f"
+   "observedAt": "2026-09-23T12:33:59.000Z",
+   "inputsHash": "0x7338a61a4b86f4abd2a64356bf98345fc5ffc043ce84babba6c198acdd212530",
+   "cid": "bafkreifmkpdz2aqif37yxmscses2itjmuiovo24jrpvjdwq67y4hnzaf54",
+   "recomputeCommand": "pnpm --filter @kerb/engine kerb verify 0x7338a61a4b86f4abd2a64356bf98345fc5ffc043ce84babba6c198acdd212530"
   }
  },
  "limitations": [
@@ -952,12 +953,12 @@ Deployments and verification, recent posts, data coverage, pinning, limitations.
   ]
  },
  "verify": {
-  "inputsHash": "0xbc9102798e627d352a0ae9b85fe58536ad03fbdbcb1e02244770fc44fca0583f",
+  "inputsHash": "0x7338a61a4b86f4abd2a64356bf98345fc5ffc043ce84babba6c198acdd212530",
   "chainId": 1952,
   "symbol": "BMNRx",
-  "tx": "0xbc9b215b49af8b9233b1b26cfc80473c77ebe44ce8dcafd75c21c9072713e71e",
+  "tx": "0xa0503cc4a3a71bc0699c75c7fbb282bde62a45eaa89f2cc3bac65499d2d7123b",
   "kts": "0.2",
-  "checkedAt": "2026-09-23T12:14:51.345Z",
+  "checkedAt": "2026-09-23T12:36:39.949Z",
   "fields": [
    {
     "field": "creditMark",
@@ -1149,29 +1150,29 @@ Newest Terms posts across both chains (limit 1 to 100). Cache 15 s.
 ```json
 {
  "label": "Attested",
- "generatedAt": "2026-09-23T12:15:33.236Z",
+ "generatedAt": "2026-09-23T12:36:54.143Z",
  "posts": [
   {
    "symbol": "BMNRx",
    "chainId": 1952,
    "regime": "NORMAL",
-   "c1": "8469.317871",
+   "c1": "8474.651367",
    "carryLTV": "0.05",
    "sessionMaxLTV": "0.05",
-   "tx": "0xbc9b215b49af8b9233b1b26cfc80473c77ebe44ce8dcafd75c21c9072713e71e",
-   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xbc9b215b49af8b9233b1b26cfc80473c77ebe44ce8dcafd75c21c9072713e71e",
-   "observedAt": "2026-09-23T12:14:00.000Z"
+   "tx": "0xa0503cc4a3a71bc0699c75c7fbb282bde62a45eaa89f2cc3bac65499d2d7123b",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xa0503cc4a3a71bc0699c75c7fbb282bde62a45eaa89f2cc3bac65499d2d7123b",
+   "observedAt": "2026-09-23T12:33:59.000Z"
   },
   {
-   "symbol": "SHEINx",
+   "symbol": "ICEx",
    "chainId": 1952,
-   "regime": "REFERENCE_CLOSED",
-   "c1": "19212.630859",
-   "carryLTV": "0.05",
-   "sessionMaxLTV": "0.05",
-   "tx": "0xa93772e40b35bf7631acdb2b043227afdb419c4b3ee881dc7eeac1a0c603badb",
-   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0xa93772e40b35bf7631acdb2b043227afdb419c4b3ee881dc7eeac1a0c603badb",
-   "observedAt": "2026-09-23T12:14:00.000Z"
+   "regime": "NORMAL",
+   "c1": "5801.038574",
+   "carryLTV": "0.420179582762596448",
+   "sessionMaxLTV": "0.499708020659877259",
+   "tx": "0x5312dbe9cbfc43108c7218b7e895a581b44ebd59ed57233d6a7a4890713748c5",
+   "explorer": "https://www.oklink.com/x-layer-testnet/tx/0x5312dbe9cbfc43108c7218b7e895a581b44ebd59ed57233d6a7a4890713748c5",
+   "observedAt": "2026-09-23T12:33:58.000Z"
   },
   "... 1 more"
  ]
@@ -1187,17 +1188,17 @@ Headline counts: observation rows, posts by chain, assets, markets, latest Marke
 ```json
 {
  "label": "Observed",
- "generatedAt": "2026-09-23T12:15:11.539Z",
- "obsPoolRows": 88560,
- "obsTotalRows": 318928,
+ "generatedAt": "2026-09-23T12:36:21.715Z",
+ "obsPoolRows": 88875,
+ "obsTotalRows": 320167,
  "postsByChain": [
   {
    "chainId": 196,
-   "count": 4508
+   "count": 4529
   },
   {
    "chainId": 1952,
-   "count": 4691
+   "count": 4714
   }
  ],
  "assets": 10,
@@ -1272,14 +1273,14 @@ Credit market state: pool, collaterals with their fixed LT and relayed terms, di
    "cureBonus": "15000000000000000",
    "defaultBonus": "70000000000000000",
    "terms": {
-    "carryLTV": "541242443879707891",
-    "sessionMaxLTV": "589512649923358602",
-    "creditMark": "88479841292817312785",
+    "carryLTV": "541700142808329699",
+    "sessionMaxLTV": "590553372754632677",
+    "creditMark": "88446147542817312785",
     "regime": 1,
     "usable": true,
     "debtCeiling": "9256902832",
     "maxPositionDebt": "3085634277",
-    "observedAt": "2026-09-23T12:12:59.000Z"
+    "observedAt": "2026-09-23T12:29:02.000Z"
    },
    "relayedFrom": {
     "symbol": "KOx",
@@ -1298,14 +1299,14 @@ Credit market state: pool, collaterals with their fixed LT and relayed terms, di
    "cureBonus": "15000000000000000",
    "defaultBonus": "70000000000000000",
    "terms": {
-    "carryLTV": "491213156775012752",
-    "sessionMaxLTV": "495839091992501446",
+    "carryLTV": "492786416701630881",
+    "sessionMaxLTV": "497487800447401984",
     "creditMark": "49277274977633961580",
     "regime": 4,
     "usable": true,
     "debtCeiling": "12796409912",
     "maxPositionDebt": "4265469970",
-    "observedAt": "2026-09-23T11:57:57.000Z"
+    "observedAt": "2026-09-23T12:29:02.000Z"
    },
    "relayedFrom": {
     "symbol": "HKEXCx",
@@ -1315,7 +1316,7 @@ Credit market state: pool, collaterals with their fixed LT and relayed terms, di
   }
  ],
  "disclaimer": "The credit plane runs on X Layer testnet with mirror collateral. Mirror tokens have no claim on any security. The risk data underneath them is the real mainn...",
- "generatedAt": "2026-09-23T12:15:40.495Z"
+ "generatedAt": "2026-09-23T12:36:58.208Z"
 }
 ```
 
@@ -1332,8 +1333,8 @@ The testnet demo clock as a schedule: phase, state, next Last Call. Cache 5 s.
  "sessionEndSec": 3000,
  "cureStartSec": 2400,
  "epoch": 1789942438,
- "now": "2026-09-23T12:15:40.000Z",
- "phaseSec": 102,
+ "now": "2026-09-23T12:36:56.000Z",
+ "phaseSec": 1378,
  "state": "SESSION",
  "nextCureOpensAt": "2026-09-23T12:53:58.000Z",
  "nextCureClosesAt": "2026-09-23T13:03:58.000Z",
@@ -1354,7 +1355,7 @@ Every open position found from KerbCredit events, curable first, then by deadlin
 {
  "chainId": 1952,
  "label": "Verified",
- "scannedToBlock": 41706882,
+ "scannedToBlock": 41708165,
  "eventsSeen": 32,
  "positions": [
   {
@@ -1363,9 +1364,9 @@ Every open position found from KerbCredit events, curable first, then by deadlin
    "symbol": "kKOx",
    "mode": "Session Max",
    "debt": "2716632946",
-   "positionLTV": "540393317842792461",
+   "positionLTV": "540599181885793959",
    "carryTarget": "550000000000000000",
-   "healthFactor": "1258342724597141803",
+   "healthFactor": "1257863538771939784",
    "cure": {
     "eligible": false,
     "deadline": "2026-09-23T13:03:58.000Z",
@@ -1421,8 +1422,8 @@ One position: debt, LTV, health against the fixed LT, covenant status.
  "assetId": "0x254b3d276908ccbf128e0dd59ab700de06581c83597bcef47a12d9cad8abb383",
  "collateralShares": "56816785372023262856",
  "debt": "2716632946",
- "positionLTV": "540393317842792461",
- "healthFactor": "1258342724597141803",
+ "positionLTV": "540599181885793959",
+ "healthFactor": "1257863538771939784",
  "carryTarget": "550000000000000000",
  "mode": 1,
  "modeName": "Session Max",
@@ -1758,7 +1759,7 @@ One stored KTS report.
 
 The exact input bundle posted under an inputsHash (or a report id). keccak256 of the bytes equals the hash.
 
-`/v1/bundle/0x5491e40ad98e967977b0bb0322760efcf4375987cf7213416f828000d461c654`
+`/v1/bundle/0x48fc1601ae67a75efe130a25d93f505aee6c5eadabffac9d95bc0e9ef4f7f770`
 
 ```json
 {
@@ -1879,10 +1880,10 @@ The exact input bundle posted under an inputsHash (or a report id). keccak256 of
  "engineVersion": "kerb-engine@0.1.0",
  "fx": [
   {
-   "contentHash": "0x061a065124bd1422471d1ea68e982cec3e0a74d7a17809c56b974a6473945a95",
+   "contentHash": "0xca8197177139f0d34b9ce0d91d2f77b95bca3bd8415ca64f3c1fbe958033d43a",
    "currency": "HKD",
-   "observedAtMs": 1790165548959,
-   "perUsd": "7.8429",
+   "observedAtMs": 1790166479947,
+   "perUsd": "7.8433",
    "source": "yahoo:chart:HKD=X"
   }
  ],
@@ -1891,24 +1892,24 @@ The exact input bundle posted under an inputsHash (or a report id). keccak256 of
   "code": "XNYS",
   "cureWindowSec": 3600
  },
- "observedAtMs": 1790165579669,
+ "observedAtMs": 1790166480004,
  "paramsVersion": "2026-09-22.1",
  "previous": null,
  "quotes": [
   {
    "amountIn": "11.036424847524271834",
-   "contentHash": "0x0db5d7bc401c855cbfcf559dd39bc876b0d5366aef54a3ef09b659f98130063f",
+   "contentHash": "0x69790b25999683ddfbacc344393db52e5fc5a53cf108fd174056cba21a6f0a31",
    "notional": "1000",
-   "observedAtMs": 1790165402576,
+   "observedAtMs": 1790166302693,
    "quoteOut": "1000.454417",
    "router": "Uniswap V3:100%",
    "source": "okx-dex:v6-quote"
   },
   {
    "amountIn": "55.182124237621359169",
-   "contentHash": "0xf0445f334774cd3cc6d0408cbd764d0791228e728e408d30af88105c4984922f",
+   "contentHash": "0x4a5d03d38bf81d1a33c14ea67432bf82834fce331a3a7aaf513d4590cc784042",
    "notional": "5000",
-   "observedAtMs": 1790165403997,
+   "observedAtMs": 1790166304102,
    "quoteOut": "4986.749104",
    "router": "Uniswap V3:100%",
    "source": "okx-dex:v6-quote"
@@ -1917,16 +1918,16 @@ The exact input bundle posted under an inputsHash (or a report id). keccak256 of
  ],
  "references": [
   {
-   "contentHash": "0x9d82cae092023f4a9ae0c724026dc608cb7ba0de69803fc287f9df03a3f0e75d",
+   "contentHash": "0x4fd89bb426e46a1962bf954a5368c040448b16e0264cc25ae30998f2effdf877",
    "currency": "USD",
-   "observedAtMs": 1790165558526,
+   "observedAtMs": 1790166458718,
    "source": "xstocks:price-data",
-   "value": "88.84"
+   "value": "88.795"
   },
   {
-   "contentHash": "0xa3ecebdeea1b36fc6e69218e88588030af37541a6d8d67d7a6db20ecf901099c",
+   "contentHash": "0x6233765de0669e191edb76f7fb551de6e965325fa4d64f90936faa232923dd91",
    "currency": "USD",
-   "observedAtMs": 1790165548951,
+   "observedAtMs": 1790166479945,
    "source": "yahoo:chart:KO",
    "value": "88.61"
   }
@@ -2028,11 +2029,11 @@ The exact input bundle posted under an inputsHash (or a report id). keccak256 of
  },
  "venues": [
   {
-   "contentHash": "0x9523260ffa18f46c48f1bdbecede8c3a00c65f31c8c53e444404c361d617bc34",
+   "contentHash": "0xefbdb7a2f4ce75a5b20fab33b5fab658c09fd179f69a7e2d36e93787324cb68b",
    "decimals0": 6,
    "decimals1": 18,
    "legIndex": 0,
-   "observedAtMs": 1790165578436,
+   "observedAtMs": 1790166480004,
    "path": [
     "wKOx",
     "USDG"
@@ -2046,9 +2047,9 @@ The exact input bundle posted under an inputsHash (or a report id). keccak256 of
      "lower": 86,
      "upper": 93
     },
-    "blockHash": "0x6091af4de1f7f63121b70cf31f949b3f62485cbb5240b5f0168659437b212559",
-    "blockNumber": "71396541",
-    "blockTimestamp": "1790165577",
+    "blockHash": "0x6a898054cca0e24bbe68b74a518bbaa8fcbffb594d661e018059c3863db28a13",
+    "blockNumber": "71397440",
+    "blockTimestamp": "1790166476",
     "chainId": 196,
     "coveredTicks": {
      "lower": 220160,
@@ -2090,20 +2091,20 @@ Why the current terms are what they are (V3-04): three sentences with their numb
 {
  "chainId": 196,
  "symbol": "KOx",
- "asOf": "2026-09-23T12:13:51.458Z",
- "tx": "0x9c1284326530f1c56d0cff0c7dbb45af0f364c81062c13d8583b84ef230b4a08",
- "explorer": "https://www.oklink.com/xlayer/tx/0x9c1284326530f1c56d0cff0c7dbb45af0f364c81062c13d8583b84ef230b4a08",
- "inputsHash": "0x5491e40ad98e967977b0bb0322760efcf4375987cf7213416f828000d461c654",
+ "asOf": "2026-09-23T12:29:03.279Z",
+ "tx": "0xf13f8939190aa0ffad69aadbf09b28bbd95d7a08ccd0cd4610b96043ce881bb1",
+ "explorer": "https://www.oklink.com/xlayer/tx/0xf13f8939190aa0ffad69aadbf09b28bbd95d7a08ccd0cd4610b96043ce881bb1",
+ "inputsHash": "0x48fc1601ae67a75efe130a25d93f505aee6c5eadabffac9d95bc0e9ef4f7f770",
  "kts": "0.2",
  "label": "Computed",
  "sentences": [
   {
    "field": "carryLTV",
-   "sentence": "Carry is 10.96 points below the fixed 65.00% line: 2.5 \u00d7 0.92 volatility \u00d7 the 4.35% stressed gap over the 25h 17m until the next deep session (Thu 13:30 UTC..."
+   "sentence": "Carry is 10.86 points below the fixed 65.00% line: 2.5 \u00d7 0.92 volatility \u00d7 the 4.33% stressed gap over the 25h 02m until the next deep session (Thu 13:30 UTC..."
   },
   {
    "field": "sessionMaxLTV",
-   "sentence": "Session Max only has to reach the cure deadline, 6h 47m away (Wed 19:00 UTC): margin 6.05 points. Posted tighter than the engine's 58.95% while a loosening w..."
+   "sentence": "Session Max only has to reach the cure deadline, 6h 32m away (Wed 19:00 UTC): margin 5.95 points. Posted tighter than the engine's 59.05% while a loosening w..."
   },
   "... 1 more"
  ]
@@ -2122,59 +2123,111 @@ Every material term change in the window (1 to 168 hours), newest first, each wi
  "symbol": "KOx",
  "hours": 72,
  "label": "Computed",
- "generatedAt": "2026-09-23T12:15:42.734Z",
+ "generatedAt": "2026-09-23T12:36:53.772Z",
  "changes": [
   {
-   "at": "2026-09-23T11:43:58.537Z",
+   "at": "2026-09-23T12:19:03.839Z",
    "field": "carryLTV",
-   "from": "0.539548601759569461",
-   "to": "0.54039215514308243",
-   "delta": "0.084355",
-   "headline": "Carry up 53.95% to 54.04% (0.08 pts). A loosening held back earlier is released (0.06 pts).",
+   "from": "0.54039215514308243",
+   "to": "0.541413023829781982",
+   "delta": "0.102087",
+   "headline": "Carry up 54.04% to 54.14% (0.10 pts). A loosening held back earlier is released (0.09 pts).",
    "causes": [
     {
      "kind": "LOOSEN_CAP",
-     "sentence": "A loosening held back earlier is released (0.06 pts).",
-     "contribution": "0.058935"
+     "sentence": "A loosening held back earlier is released (0.09 pts).",
+     "contribution": "0.085029"
     },
     {
      "kind": "HORIZON",
-     "sentence": "Carry up 0.03 pts from the horizon: the loan must now survive 25h 47m until the next deep session (Thu 13:30 UTC) instead of 25h 56m; the stressed gap over t...",
-     "contribution": "0.025421"
+     "sentence": "Carry up 0.02 pts from the horizon: the loan must now survive 25h 11m until the next deep session (Thu 13:30 UTC) instead of 25h 17m; the stressed gap over t...",
+     "contribution": "0.017058"
     }
    ],
    "residual": null,
-   "tx": "0xcce4b9a0c65c6b1a56762c2dede5f64f2ccf7121f409a109c189a9f1f3447746",
-   "explorer": "https://www.oklink.com/xlayer/tx/0xcce4b9a0c65c6b1a56762c2dede5f64f2ccf7121f409a109c189a9f1f3447746",
-   "prevTx": "0xbbdf730d0b691bdb5dbd924ce9cb03d95d99adc1ee5497cc778e697e3f1ace9c",
-   "inputsHash": "0x333159525b3390937bc93e4196e5867ad255a45062f642f7465ad74f18318d99"
+   "tx": "0x8bf4dce2211f30f3bbe2130958fda81a42f3ad43fc3cebdae1393e246e4bd5fe",
+   "explorer": "https://www.oklink.com/xlayer/tx/0x8bf4dce2211f30f3bbe2130958fda81a42f3ad43fc3cebdae1393e246e4bd5fe",
+   "prevTx": "0x9c1284326530f1c56d0cff0c7dbb45af0f364c81062c13d8583b84ef230b4a08",
+   "inputsHash": "0x614acbdd31b136605e5e40391758e0326e11fc8438b1e25080499f5d1b5d5a34"
   },
   {
-   "at": "2026-09-23T11:43:58.537Z",
+   "at": "2026-09-23T12:19:03.839Z",
    "field": "sessionMaxLTV",
-   "from": "0.585791082154238919",
-   "to": "0.587620268300281583",
-   "delta": "0.182919",
-   "headline": "Session Max up 58.58% to 58.76% (0.18 pts). A loosening held back earlier is released (0.13 pts).",
+   "from": "0.587620268300281583",
+   "to": "0.589898630852145874",
+   "delta": "0.227836",
+   "headline": "Session Max up 58.76% to 58.99% (0.23 pts). A loosening held back earlier is released (0.19 pts).",
    "causes": [
     {
      "kind": "LOOSEN_CAP",
-     "sentence": "A loosening held back earlier is released (0.13 pts).",
-     "contribution": "0.127313"
+     "sentence": "A loosening held back earlier is released (0.19 pts).",
+     "contribution": "0.189238"
     },
     {
      "kind": "HORIZON",
-     "sentence": "Session Max up 0.06 pts from the horizon: the loan must now survive 7h 17m to the cure deadline (Wed 19:00 UTC) instead of 7h 26m; the stressed gap over that...",
-     "contribution": "0.055606"
+     "sentence": "Session Max up 0.04 pts from the horizon: the loan must now survive 6h 41m to the cure deadline (Wed 19:00 UTC) instead of 6h 47m; the stressed gap over that...",
+     "contribution": "0.038598"
     }
    ],
    "residual": null,
-   "tx": "0xcce4b9a0c65c6b1a56762c2dede5f64f2ccf7121f409a109c189a9f1f3447746",
-   "explorer": "https://www.oklink.com/xlayer/tx/0xcce4b9a0c65c6b1a56762c2dede5f64f2ccf7121f409a109c189a9f1f3447746",
-   "prevTx": "0xbbdf730d0b691bdb5dbd924ce9cb03d95d99adc1ee5497cc778e697e3f1ace9c",
-   "inputsHash": "0x333159525b3390937bc93e4196e5867ad255a45062f642f7465ad74f18318d99"
+   "tx": "0x8bf4dce2211f30f3bbe2130958fda81a42f3ad43fc3cebdae1393e246e4bd5fe",
+   "explorer": "https://www.oklink.com/xlayer/tx/0x8bf4dce2211f30f3bbe2130958fda81a42f3ad43fc3cebdae1393e246e4bd5fe",
+   "prevTx": "0x9c1284326530f1c56d0cff0c7dbb45af0f364c81062c13d8583b84ef230b4a08",
+   "inputsHash": "0x614acbdd31b136605e5e40391758e0326e11fc8438b1e25080499f5d1b5d5a34"
   },
-  "... 228 more"
+  "... 230 more"
+ ]
+}
+```
+
+## `GET /v1/exit/:chain/:asset?hours=72`
+
+The exit check (V3-06): the latest post's tick-walk C(1%) against the OKX DEX quote at the same notionals, which bound the capacity, the quote's age, and a summary of the window with a strip of checks. Cache 30 s.
+
+`/v1/exit/196/KOx?hours=72`
+
+```json
+{
+ "chainId": 196,
+ "symbol": "KOx",
+ "hours": 72,
+ "label": "Computed",
+ "generatedAt": "2026-09-23T12:36:59.759Z",
+ "latest": {
+  "at": "2026-09-23T12:29:03.279Z",
+  "tx": "0xf13f8939190aa0ffad69aadbf09b28bbd95d7a08ccd0cd4610b96043ce881bb1",
+  "explorer": "https://www.oklink.com/xlayer/tx/0xf13f8939190aa0ffad69aadbf09b28bbd95d7a08ccd0cd4610b96043ce881bb1",
+  "inputsHash": "0x48fc1601ae67a75efe130a25d93f505aee6c5eadabffac9d95bc0e9ef4f7f770",
+  "simulatedC1": "12342.537109",
+  "quotedC1": "12340.847629",
+  "usedC1": "12342.537109",
+  "delta": "0.000136901455296301",
+  "bound": "tick-walk",
+  "unavailableReason": null,
+  "quoteAgeSec": 173,
+  "router": "Uniswap V3:100%",
+  "source": "okx-dex:v6-quote"
+ },
+ "summary": {
+  "checks": 430,
+  "okxBound": 2,
+  "medianDelta": "0.001450797369545305",
+  "maxDelta": "0.4642502263271229",
+  "unavailable": 82,
+  "unavailableReasons": {
+   "input bundle not retrievable": 82
+  }
+ },
+ "strip": [
+  {
+   "at": "2026-09-23T12:29:03.279Z",
+   "bound": "tick-walk"
+  },
+  {
+   "at": "2026-09-23T12:19:03.839Z",
+   "bound": "tick-walk"
+  },
+  "... 286 more"
  ]
 }
 ```
@@ -2190,7 +2243,7 @@ The demo keeper's status line (V3-02): its address, the demo state, its position
  "address": "0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4",
  "chainId": 1952,
  "collateral": "kHKEXCx",
- "updatedAt": "2026-09-23T12:15:39.774Z",
+ "updatedAt": "2026-09-23T12:36:11.544Z",
  "state": "SESSION",
  "position": "open",
  "debt": "2000.000001",
@@ -2203,7 +2256,7 @@ The demo keeper's status line (V3-02): its address, the demo state, its position
   "tx": "0x3203c7e1e63ea259a25eb21159cecbdfcf683f194fd676a87a7b5732bca52594"
  },
  "running": true,
- "ageSec": 3,
+ "ageSec": 48,
  "label": "Observed"
 }
 ```
@@ -2217,7 +2270,7 @@ Kerb for Agents (V3-03): settled x402 calls by network with the latest settlemen
 ```json
 {
  "label": "Observed",
- "generatedAt": "2026-09-23T12:15:42.771Z",
+ "generatedAt": "2026-09-23T12:36:59.800Z",
  "listingStatus": "unregistered",
  "live": {
   "network": "eip155:1952",
@@ -2245,8 +2298,8 @@ Kerb for Agents, free: the latest posted terms for one asset with the why senten
  "chainId": 196,
  "assetId": "0xceef091e9b937d639d95fcf4656486bded3108c3125a76fa4174553f533e01d3",
  "symbol": "HKEXCx",
- "observedAt": "2026-09-23T12:07:59.000Z",
- "ageSec": 464,
+ "observedAt": "2026-09-23T12:28:00.000Z",
+ "ageSec": 540,
  "usable": true,
  "regime": {
   "value": "REFERENCE_CLOSED",
@@ -2254,7 +2307,7 @@ Kerb for Agents, free: the latest posted terms for one asset with the why senten
   "label": "Attested"
  },
  "creditMark": {
-  "raw": "49276638929084169811",
+  "raw": "49278229050458649233",
   "decimals": 18,
   "label": "Attested"
  },
@@ -2282,24 +2335,24 @@ Kerb for Agents, free: the latest posted terms for one asset with the why senten
   "symbol": "USDG",
   "decimals": 6
  },
- "inputsHash": "0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
+ "inputsHash": "0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
  "bundle": {
-  "cid": "bafkreibmc4w5iunukln4wclrsfu5xgex6utcy3liuau6fntpibk2n4kyty",
+  "cid": "bafkreida25achnz4saeiz3cr7vlgxkrxz3watj46m6it3tibvkgmlpzvvy",
   "pinStatus": "unpinned",
   "pinned": false,
   "ipfsUrl": null,
-  "url": "/v1/bundle/0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234",
+  "url": "/v1/bundle/0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7",
   "servedByApi": true,
-  "verifyCommand": "pnpm --filter @kerb/engine kerb verify 0x3dac006501aa7334d20ff46323c88d0d85abd10a394c713d612db1745c806234"
+  "verifyCommand": "pnpm --filter @kerb/engine kerb verify 0x47ea441f3fc683f169f17c6833307f8d6c86268490ad1043693b4e7137cbd4e7"
  },
- "tx": "0x43b33cfc80c3be2bd5c10642bcae53a61ba07c7a5e7d2cedf75d5f0dcb5ee756",
+ "tx": "0x43b6c1976ee313cfffe6acdbdcb6ae9ebff0338d8c87f10639724c5e340b6803",
  "contracts": {
   "clock": "0xf765d374e0ce576860a463f0d796ad45c62161b8",
   "terms": "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5"
  },
  "why": [
-  "Session Max margin is 10.4 pts: the loan must reach the cure deadline, 15h 22m away.",
-  "Carry margin is 10.8 pts: it must survive until the next deep session, 16h 52m away."
+  "Session Max margin is 10.3 pts: the loan must reach the cure deadline, 15h 2m away.",
+  "Carry margin is 10.7 pts: it must survive until the next deep session, 16h 32m away."
  ],
  "whyKind": "now"
 }
