@@ -33,11 +33,11 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 | V3-01 Freshness guarantee | B (+A warmer) | Wed morning | A0 | **done 23 Sep**, live `3423fab`: first paint 9 to 32 s old (was 2 h 17 m), warmer `kerb-web-warmer` running, E2E `freshness.idle.spec.ts` green in CI incl. the lagged-render case (`--grep @lag`, run alone) |
 | V3-02 Standing demo position | A | Wed morning | A0 | **running 23 Sep** (operator: go keeper, 0.025 test OKB): cycle 1 opened 11:32 UTC (borrow `0x6b3bf5f1…86ca`), stranger cure in a real browser on www 12:00 UTC (`0x5468b5ed…89ca`, data/keeper-cure-2026-09-23.json); 3-cycle observation continuing |
 | V3-03 Kerb for Agents (x402, OKX.AI, MCP) | A | Wed afternoon, register by 18:00 | A1 | **live on testnet x402** 23 Sep: `kerb-agents` behind api.usekerb.xyz, public 402 verified, MCP 6 tools, facilitator accepts the existing OKX key on 196 and 1952. Listing skipped (operator). Settled payment waits on test USDT0 or the mainnet go (Requests) |
-| V3-04 Term attribution | A then B | Wed evening | A1 | not started |
-| V3-05 Onchain consumers | A | Wed night, deploy Thu after 09:00 | A1 | not started |
-| V3-06 Exit evidence | A then B | Wed night or Thu | A2 | not started |
-| V3-07 Consumers and positioning surfaces | B | Thu | A1 | not started |
-| V3-08 Last Call alerts | B (+A) | Thu, cut first | A2 | not started |
+| V3-04 Term attribution | A then B | Wed evening | A1 | **done and live 23 Sep**: engine attribution (exact split, zero residual on 2,186 real changes), `kerb-attribution` job + `term_changes`, `/why` and `/changes`, UI on Asset, Credit, Home, Board; golden tests on 5 real pairs. Rung 1 |
+| V3-05 Onchain consumers | A | Wed night, deploy Thu after 09:00 | A1 | **testnet done 23 Sep**: KerbQuote `0xfd688bc3…1c05`, factory `0xc363050c…be6b`, ten feeds, demo-clock KerbQuote `0x3caa62ff…6815`, all Sourcify exact; parity with KerbCredit fuzzed and live (block 41707514); mainnet fork tests green. Rung 3 until "go consumers mainnet" (about 0.00015 OKB) |
+| V3-06 Exit evidence | A then B | Wed night or Thu | A2 | **done and live 23 Sep**: `exit_checks` per post, `/v1/exit`, Asset Exit check panel with strip, Proof counts |
+| V3-07 Consumers and positioning surfaces | B | Thu | A1 | **done 23 Sep**: Home consumers, Developers four tabs with live KerbQuote read, Proof Agents tile and Consumers group, keeper-aware Credit, README first screen + FAQ, CLAIM_EVIDENCE rows |
+| V3-08 Last Call alerts | B (+A) | Thu, cut first | A2 | **done 23 Sep** (browser notifications, open tab; no Telegram bot, no token given) |
 | V3-09 Report #2 and dataset | A then B | Thu after 09:00 | A0 | captures scheduled (crontab), generator dry-run OK 23 Sep |
 | V3-10 Hardening, freeze 22:00 | both | Thu 16:00 to 22:00 | A0 | not started |
 | V3-11 Certification, tag v3.0.0 | both | Fri 00:00 to 04:00 | A0 | not started |
@@ -62,7 +62,7 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 
 | Date | From | To | Request | Status |
 |---|---|---|---|---|
-| 23 Sep | A | B | Credit empty state: replace "Kerb does not keep a standing demo position" with V3-POSITIONING section 2 copy, reading `/v1/credit/1952/keeper` | open (V3-07) |
+| 23 Sep | A | B | Credit empty state: replace "Kerb does not keep a standing demo position" with V3-POSITIONING section 2 copy, reading `/v1/credit/1952/keeper` | done (V3-07) |
 | 23 Sep | A | operator | x402 settled payment: either test USDT0 from the faucet to a payer wallet, or "go x402 mainnet" plus about 0.10 USDT0 moved from the deployer (holds 3.73) to a throwaway payer | open |
 
 ### V3 deviations
@@ -71,6 +71,9 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 |---|---|---|
 | 23 Sep | The engine report's provenance note ("Produced by KTS-0.1 from the pinned input bundle") is left as it is; claims-check exempts that exact string | It is inside every posted report's byte-identical recompute (`apps/engine/test/recompute.test.ts` fails if it changes), so it is frozen engine output; UI and docs now say "published" |
 | 23 Sep | One test row (`network = 't'`, id 1) sits in `agent_calls`: the append-only trigger was checked with a real insert and, correctly, refused the delete. `/v1/agents/stats` counts only `eip155:*` networks | Append-only by design; rolled forward, not deleted |
+| 23 Sep | The agents value `amount` in asset tokens (one xStock), not wrapper shares: the Credit Mark prices the asset token (engine mark.ts); fixed the same day | Found while writing KerbQuote |
+| 23 Sep | The live KerbQuote read and cast line use `quote(assetId, ...)`: on testnet the terms are keyed by the mainnet assetId, so `quoteToken` (which derives it from block.chainid) finds nothing there | Works on both chains; `quoteToken` stays for mainnet contracts |
+| 23 Sep | README FAQ cites The Block, Aave and Chainlink sources by name without links; only the Morpho URL was given in the pack | No link is guessed |
 | 23 Sep | The warmer requests the Next server on 127.0.0.1:3300 with the production Host header, not through Caddy | The ISR cache lives in Next; going through Caddy adds TLS and nothing else |
 | 23 Sep | An empty paid request (no parameters) gets the 402 rather than a 400 | x402 clients and directories probe that way; a paid empty request is a 400 and is never settled |
 | 23 Sep | `docs/planning/BUILD_PLAN.md` is exempt from claims-check like the master plan | It is the dated V1 plan and records what was intended on 18 Sep |
