@@ -446,6 +446,57 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     }
   });
 
+  /**
+   * An address's account (V3 profile): wallet balances of the testnet credit assets, liquidity it
+   * supplied, its position in each collateral, its own history in the market (dated), and any
+   * x402 calls it paid for. Read from chain and the append-only records; nothing is kept about a
+   * visitor beyond what the chain already says.
+   */
+  app.get("/v1/credit/:chain/account/:address", async (req, reply) => {
+    const { chain, address } = req.params as { chain: string; address: string };
+    const chainId = Number(chain);
+    if (chainId !== 1952) return reply.status(404).send({ error: "accounts cover the testnet credit plane, chain 1952" });
+    if (!/^0x[0-9a-fA-F]{40}$/.test(address)) return reply.status(400).send({ error: "bad address" });
+    const user = address as `0x${string}`;
+    try {
+      return await cached(`account:${user.toLowerCase()}`, 15_000, async () => {
+        const market = await buildCreditMarket(chainId);
+        if (!market) throw new Error("no credit market is deployed on this chain");
+        const client = publicClient(1952);
+        const erc = [{ type: "function", name: "balanceOf", stateMutability: "view", inputs: [{ name: "a", type: "address" }], outputs: [{ type: "uint256" }] }] as const;
+        const bal = async (token: string): Promise<string> => ((await client.readContract({ address: token as `0x${string}`, abi: erc, functionName: "balanceOf", args: [user] })) as bigint).toString();
+        const creditAddr = market.contracts.KerbCredit as `0x${string}`;
+        const suppliedAbi = [{ type: "function", name: "suppliedOf", stateMutability: "view", inputs: [{ name: "u", type: "address" }], outputs: [{ type: "uint256" }] }] as const;
+        const [okb, loan, supplied, positions, scan] = await Promise.all([
+          client.getBalance({ address: user }).then((x) => x.toString()),
+          bal(market.contracts.loanAsset as string),
+          (client.readContract({ address: creditAddr, abi: suppliedAbi, functionName: "suppliedOf", args: [user] }) as Promise<bigint>).then((x) => x.toString()),
+          Promise.all(market.collaterals.map(async (c) => ({ symbol: `k${c.mirrors}`, mirrors: c.mirrors, assetId: c.assetId, walletBalance: await bal(c.token), position: await buildCreditPosition(chainId, user, c.assetId as `0x${string}`) }))),
+          syncCreditLogs(chainId, reader(chainId), deps.reader === undefined),
+        ]);
+        const own = scan.byAddress[user.toLowerCase()] ?? [];
+        // A cure repays as part of the same transaction: show the cure, not a second Repaid line.
+        const cureTx = new Set(own.filter((h) => h.kind === "Cured" || h.kind === "Liquidated").map((h) => h.tx));
+        const history = own.filter((h) => !(h.kind === "Repaid" && cureTx.has(h.tx))).reverse().slice(0, 100);
+        const symbolOf = (id: string | null): string | null => (id ? `k${market.collaterals.find((c) => c.assetId.toLowerCase() === id.toLowerCase())?.mirrors ?? "?"}` : null);
+        const activity = await Promise.all(history.map(async (h) => ({ ...h, collateral: symbolOf(h.assetId), at: await blockTime(1952, h.block), explorer: h.tx ? explorerTx(1952, h.tx as `0x${string}`) : null })));
+        const calls = await deps.sql<{ ts: Date; route: string; network: string; settlement_tx: string | null }[]>`
+          SELECT ts, route, network, settlement_tx FROM agent_calls WHERE lower(payer) = ${user.toLowerCase()} AND network LIKE 'eip155:%' ORDER BY ts DESC LIMIT 20`;
+        return {
+          chainId, address: user, label: "Verified" as const, generatedAt: new Date().toISOString(),
+          loanAsset: market.loanAsset,
+          balances: { okb, loan, collateral: positions.map((p) => ({ symbol: p.symbol, balance: p.walletBalance })) },
+          supplied,
+          positions: positions.filter((p) => p.position && (p.position.debt !== "0" || p.position.collateralShares !== "0")).map((p) => ({ symbol: p.symbol, mirrors: p.mirrors, ...p.position })),
+          activity,
+          agentCalls: calls.map((c) => ({ at: new Date(c.ts).toISOString(), route: c.route, network: c.network, tx: c.settlement_tx, explorer: c.settlement_tx ? explorerTx(c.network === "eip155:196" ? 196 : 1952, c.settlement_tx as `0x${string}`) : null })),
+        };
+      });
+    } catch {
+      return reply.status(502).send({ error: "the chain did not answer", label: "Unavailable" });
+    }
+  });
+
   app.get("/v1/credit/:chain/position/:user/:assetId", async (req, reply) => {
     const { chain, user, assetId } = req.params as { chain: string; user: string; assetId: string };
     const chainId = Number(chain);

@@ -6,6 +6,7 @@
 import { LiveRoot } from "@/components/kerb/LiveRoot";
 import { WhyTerms } from "@/components/kerb/WhyTerms";
 import { Consumers } from "@/components/kerb/Consumers";
+import { RevealOnScroll } from "@/components/kerb/RevealOnScroll";
 import ENDPOINTS from "@/lib/endpoints.json";
 import Link from "@/components/ui/Link";
 import { Suspense } from "react";
@@ -59,6 +60,7 @@ export default async function Home(): Promise<React.ReactElement> {
 
   return (
     <LiveRoot className="home" asOf={board.ok ? board.data.generatedAt : null}>
+      <RevealOnScroll />
       {/* ---------------------------------------------------------------- hero */}
       <section className="hero construct" aria-labelledby="hero-title">
         <div className="construct-grid" aria-hidden="true" />
@@ -137,7 +139,7 @@ export default async function Home(): Promise<React.ReactElement> {
             <Link className="btn btn-sm band-btn" href="/methodology">Read the methodology</Link>
           </div>
           {report?.ok && lead ? (
-            <ol className="layers" role="list">
+            <ol className="layers layers-live" role="list">
               <li><span className="t-label">Clock</span><p>{(() => { const c = lead.underlying.market === "XHKG" ? hk : ny; return c.ok ? `${lead.underlying.market}: ${KIND_WORD[c.data.clock.session.kind].toLowerCase()} now.` : `${lead.underlying.market}: the clock is being read.`; })()} {lead.next ? `${transitionWord(lead.next.type)} at ${utcHm(Date.parse(lead.next.at))} UTC.` : ""}</p></li>
               <li><span className="t-label">Depth</span><p>C(1%) {usd(report.data.depth.C_1)} from a tick-walk of pool <span className="mono">{shortHash(report.data.depth.venues[0]?.pools[0] ?? lead.pool.address, 6, 4)}</span>, cross-checked against OKX DEX quotes.</p></li>
               <li><span className="t-label">Mark</span><p>Credit Mark {price(report.data.mark.creditMark)}: the lower of the reference median and the pool price, after a {round(shift(report.data.mark.haircut, 2), 2)}% regime haircut.</p></li>
@@ -195,7 +197,7 @@ export default async function Home(): Promise<React.ReactElement> {
             <span className="band-chip"><span className="t-label">Builder Code</span><span className="chip">{BUILDER_CODE}</span></span>
             {tests ? <span className="band-chip"><span className="t-label">Tests, measured {tests.finishedAt.slice(0, 10)}</span><span className="chip">{tests.typescript.passed} TS · {tests.solidity.passed} Sol</span></span> : null}
           </div>
-          <div className="row mt-6"><Link className="btn band-btn-primary" href="/proof">Open the proof</Link></div>
+          <div className="row mt-6"><Link className="btn band-btn-primary" href="/proof">Open the proof</Link><Link className="btn band-btn" href="/docs">Read the docs</Link></div>
         </div>
       </section>
     </LiveRoot>

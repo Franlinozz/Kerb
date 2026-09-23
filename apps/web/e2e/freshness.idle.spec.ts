@@ -8,7 +8,7 @@ import { expect, test, type Page } from "@playwright/test";
  * server-lag control, so it runs only where KERB_API_PUBLIC points at the fixture server.
  */
 const LIVE = ["/", "/board", "/credit", "/proof", "/methodology", "/asset/BRK.Bx"];
-const ALL = [...LIVE, "/research", "/research/1", "/developers", "/changelog"];
+const ALL = [...LIVE, "/research", "/research/1", "/developers", "/docs", "/account", "/changelog"];
 const FIXTURE = process.env["KERB_API_PUBLIC"] ?? "";
 const isFixture = /127\.0\.0\.1:8799/.test(FIXTURE);
 const SHOTS = "../../data/screens/v3/freshness";

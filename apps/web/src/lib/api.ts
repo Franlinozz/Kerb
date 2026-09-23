@@ -509,3 +509,15 @@ export const getKeeper = (): Promise<Read<KeeperStatus>> => read<KeeperStatus>("
 
 export interface PositionsFeed { positions: { user: string; lastCure: { at?: string; tx?: string } | null }[]; eventsSeen: number }
 export const getPositions = (): Promise<Read<PositionsFeed>> => read<PositionsFeed>("/v1/credit/1952/positions?state=all", 30);
+
+// ---- V3 account profile ------------------------------------------------------------------------
+
+export interface AccountActivity { kind: string; role: "self" | "by-other" | "for-other"; assetId: string | null; collateral: string | null; amount: string | null; other: string | null; block: number; tx: string | null; at: string | null; explorer: string | null }
+export interface Account {
+  chainId: number; address: string; label: ProvenanceLabel; generatedAt: string; loanAsset: { symbol: string; decimals: number };
+  balances: { okb: string; loan: string; collateral: { symbol: string; balance: string }[] };
+  supplied: string;
+  positions: (CreditPosition & { symbol: string; mirrors: string })[];
+  activity: AccountActivity[];
+  agentCalls: { at: string; route: string; network: string; tx: string | null; explorer: string | null }[];
+}

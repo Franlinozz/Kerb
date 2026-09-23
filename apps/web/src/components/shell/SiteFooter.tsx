@@ -4,9 +4,9 @@ import { MarketClocks } from "@/components/kerb/MarketClocks";
 import { ArrowUpRight } from "lucide-react";
 
 const COLS: { label: string; links: { href: string; label: string; external?: boolean }[] }[] = [
-  { label: "Product", links: [{ href: "/board", label: "Board" }, { href: "/credit", label: "Credit" }, { href: "/research", label: "Research" }] },
+  { label: "Product", links: [{ href: "/board", label: "Board" }, { href: "/credit", label: "Credit" }, { href: "/account", label: "Your account" }, { href: "/research", label: "Research" }] },
   { label: "Protocol", links: [{ href: "/methodology", label: "Methodology" }, { href: "/proof#contracts", label: "Contracts" }, { href: "/proof", label: "Proof" }, { href: "/changelog", label: "Changelog" }] },
-  { label: "Developers", links: [{ href: "/developers", label: "SDK" }, { href: "/developers#rest", label: "REST" }, { href: "https://github.com/Franlinozz/Kerb", label: "GitHub", external: true }] },
+  { label: "Developers", links: [{ href: "/docs", label: "Docs" }, { href: "/developers", label: "SDK" }, { href: "/developers#agents", label: "Agents" }, { href: "/developers#rest", label: "REST" }, { href: "https://github.com/Franlinozz/Kerb", label: "GitHub", external: true }] },
   // Studio: the operator confirmed @xyndicatepro (22 Sep). Kerb has no X handle yet.
   { label: "Studio", links: [{ href: "https://github.com/Franlinozz/Kerb", label: "Xyndicate Labs", external: true }, { href: "https://x.com/xyndicatepro", label: "@xyndicatepro on X", external: true }] },
 ];

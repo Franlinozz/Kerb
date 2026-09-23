@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 /** Every internal link on every route answers, and every #anchor exists (or is a hash tab). */
-const ROUTES = ["/", "/board", "/asset/BRK.Bx", "/credit", "/research", "/research/1", "/methodology", "/proof", "/developers", "/changelog"];
+const ROUTES = ["/", "/board", "/asset/BRK.Bx", "/credit", "/research", "/research/1", "/methodology", "/proof", "/developers", "/docs", "/account", "/changelog"];
 const HASH_TABS = new Set(["overview", "liquidity", "mark", "history", "onchain", "sdk", "rest", "solidity", "agents", "main"]);
 
 test("no dead internal link or anchor", async ({ page, request }) => {

@@ -1,0 +1,31 @@
+@layer pages {
+  /* V3: the account profile. */
+  .acct { display: grid; gap: var(--s-6); margin-top: var(--s-6); }
+  .acct-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .acct-section { display: grid; gap: var(--s-4); padding-top: var(--s-5); border-top: 1px solid var(--hair); }
+  .acct-section h2 { display: flex; align-items: center; gap: 8px; margin: 0; }
+  .acct-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--s-4); margin: 0; }
+  .acct-cards > div { padding: var(--s-4); border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); }
+  .acct-cards dd { margin: 6px 0 0; }
+  .acct-positions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--s-4); }
+  .acct-positions li { padding: var(--s-4); border: 1px solid var(--hair-2); border-radius: var(--r-2); display: grid; gap: var(--s-3); }
+  .acct-positions li[data-lastcall] { border-color: var(--brass); box-shadow: inset 2px 0 0 var(--brass); }
+  .acct-activity { list-style: none; margin: 0; padding: 0; position: relative; }
+  .acct-activity::before { content: ""; position: absolute; left: 132px; top: 8px; bottom: 8px; width: 1px; background: var(--hair-2); }
+  .acct-activity li { display: grid; grid-template-columns: 124px 16px 1fr; gap: 8px; align-items: baseline; padding: 8px 0; color: var(--ink-2); animation: acct-in var(--t-panel, 240ms) var(--ease) both; }
+  .acct-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--panel-2); border: 1px solid var(--ink-3); justify-self: center; position: relative; z-index: 1; }
+  .acct-activity li[data-kind="Cured"] .acct-dot { background: var(--brass); border-color: var(--brass); }
+  .acct-activity li[data-kind="Borrowed"] .acct-dot { background: var(--moss); border-color: var(--moss); }
+  .acct-activity li[data-kind="Liquidated"] .acct-dot { background: var(--oxide); border-color: var(--oxide); }
+  .acct-when { font-size: 12.5px; white-space: nowrap; }
+  .acct-lookup { display: grid; gap: 8px; max-width: 560px; }
+  .acct-lookup .row { gap: 8px; }
+  .acct-lookup .fld-box { flex: 1; min-width: 0; }
+  @keyframes acct-in { from { opacity: 0; transform: translateY(4px); } }
+  @media (prefers-reduced-motion: reduce) { .acct-activity li { animation: none; } }
+  @media (max-width: 600px) {
+    .acct-activity::before { display: none; }
+    .acct-activity li { grid-template-columns: 1fr; gap: 2px; }
+    .acct-dot { display: none; }
+  }
+}

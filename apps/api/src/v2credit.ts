@@ -40,7 +40,16 @@ const EVENTS = [
   parseAbiItem("event Repaid(address indexed payer, address indexed user, bytes32 indexed assetId, uint256 amount, uint256 shares)"),
   parseAbiItem("event Cured(address indexed curer, address indexed user, bytes32 indexed assetId, uint256 repaid, uint256 seized, uint64 target)"),
   parseAbiItem("event Liquidated(address indexed liquidator, address indexed user, bytes32 indexed assetId, uint256 repaid, uint256 seized)"),
+  // V3 profile: the rest of an address's own history in the market.
+  parseAbiItem("event Supplied(address indexed user, uint256 assets, uint256 shares)"),
+  parseAbiItem("event Withdrawn(address indexed user, uint256 assets, uint256 shares)"),
+  parseAbiItem("event CollateralDeposited(address indexed user, bytes32 indexed assetId, uint256 amount)"),
+  parseAbiItem("event CollateralWithdrawn(address indexed user, bytes32 indexed assetId, uint256 amount)"),
 ] as const;
+
+/** One event in an address's history, from its own point of view. */
+export interface Activity { kind: string; role: "self" | "by-other" | "for-other"; assetId: string | null; amount: string | null; other: string | null; block: number; tx: string | null }
+const ACTIVITY_CAP = 300;
 
 // ---------------------------------------------------------------------------------------------
 // Demo clock
@@ -108,9 +117,9 @@ export function demoSchedule(address: Address, im: { weekLength: number; session
 // ---------------------------------------------------------------------------------------------
 
 export interface LastCure { tx: string | null; block: number; repaid: string; seized: string; target: string; curer: string }
-interface ScanState { v?: number; cursor: number; pairs: string[]; events: number; cures?: Record<string, LastCure>; borrows?: number; cureCount?: number; lastCure?: LastCure | null }
+interface ScanState { v?: number; cursor: number; pairs: string[]; events: number; cures?: Record<string, LastCure>; borrows?: number; cureCount?: number; lastCure?: LastCure | null; activity?: Record<string, Activity[]> }
 /** Bumped when the scan starts counting something new: an older cache is rescanned from the deploy block. */
-const SCAN_VERSION = 2;
+const SCAN_VERSION = 3;
 const LOG_SPAN = 100n; // the public X Layer RPC refuses a wider getLogs range
 const CONCURRENCY = 8;
 const scans = new Map<number, { state: ScanState; running: Promise<void> | null }>();
@@ -127,7 +136,7 @@ function loadScan(chainId: number, deployBlock: number, persist: boolean): ScanS
 }
 
 /** Scan Borrowed, Repaid, Cured and Liquidated from the deploy block, incrementally, in bounded chunks. */
-export async function syncCreditLogs(chainId: number, reader: ChainReader, persist = true): Promise<{ scannedTo: number; head: number; pairs: string[]; events: number; cures: Record<string, LastCure>; activity: { borrows: number; cures: number; lastCure: LastCure | null } }> {
+export async function syncCreditLogs(chainId: number, reader: ChainReader, persist = true): Promise<{ scannedTo: number; head: number; pairs: string[]; events: number; cures: Record<string, LastCure>; activity: { borrows: number; cures: number; lastCure: LastCure | null }; byAddress: Record<string, Activity[]> }> {
   const dep = loadDeployments()[`${chainId}:KerbCredit`] as { address: Address; deployedAtBlock?: string | number } | undefined;
   if (!dep) throw new Error("no credit market is deployed on this chain");
   let entry = scans.get(chainId);
@@ -152,6 +161,32 @@ export async function syncCreditLogs(chainId: number, reader: ChainReader, persi
             const asset = l.args["assetId"] as string | undefined;
             if (user && asset) pairs.add(`${user.toLowerCase()}|${asset.toLowerCase()}`);
             if (l.eventName === "Borrowed") e.state.borrows = (e.state.borrows ?? 0) + 1;
+            {
+              // Per-address history for the profile (V3): each party sees the event from its side.
+              const a = l.args;
+              const add = (who: unknown, act: Omit<Activity, "block" | "tx">): void => {
+                if (typeof who !== "string") return;
+                e.state.activity ??= {};
+                const k = who.toLowerCase();
+                const list = (e.state.activity[k] ??= []);
+                list.push({ ...act, block: Number(l.blockNumber ?? 0n), tx: l.transactionHash ?? null });
+                if (list.length > ACTIVITY_CAP) list.shift();
+              };
+              const asset = (a["assetId"] as string | undefined) ?? null;
+              const n = (x: unknown): string | null => (x === undefined ? null : String(x));
+              switch (l.eventName) {
+                case "Supplied": case "Withdrawn": add(a["user"], { kind: l.eventName, role: "self", assetId: null, amount: n(a["assets"]), other: null }); break;
+                case "CollateralDeposited": case "CollateralWithdrawn": case "Borrowed": add(a["user"], { kind: l.eventName, role: "self", assetId: asset, amount: n(a["amount"]), other: null }); break;
+                case "Repaid": {
+                  const self = String(a["payer"]).toLowerCase() === String(a["user"]).toLowerCase();
+                  add(a["user"], { kind: "Repaid", role: self ? "self" : "by-other", assetId: asset, amount: n(a["amount"]), other: self ? null : String(a["payer"]) });
+                  if (!self) add(a["payer"], { kind: "Repaid", role: "for-other", assetId: asset, amount: n(a["amount"]), other: String(a["user"]) });
+                  break;
+                }
+                case "Cured": add(a["user"], { kind: "Cured", role: "by-other", assetId: asset, amount: n(a["repaid"]), other: String(a["curer"]) }); add(a["curer"], { kind: "Cured", role: "for-other", assetId: asset, amount: n(a["repaid"]), other: String(a["user"]) }); break;
+                case "Liquidated": add(a["user"], { kind: "Liquidated", role: "by-other", assetId: asset, amount: n(a["repaid"]), other: String(a["liquidator"]) }); add(a["liquidator"], { kind: "Liquidated", role: "for-other", assetId: asset, amount: n(a["repaid"]), other: String(a["user"]) }); break;
+              }
+            }
             if (user && asset && l.eventName === "Cured") {
               e.state.cures ??= {};
               const cure = {
@@ -177,7 +212,7 @@ export async function syncCreditLogs(chainId: number, reader: ChainReader, persi
     })().finally(() => { e.running = null; });
   }
   await e.running;
-  return { scannedTo: e.state.cursor, head: e.state.cursor, pairs: e.state.pairs, events: e.state.events, cures: e.state.cures ?? {}, activity: { borrows: e.state.borrows ?? 0, cures: e.state.cureCount ?? 0, lastCure: e.state.lastCure ?? null } };
+  return { scannedTo: e.state.cursor, head: e.state.cursor, pairs: e.state.pairs, events: e.state.events, cures: e.state.cures ?? {}, activity: { borrows: e.state.borrows ?? 0, cures: e.state.cureCount ?? 0, lastCure: e.state.lastCure ?? null }, byAddress: e.state.activity ?? {} };
 }
 
 export interface OpenPosition {

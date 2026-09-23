@@ -42,3 +42,11 @@
     .param-sub > div { grid-template-columns: 1fr; gap: 2px; }
   }
 }
+
+@layer pages {
+  /* V3: docs, on the methodology layout. */
+  .docs-concepts { display: grid; gap: var(--s-4); margin: var(--s-4) 0 0; }
+  .docs-concepts dt { font-weight: 500; color: var(--ink); }
+  .docs-concepts dd { margin: 4px 0 0; max-width: 72ch; }
+  .docs-steps { display: grid; gap: 10px; padding-left: 1.2em; color: var(--ink-2); }
+}

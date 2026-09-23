@@ -1,5 +1,6 @@
 "use client";
-import { ExternalLink, LogOut, Wallet as WalletIcon } from "lucide-react";
+import { ExternalLink, LogOut, UserRound, Wallet as WalletIcon } from "lucide-react";
+import Link from "@/components/ui/Link";
 import { useEffect, useRef, useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSwitchChain, type Connector } from "wagmi";
 import { Button } from "@/components/ui/Button";
@@ -108,6 +109,7 @@ export function WalletButton({ compact = false, openOnLoad = false }: { compact?
               try { await switchChainAsync({ chainId: xLayerTestnet.id }); } catch (err) { const m = mapTxError(err); toast({ tone: "warn", title: m.kind === "cancelled" ? "Network switch cancelled" : "Could not switch network", body: m.kind === "cancelled" ? undefined : "Add X Layer testnet (1952) in your wallet, then try again." }); }
             }}>Switch to X Layer testnet</button>
           ) : null}
+          <Link role="menuitem" className="menu-link" href="/account" onClick={() => setMenu(false)}><UserRound />Your account</Link>
           <button type="button" role="menuitem" onClick={() => { disconnect(); setMenu(false); }}><LogOut />Disconnect</button>
         </div>
       ) : null}

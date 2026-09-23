@@ -45,7 +45,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
       <header className="page-head">
         <span className="t-label">Developers · public API, no key</span>
         <h1>Read Kerb Terms from anywhere.</h1>
-        <p className="lede">Terms are posted on chain and served over a public read API, so a lender, venue or agent can act on them without rebuilding equity market risk. Everything below is live.</p>
+        <p className="lede">Terms are posted on chain and served over a public read API, so a lender, venue or agent can act on them without rebuilding equity market risk. Everything below is live. New here? <Link href="/docs">Start with the docs</Link>.</p>
       </header>
       <PageRail subject={{ kind: "lanes" }} />
 
