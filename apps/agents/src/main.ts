@@ -4,6 +4,7 @@ import { createApp } from "./app.js";
 import { okxFacilitator, payConfigFromEnv, resourceServer } from "./pay.js";
 import { callStore } from "./store.js";
 import { httpUpstream } from "./upstream.js";
+import { startAlerts } from "./alerts.js";
 
 const pay = payConfigFromEnv();
 const { sql } = connect();
@@ -12,3 +13,7 @@ const server = resourceServer(okxFacilitator(), pay, store, (e) => console.error
 const app = createApp({ upstream: httpUpstream(), pay, server });
 const port = Number(process.env["KERB_AGENTS_PORT"] ?? 8740);
 app.listen(port, "127.0.0.1", () => console.log(`${new Date().toISOString()} kerb-agents on 127.0.0.1:${port}, x402 ${pay.network} ${pay.price} to ${pay.payTo}`));
+
+// V3-08: Telegram Last Call alerts, only when a bot token is configured.
+const tgToken = process.env["TELEGRAM_BOT_TOKEN"];
+if (tgToken) startAlerts(tgToken);
