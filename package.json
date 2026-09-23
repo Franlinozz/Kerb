@@ -20,7 +20,8 @@
     "db:generate": "pnpm --filter @kerb/collector db:generate",
     "db:migrate": "pnpm --filter @kerb/collector db:migrate",
     "forge:build": "cd contracts && forge build",
-    "check:copy": "bash scripts/check-copy.sh"
+    "check:copy": "bash scripts/check-copy.sh",
+    "check:claims": "bash scripts/claims-check.sh"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

@@ -25,6 +25,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Public copy carries no em dash
         run: pnpm check:copy
+      - name: Public copy makes no unsupported claim
+        run: pnpm check:claims
       - run: pnpm typecheck
       - run: pnpm lint
       - name: Test
