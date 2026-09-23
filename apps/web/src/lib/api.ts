@@ -179,10 +179,10 @@ export interface DemoClock {
 export const getDemoClock = (chainId = 1952): Promise<Read<DemoClock>> => read<DemoClock>(`/v1/credit/${chainId}/demo-clock`, 5);
 
 export interface TapePost { symbol: string; chainId: number; regime: Regime; c1: string; carryLTV: string; sessionMaxLTV: string; tx: string; explorer: string; observedAt: string }
-export const getTape = (limit = 20): Promise<Read<{ label: ProvenanceLabel; posts: TapePost[] }>> => read(`/v1/tape?limit=${limit}`);
+export const getTape = (limit = 20): Promise<Read<{ label: ProvenanceLabel; generatedAt?: string; posts: TapePost[] }>> => read(`/v1/tape?limit=${limit}`);
 
 export interface Stats {
-  label: ProvenanceLabel; obsPoolRows: number; obsTotalRows: number; postsByChain: { chainId: number; count: number }[]; assets: number; markets: number;
+  label: ProvenanceLabel; generatedAt?: string; obsPoolRows: number; obsTotalRows: number; postsByChain: { chainId: number; count: number }[]; assets: number; markets: number;
   marketMeta: MarketMeta[]; latestReport: { id: string; title: string; headline: string | null; figure: string | null } | null;
 }
 export const getStats = (): Promise<Read<Stats>> => read<Stats>("/v1/stats", 60);
@@ -354,6 +354,8 @@ export interface CreditCollateral {
 
 export interface CreditMarket {
   chainId: number;
+  /** When the API read the market from chain (V3-01); absent in fixtures captured before it. */
+  generatedAt?: string;
   contracts: {
     KerbCredit: string | null;
     KerbTerms: string | null;

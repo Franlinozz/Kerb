@@ -3,6 +3,8 @@
  * demo clock are said at the top, the demo rail shows the next Last Call, and the workspace does
  * the rest. The pool strip closes the page.
  */
+import { LiveRoot } from "@/components/kerb/LiveRoot";
+import { oldestAsOf } from "@/lib/freshness";
 import type { Metadata } from "next";
 import { CreditWorkspace } from "@/components/credit/CreditWorkspace";
 import { CurableTable } from "@/components/credit/CurableTable";
@@ -32,7 +34,7 @@ export default async function CreditPage(): Promise<React.ReactElement> {
     ["Reserves", `${fmtUnits(BigInt(m.pool.reserves), dec, 2)} ${sym}`],
   ];
   return (
-    <div className="credit">
+    <LiveRoot className="credit" asOf={oldestAsOf(m.generatedAt ?? null, demo.ok ? demo.data.now : null)}>
       <header className="credit-head">
         <div className="row between">
           <span className="t-label">Kerb Credit · X Layer testnet 1952 · demo clock</span>
@@ -47,6 +49,6 @@ export default async function CreditPage(): Promise<React.ReactElement> {
         <span className="t-label">Pool <ProvMark label="Verified" source={`KerbCredit ${m.contracts.KerbCredit ?? ""}, read from chain`} /></span>
         {pool.map(([k, v]) => <span key={k} className="pool-cell"><span className="t-label ink-3">{k}</span><span>{v}</span></span>)}
       </section>
-    </div>
+    </LiveRoot>
   );
 }

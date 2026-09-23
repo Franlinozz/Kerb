@@ -3,6 +3,7 @@
  * revalidated every 15 s; the rails, clocks and the Tape refresh on the client. Every section
  * stands alone: a source that fails shows its own ErrorState and the page still renders.
  */
+import { LiveRoot } from "@/components/kerb/LiveRoot";
 import Link from "@/components/ui/Link";
 import { Suspense } from "react";
 import { ArtPlate } from "@/components/ui/ArtPlate";
@@ -54,7 +55,7 @@ export default async function Home(): Promise<React.ReactElement> {
   const tests = proof.ok ? proof.data.build.tests : null;
 
   return (
-    <div className="home">
+    <LiveRoot className="home" asOf={board.ok ? board.data.generatedAt : null}>
       {/* ---------------------------------------------------------------- hero */}
       <section className="hero construct" aria-labelledby="hero-title">
         <div className="construct-grid" aria-hidden="true" />
@@ -111,7 +112,7 @@ export default async function Home(): Promise<React.ReactElement> {
         {stats.ok ? (
           <div className="kpi-row">
             <Kpi size="xl" label="Pool observations stored" value={group(String(stats.data.obsPoolRows))} prov="Observed" source="obs_pool_state, append-only, one row per pool per minute" href="/proof" />
-            <Kpi size="xl" label="Terms posted on X Layer mainnet" value={mainnetPosts === null ? null : group(String(mainnetPosts))} prov="Verified" source="TermsPosted events on KerbTerms, chain 196" href="/proof" />
+            <Kpi size="xl" label="Terms posted on X Layer mainnet" value={mainnetPosts === null ? null : group(String(mainnetPosts))} prov="Verified" source="TermsPosted events on KerbTerms, chain 196, counted by /v1/stats" observedAt={stats.ok ? stats.data.generatedAt ?? null : null} href="/proof" />
             {stats.data.latestReport ? (
               <div className="kpi">
                 <span className="t-label">Market-Time Report #{stats.data.latestReport.id} · largest fall</span>
@@ -187,6 +188,6 @@ export default async function Home(): Promise<React.ReactElement> {
           <div className="row mt-6"><Link className="btn band-btn-primary" href="/proof">Open the proof</Link></div>
         </div>
       </section>
-    </div>
+    </LiveRoot>
   );
 }

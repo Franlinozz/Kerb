@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { centredWindow, clip, countdown, dayColumns, demoSegments, pct, weekWindow } from "../src/lib/time";
+import { centredWindow, clip, countdown, dayColumns, demoSegments, nextPhrase, pct, transitionShort, transitionWord, weekWindow, type TransitionType } from "../src/lib/time";
 
 const T = (iso: string): number => Date.parse(iso);
 
@@ -41,8 +41,9 @@ describe("time geometry", () => {
     expect(countdown(now + 3 * 3600_000 + 5 * 60_000, now)).toBe("3h 05m");
     expect(countdown(now + 65_000, now)).toBe("1m 05s");
     expect(countdown(now + 2 * 86_400_000 + 3_600_000, now)).toBe("2d 1h");
-    for (const past of [0, -1, -60_000, -86_400_000]) expect(countdown(now + past, now)).toBe("Updating");
-    expect(countdown(Number.NaN, now)).toBe("Updating");
+    for (const past of [0, -1, -4_999]) expect(countdown(now + past, now)).toBe("Refreshing");
+    for (const past of [-5_000, -60_000, -86_400_000]) expect(countdown(now + past, now)).toBe("Last known");
+    expect(countdown(Number.NaN, now)).toBe("Last known");
     for (let ms = -5000; ms < 5000; ms += 250) expect(countdown(now + ms, now)).not.toMatch(/-|—/);
   });
 
@@ -60,5 +61,23 @@ describe("time geometry", () => {
     expect(d.lastCall.startMs - d.fromMs).toBe(2_400_000);
     expect(d.lastCall.endMs).toBe(d.segments[0]!.endMs);
     expect(d.segments[1]!.kind).toBe("CLOSED");
+  });
+});
+
+describe("transition words (L-02)", () => {
+  const every: TransitionType[] = ["PRE_OPEN", "SESSION_OPEN", "LUNCH_BREAK", "LUNCH_END", "SESSION_CLOSE", "EARLY_CLOSE", "POST_CLOSE", "SESSION_BREAK", "SESSION_END"];
+  it("names every transition the calendar emits, with no raw enum", () => {
+    for (const t of every) {
+      expect(transitionWord(t)).not.toMatch(/[A-Z]+_[A-Z_]+/);
+      expect(transitionShort(t)).not.toMatch(/[A-Z]+_[A-Z_]+/);
+    }
+    expect(transitionShort("LUNCH_BREAK")).toBe("Lunch break");
+    expect(transitionShort("SOMETHING_NEW")).toBe("Something new");
+  });
+  it("never counts down from the past", () => {
+    const at = Date.parse("2026-09-23T04:00:00Z");
+    expect(nextPhrase("LUNCH_BREAK", at, at - 60_000)).toBe("Lunch break in 1m 00s");
+    expect(nextPhrase("LUNCH_BREAK", at, at + 2_000)).toBe("Lunch break, refreshing");
+    expect(nextPhrase("LUNCH_BREAK", at, at + 3_600_000)).toBe("Lunch break, last known");
   });
 });

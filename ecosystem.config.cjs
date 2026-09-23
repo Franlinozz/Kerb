@@ -128,6 +128,23 @@ module.exports = {
       error_file: "/root/.kerb/logs/mirror-relay.err.log",
     },
     {
+      // First-paint freshness (V3-01, L-01): keeps every live ISR route regenerating.
+      name: "kerb-web-warmer",
+      cwd: __dirname,
+      script: "scripts/web-warmer.ts",
+      interpreter: "node",
+      interpreter_args: "--import tsx",
+      env: { KERB_WARM_BASE: "http://127.0.0.1:3300", KERB_WARM_HOST: "www.usekerb.xyz", KERB_API_INTERNAL: "http://127.0.0.1:8720" },
+      autorestart: true,
+      restart_delay: 5000,
+      max_restarts: 100,
+      min_uptime: 30000,
+      max_memory_restart: "200M",
+      time: true,
+      out_file: "/root/.kerb/logs/web-warmer.out.log",
+      error_file: "/root/.kerb/logs/web-warmer.err.log",
+    },
+    {
       // Demo position keeper (V2-08, gate 6). Testnet only. Not started until the operator approves:
       //   pm2 start ecosystem.config.cjs --only kerb-demo-keeper && pm2 save
       name: "kerb-demo-keeper",

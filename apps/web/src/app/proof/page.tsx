@@ -3,6 +3,7 @@
  * link, then the disclosures behind each claim. Read from /v1/proof and /health when the page
  * loads; nothing is typed in by hand, and no cell ever reads a bare "no".
  */
+import { LiveRoot } from "@/components/kerb/LiveRoot";
 import type { Metadata } from "next";
 import Link from "@/components/ui/Link";
 import { ErrorState } from "@/components/ui/ErrorState";
@@ -10,7 +11,7 @@ import { Disclosure } from "@/components/ui/Disclosure";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { PageRail } from "@/components/kerb/PageRail";
 import { PlateHero } from "@/components/kerb/PlateHero";
-import { getHealth, getProof, PUBLIC_API, type Proof } from "@/lib/api";
+import { getHealth, getProof, getStats, PUBLIC_API, type Proof, type Stats } from "@/lib/api";
 import { age, group, shortHash, utcStamp } from "@/lib/format";
 import { buildRows, Inline } from "@/components/kerb/BuildLog";
 
@@ -22,8 +23,9 @@ interface Tile { name: string; value: string; note: string; state: State; href: 
 
 const chainName = (id: number): string => (id === 196 ? "X Layer mainnet" : "X Layer testnet");
 
-function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: string | null }[] | null): Tile[] {
-  const main = p.onchain.postCounts.find((c) => c.chainId === 196)?.count ?? 0;
+function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: string | null }[] | null, stats: Stats | null): Tile[] {
+  // The headline count comes from /v1/stats, the same source as Home, so the two agree (L-09).
+  const main = stats?.postsByChain.find((c) => c.chainId === 196)?.count ?? p.onchain.postCounts.find((c) => c.chainId === 196)?.count ?? 0;
   const mainLast = healthPosts?.find((h) => h.chainId === 196)?.lastAt ?? p.onchain.latestPosts.find((x) => x.chainId === 196)?.observedAt ?? null;
   const mainAge = mainLast ? Math.round((Date.parse(p.generatedAt) - Date.parse(mainLast)) / 1000) : null;
   const terms196 = p.onchain.deployments.find((d) => d.chainId === 196 && d.contract === "KerbTerms");
@@ -36,7 +38,7 @@ function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: 
   const fails = t ? t.typescript.suitesWithFailures + t.solidity.failed : null;
   const v = p.verify ?? null;
   return [
-    { name: "Mainnet risk plane", value: `${mainAge !== null && mainAge < 900 ? "Live" : "Behind"} · ${group(String(main))} posts`, note: mainLast ? `Chain 196, last post ${age(mainAge)} ago` : "Chain 196", state: mainAge !== null && mainAge < 900 ? "ok" : "warn", href: terms196?.explorer ?? p.build.repo, hrefLabel: "KerbTerms on OKLink", external: true },
+    { name: "Mainnet risk plane", value: `${mainAge !== null && mainAge < 900 ? "Live" : "Behind"} · ${group(String(main))} posts`, note: `${mainLast ? `Chain 196, last post ${age(mainAge)} ago` : "Chain 196"}${stats?.generatedAt ? `; count as of ${utcStamp(stats.generatedAt)}` : ""}`, state: mainAge !== null && mainAge < 900 ? "ok" : "warn", href: terms196?.explorer ?? p.build.repo, hrefLabel: "KerbTerms on OKLink", external: true },
     { name: "KerbClock and KerbTerms source", value: exact ? "Sourcify exact match" : "Source in repo, verification pending", note: `${riskPlane.length} mainnet contracts, bytecode and metadata`, state: exact ? "ok" : "warn", href: terms196?.verificationUrl ?? p.build.repo, hrefLabel: "The Sourcify record", external: true },
     { name: "Builder Code", value: withCode?.builderCode?.join(", ") ?? "Not decoded", note: withCode ? `Decoded from the calldata of ${shortHash(withCode.tx)}` : "The latest transactions could not be read", state: withCode ? "ok" : "warn", href: withCode?.explorer ?? p.build.repo, hrefLabel: "The transaction", external: true },
     { name: "Credit plane", value: `X Layer testnet · ${credit?.verification ?? "Source in repo, verification pending"}`, note: "KerbCredit, mirrors and mock USDG on chain 1952", state: credit?.verification === "Sourcify exact match" ? "ok" : "info", href: "/credit", hrefLabel: "Open Credit" },
@@ -48,7 +50,7 @@ function tiles(p: Proof, healthPosts: { chainId: number; count: number; lastAt: 
 }
 
 export default async function ProofPage(): Promise<React.ReactElement> {
-  const [proof, health] = await Promise.all([getProof(), getHealth()]);
+  const [proof, health, stats] = await Promise.all([getProof(), getHealth(), getStats()]);
   if (!proof.ok) {
     return (
       <>
@@ -64,7 +66,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
   const maxDay = Math.max(1, ...p.build.commitsPerDay.map((d) => d.count));
 
   return (
-    <div className="proof">
+    <LiveRoot className="proof" asOf={p.generatedAt}>
       <PlateHero
         plate="p4-seal"
         label={`Proof · generated ${utcStamp(p.generatedAt)}`}
@@ -74,7 +76,7 @@ export default async function ProofPage(): Promise<React.ReactElement> {
       <PageRail subject={{ kind: "lanes" }} />
 
       <ul className="proof-tiles" role="list">
-        {tiles(p, hp).map((t) => (
+        {tiles(p, hp, stats.ok ? stats.data : null).map((t) => (
           <li key={t.name} className="ptile" data-state={t.state}>
             <span className="t-label">{t.name}</span>
             <span className="ptile-value">{t.value}</span>
@@ -218,6 +220,6 @@ export default async function ProofPage(): Promise<React.ReactElement> {
           </Disclosure>
         </div>
       </div>
-    </div>
+    </LiveRoot>
   );
 }

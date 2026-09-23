@@ -151,6 +151,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@kerb/calendar':
+        specifier: workspace:*
+        version: link:../../packages/calendar
       '@kerb/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk

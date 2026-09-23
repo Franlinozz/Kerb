@@ -3,6 +3,7 @@
  * band, the LTV ladder with its margin line, the full rail, then tabs: Overview, Liquidity, Mark,
  * Terms history, Onchain. An unknown symbol is the not-found page.
  */
+import { LiveRoot } from "@/components/kerb/LiveRoot";
 import type { Metadata } from "next";
 import Link from "@/components/ui/Link";
 import { notFound } from "next/navigation";
@@ -114,7 +115,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
   ) : <ErrorState source="Terms" />;
 
   return (
-    <div className="asset">
+    <LiveRoot className="asset" asOf={board.ok ? board.data.generatedAt : null}>
       <header className="asset-hero">
         <div>
           <span className="t-label">{row?.underlying.market} · {inst.code} · X Layer 196</span>
@@ -152,6 +153,6 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
         ]} />
       </div>
       <p className="t-small ink-3 mt-6"><Link href="/board">Back to the Board</Link></p>
-    </div>
+    </LiveRoot>
   );
 }

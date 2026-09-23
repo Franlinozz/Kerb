@@ -16,6 +16,7 @@ import { countdown, utcHm } from "@/lib/time";
 import { AddressChip } from "@/components/ui/AddressChip";
 import { TxStepper } from "@/components/ui/TxStepper";
 import { useLive, useNow } from "@/components/kerb/useLive";
+import { scheduleAt } from "@/components/kerb/SessionRail";
 import { fmtUnits, MAX, pctWad } from "./usePosition";
 
 interface P { user: Hex; assetId: Hex; symbol: string | null; mode: string; debt: string; positionLTV: string | null; carryTarget: string; cure: { eligible: boolean; deadline: string | null; requiredRepay: string } }
@@ -23,6 +24,8 @@ interface P { user: Hex; assetId: Hex; symbol: string | null; mode: string; debt
 export function CurableTable({ market, demo }: { market: CreditMarket; demo: DemoClock }): React.ReactElement {
   const live = useLive<{ positions: P[] }>("/v1/credit/1952/positions?state=curable", null, 15_000);
   const now = useNow();
+  // The server's demo clock may be from an older render: project it to now, like the rail does.
+  const d = now === null ? demo : scheduleAt(demo, now);
   const { address } = useHydratedAccount(useAccount());
   const config = useConfig();
   const dec = market.loanAsset.decimals, sym = market.loanAsset.symbol;
@@ -51,13 +54,13 @@ export function CurableTable({ market, demo }: { market: CreditMarket; demo: Dem
   return (
     <section className="curable" aria-labelledby="curable-title">
       <div className="section-head"><span className="cross" aria-hidden="true" />
-        <div className="section-head-row"><span className="t-label" id="curable-title">Curable now · public · anyone may cure</span><span className="t-label ink-3">{live.updating ? "Updating" : `${rows.length} in Last Call`}</span></div>
+        <div className="section-head-row"><span className="t-label" id="curable-title">Curable now · public · anyone may cure</span><span className="t-label ink-3">{live.updating ? "Refreshing" : `${rows.length} in Last Call`}</span></div>
       </div>
       {rows.length === 0 ? (
         <div className="curable-empty">
-          {demo.state === "LAST_CALL"
-            ? <p className="ink-2">Last Call is open until {utcHm(Date.parse(demo.nextCureClosesAt))} UTC and no position needs a cure right now.</p>
-            : <p className="ink-2">No position needs a cure right now. The next demo Last Call opens in <span suppressHydrationWarning>{now === null ? "" : countdown(Date.parse(demo.nextCureOpensAt), now)}</span>, at {utcHm(Date.parse(demo.nextCureOpensAt))} UTC.</p>}
+          {d.state === "LAST_CALL"
+            ? <p className="ink-2">Last Call is open until <span suppressHydrationWarning>{utcHm(Date.parse(d.nextCureClosesAt))}</span> UTC and no position needs a cure right now.</p>
+            : <p className="ink-2">No position needs a cure right now. The next demo Last Call opens in <span suppressHydrationWarning>{now === null ? "" : countdown(Date.parse(d.nextCureOpensAt), now)}</span>, at <span suppressHydrationWarning>{utcHm(Date.parse(d.nextCureOpensAt))}</span> UTC.</p>}
           {/* AGENTS.md 12.8, demo position rung 3: no keeper holds a standing position, so say where one comes from. */}
           <p className="t-small ink-3">Kerb does not keep a standing demo position. Borrow with Session Max and your position appears here when Last Call opens; a second wallet, or anyone, may then cure it.</p>
         </div>

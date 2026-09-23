@@ -3,6 +3,9 @@
  * rules that V1 got wrong (a countdown that went negative, day labels on the midnight tick)
  * are pinned by unit tests.
  */
+import type { TransitionType } from "@kerb/calendar";
+
+export type { TransitionType };
 const DAY = 86_400_000;
 
 /** Position of a moment on a window, as a percentage clamped to [0, 100]. */
@@ -38,14 +41,18 @@ export function dayColumns(fromMs: number, toMs: number): DayColumn[] {
   return out;
 }
 
+export const PAST_GRACE_MS = 5_000;
+
 /**
  * Countdown words. Never negative and never a dash: once the moment has passed the next one
  * is being read, and the rail says so.
  */
 export function countdown(targetMs: number, nowMs: number): string {
-  if (!Number.isFinite(targetMs) || !Number.isFinite(nowMs)) return "Updating";
+  if (!Number.isFinite(targetMs) || !Number.isFinite(nowMs)) return "Last known";
   const ms = targetMs - nowMs;
-  if (ms <= 0) return "Updating";
+  // Never a past countdown (V3-01): "Refreshing" for at most 5 s while the next one is read, then
+  // "Last known" so a value that did not refresh never poses as current.
+  if (ms <= 0) return ms > -PAST_GRACE_MS ? "Refreshing" : "Last known";
   const s = Math.floor(ms / 1000);
   const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
   if (d > 0) return `${d}d ${h}h`;
@@ -105,16 +112,28 @@ export function railWindow(nowMs: number): { fromMs: number; toMs: number } {
 export const clockPath = (symbol: string, w: { fromMs: number; toMs: number }, chainId = 196): string =>
   `/v1/clock/${chainId}/${encodeURIComponent(symbol)}?from=${new Date(w.fromMs).toISOString()}&to=${new Date(w.toMs).toISOString()}`;
 
-/** Words for a Clock transition, full and short (for table cells). */
-export const TRANSITION_WORD: Record<string, string> = {
-  PRE_OPEN: "Pre-market opens", SESSION_OPEN: "Session opens", SESSION_CLOSE: "Session closes", LUNCH_START: "Lunch break starts",
-  LUNCH_END: "Session resumes", POST_OPEN: "After hours", POST_CLOSE: "Market closes", EARLY_CLOSE: "Early close",
+/**
+ * Words for a Clock transition, full and short (for table cells). Typed against the calendar's
+ * own union, so a transition the calendar can emit and the site cannot name fails typecheck
+ * instead of reaching the page as a raw enum (V3-01, L-02: "LUNCH_BREAK in Updating").
+ */
+export const TRANSITION_WORD: Record<TransitionType, string> = {
+  PRE_OPEN: "Pre-market opens", SESSION_OPEN: "Session opens", LUNCH_BREAK: "Lunch break", LUNCH_END: "Session resumes",
+  SESSION_CLOSE: "Session closes", EARLY_CLOSE: "Early close", POST_CLOSE: "After hours end", SESSION_BREAK: "Session break", SESSION_END: "Session ends",
 };
-export const TRANSITION_SHORT: Record<string, string> = {
-  PRE_OPEN: "Pre-market", SESSION_OPEN: "Opens", SESSION_CLOSE: "Closes", LUNCH_START: "Lunch", LUNCH_END: "Resumes",
-  POST_OPEN: "After hours", POST_CLOSE: "Market closes", EARLY_CLOSE: "Early close",
+export const TRANSITION_SHORT: Record<TransitionType, string> = {
+  PRE_OPEN: "Pre-market", SESSION_OPEN: "Opens", LUNCH_BREAK: "Lunch break", LUNCH_END: "Resumes",
+  SESSION_CLOSE: "Closes", EARLY_CLOSE: "Early close", POST_CLOSE: "After hours end", SESSION_BREAK: "Session break", SESSION_END: "Session ends",
 };
-export const transitionWord = (t: string): string => TRANSITION_WORD[t] ?? t.replace(/_/g, " ").toLowerCase();
+const isTransition = (t: string): t is TransitionType => Object.hasOwn(TRANSITION_WORD, t);
+/** Never a raw enum: an unknown type (a newer API than this page) reads as plain lower-case words. */
+const plain = (t: string): string => { const w = t.replace(/_/g, " ").toLowerCase(); return w.charAt(0).toUpperCase() + w.slice(1); };
+export const transitionShort = (t: string): string => (isTransition(t) ? TRANSITION_SHORT[t] : plain(t));
+/** "Lunch break in 3h 02m", or once passed "Lunch break, refreshing" then "Lunch break, last known". */
+export function nextPhrase(type: string, atMs: number, nowMs: number): string {
+  return atMs > nowMs ? `${transitionShort(type)} in ${countdown(atMs, nowMs)}` : `${transitionShort(type)}, ${countdown(atMs, nowMs).toLowerCase()}`;
+}
+export const transitionWord = (t: string): string => (isTransition(t) ? TRANSITION_WORD[t] : plain(t));
 
 /** "Wed 13:30": weekday and time in UTC, for horizons more than a few hours away. */
 export function dayHm(ms: number): string {

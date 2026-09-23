@@ -112,3 +112,18 @@
     .tabs-list { -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); padding-right: 24px; }
   }
 }
+
+@layer components {
+  /* Freshness guard (V3-01): a stale first paint dims its values and says so. */
+  .live-root[data-fresh="refreshing"] > :not(.live-guard),
+  .live-root[data-fresh="lastKnown"] > :not(.live-guard) { opacity: 0.55; transition: opacity var(--t-fast) var(--ease); }
+  .live-guard {
+    position: sticky; top: calc(var(--header-h, 64px) + 8px); z-index: 20; display: flex; align-items: center; gap: 10px; width: max-content; max-width: 100%;
+    margin: 0 0 var(--s-4); padding: 6px 8px 6px 12px; border: 1px solid var(--hair-2); border-radius: 999px; background: var(--panel-2); color: var(--ink-2); font-size: 13px;
+  }
+  .live-guard .btn { height: 28px; }
+  .live-guard-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brass, var(--ink-3)); animation: live-pulse 1.2s ease-in-out infinite; }
+  .live-root[data-fresh="lastKnown"] .live-guard-dot { animation: none; background: var(--oxide); }
+  @keyframes live-pulse { 50% { opacity: 0.3; } }
+  @media (prefers-reduced-motion: reduce) { .live-guard-dot { animation: none; } }
+}

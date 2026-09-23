@@ -346,7 +346,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     try {
       const market = await buildCreditMarket(chainId);
       if (!market) return reply.status(404).send({ error: "no credit market is deployed on this chain", chainId });
-      return market;
+      return { ...market, generatedAt: new Date().toISOString() };
     } catch (err) {
       return reply.status(502).send({ error: err instanceof Error ? err.message : "the chain did not answer" });
     }
@@ -380,6 +380,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
         FROM terms_posts ORDER BY ts DESC LIMIT ${limit}`;
       return {
         label: "Attested" as const,
+        generatedAt: new Date().toISOString(),
         posts: rows.map((r) => ({
           symbol: r.symbol, chainId: r.chain_id, regime: regimeName(r.regime),
           c1: fromUnits(BigInt(r.executable_depth1), 6),
@@ -412,6 +413,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     const n = (x: string | undefined): number => Number(x ?? 0);
     return {
       label: "Observed" as const,
+      generatedAt: new Date().toISOString(),
       obsPoolRows: n(counts?.pool),
       obsTotalRows: n(counts?.pool) + n(counts?.price) + n(counts?.quote) + n(counts?.mult),
       postsByChain: posts.map((p) => ({ chainId: p.chain_id, count: Number(p.n) })),

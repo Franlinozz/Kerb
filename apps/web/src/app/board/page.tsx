@@ -1,3 +1,4 @@
+import { LiveRoot } from "@/components/kerb/LiveRoot";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { BoardView } from "@/components/kerb/BoardView";
@@ -15,8 +16,10 @@ export default async function BoardPage(): Promise<React.ReactElement> {
   const lead = [...board.data.rows].sort(byDecimalDesc((r) => r.debtCeiling.value))[0];
   const clock = lead ? await getClock(lead.symbol, 196, railWindow(Date.now())) : null;
   return (
-    <Suspense>
-      <BoardView initial={board.data} initialClock={clock?.ok ? clock.data : null} />
-    </Suspense>
+    <LiveRoot asOf={board.data.generatedAt}>
+      <Suspense>
+        <BoardView initial={board.data} initialClock={clock?.ok ? clock.data : null} />
+      </Suspense>
+    </LiveRoot>
   );
 }

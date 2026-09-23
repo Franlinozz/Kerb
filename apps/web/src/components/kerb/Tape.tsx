@@ -16,8 +16,8 @@ function ago(ms: number): string {
   return `${Math.floor(s / 3600)}h ${Math.floor((s % 3600) / 60)}m`;
 }
 
-export function Tape({ initial }: { initial: { posts: TapePost[] } | null }): React.ReactElement | null {
-  const live = useLive<{ posts: TapePost[] }>("/v1/tape?limit=40", initial, 30_000);
+export function Tape({ initial }: { initial: { generatedAt?: string; posts: TapePost[] } | null }): React.ReactElement | null {
+  const live = useLive<{ generatedAt?: string; posts: TapePost[] }>("/v1/tape?limit=40", initial, 30_000, { asOf: (t) => t.generatedAt });
   const now = useNow(15_000);
   const posts = (live.data?.posts ?? []).filter((p) => p.chainId === 196).slice(0, 14);
   if (posts.length === 0) return null;

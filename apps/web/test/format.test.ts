@@ -114,7 +114,7 @@ describe("duration", () => {
 
   it("says so rather than guessing when the input is not a duration", () => {
     expect(duration(Number.NaN)).toBe("Unknown");
-    expect(duration(-1)).toBe("Updating");
+    expect(duration(-1)).toBe("Refreshing");
   });
 });
 

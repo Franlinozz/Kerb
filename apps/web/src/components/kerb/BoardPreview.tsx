@@ -5,7 +5,7 @@
 import Link from "@/components/ui/Link";
 import type { BoardRow } from "@/lib/api";
 import { price, usd } from "@/lib/format";
-import { TRANSITION_SHORT } from "@/lib/time";
+import { NextPhrase } from "./Countdown";
 import { Countdown } from "./Countdown";
 import { LtvLadder } from "./LtvLadder";
 import { RegimePill } from "./RegimePill";
@@ -26,7 +26,7 @@ export function BoardPreview({ rows }: { rows: BoardRow[] }): React.ReactElement
               <td className="num">{usd(r.executableDepth1.value) ?? "Not yet posted"}<ProvMark label={r.executableDepth1.label} source="Tick-walk of the X Layer pool, posted in the terms" observedAt={r.executableDepth1.observedAt ?? null} /></td>
               <td><LtvLadder compact carry={r.carryLTV.value} session={r.sessionMaxLTV.value} lt={r.lt?.value ?? null} label={r.symbol} /></td>
               <td className="num">{usd(r.debtCeiling.value) ?? "Not yet posted"}<ProvMark label={r.debtCeiling.label} source="KerbTerms 196" observedAt={r.debtCeiling.observedAt ?? null} /></td>
-              <td className="num">{r.next ? <>{TRANSITION_SHORT[r.next.type] ?? r.next.type} in <Countdown to={r.next.at} due="now" /></> : "Reading the clock"}</td>
+              <td className="num">{r.next ? <NextPhrase type={r.next.type} at={r.next.at} /> : "Reading the clock"}</td>
             </tr>
           ))}
         </tbody>
@@ -42,7 +42,7 @@ export function BoardPreview({ rows }: { rows: BoardRow[] }): React.ReactElement
             <span className="board-card-grid">
               <span><span className="t-label">C(1%)</span>{usd(r.executableDepth1.value) ?? "Not yet posted"}</span>
               <span><span className="t-label">Ceiling</span>{usd(r.debtCeiling.value) ?? "Not yet posted"}</span>
-              <span><span className="t-label">Next</span>{r.next ? <>{TRANSITION_SHORT[r.next.type] ?? r.next.type} in <Countdown to={r.next.at} due="now" /></> : "Reading"}</span>
+              <span><span className="t-label">Next</span>{r.next ? <NextPhrase type={r.next.type} at={r.next.at} /> : "Reading"}</span>
             </span>
           </Link>
         </li>

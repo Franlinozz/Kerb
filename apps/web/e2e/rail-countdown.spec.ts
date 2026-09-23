@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 /**
  * V2-05 acceptance: the rail's countdown never shows a dash or a negative number across a
  * transition. The page clock is set five seconds before the real next transition; when it
- * passes, the rail must say "Updating" until the refetched Clock (mocked here, slowed down so the
+ * passes, the rail must say "Refreshing" until the refetched Clock (mocked here, slowed down so the
  * state is observable) arrives with the following transition.
  */
 test.use({ video: process.env["KERB_E2E_VIDEO"] ? { mode: "on", size: { width: 1440, height: 900 } } : "off" });
@@ -41,9 +41,9 @@ test("the countdown never shows a dash across a transition", async ({ page, requ
     seen.push(t);
     expect(t, `tick ${i}`).not.toMatch(/—|^-|\s-\d/);
   }
-  // Before the transition a real countdown, around it "Updating", then the next transition's countdown.
+  // Before the transition a real countdown, around it "Refreshing", then the next transition's countdown.
   expect(seen.some((t) => /^\d+s$/.test(t))).toBe(true);
-  expect(seen).toContain("Updating");
+  expect(seen).toContain("Refreshing");
   await page.clock.resume();
   await expect.poll(async () => (await count.textContent())?.trim(), { timeout: 15_000 }).toMatch(/^(1h 5\d|2h 00)m$/);
   expect(served).toBeGreaterThan(0);

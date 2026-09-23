@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Board, BoardRow, Clock, Regime } from "@/lib/api";
 import { byDecimalDesc, price, ratio, usd } from "@/lib/format";
 import { instrument } from "@/lib/instruments";
-import { countdown, localHm, TRANSITION_SHORT } from "@/lib/time";
+import { localHm, nextPhrase } from "@/lib/time";
 import { Disclosure } from "@/components/ui/Disclosure";
 import { Kpi } from "@/components/ui/Kpi";
 import { ProvMark } from "@/components/ui/ProvMark";
@@ -37,7 +37,7 @@ function ago(sec: number | null): string {
 }
 
 export function BoardView({ initial, initialClock }: { initial: Board; initialClock: Clock | null }): React.ReactElement {
-  const live = useLive<Board>("/v1/board?chain=196", initial, 30_000);
+  const live = useLive<Board>("/v1/board?chain=196", initial, 30_000, { asOf: (b) => b.generatedAt, drivesPage: true });
   const board = live.data ?? initial;
   const now = useNow();
   // The filters live in the URL, read after mount rather than with useSearchParams: on a
@@ -64,7 +64,6 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
   const [selected, setSelected] = useState<string | null>(null);
   const sel = rows.find((r) => r.symbol === selected) ?? rows[0] ?? null;
   const s = board.summary;
-  const generatedAgo = now === null ? null : Math.max(0, Math.round((now - Date.parse(board.generatedAt)) / 1000));
 
   const columns: Column<BoardRow>[] = [
     { key: "asset", head: "Asset", sort: (r) => r.symbol, cell: (r) => (
@@ -79,7 +78,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
     { key: "terms", head: "Terms", sort: (r) => r.carryLTV.value, cell: (r) => <LtvLadder compact carry={r.carryLTV.value} session={r.sessionMaxLTV.value} lt={r.lt?.value ?? null} label={r.symbol} /> },
     { key: "ceiling", head: "Debt ceiling", align: "right", sort: (r) => r.debtCeiling.value, cell: (r) => <>{usd(r.debtCeiling.value) ?? "Not yet posted"}<ProvMark label={r.debtCeiling.label} source="KerbTerms 196" observedAt={r.debtCeiling.observedAt ?? null} /></> },
     { key: "coverage", head: "Coverage", align: "right", sort: (r) => r.coverageRatio.value, cell: (r) => <>{ratio(r.coverageRatio.value) ?? "Not yet posted"}<ProvMark label="Computed" source="C(1%) divided by the debt ceiling" /></> },
-    { key: "next", head: "Next", align: "right", sort: (r) => r.next?.at ?? null, cell: (r) => r.next ? <span suppressHydrationWarning>{TRANSITION_SHORT[r.next.type] ?? r.next.type}{now === null ? "" : ` in ${countdown(Date.parse(r.next.at), now)}`}</span> : "Reading the clock" },
+    { key: "next", head: "Next", align: "right", sort: (r) => r.next?.at ?? null, cell: (r) => r.next ? <span suppressHydrationWarning>{now === null ? "" : nextPhrase(r.next.type, Date.parse(r.next.at), now)}</span> : "Reading the clock" },
     { key: "posted", head: "Posted", align: "right", sort: (r) => (r.reportAgeSec === null ? null : String(-r.reportAgeSec)), cell: (r) => r.carryLTV.tx ? <a className="plain ink-2" href={r.carryLTV.tx} target="_blank" rel="noreferrer">{ago(r.reportAgeSec)}</a> : <span className="ink-3">{ago(r.reportAgeSec)}</span> },
   ];
 
@@ -88,7 +87,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
       <header className="board-head">
         <span className="t-label">The Board · X Layer 196 · {board.rows.length} assets · {new Set(board.rows.map((r) => r.underlying.market)).size} markets</span>
         <h1>What each stock can safely support, right now.</h1>
-        <p className="t-small ink-3 live-line" aria-live="polite" suppressHydrationWarning>{live.updating ? "Updating" : generatedAgo === null ? "Refreshes every 30 seconds" : `Updated ${ago(generatedAgo)} · refreshes every 30 seconds`}</p>
+        <p className="t-small ink-3 live-line" aria-live="polite" suppressHydrationWarning>{live.line ?? "Live"}</p>
       </header>
 
       {s ? (
@@ -140,7 +139,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
                   <span className="board-card-grid">
                     <span><span className="t-label">C(1%)</span>{usd(r.executableDepth1.value) ?? "Not yet posted"}</span>
                     <span><span className="t-label">Ceiling</span>{usd(r.debtCeiling.value) ?? "Not yet posted"}</span>
-                    <span><span className="t-label">Next</span><span suppressHydrationWarning>{r.next ? `${TRANSITION_SHORT[r.next.type] ?? r.next.type}${now === null ? "" : ` in ${countdown(Date.parse(r.next.at), now)}`}` : "Reading"}</span></span>
+                    <span><span className="t-label">Next</span><span suppressHydrationWarning>{r.next ? (now === null ? "" : nextPhrase(r.next.type, Date.parse(r.next.at), now)) : "Reading"}</span></span>
                   </span>
                 </Link>
               </li>

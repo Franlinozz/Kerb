@@ -3,6 +3,7 @@
  * its diagram first, then the rule in two sentences, then the live worked example. Parameters as
  * grouped lists that wrap: nothing is ever off-screen.
  */
+import { LiveRoot } from "@/components/kerb/LiveRoot";
 import type { Metadata } from "next";
 import Link from "@/components/ui/Link";
 import { CodeBlock } from "@/components/ui/CodeBlock";
@@ -59,7 +60,7 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
   const liveRule = r?.regimeInputs?.rule;
 
   return (
-    <div className="methodology">
+    <LiveRoot className="methodology" asOf={board.ok ? board.data.generatedAt : null}>
       <PlateHero plate="p3-standard" label={`Methodology · KTS ${kts} · params ${params.ok ? params.data.paramsVersion : "not read"}`} title="The Kerb Terms Standard."
         lede={<p>Clock, Depth, Mark, Capacity, Terms and the cure covenant: the rules that turn observations into credit terms. Every example below is {symbol}, right now, from the numbers Kerb is publishing. Nothing here is illustrative.</p>} />
 
@@ -191,6 +192,6 @@ export default async function MethodologyPage(): Promise<React.ReactElement> {
           </section>
         </div>
       </div>
-    </div>
+    </LiveRoot>
   );
 }

@@ -16,6 +16,7 @@
     "e2e:fixtures": "node e2e/fixture-api.mjs replay"
   },
   "dependencies": {
+    "@kerb/calendar": "workspace:*",
     "@kerb/sdk": "workspace:*",
     "@tanstack/react-query": "^5.103.1",
     "lucide-react": "^1.47.0",

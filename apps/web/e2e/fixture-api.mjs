@@ -29,7 +29,17 @@ function shift(body, capturedAt) {
 }
 
 const cors = { "access-control-allow-origin": "*", "content-type": "application/json" };
+// V3-01 freshness test: `POST /__lag?ms=N` makes every answer to a server-side read (no Origin
+// header, which is how Next's server fetches) N ms old, while the browser's reads stay current.
+// That reproduces an ISR page rendered hours ago whose client refetch is fresh.
+let serverLagMs = 0;
+
 createServer(async (req, res) => {
+  if (req.url?.startsWith("/__lag")) {
+    serverLagMs = Math.max(0, Number(new URL(req.url, "http://x").searchParams.get("ms") ?? 0) || 0);
+    res.writeHead(200, cors).end(JSON.stringify({ serverLagMs }));
+    return;
+  }
   const key = keyOf(req.url ?? "/");
   if (mode === "record") {
     try {
@@ -43,5 +53,6 @@ createServer(async (req, res) => {
   const f = fileOf(key);
   if (!existsSync(f)) { res.writeHead(404, cors).end(JSON.stringify({ error: `no fixture for ${key}` })); return; }
   const fx = JSON.parse(readFileSync(f, "utf8"));
-  res.writeHead(fx.status, cors).end(shift(fx.body, fx.capturedAt));
+  const lag = req.headers.origin ? 0 : serverLagMs;
+  res.writeHead(fx.status, cors).end(shift(fx.body, fx.capturedAt + lag));
 }).listen(PORT, "127.0.0.1", () => console.log(`fixture api ${mode} on ${PORT}${mode === "record" ? ` -> ${target}` : ` (${readdirSync(DIR).length} fixtures)`}`));

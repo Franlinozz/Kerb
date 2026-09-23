@@ -9,7 +9,7 @@
  *
  * All geometry is lib/time.ts; the session data is the Clock API, which runs the same resolver
  * the onchain KerbClock is equivalence-tested against. The countdown never goes negative: past a
- * transition the rail refetches and says "Updating".
+ * transition the rail refetches and says "Refreshing".
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Clock, ClockSegment, DemoClock, Regime } from "@/lib/api";
@@ -166,7 +166,7 @@ function AssetRailInner({ symbol, initial, regime, tz, compact = false }: { symb
         </div>
         <div className="rail-next">
           <span className="ink-3">{transitionWord(c.clock.nextTransition.type)} in</span>{" "}
-          <strong suppressHydrationWarning>{updating || now === null ? (now === null ? "" : "Updating") : countdown(nextMs, now)}</strong>{" "}
+          <strong suppressHydrationWarning>{updating || now === null ? (now === null ? "" : "Refreshing") : countdown(nextMs, now)}</strong>{" "}
           <span className="ink-3" suppressHydrationWarning>{utcHm(nextMs)} UTC · {localHm(nextMs, tz)}</span>
         </div>
       </div>
@@ -205,7 +205,7 @@ export function LanesRail({ initial, compact = false }: { initial: { ny: Clock; 
         </div>
         <div className="rail-next">
           <span className="ink-3">{soonest.city}: {transitionWord(soonest.c.clock.nextTransition.type).toLowerCase()} in</span>{" "}
-          <strong suppressHydrationWarning>{now === null ? "" : soonest.updating ? "Updating" : countdown(soonMs, now)}</strong>{" "}
+          <strong suppressHydrationWarning>{now === null ? "" : soonest.updating ? "Refreshing" : countdown(soonMs, now)}</strong>{" "}
           <span className="ink-3" suppressHydrationWarning>{utcHm(soonMs)} UTC · {localHm(soonMs, soonest.tz)}</span>
         </div>
       </div>
