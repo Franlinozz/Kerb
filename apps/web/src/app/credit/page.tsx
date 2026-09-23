@@ -6,6 +6,7 @@
 import { LiveRoot } from "@/components/kerb/LiveRoot";
 import { oldestAsOf } from "@/lib/freshness";
 import type { Metadata } from "next";
+import Link from "@/components/ui/Link";
 import { CreditWorkspace } from "@/components/credit/CreditWorkspace";
 import { CurableTable } from "@/components/credit/CurableTable";
 import { TestnetDrawer } from "@/components/credit/TestnetDrawer";
@@ -38,7 +39,7 @@ export default async function CreditPage(): Promise<React.ReactElement> {
       <header className="credit-head">
         <div className="row between">
           <span className="t-label">Kerb Credit · X Layer testnet 1952 · demo clock</span>
-          <TestnetDrawer market={m} />
+          <span className="row" style={{ gap: 8 }}><Link href="/account" className="btn btn-sm btn-quiet">Your account</Link><TestnetDrawer market={m} /></span>
         </div>
         <h1 className="mt-3">Borrow against tokenized stocks, on the market&rsquo;s clock.</h1>
       </header>

@@ -127,3 +127,16 @@
   @keyframes live-pulse { 50% { opacity: 0.3; } }
   @media (prefers-reduced-motion: reduce) { .live-guard-dot { animation: none; } }
 }
+
+@layer components {
+  /* The guided tour (V3 audit). */
+  .tour-offer, .tour-card { position: fixed; z-index: 90; right: 20px; bottom: 20px; width: min(380px, calc(100vw - 32px)); display: grid; gap: 8px; padding: 16px 18px;
+    background: var(--panel-2); border: 1px solid var(--hair-2); border-radius: var(--r-2); box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.6); animation: tour-in 280ms var(--ease) both; }
+  .tour-offer p, .tour-card p { color: var(--ink-2); font-size: 14px; line-height: 1.5; margin: 0; }
+  .tour-card strong, .tour-offer strong { font-size: 16px; font-weight: 500; color: var(--ink); }
+  .tour-offer .row, .tour-card .row { gap: 8px; margin-top: 4px; }
+  .tour-ring { position: fixed; z-index: 89; pointer-events: none; border: 2px solid var(--brass); border-radius: var(--r-2); box-shadow: 0 0 0 9999px color-mix(in srgb, var(--canvas) 55%, transparent); transition: top 200ms var(--ease), left 200ms var(--ease), width 200ms var(--ease), height 200ms var(--ease); }
+  @keyframes tour-in { from { opacity: 0; transform: translateY(8px); } }
+  @media (prefers-reduced-motion: reduce) { .tour-offer, .tour-card { animation: none; } .tour-ring { transition: none; } }
+  @media (max-width: 600px) { .tour-offer, .tour-card { right: 16px; left: 16px; bottom: 16px; width: auto; } }
+}

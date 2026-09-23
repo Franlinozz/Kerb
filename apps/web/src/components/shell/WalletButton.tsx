@@ -97,13 +97,14 @@ export function WalletButton({ compact = false, openOnLoad = false }: { compact?
   const onChain = chainId === xLayerTestnet.id;
   return (
     <div className="wallet-menu" ref={ref}>
+      {compact ? null : <Link href="/account" className="btn btn-sm btn-quiet wallet-account"><UserRound size={14} />Account</Link>}
       <button type="button" className="net-badge" data-ok={onChain} aria-haspopup="menu" aria-expanded={menu} onClick={() => setMenu((m) => !m)}>
         <span className="status-dot" aria-hidden="true" style={onChain ? undefined : { background: "var(--brass)" }} />
         {compact ? shortHash(address, 4, 3) : <>{shortHash(address, 6, 4)} · {onChain ? "X Layer testnet" : "Wrong network"}</>}
       </button>
       {menu ? (
         <div className="popover" role="menu" style={{ minWidth: 260 }}>
-          <div style={{ padding: "8px 10px" }}><AddressChip value={address} href={`${EXPLORER}/address/${address}`} label="address" /></div>
+          <div className="menu-chip"><AddressChip value={address} href={`${EXPLORER}/address/${address}`} label="address" /></div>
           {!onChain ? (
             <button type="button" role="menuitem" disabled={switching} onClick={async () => {
               try { await switchChainAsync({ chainId: xLayerTestnet.id }); } catch (err) { const m = mapTxError(err); toast({ tone: "warn", title: m.kind === "cancelled" ? "Network switch cancelled" : "Could not switch network", body: m.kind === "cancelled" ? undefined : "Add X Layer testnet (1952) in your wallet, then try again." }); }

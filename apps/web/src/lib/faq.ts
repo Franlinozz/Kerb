@@ -1,0 +1,39 @@
+/**
+ * The FAQ (V3 audit, operator request). Plain answers, each true today and backed by a page a
+ * reader can open. Groups render as sections on /faq; the first few also appear on Home.
+ */
+export interface Faq { q: string; a: string; href?: string; link?: string }
+export const FAQ: { group: string; items: Faq[] }[] = [
+  { group: "The idea", items: [
+    { q: "What is Kerb?", a: "The market-time risk layer for tokenized stocks on X Layer. It measures how much of a position could really be sold in X Layer pools and how long a loan must survive before the next deep market, and posts both as credit terms on X Layer mainnet every few minutes. Kerb Credit lends against those terms; so can any contract, agent or app.", href: "/docs", link: "How to use Kerb" },
+    { q: "Why does the market's clock matter for a loan?", a: "A tokenized stock trades all weekend, but the market behind it does not. When New York or Hong Kong is shut, no new reference price arrives and the onchain pool is the only exit, often a thin one. A loan that is safe on Tuesday afternoon can be unsellable on Saturday. Kerb sizes credit to survive until the next deep market.", href: "/methodology", link: "The rules" },
+    { q: "Who is it for?", a: "Holders of tokenized stocks who want credit without selling; lenders and curators who need limits that follow real exit depth; agents that want a verifiable answer before taking risk; and any X Layer contract that wants to read those limits in one call." },
+    { q: "Isn't this what Aave or Morpho do?", a: "Those are lending markets. They price collateral with oracles and fix risk parameters per market. Kerb is the layer such a market would read: a measured, recomputable answer to how much the pool could absorb and how long a loan must last. Kerb Credit exists to prove the terms work, not to compete with them." },
+  ] },
+  { group: "Borrowing", items: [
+    { q: "What are Carry and Session Max?", a: "Two ways to borrow against the same collateral. Carry is sized to survive, unattended, until the next deep session. Session Max lends more now, with a promise: when Last Call opens before the market weakens, the position must come back to its Carry target.", href: "/credit", link: "Try both" },
+    { q: "What is Last Call, and what is a cure?", a: "Last Call is a window before the market weakens. A Session Max position above its Carry target must be brought back to it by repaying or adding collateral. If the owner does not, anyone may cure it: repay only the difference and receive a small bonus in collateral. The position survives, smaller, while liquidity is still there." },
+    { q: "Can I be liquidated?", a: "Only past the liquidation line, which is fixed per asset and never moves with the session. Sessions change how much you can borrow and when a cure is due, never the line under an open loan." },
+    { q: "Is this real money?", a: "No. Kerb Credit runs on X Layer testnet with mirror collateral and a test loan asset (mUSDG), using the real terms relayed from mainnet. The risk plane itself (measurement, terms, KerbQuote) is on X Layer mainnet and holds no user funds." },
+    { q: "Why is there no mainnet lending?", a: "The contracts are unaudited, the terms are signed by a single attester, and the production tokenized stocks are restricted in some jurisdictions. Lending real money needs all three solved first. Everything that can be proven without real money is live." },
+    { q: "How do I try it?", a: "Open Credit, connect a browser wallet, get test OKB from the X Layer faucet, mint mirror collateral and mUSDG with one click each, then borrow. The demo clock runs a trading week every hour, so Last Call comes around within the hour. A standing demo position is there to cure every cycle.", href: "/credit", link: "Open Credit" },
+    { q: "Where do I see my own positions and history?", a: "Your account shows your holdings, each position with its health and Last Call status, and everything your address has done in Kerb Credit. It also prices any real xStocks you hold on X Layer mainnet.", href: "/account", link: "Your account" },
+  ] },
+  { group: "The numbers", items: [
+    { q: "Where do the numbers come from?", a: "Every minute Kerb reads each X Layer pool's price, liquidity and ticks, walks the pool tick by tick to find how much could be sold within 1% (C(1%)), cross-checks that against the OKX DEX quote and keeps the smaller, takes a conservative Credit Mark, and computes terms under the Kerb Terms Standard. No model is anywhere in that path." },
+    { q: "Can I check a number myself?", a: "Yes. Every post carries the hash of its complete input bundle. Fetch the bundle from the API, check the hash, and run one command to recompute the terms. Proof does this live on the latest post.", href: "/proof", link: "Open Proof" },
+    { q: "Why did a term change?", a: "Each asset page explains the current terms in sentences with their numbers, and lists every change in the last 72 hours with its cause: a longer horizon, a move in pool depth, volatility, or a loosening that waits for its cooldown.", href: "/asset/HKEXCx", link: "An example" },
+    { q: "Why is a debt ceiling sometimes far below the pool's depth?", a: "Terms tighten at once and loosen slowly: after a sharp fall in measured depth, the ceiling drops in the same post and then recovers in small steps. On 23 Sep a large move in the BRK.Bx pool did exactly that. The asset page says so in its own words." },
+    { q: "Are the input bundles on IPFS?", a: "Some early ones are. Since 21 Sep the free pinning plan's limit has been reached, so every bundle is published and served by the Kerb API under its own hash instead. Anyone can still fetch and verify it; Kerb says published, not pinned." },
+  ] },
+  { group: "Builders and agents", items: [
+    { q: "Can my contract use Kerb?", a: "Yes. KerbQuote on X Layer mainnet returns max borrow, cure deadline and usability for any collateral amount in one view call, valuing collateral exactly as Kerb Credit does. KerbMarkFeed exposes each Credit Mark behind a Chainlink-shaped feed.", href: "/developers#solidity", link: "Solidity" },
+    { q: "How do agents use Kerb?", a: "An agent calls Kerb Credit Check, gets an HTTP 402 with the payment requirements, pays one cent in USDT0 on X Layer through x402, and receives the answer with the transaction and inputs hash that recompute it. A free MCP server offers the public terms to Claude, Cursor or any MCP client.", href: "/developers#agents", link: "Agents" },
+    { q: "Is there an AI in Kerb?", a: "No. Kerb deliberately keeps models out of anything that produces a number. Agents are customers of Kerb, not part of it." },
+  ] },
+  { group: "Trust", items: [
+    { q: "Is Kerb audited?", a: "No. It is a hackathon build with guarded parameters, onchain guardrails the attester cannot loosen, invariant and fork tests, and a dispositioned static analysis. Read the limits before relying on anything.", href: "/legal/risk", link: "Risk disclosure" },
+    { q: "What does Kerb know about me?", a: "Only what a public blockchain already shows: addresses and transactions. The site has no accounts, no cookies for tracking, and stores nothing about a visitor.", href: "/legal/privacy", link: "Privacy" },
+    { q: "Is this investment advice?", a: "No. Kerb Terms describe measured risk. They are not a recommendation to buy, sell, borrow or lend anything." },
+  ] },
+];

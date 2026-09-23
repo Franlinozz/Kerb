@@ -29,3 +29,17 @@
   .popover .check { margin-left: auto; color: var(--moss); }
   .theme-menu, .wallet-menu { position: relative; }
 }
+
+@layer components {
+  .wallet-menu { display: inline-flex; align-items: center; gap: 8px; }
+  .wallet-account { gap: 6px; }
+  .wallet-menu > .popover { top: calc(100% + 8px); right: 0; }
+}
+
+@layer components {
+  /* The address chip inside a menu keeps its own compact controls: the menu's full-width item
+     style must not reach the chip's copy and explorer icons, or the address wraps. */
+  .popover .chip { white-space: nowrap; width: auto; max-width: 100%; }
+  .popover .chip a, .popover .chip button { width: 22px; height: 22px; padding: 0; display: inline-grid; place-items: center; }
+  .popover .menu-chip { padding: 8px 10px; }
+}

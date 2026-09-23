@@ -515,6 +515,50 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     }
   });
 
+  /**
+   * Real xStocks held by any address on X Layer mainnet, each priced through KerbQuote on mainnet
+   * (V3 audit): what the holder could borrow at Carry and Session Max under the live terms. Kerb
+   * never holds these tokens; this only reads balances and the public quote contract.
+   */
+  app.get("/v1/holdings/196/:address", async (req, reply) => {
+    const { address } = req.params as { address: string };
+    if (!/^0x[0-9a-fA-F]{40}$/.test(address)) return reply.status(400).send({ error: "bad address" });
+    const quote = loadDeployments()["196:KerbQuote"]?.address as `0x${string}` | undefined;
+    if (!quote) return reply.status(503).send({ error: "KerbQuote is not deployed on mainnet", label: "Unavailable" });
+    try {
+      return await cached(`holdings:${address.toLowerCase()}`, 30_000, async () => {
+        const client = publicClient(196);
+        const erc = [{ type: "function", name: "balanceOf", stateMutability: "view", inputs: [{ name: "a", type: "address" }], outputs: [{ type: "uint256" }] }] as const;
+        const qAbi = [{ type: "function", name: "quote", stateMutability: "view", inputs: [{ name: "assetId", type: "bytes32" }, { name: "amount", type: "uint256" }, { name: "mode", type: "uint8" }], outputs: [{ type: "tuple", components: [
+          { name: "usable", type: "bool" }, { name: "regime", type: "uint16" }, { name: "observedAt", type: "uint64" }, { name: "creditMark", type: "uint128" }, { name: "ltv", type: "uint64" }, { name: "liquidationThreshold", type: "uint64" },
+          { name: "collateralValue", type: "uint256" }, { name: "maxBorrow", type: "uint256" }, { name: "maxPositionDebt", type: "uint128" }, { name: "debtCeiling", type: "uint128" }, { name: "executableDepth1", type: "uint128" },
+          { name: "cureDeadline", type: "uint64" }, { name: "nextWeakeningAt", type: "uint64" }, { name: "inputsHash", type: "bytes32" }] }] }] as const;
+        const block = await client.getBlockNumber();
+        const rows = await Promise.all(resolvedAssets(loadAssets()).map(async (a) => {
+          const direct = (await client.readContract({ address: a.token.address as `0x${string}`, abi: erc, functionName: "balanceOf", args: [address as `0x${string}`], blockNumber: block })) as bigint;
+          // Wrapped xStocks count too: shares converted to asset tokens by the wrapper itself.
+          let wrapped = 0n;
+          if (a.wrapper) {
+            const shares = (await client.readContract({ address: a.wrapper.address as `0x${string}`, abi: erc, functionName: "balanceOf", args: [address as `0x${string}`], blockNumber: block })) as bigint;
+            if (shares > 0n) wrapped = (await client.readContract({ address: a.wrapper.address as `0x${string}`, abi: [{ type: "function", name: "convertToAssets", stateMutability: "view", inputs: [{ name: "s", type: "uint256" }], outputs: [{ type: "uint256" }] }] as const, functionName: "convertToAssets", args: [shares], blockNumber: block })) as bigint;
+          }
+          const bal = direct + wrapped;
+          if (bal === 0n) return { symbol: a.symbol, token: a.token.address, balance: "0" };
+          const id = toAssetId(196, a.token.address) as `0x${string}`;
+          const [carry, smax] = await Promise.all([0, 1].map((m) => client.readContract({ address: quote, abi: qAbi, functionName: "quote", args: [id, bal, m], blockNumber: block }))) as { usable: boolean; collateralValue: bigint; maxBorrow: bigint; ltv: bigint; cureDeadline: bigint }[];
+          return {
+            symbol: a.symbol, token: a.token.address, balance: fromUnits(bal, a.token.decimals), wrappedPart: fromUnits(wrapped, a.token.decimals), usable: carry!.usable,
+            valueUSDG: fromUnits(carry!.collateralValue, 6), carryMaxBorrowUSDG: fromUnits(carry!.maxBorrow, 6), sessionMaxBorrowUSDG: fromUnits(smax!.maxBorrow, 6),
+            carryLTV: fromUnits(carry!.ltv, 18), sessionMaxLTV: fromUnits(smax!.ltv, 18), cureDeadline: smax!.cureDeadline ? new Date(Number(smax!.cureDeadline) * 1000).toISOString() : null,
+          };
+        }));
+        return { chainId: 196, address, block: block.toString(), quote, label: "Verified" as const, generatedAt: new Date().toISOString(), holdings: rows.filter((r) => r.balance !== "0"), assetsChecked: rows.length };
+      });
+    } catch {
+      return reply.status(502).send({ error: "X Layer mainnet did not answer", label: "Unavailable" });
+    }
+  });
+
   app.get("/v1/credit/:chain/position/:user/:assetId", async (req, reply) => {
     const { chain, user, assetId } = req.params as { chain: string; user: string; assetId: string };
     const chainId = Number(chain);

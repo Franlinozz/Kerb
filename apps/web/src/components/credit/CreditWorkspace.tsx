@@ -32,6 +32,14 @@ const FAUCET = "https://www.okx.com/xlayer/faucet";
 
 // ----------------------------------------------------------------------------- collateral cards
 
+/** L-08: how old the relayed mainnet terms on this mirror are, ticking. */
+function RelayAge({ at }: { at: string | null }): React.ReactElement | null {
+  const now = useNow(1000);
+  if (!at || now === null) return null;
+  const s = Math.max(0, Math.round((now - Date.parse(at)) / 1000));
+  return <span suppressHydrationWarning>, observed {s < 60 ? `${s}s` : s < 3600 ? `${Math.floor(s / 60)}m` : `${Math.floor(s / 3600)}h ${Math.floor((s % 3600) / 60)}m`} ago</span>;
+}
+
 function CollateralCard({ c, selected, onSelect, demo }: { c: CreditCollateral; selected: boolean; onSelect: () => void; demo: DemoClock }): React.ReactElement {
   const regime = REGIME_BY_INDEX[c.terms.regime] ?? null;
   return (
@@ -43,7 +51,7 @@ function CollateralCard({ c, selected, onSelect, demo }: { c: CreditCollateral; 
         <span><span className="t-label">Session Max</span>{pctWad(BigInt(c.terms.sessionMaxLTV))}</span>
         <span title="The mirror listing on testnet carries its own fixed liquidation threshold, three points above mainnet; the Testnet drawer says why."><span className="t-label">Liquidation</span>{pctWad(BigInt(c.liquidationThreshold))} <span className="ink-3 t-small">(mirror listing)</span></span>
       </span>
-      <span className="t-small ink-3">Next Last Call {utcHm(Date.parse(demo.nextCureOpensAt))} UTC · relayed from mainnet {c.relayedFrom?.symbol ?? ""}</span>
+      <span className="t-small ink-3">Next Last Call {utcHm(Date.parse(demo.nextCureOpensAt))} UTC · relayed from mainnet {c.relayedFrom?.symbol ?? ""}<RelayAge at={c.terms.observedAt} /></span>
       {!c.terms.usable ? <span className="t-small brass">New borrowing paused: the relayed terms are not usable right now.</span> : null}
     </button>
   );

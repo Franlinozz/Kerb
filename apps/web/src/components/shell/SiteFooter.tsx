@@ -8,6 +8,7 @@ const COLS: { label: string; links: { href: string; label: string; external?: bo
   { label: "Protocol", links: [{ href: "/methodology", label: "Methodology" }, { href: "/proof#contracts", label: "Contracts" }, { href: "/proof", label: "Proof" }, { href: "/changelog", label: "Changelog" }] },
   { label: "Developers", links: [{ href: "/docs", label: "Docs" }, { href: "/developers", label: "SDK" }, { href: "/developers#agents", label: "Agents" }, { href: "/developers#rest", label: "REST" }, { href: "https://github.com/Franlinozz/Kerb", label: "GitHub", external: true }] },
   // Studio: the operator confirmed @xyndicatepro (22 Sep). Kerb has no X handle yet.
+  { label: "Learn", links: [{ href: "/faq", label: "FAQ" }, { href: "/whitepaper", label: "Whitepaper" }, { href: "/legal/terms", label: "Terms" }, { href: "/legal/privacy", label: "Privacy" }, { href: "/legal/risk", label: "Risk disclosure" }] },
   { label: "Studio", links: [{ href: "https://github.com/Franlinozz/Kerb", label: "Xyndicate Labs", external: true }, { href: "https://x.com/xyndicatepro", label: "@xyndicatepro on X", external: true }] },
 ];
 

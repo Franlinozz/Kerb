@@ -1,3 +1,4 @@
+import { Tour } from "@/components/shell/Tour";
 import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
           <main id="main" className="wrap site-main">{children}</main>
           <Suspense><SiteFooter /></Suspense>
           <Suspense><Toaster /></Suspense>
+          <Suspense><Tour /></Suspense>
         </Providers>
       </body>
     </html>

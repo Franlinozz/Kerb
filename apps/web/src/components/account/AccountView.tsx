@@ -14,8 +14,8 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ProvMark } from "@/components/ui/ProvMark";
 import { useHydratedAccount } from "@/lib/useHydrated";
 import { fmtUnits } from "@/lib/creditMath";
-import { shortHash } from "@/lib/format";
-import type { Account, AccountActivity } from "@/lib/api";
+import type { Account, AccountActivity, Holdings } from "@/lib/api";
+import { group, round, shortHash, usdFull } from "@/lib/format";
 import { useLive } from "@/components/kerb/useLive";
 
 const OKLINK = "https://www.oklink.com/x-layer-testnet";
@@ -43,6 +43,7 @@ export function AccountView(): React.ReactElement {
   useEffect(() => { const a = new URLSearchParams(window.location.search).get("addr"); setParam(a && /^0x[0-9a-fA-F]{40}$/.test(a) ? a : null); }, []);
   const addr = param ?? connected ?? null;
   const q = useLive<Account>(addr ? `/v1/credit/1952/account/${addr}` : null, null, 30_000, { asOf: (x) => x.generatedAt });
+  const hq = useLive<Holdings>(addr ? `/v1/holdings/196/${addr}` : null, null, 60_000, { asOf: (x) => x.generatedAt });
   const [lookup, setLookup] = useState("");
 
   const look = (
@@ -91,6 +92,24 @@ export function AccountView(): React.ReactElement {
             ))}
           </ul>
         )}
+      </section>
+
+      <section className="acct-section" aria-labelledby="acct-mainnet">
+        <h2 id="acct-mainnet" className="t-label">Real xStocks on X Layer mainnet <ProvMark label="Verified" source="Token and wrapper balances on X Layer mainnet, each priced through KerbQuote on mainnet at one block" observedAt={hq.data?.generatedAt ?? null} /></h2>
+        <p className="t-small ink-3">What this address could borrow against the real tokens it holds, under the live Kerb Terms. Read only: Kerb never holds these tokens, and mainnet credit is not offered.</p>
+        {!hq.data ? <p className="t-small ink-3">{hq.failed ? "X Layer mainnet did not answer; try again in a moment." : "Reading ten xStocks on mainnet."}</p> : hq.data.holdings.length === 0 ? (
+          <p className="ink-2">No xStocks held on X Layer mainnet (all {hq.data.assetsChecked} checked at block {hq.data.block}). For a worked example, open <a href={`/account?addr=0x34Fa7515d3364648F558aa876F73feC12e2bA507`}>the BRK.Bx pool</a>.</p>
+        ) : (
+          <div className="dt-wrap"><table className="dt" style={{ minWidth: 640 }}>
+            <thead><tr><th>Asset</th><th className="num">Held</th><th className="num">Value at Credit Mark</th><th className="num">Carry max borrow</th><th className="num">Session Max max borrow</th></tr></thead>
+            <tbody>{hq.data.holdings.map((h) => (
+              <tr key={h.symbol}><td><Link href={`/asset/${h.symbol}`}>{h.symbol}</Link>{h.wrappedPart && h.wrappedPart !== "0" ? <span className="dt-under">includes wrapped shares</span> : null}</td>
+                <td className="num">{group(round(h.balance, 4))}</td><td className="num">{usdFull(h.valueUSDG ?? null) ?? "Not priced"}</td>
+                <td className="num">{h.usable ? usdFull(h.carryMaxBorrowUSDG ?? null) : "Not usable now"}</td><td className="num">{h.usable ? usdFull(h.sessionMaxBorrowUSDG ?? null) : "Not usable now"}</td></tr>
+            ))}</tbody>
+          </table></div>
+        )}
+        {hq.data ? <p className="t-small ink-3">Quoted by KerbQuote <a className="mono" href={`https://www.oklink.com/xlayer/address/${hq.data.quote}`} target="_blank" rel="noreferrer">{shortHash(hq.data.quote, 6, 4)}</a> at block {hq.data.block}. The smaller of LTV times value and the per-position cap.</p> : null}
       </section>
 
       <section className="acct-section" aria-labelledby="acct-activity">

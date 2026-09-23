@@ -4,6 +4,7 @@ export const NAV = [
   { href: "/research", label: "Research" },
   { href: "/methodology", label: "Methodology" },
   { href: "/developers", label: "Developers" },
+  { href: "/docs", label: "Docs" },
 ] as const;
 
 export const isActive = (pathname: string, href: string): boolean =>

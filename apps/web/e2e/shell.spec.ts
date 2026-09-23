@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-const ROUTES = ["/", "/board", "/asset/BRK.Bx", "/credit", "/research", "/research/1", "/methodology", "/proof", "/developers", "/docs", "/account", "/changelog"];
+const ROUTES = ["/", "/board", "/asset/BRK.Bx", "/credit", "/research", "/research/1", "/methodology", "/proof", "/developers", "/docs", "/account", "/faq", "/whitepaper", "/legal/terms", "/legal/risk", "/changelog"];
 
 /** A fake EIP-6963 wallet. `mode` decides what it does when asked to connect. */
 async function wallet(page: Page, mode: "reject" | "ok" | "wrong-chain"): Promise<void> {

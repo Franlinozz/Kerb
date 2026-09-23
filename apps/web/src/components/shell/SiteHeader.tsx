@@ -4,6 +4,7 @@ import { MobileMenu } from "./MobileMenu";
 import { NavLinks } from "./NavLinks";
 import { StatusPill } from "./StatusPill";
 import { ThemeMenu } from "./ThemeMenu";
+import { TourButton } from "./Tour";
 import { LazyWallet } from "./LazyWallet";
 import { HeaderScroll } from "./HeaderScroll";
 
@@ -17,6 +18,7 @@ export function SiteHeader(): React.ReactElement {
           <StatusPill />
           <span className="hide-sm"><LazyWallet /></span>
           <span className="show-sm"><LazyWallet compact /></span>
+          <TourButton />
           <ThemeMenu />
           <MobileMenu />
         </div>

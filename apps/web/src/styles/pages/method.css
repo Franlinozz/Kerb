@@ -50,3 +50,18 @@
   .docs-concepts dd { margin: 4px 0 0; max-width: 72ch; }
   .docs-steps { display: grid; gap: 10px; padding-left: 1.2em; color: var(--ink-2); }
 }
+
+@layer pages {
+  /* V3 audit: FAQ, legal and whitepaper pages. */
+  .faq-group { margin-top: var(--s-7); }
+  .faq-list { margin-top: var(--s-4); max-width: 860px; }
+  .faq-item p { max-width: 72ch; }
+  .prose { max-width: 760px; margin-top: var(--s-6); }
+  .prose h2 { margin: var(--s-7) 0 var(--s-4); }
+  .prose h3 { margin: var(--s-5) 0 var(--s-3); font-size: 18px; }
+  .prose p, .prose li { color: var(--ink-2); line-height: 1.65; }
+  .prose p + p { margin-top: var(--s-3); }
+  .prose ul, .prose ol { padding-left: 1.2em; display: grid; gap: 6px; }
+  .prose .formula { font-family: var(--font-mono); font-size: 14px; padding: 12px 14px; border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); overflow-x: auto; white-space: pre; }
+  .legal-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--s-4); }
+}

@@ -5,7 +5,7 @@
   .footer-brand .brand { font-size: 22px; }
   .footer-brand p { margin: 0; font-size: 15px; line-height: 1.55; }
   .footer-cta { display: flex; gap: 10px; flex-wrap: wrap; }
-  .footer-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); padding-top: var(--s-7); }
+  .footer-cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gutter); padding-top: var(--s-7); }
   .footer-cols a { display: flex; align-items: center; gap: 4px; width: fit-content; color: var(--ink-2); font-size: 14px; margin: 9px 0; transition: color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); }
   .footer-cols a svg { opacity: 0.5; transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); }
   .footer-cols a:hover { color: var(--ink); transform: translateX(2px); }

@@ -8,6 +8,7 @@ import { WhyTerms } from "@/components/kerb/WhyTerms";
 import { Consumers } from "@/components/kerb/Consumers";
 import { RevealOnScroll } from "@/components/kerb/RevealOnScroll";
 import ENDPOINTS from "@/lib/endpoints.json";
+import { FAQ } from "@/lib/faq";
 import Link from "@/components/ui/Link";
 import { Suspense } from "react";
 import { ArtPlate } from "@/components/ui/ArtPlate";
@@ -55,7 +56,8 @@ export default async function Home(): Promise<React.ReactElement> {
   const hkLead = rows.find((r) => r.underlying.market === "XHKG" && r !== lead);
   const [report, why] = lead ? await Promise.all([getReport(lead.symbol), getWhy(lead.symbol)]) : [null, null];
   const mainnetPosts = stats.ok ? stats.data.postsByChain.find((p) => p.chainId === 196)?.count ?? null : null;
-  const deployments = proof.ok ? proof.data.onchain.deployments.filter((d) => d.chainId === 196) : [];
+  // The core risk plane and KerbQuote; the ten feeds are listed on Developers and Proof.
+  const deployments = proof.ok ? proof.data.onchain.deployments.filter((d) => d.chainId === 196 && ["KerbClock", "KerbTerms", "KerbQuote"].includes(d.contract)) : [];
   const tests = proof.ok ? proof.data.build.tests : null;
 
   return (
@@ -187,6 +189,19 @@ export default async function Home(): Promise<React.ReactElement> {
       </section>
 
       {/* ---------------------------------------------------------------- verify */}
+      {/* ---------------------------------------------------------------- questions (V3 audit) */}
+      <section className="home-section">
+        <SectionHead label="Questions" annotation={<Link href="/faq">All questions</Link>} title="New here? Start with these." />
+        <div className="faq-list">
+          {[FAQ[0]!.items[1]!, FAQ[1]!.items[0]!, FAQ[1]!.items[1]!, FAQ[1]!.items[3]!].map((f) => (
+            <details key={f.q} className="disclosure faq-item">
+              <summary>{f.q}<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg></summary>
+              <div className="disclosure-body"><p className="ink-2">{f.a}</p>{f.href ? <p className="mt-3"><Link href={f.href}>{f.link ?? "Open"}</Link></p> : null}</div>
+            </details>
+          ))}
+        </div>
+      </section>
+
       <section className="home-section band-forest band-verify">
         <div className="band-inner band-inner-single">
           <span className="t-label">Proof · X Layer mainnet 196</span>

@@ -523,3 +523,8 @@ export interface Account {
   activity: AccountActivity[];
   agentCalls: { at: string; route: string; network: string; tx: string | null; explorer: string | null }[];
 }
+
+export interface Holdings {
+  chainId: 196; address: string; block: string; quote: string; label: ProvenanceLabel; generatedAt: string; assetsChecked: number;
+  holdings: { symbol: string; token: string; balance: string; wrappedPart?: string; usable?: boolean; valueUSDG?: string; carryMaxBorrowUSDG?: string; sessionMaxBorrowUSDG?: string; carryLTV?: string; sessionMaxLTV?: string; cureDeadline?: string | null }[];
+}
