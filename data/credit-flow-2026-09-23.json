@@ -1,0 +1,110 @@
+{
+ "base": "https://www.usekerb.xyz",
+ "borrower": "0x98383F20F778Cf76A28265cc7AA6e8aA67F65246",
+ "curer": "0x96a4dCAeB471EEc7dA5Cf4E9e2AdA82b81D5A33e",
+ "steps": [
+  {
+   "at": "2026-09-23T17:49:35.639Z",
+   "what": "borrower 0x98383F20F778Cf76A28265cc7AA6e8aA67F65246 funded with 0.004 test OKB",
+   "tx": "0x97cdbb2f46817f65d938c1c3ab7efb509db9fef47843ff24cdeabe3e91cdeaac"
+  },
+  {
+   "at": "2026-09-23T17:49:38.793Z",
+   "what": "curer 0x96a4dCAeB471EEc7dA5Cf4E9e2AdA82b81D5A33e funded with 0.004 test OKB",
+   "tx": "0x970cd4bb584c75f18b2cb2b4cc7fc9a23b169fbecbd781edfc9bf139d282fac6"
+  },
+  {
+   "at": "2026-09-23T17:49:44.875Z",
+   "what": "borrower signed",
+   "tx": "0xb81ef71f462561a62c8cb35a890d7560cce4ead71ce5427a55e5cacc7aee4784",
+   "to": "0x11827f0f59d516e3778951fde36bd0d961af4a16",
+   "selector": "0x57915897"
+  },
+  {
+   "at": "2026-09-23T17:49:47.649Z",
+   "what": "borrower signed",
+   "tx": "0x8b4cd7d6b6845b0262570cdc21bb9b8094a503f1df1a4f31bdb4041163be1fda",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x57915897"
+  },
+  {
+   "at": "2026-09-23T17:49:57.662Z",
+   "what": "sizing: carry 54.45%, Session Max 61.08%, cap 1510.45, mark 87.49 -> deposit 26.15 kKOx, borrow 1359.4 mUSDG (LTV 59.42%)"
+  },
+  {
+   "at": "2026-09-23T17:49:59.250Z",
+   "what": "borrower signed",
+   "tx": "0x31cbea092f3cb0a6f0ba295586f4bb7ab3a63ebfd6b22d5507c2907f2b94e777",
+   "to": "0x11827f0f59d516e3778951fde36bd0d961af4a16",
+   "selector": "0x095ea7b3"
+  },
+  {
+   "at": "2026-09-23T17:50:01.773Z",
+   "what": "borrower signed",
+   "tx": "0x0c67353b749ffd9b31552d379defa19495f47106681605981b6b32bf48612d32",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0x1de26e16"
+  },
+  {
+   "at": "2026-09-23T17:50:03.612Z",
+   "what": "borrower signed",
+   "tx": "0xc1260eabd0c7e832162cf224957b19facd8449f6a3b2fcde305089532245a112",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0xa3821d9f"
+  },
+  {
+   "at": "2026-09-23T17:50:13.256Z",
+   "what": "waiting for the demo Last Call"
+  },
+  {
+   "at": "2026-09-23T17:54:07.744Z",
+   "what": "Last Call on the borrower's panel: 254.07 mUSDG cure required by 18:03 UTC, in 9m 50s"
+  },
+  {
+   "at": "2026-09-23T17:54:14.576Z",
+   "what": "curer signed",
+   "tx": "0x36aeeec24f1f4b57590ef5c6f5f0f47af5f43162cbec225a34265e0d780e10b9",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x57915897"
+  },
+  {
+   "at": "2026-09-23T17:54:19.421Z",
+   "what": "curer signed",
+   "tx": "0x95ce870fac4bbe2b610599b53ffe5b27ecb8c7a384bd1a51193bc7b1ae85839f",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x095ea7b3"
+  },
+  {
+   "at": "2026-09-23T17:54:20.965Z",
+   "what": "curer signed",
+   "tx": "0xa6fbe70a0567a99d9a566eed3433a1bd1210a896ae726b7ea279312cc97cecbb",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0xe8eb1881"
+  },
+  {
+   "at": "2026-09-23T17:54:21.653Z",
+   "what": "curer cured the position from the public table"
+  },
+  {
+   "at": "2026-09-23T17:54:34.773Z",
+   "what": "borrower signed",
+   "tx": "0x378c912b6d8e06c313c70203cbcf358cd5c6fc4f55009c44e655ad277adba5e4",
+   "to": "0x91Fcf99262214C32F6fe342D94c7B0dfB2DbA679",
+   "selector": "0x095ea7b3"
+  },
+  {
+   "at": "2026-09-23T17:54:37.527Z",
+   "what": "borrower signed",
+   "tx": "0xd3de214dcc921a6e48d7b7f8ae92e69d27abc83f57143961a34afcfb9def3532",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0x00f989ad"
+  },
+  {
+   "at": "2026-09-23T17:54:43.292Z",
+   "what": "borrower signed",
+   "tx": "0x1384043d4b18a3a0e6670639165a4fc00e4503e7aaa5a7714f289866f11733ad",
+   "to": "0xa1314645cd6c07e651359aba540e2600090b98a8",
+   "selector": "0xa1e93482"
+  }
+ ]
+}
