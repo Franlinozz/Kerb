@@ -480,5 +480,265 @@
       "match": "exact_match",
       "url": "https://repo.sourcify.dev/contracts/full_match/1952/0x3caa62ff2f6fea6375fb801992b2c19070586815/"
     }
+  },
+  "196:KerbQuote": {
+    "chainId": 196,
+    "name": "KerbQuote",
+    "address": "0x223d5e2a97d751403300b55aa92c88a42920e52a",
+    "deployedAtBlock": "71414400",
+    "deployedAt": "2026-09-23T17:10:36.055Z",
+    "txHash": "0xd612fcdf9518f7d0f0af980f7a2cb048acf3a5fb901f62b816e50b12f1068216",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0xf765d374e0ce576860a463f0d796ad45c62161b8",
+      6
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x223d5e2a97d751403300b55aa92c88a42920e52a",
+    "group": "consumers",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x223d5e2a97d751403300b55aa92c88a42920e52a/"
+    }
+  },
+  "196:KerbMarkFeedFactory": {
+    "chainId": 196,
+    "name": "KerbMarkFeedFactory",
+    "address": "0x6aababf6d83fcfb81459f8ffee3f6dd9b83d7f6f",
+    "deployedAtBlock": "71414406",
+    "deployedAt": "2026-09-23T17:10:42.458Z",
+    "txHash": "0xaebd164802f4d539515d27d5506785148ac48700a54b107d7c8ab7b1ad449429",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x6aababf6d83fcfb81459f8ffee3f6dd9b83d7f6f",
+    "group": "consumers",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x6aababf6d83fcfb81459f8ffee3f6dd9b83d7f6f/"
+    }
+  },
+  "196:KerbMarkFeed:KOx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0x5D6014c52648Ef770e083f91Ad5E9aA73f9c2f85",
+    "deployedAtBlock": "71414413",
+    "deployedAt": "2026-09-23T17:10:52.325Z",
+    "txHash": "0xf624a17829e7ccd17656b5d9dfcb2edc74479aef51cef7d4e4262b4d90ea39e6",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0x2052b48fd37e4b80adfb4e2e758dd0ca050b129a4cf7b648e9fbde5aa3c32b27",
+      "Kerb Credit Mark KOx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x5D6014c52648Ef770e083f91Ad5E9aA73f9c2f85",
+    "group": "consumers",
+    "symbol": "KOx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x5D6014c52648Ef770e083f91Ad5E9aA73f9c2f85/"
+    }
+  },
+  "196:KerbMarkFeed:BMNRx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0x7D64D53DB153658bc4C72A6A0078a4962B41239E",
+    "deployedAtBlock": "71414421",
+    "deployedAt": "2026-09-23T17:11:01.124Z",
+    "txHash": "0x57504bc606264ea5fce8c03c1ff02d661451d13ec4d71ae6b92d81627850655c",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0x396c23de8238f701f59fdc25914ea8af8f0e8b07d7eaef32cebe0055d1e21eab",
+      "Kerb Credit Mark BMNRx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x7D64D53DB153658bc4C72A6A0078a4962B41239E",
+    "group": "consumers",
+    "symbol": "BMNRx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x7D64D53DB153658bc4C72A6A0078a4962B41239E/"
+    }
+  },
+  "196:KerbMarkFeed:KUAIx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0xd179a35Ef17D822671b6d9647E026E1A4dC51921",
+    "deployedAtBlock": "71414427",
+    "deployedAt": "2026-09-23T17:11:06.019Z",
+    "txHash": "0x3aef5d4d986aeabcbf0d802c629169dd6a3f7c8078b01f79d7a79253a670d579",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0x4cb69f958f4dea040df745bf3c711c89bf6feda7b4ddaf0af434d97c0b9febec",
+      "Kerb Credit Mark KUAIx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0xd179a35Ef17D822671b6d9647E026E1A4dC51921",
+    "group": "consumers",
+    "symbol": "KUAIx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0xd179a35Ef17D822671b6d9647E026E1A4dC51921/"
+    }
+  },
+  "196:KerbMarkFeed:COINx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0xe526C8B225224C7fd27aF350A8C4bA62604e45dd",
+    "deployedAtBlock": "71414432",
+    "deployedAt": "2026-09-23T17:11:13.488Z",
+    "txHash": "0xe18a022fac42bd0cd620544b4a478c2e6ed7a6bfbdacfad6bf9b7e706884ba30",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0x744b8427556a5a831489a2b1ee8f12bf647bb3ecbe7d95d6c07872b805ad0929",
+      "Kerb Credit Mark COINx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0xe526C8B225224C7fd27aF350A8C4bA62604e45dd",
+    "group": "consumers",
+    "symbol": "COINx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0xe526C8B225224C7fd27aF350A8C4bA62604e45dd/"
+    }
+  },
+  "196:KerbMarkFeed:BRK.Bx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0x215672f699A3EF1d2E72A0067Defbc1047e25714",
+    "deployedAtBlock": "71414441",
+    "deployedAt": "2026-09-23T17:11:17.680Z",
+    "txHash": "0xbd0df0dd9282de9c8562e15a91cbab29f5faea8f3759e6e577a7ef9ef0c6daf9",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0xc41fc9c6ee0af5f7f915c31452ee7b1c351302a87e12702053c1de8ddeec8cc2",
+      "Kerb Credit Mark BRK.Bx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x215672f699A3EF1d2E72A0067Defbc1047e25714",
+    "group": "consumers",
+    "symbol": "BRK.Bx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x215672f699A3EF1d2E72A0067Defbc1047e25714/"
+    }
+  },
+  "196:KerbMarkFeed:SHEINx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0x463D6833f2a02F06Da0A5D8B573907E32b933B75",
+    "deployedAtBlock": "71414444",
+    "deployedAt": "2026-09-23T17:11:24.271Z",
+    "txHash": "0x4088de7152a7acb67ba0b05c0c5d3461888e299c47098905e3841924f5628eef",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0xca189148771ede3541a660d8e9a66e726f4764614207b8d20e5110f7a1267656",
+      "Kerb Credit Mark SHEINx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x463D6833f2a02F06Da0A5D8B573907E32b933B75",
+    "group": "consumers",
+    "symbol": "SHEINx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x463D6833f2a02F06Da0A5D8B573907E32b933B75/"
+    }
+  },
+  "196:KerbMarkFeed:HKEXCx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0x85251CEf6a42402acB41D5014c734D35aE374728",
+    "deployedAtBlock": "71414450",
+    "deployedAt": "2026-09-23T17:11:30.138Z",
+    "txHash": "0x96d9756c1aca751d05c1293005e92b7ba77b4229abe76389f739868d2c3d0c0b",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0xceef091e9b937d639d95fcf4656486bded3108c3125a76fa4174553f533e01d3",
+      "Kerb Credit Mark HKEXCx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x85251CEf6a42402acB41D5014c734D35aE374728",
+    "group": "consumers",
+    "symbol": "HKEXCx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x85251CEf6a42402acB41D5014c734D35aE374728/"
+    }
+  },
+  "196:KerbMarkFeed:ICEx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0x5771a717Ff3ECe8060fa54bb9E2E12C7BD5b8A4d",
+    "deployedAtBlock": "71414457",
+    "deployedAt": "2026-09-23T17:11:37.700Z",
+    "txHash": "0x85c6c7c8224c710c89860cf3827269ecf7cb1eb4a6fc3b568b8627666b490957",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0xe9efa8ee6fbe620e48c2891c4a667b89048cfa96f4e99c9a9e546cdfb72417c8",
+      "Kerb Credit Mark ICEx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x5771a717Ff3ECe8060fa54bb9E2E12C7BD5b8A4d",
+    "group": "consumers",
+    "symbol": "ICEx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x5771a717Ff3ECe8060fa54bb9E2E12C7BD5b8A4d/"
+    }
+  },
+  "196:KerbMarkFeed:SLVx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0xeA0ddc1e4a3Dd49231a3666bB0e945E4a9112Abe",
+    "deployedAtBlock": "71414464",
+    "deployedAt": "2026-09-23T17:11:41.984Z",
+    "txHash": "0x10d16d13aa6a64791cd559fc54f8fd3d1043d40a452a5c0217b99ed8d2e343d4",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0xf17a1c397c439684f230e33a4c39e3702ce6705145c5999f11332db454c58ccc",
+      "Kerb Credit Mark SLVx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0xeA0ddc1e4a3Dd49231a3666bB0e945E4a9112Abe",
+    "group": "consumers",
+    "symbol": "SLVx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0xeA0ddc1e4a3Dd49231a3666bB0e945E4a9112Abe/"
+    }
+  },
+  "196:KerbMarkFeed:MIXUx": {
+    "chainId": 196,
+    "name": "KerbMarkFeed",
+    "address": "0x9001d0e6eb5a5Bfbf740807E1E7D7B8D20244be6",
+    "deployedAtBlock": "71414469",
+    "deployedAt": "2026-09-23T17:11:46.982Z",
+    "txHash": "0xeeafe852e6c24bb1ec010235eb03c251f1016ac0b2f7103fbf28ea37280e665e",
+    "args": [
+      "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+      "0xfb48b707a42488889c661ac6b06a5b8d99efb29fbd99e3878ae48ef7bf0d6129",
+      "Kerb Credit Mark MIXUx / USDG"
+    ],
+    "verified": true,
+    "explorer": "https://www.oklink.com/xlayer/address/0x9001d0e6eb5a5Bfbf740807E1E7D7B8D20244be6",
+    "group": "consumers",
+    "symbol": "MIXUx",
+    "verification": {
+      "service": "sourcify",
+      "match": "exact_match",
+      "url": "https://repo.sourcify.dev/contracts/full_match/196/0x9001d0e6eb5a5Bfbf740807E1E7D7B8D20244be6/"
+    }
   }
 }

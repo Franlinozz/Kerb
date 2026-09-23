@@ -1,0 +1,74 @@
+{
+ "at": "2026-09-23T17:13:41.137Z",
+ "url": "https://api.usekerb.xyz/agents/credit-check?asset=HKEXCx&amount=100&mode=session_max",
+ "payer": "0xeB3e398495F52046048aa86Bea593a39bcbe2e8E",
+ "payerIsKerbsOwnWallet": true,
+ "status": 200,
+ "ms": 2011,
+ "settlement": {
+  "amount": null,
+  "errorMessage": null,
+  "errorReason": null,
+  "network": "eip155:196",
+  "payer": "0xeb3e398495f52046048aa86bea593a39bcbe2e8e",
+  "paymentId": "16972561",
+  "status": "success",
+  "success": true,
+  "transaction": "0xb0befc3e64d4ba3e62bd2ab0b5be95ca720a1b2b787df0c6f6cf075a314e982e"
+ },
+ "answer": {
+  "asset": "HKEXCx",
+  "token": "0x64c1C1A6453Abb3ebBFC69e3E8f8e75953ABd46a",
+  "chainId": 196,
+  "asOf": "2026-09-23T17:08:01.000Z",
+  "ageSec": 339,
+  "usable": true,
+  "regime": "REFERENCE_CLOSED",
+  "creditMark": "49.277911",
+  "collateralValueUSDG": "4927.79",
+  "mode": "session_max",
+  "ltv": {
+   "carry": "0.506975",
+   "sessionMax": "0.512493",
+   "liquidation": "0.6",
+   "liquidationFixed": true
+  },
+  "maxBorrowUSDG": "2525.45",
+  "limits": {
+   "maxPositionDebtUSDG": "4243.82",
+   "debtCeilingUSDG": "2840.27",
+   "boundBy": "ltv"
+  },
+  "covenant": {
+   "cureRequired": true,
+   "lastCallOpensAt": "2026-09-24T03:30:00.000Z",
+   "cureDeadline": "2026-09-24T04:00:00.000Z"
+  },
+  "carrySurvivesUntil": "2026-09-24T05:00:00.000Z",
+  "exit": {
+   "c1USDG": "16975.28",
+   "crosscheck": {
+    "source": "okx-dex:v6-quote",
+    "simulatedUSDG": "16975.28",
+    "quotedUSDG": "17091.34",
+    "delta": "0.006790777817773922",
+    "bound": "tick-walk"
+   }
+  },
+  "why": [
+   "Carry is 9.30 points below the fixed 60.00% line: 2.5 × 0.82 volatility × the 4.20% stressed gap over the 11h 52m until the next deep session (Thu 05:00 UTC), plus 0.61% exit cost at $10,000. Posted tighter than the engine's 50.82% while a loosening waits.",
+   "Session Max only has to reach the cure deadline, 10h 22m away (Thu 03:30 UTC): margin 8.62 points. Posted tighter than the engine's 51.38% while a loosening waits.",
+   "Debt ceiling $2,840 is 0.75 × C(1%) $16,975, held lower while a loosening waits."
+  ],
+  "whyKind": "attribution",
+  "provenance": {
+   "kts": "0.2",
+   "contract": "0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5",
+   "tx": "0x6de555e0cb5031e11ca8ff9324819dfcf1cb96584792bd123f7ccf2e471ed651",
+   "inputsHash": "0x39ea20ed9e1e3efee88f626cf45eb15b3bd0943664daf25bef18bcc9e9158d7d",
+   "bundle": "https://api.usekerb.xyz/v1/bundle/0x39ea20ed9e1e3efee88f626cf45eb15b3bd0943664daf25bef18bcc9e9158d7d",
+   "verify": "pnpm --filter @kerb/engine kerb verify 0x39ea20ed9e1e3efee88f626cf45eb15b3bd0943664daf25bef18bcc9e9158d7d"
+  },
+  "disclaimer": "Kerb Terms describe measured risk. Not investment advice."
+ }
+}

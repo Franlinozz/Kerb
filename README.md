@@ -18,15 +18,15 @@ Kerb Credit lends against them. So can any contract, agent or app.
 2. **An asset:** the exit check (tick-walk against the OKX DEX quote) and why its terms moved. [/asset/HKEXCx](https://www.usekerb.xyz/asset/HKEXCx)
 3. **Credit:** borrow at Session Max, watch the demo Last Call, cure the standing position. [/credit](https://www.usekerb.xyz/credit)
 4. **Proof:** every contract, the Builder Code decoded, a term recomputed from its inputs. [/proof](https://www.usekerb.xyz/proof)
-5. **Agents and contracts:** the x402 credit check on X Layer, and KerbQuote, one read from any contract. [/developers](https://www.usekerb.xyz/developers#agents)
+5. **Agents and contracts:** the paid x402 credit check on X Layer, and KerbQuote on mainnet, one read from any contract. [/developers](https://www.usekerb.xyz/developers#agents)
 
 ## One term, four consumers
 
 | Consumer | How it reads Kerb Terms |
 |---|---|
 | **Kerb Credit** | The reference market: Carry or Session Max, Last Call and a permissionless cure, on X Layer testnet with mirror collateral |
-| **Agents** | `api.usekerb.xyz/agents/credit-check` and `/exit-check`, one cent in USDT0 over x402 on X Layer, no model in the path; a free MCP server at `api.usekerb.xyz/mcp` |
-| **Contracts** | `KerbQuote`: max borrow, cure deadline and usability in one view call, valued exactly as Kerb Credit values collateral; `KerbMarkFeed`: the Credit Mark behind a Chainlink-shaped feed. Deployed and Sourcify-verified on X Layer testnet; mainnet pending |
+| **Agents** | `api.usekerb.xyz/agents/credit-check` and `/exit-check`, one cent in USDT0 over x402 on X Layer mainnet, no model in the path; first paid call settled 23 Sep ([tx](https://www.oklink.com/xlayer/tx/0xb0befc3e64d4ba3e62bd2ab0b5be95ca720a1b2b787df0c6f6cf075a314e982e), our own test wallet); a free MCP server at `api.usekerb.xyz/mcp` |
+| **Contracts** | `KerbQuote`: max borrow, cure deadline and usability in one view call, valued exactly as Kerb Credit values collateral; `KerbMarkFeed`: the Credit Mark behind a Chainlink-shaped feed. Deployed and Sourcify-verified on X Layer mainnet: KerbQuote [`0x223d…e52a`](https://www.oklink.com/xlayer/address/0x223d5e2a97d751403300b55aa92c88a42920e52a) |
 | **Developers** | REST with no key, the TypeScript SDK, and the MCP server |
 
 ## How it works

@@ -24,9 +24,9 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 >
 > **Users.** Tokenized-stock holders who want credit without selling; lenders and curators who need exit-aware limits; agents that need a verifiable answer before taking risk.
 >
-> **Core integration.** KerbClock and KerbTerms on X Layer mainnet with ERC-8021 Builder Codes; Kerb Credit (borrow, Last Call, permissionless cure) on X Layer testnet; KerbQuote, a read adapter any X Layer contract can call; and paid credit checks for agents via x402 on X Layer [listed on OKX.AI | registered on OKX.AI, listing under review].
+> **Core integration.** KerbClock and KerbTerms on X Layer mainnet with ERC-8021 Builder Codes; Kerb Credit (borrow, Last Call, permissionless cure) on X Layer testnet; KerbQuote, a read adapter any X Layer contract can call; and paid credit checks for agents via x402 on X Layer, settled in USDT0 on mainnet.
 
-About 150 words (docs/v3/V3-POSITIONING.md section 6). On the morning of 25 Sep, pick the bracket that is true and drop any sentence whose evidence is not yet in docs/release/CLAIM_EVIDENCE.md (KerbQuote until it is deployed on mainnet, the x402 clause until it is live).
+About 150 words (docs/v3/V3-POSITIONING.md section 6). On the morning of 25 Sep, pick the bracket that is true and drop any sentence whose evidence is not yet in docs/release/CLAIM_EVIDENCE.md. As of 23 Sep 17:15 UTC, KerbQuote is on mainnet and the first x402 payment has settled on mainnet; OKX.AI is not claimed (not registered).
 
 **Repository.** `https://github.com/Franlinozz/Kerb` (public). README complete, `BUILD_PERIOD.md` shows day-by-day build-period work, full history scanned clean of secrets.
 
