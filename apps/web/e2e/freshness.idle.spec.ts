@@ -55,7 +55,8 @@ test("no raw enum (UPPER_SNAKE) is visible outside code on any route (L-02)", as
   }
 });
 
-test.describe("an ISR page rendered hours ago (fixture API only)", () => {
+// Tagged @lag: the lag is global to the fixture API, so CI runs this alone, after the suite.
+test.describe("an ISR page rendered hours ago (fixture API only) @lag", () => {
   test.skip(!isFixture, "needs the fixture API's server-lag control");
   test.setTimeout(180_000);
   test.afterAll(async ({ request }) => { await request.post(`${FIXTURE}/__lag?ms=0`); });
