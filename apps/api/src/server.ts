@@ -443,6 +443,28 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     }
   });
 
+  /**
+   * Kerb for Agents evidence (V3-03): settled x402 calls by network, the latest settlement per
+   * network, the listing status the operator records, and where to call. Rows whose network is not
+   * an eip155 chain are excluded (one schema test row, 23 Sep, cannot be deleted by design).
+   */
+  app.get("/v1/agents/stats", async () => cached("agents-stats", 15_000, async () => {
+    const cfg = JSON.parse(readFileSync(resolve(repoRoot(), "config/agents.json"), "utf8")) as { listingStatus: string; network: string; price: string; currency: string; endpoints: Record<string, string> };
+    const rows = await deps.sql<{ network: string; n: string; last_tx: string | null; last_at: Date | null }[]>`
+      SELECT network, count(*) AS n,
+        (array_agg(settlement_tx ORDER BY ts DESC))[1] AS last_tx, max(ts) AS last_at
+      FROM agent_calls WHERE network LIKE 'eip155:%' GROUP BY network ORDER BY network`;
+    const explorer = (network: string, tx: string): string => `${network === "eip155:196" ? "https://www.oklink.com/xlayer" : "https://www.oklink.com/x-layer-testnet"}/tx/${tx}`;
+    return {
+      label: "Observed" as const,
+      generatedAt: new Date().toISOString(),
+      listingStatus: cfg.listingStatus,
+      live: { network: cfg.network, price: cfg.price, currency: cfg.currency },
+      endpoints: cfg.endpoints,
+      paidCalls: rows.map((r) => ({ network: r.network, count: Number(r.n), latest: r.last_tx ? { tx: r.last_tx, at: r.last_at ? new Date(r.last_at).toISOString() : null, explorer: explorer(r.network, r.last_tx) } : null })),
+    };
+  }));
+
   /** The compressed demo clock the testnet credit plane runs on, as a schedule. */
   app.get("/v1/credit/:chain/demo-clock", async (req, reply) => {
     const chainId = Number((req.params as { chain: string }).chain);

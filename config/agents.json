@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "note": "Kerb for Agents (V3-03). listingStatus is set by the operator: unregistered, registered, under_review, listed. It changes only when OKX's email confirms it (AGENTS.md 13.7).",
+  "listingStatus": "unregistered",
+  "network": "eip155:1952",
+  "price": "$0.01",
+  "currency": "USDT0",
+  "endpoints": {
+    "creditCheck": "https://api.usekerb.xyz/agents/credit-check",
+    "exitCheck": "https://api.usekerb.xyz/agents/exit-check",
+    "terms": "https://api.usekerb.xyz/agents/terms",
+    "mcp": "https://api.usekerb.xyz/mcp"
+  }
+}

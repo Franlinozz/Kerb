@@ -1,0 +1,29 @@
+{
+  "name": "@kerb/agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Kerb for Agents: paid credit and exit checks over x402 on X Layer, and a free MCP server. No model anywhere in the path.",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@kerb/adapters": "workspace:*",
+    "@kerb/collector": "workspace:*",
+    "@kerb/engine": "workspace:*",
+    "@kerb/types": "workspace:*",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@okxweb3/x402-core": "0.1.0",
+    "@okxweb3/x402-evm": "0.2.1",
+    "@okxweb3/x402-express": "0.1.1",
+    "express": "5.2.1",
+    "viem": "^2.56.8",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@okxweb3/x402-fetch": "0.1.0",
+    "@types/express": "5.0.3"
+  }
+}

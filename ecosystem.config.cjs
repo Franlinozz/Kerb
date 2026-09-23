@@ -128,6 +128,22 @@ module.exports = {
       error_file: "/root/.kerb/logs/mirror-relay.err.log",
     },
     {
+      // Kerb for Agents (V3-03): x402 credit and exit checks on X Layer, and the MCP server.
+      name: "kerb-agents",
+      cwd: __dirname + "/apps/agents",
+      script: "src/main.ts",
+      interpreter: "node",
+      interpreter_args: `--env-file=${process.env.KERB_AGENTS_ENV_FILE || "/root/.kerb/agents.env"} --import tsx`,
+      autorestart: true,
+      restart_delay: 5000,
+      max_restarts: 100,
+      min_uptime: 60000,
+      max_memory_restart: "500M",
+      time: true,
+      out_file: "/root/.kerb/logs/agents.out.log",
+      error_file: "/root/.kerb/logs/agents.err.log",
+    },
+    {
       // First-paint freshness (V3-01, L-01): keeps every live ISR route regenerating.
       name: "kerb-web-warmer",
       cwd: __dirname,
