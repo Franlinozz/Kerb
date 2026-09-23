@@ -304,7 +304,7 @@ All numeric fields are decimal strings. Ratios are fractions of one, not percent
 ## 10. Reproducibility
 
 1. The engine writes an **input bundle**: a canonical JSON document containing every input listed in Section 3, exactly as observed, with source identifiers and timestamps.
-2. The bundle is canonicalised (sorted keys, no whitespace, decimal strings), hashed with keccak256, and pinned to IPFS.
+2. The bundle is canonicalised (sorted keys, no whitespace, decimal strings), hashed with keccak256, stored and served by the Kerb API under that hash, and pinned to IPFS when the pinning quota allows (paused since 21 Sep).
 3. The report carries `inputsHash` and `inputsBundleCID`, and the attester signs `(chainId, asset, observedAt, inputsHash, outputsHash)` under EIP-712.
 4. `KerbTerms` stores `inputsHash` in the event and in storage.
 5. `kerb verify <reportId>` fetches the bundle, recomputes, and prints a diff. Any difference is a failure.

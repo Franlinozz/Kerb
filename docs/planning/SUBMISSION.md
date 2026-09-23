@@ -18,19 +18,17 @@ Deadline: **25 Sep 2026, 23:59 UTC**. Internal target: **18:00 UTC**.
 
 **Project summary (product, intended user, core integration).**
 
-> Kerb is a session-aware credit market for tokenized securities on X Layer.
+> **Kerb is the market-time risk layer for tokenized stocks on X Layer.**
 >
-> Tokenized equities trade around the clock. Their liquidation conditions do not stay constant around the clock: the underlying market opens and closes on its own calendar, reference coverage runs on a 24/5 clock, and executable onchain depth moves hour by hour. Lending protocols in production treat all of those moments as identical collateral, and size credit against a price rather than against an exit.
+> **Product.** Tokenized stocks trade 24/7; their exit does not. Kerb walks the real Uniswap V3 pools on X Layer tick by tick, cross-checked against OKX DEX quotes, to measure how much could actually be sold, reads each stock's own market clock, and posts credit terms on X Layer mainnet every few minutes: Carry, sized to survive until the next deep market; Session Max, more now with a promise to cure at Last Call; a debt ceiling capped by measured depth. Every term recomputes from its published inputs.
 >
-> Kerb measures the difference and lends on it. A deterministic engine reads each asset's underlying market session, walks the real Uniswap V3 pools on X Layer tick by tick to compute executable depth and price impact, builds a conservative Credit Mark, and publishes credit terms onchain under the Kerb Terms Standard: a Carry capacity that survives the next weaker regime unattended, a higher Session Max capacity for the current regime, and a debt ceiling capped by what the market could actually absorb. Never lend more than you can liquidate.
+> **Users.** Tokenized-stock holders who want credit without selling; lenders and curators who need exit-aware limits; agents that need a verifiable answer before taking risk.
 >
-> Borrowers pick one of two modes. Carry positions are never disturbed. Session Max positions precommit to Last Call: before the next material liquidity transition, the position returns to its Carry target by repayment, added collateral, or a partial cure executed while liquidity is still deep. The liquidation threshold itself is fixed and timelocked, so sessions move borrowing capacity, never the line under a live borrower.
->
-> Intended users: holders of tokenized equities on X Layer who want credit without selling; USDG lenders who want collateral with a published exit path; and, through the same onchain Terms, other lenders, curators and venue operators who would otherwise rebuild equity market risk logic themselves.
->
-> Core integration: X Layer mainnet contracts (KerbClock, KerbTerms) publishing signed, reproducible terms for ten live tokenized equity pools, USDG as the loan asset, ERC-8021 Builder Code attribution on every Kerb transaction, and the Kerb Credit market with the full borrow, Last Call, cure and liquidation lifecycle. Every published number carries provenance and can be recomputed from its pinned input bundle.
+> **Core integration.** KerbClock and KerbTerms on X Layer mainnet with ERC-8021 Builder Codes; Kerb Credit (borrow, Last Call, permissionless cure) on X Layer testnet; KerbQuote, a read adapter any X Layer contract can call; and paid credit checks for agents via x402 on X Layer [listed on OKX.AI | registered on OKX.AI, listing under review].
 
-**Repository.** `https://github.com/Franlinozz/Kerb`. **Currently private, must be made public before submitting.** README complete, `BUILD_PERIOD.md` shows day-by-day build-period work, full history scanned clean of secrets.
+About 150 words (docs/v3/V3-POSITIONING.md section 6). On the morning of 25 Sep, pick the bracket that is true and drop any sentence whose evidence is not yet in docs/release/CLAIM_EVIDENCE.md (KerbQuote until it is deployed on mainnet, the x402 clause until it is live).
+
+**Repository.** `https://github.com/Franlinozz/Kerb` (public). README complete, `BUILD_PERIOD.md` shows day-by-day build-period work, full history scanned clean of secrets.
 
 **Demo video.** 2 to 4 minutes, per `docs/v2/V2-DEMO.md`. Unlisted or public link that works logged out.
 
@@ -71,7 +69,7 @@ Three lines. Tokenized equities trade 24/7. Liquidation conditions do not. Never
 | kHKEXCx mirror | X Layer testnet 1952 | 0x80da4036ee45e6d66a27dba415a4ce23eb9360f2 |
 | MockUSDG (testnet loan asset) | X Layer testnet 1952 | 0x91fcf99262214c32f6fe342d94c7b0dfb2dba679 |
 
-Loan asset: USDG mainnet 0x4ae46a509F6b1D9056937BA4500cb143933D2dc8. On testnet the real Paxos USDG
+Mainnet debt capacity is denominated in USDG (0x4ae46a509F6b1D9056937BA4500cb143933D2dc8). On testnet the real Paxos USDG
 (0xF0863D7A29a55d0c4263c11bFac754312ff078DF) has a permissioned mint and no faucet, so it cannot be obtained;
 `MockUSDG` stands in and says so in its own name.
 
@@ -109,11 +107,11 @@ Open-source libraries used, and the data sources with their licences.
 | API | LIVE at api.usekerb.xyz |
 | Tests | 545 TypeScript, 106 Solidity, 47 E2E, all green in CI |
 | Slither | 67 results, none High, every one dispositioned in SECURITY.md |
-| IPFS pinning | live; `kerb verify <inputsHash>` reproduces the posted terms from the pinned bundle |
+| Input bundles | published and served by the API (IPFS pinning paused at the free-plan quota since 21 Sep); `kerb verify <inputsHash>` reproduces the posted terms from the published bundle |
 | Market-Time Reports | #1 at /research/1 from 35,130 measured readings; #2 generated Thu 24 Sep from the campaign-end captures |
 | Demo video | not recorded, final-stage item |
-| Repo public | not yet: approved, to be flipped before submitting |
-| Apex DNS | missing, operator action |
+| Repo public | yes |
+| Apex DNS | usekerb.xyz resolves and serves the site |
 
 ---
 

@@ -18,7 +18,7 @@ export interface Labelled {
   label: ProvenanceLabel;
   source: string;
   observedAt: string | null;
-  /** keccak256 of the pinned input bundle, where the number came from a report. */
+  /** keccak256 of the published input bundle, where the number came from a report. */
   inputsHash?: string;
   tx?: string;
 }

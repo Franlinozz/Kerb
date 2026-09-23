@@ -54,7 +54,7 @@ It fetches the bytes, checks they hash to what is on chain, recomputes every fig
 | KerbMirror kHKEXCx | X Layer testnet 1952 | [0x80da4036ee45e6d66a27dba415a4ce23eb9360f2](https://www.oklink.com/x-layer-testnet/address/0x80da4036ee45e6d66a27dba415a4ce23eb9360f2) | [Sourcify exact match](https://repo.sourcify.dev/contracts/full_match/1952/0x80da4036ee45e6d66a27dba415a4ce23eb9360f2/) |
 | MockUSDG | X Layer testnet 1952 | [0x91fcf99262214c32f6fe342d94c7b0dfb2dba679](https://www.oklink.com/x-layer-testnet/address/0x91fcf99262214c32f6fe342d94c7b0dfb2dba679) | [Sourcify exact match](https://repo.sourcify.dev/contracts/full_match/1952/0x91fcf99262214c32f6fe342d94c7b0dfb2dba679/) |
 
-Loan asset on mainnet: USDG (`0x4ae46a509F6b1D9056937BA4500cb143933D2dc8`). Builder Code `kt0hl6xyhlx8xmt` rides as an ERC-8021 suffix on every transaction Kerb sends, and `/proof` decodes it from each recent post.
+Mainnet debt capacity is denominated in USDG (`0x4ae46a509F6b1D9056937BA4500cb143933D2dc8`). Builder Code `kt0hl6xyhlx8xmt` rides as an ERC-8021 suffix on every transaction Kerb sends, and `/proof` decodes it from each recent post.
 
 ## What we measured
 

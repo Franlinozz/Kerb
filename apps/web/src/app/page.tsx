@@ -129,7 +129,7 @@ export default async function Home(): Promise<React.ReactElement> {
           <div className="band-copy">
             <span className="t-label">KTS {lead?.kts ?? "0.2"} · {lead?.symbol ?? "lead asset"} · five layers</span>
             <h2>How a term is made.</h2>
-            <p>Five layers, each measured or computed from the one below, each pinned in a bundle anyone can recompute.</p>
+            <p>Five layers, each measured or computed from the one below, each published in an input bundle anyone can fetch and recompute.</p>
             <Link className="btn btn-sm band-btn" href="/methodology">Read the methodology</Link>
           </div>
           {report?.ok && lead ? (

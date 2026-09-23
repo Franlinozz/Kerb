@@ -13,9 +13,9 @@
           \                        |                            |                      /
            +------------------ apps/collector (VPS, PM2, fake mode by default) -------+
                                           |
-                        append-only observation store (never deleted, bundled + pinned)
+                        append-only observation store (never deleted, bundled + published)
                                           |
-                        apps/engine : KTS-0.1 pure functions
+                        apps/engine : KTS pure functions (0.2 live since 21 Sep)
                         Clock | Mark | Depth (packages/v3math) | Capacity
                                           |
                         apps/attester : canonicalise -> hash -> pin -> EIP-712 sign -> post
@@ -34,7 +34,7 @@
    apps/web : Board, Asset, Market, Methodology, Reports, Proof, Developers
 ```
 
-Chain is canonical. Postgres is a rebuildable view. The append-only observation store and the pinned input bundles are the only irreplaceable data, and they are never deleted.
+Chain is canonical. Postgres is a rebuildable view. The append-only observation store and the published input bundles are the only irreplaceable data, and they are never deleted.
 
 ---
 
@@ -230,7 +230,7 @@ Every number rendered anywhere carries one:
 | `Verified` | Checked onchain in this transaction or by a verifiable report | Solid dot |
 | `Observed` | Read from a named source, with timestamp and content hash | Hollow dot with source on hover |
 | `Attested` | Signed by the Kerb attester inside contract guardrails | Half dot with signer and tx |
-| `Computed` | Produced by KTS from pinned inputs | Bracketed, links to recompute |
+| `Computed` | Produced by KTS from published inputs | Bracketed, links to recompute |
 
 A number with no label is a bug. A number whose label cannot be clicked through to evidence is a bug.
 

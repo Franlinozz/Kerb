@@ -16,4 +16,4 @@ lucide-react (ISC licence), used for interface icons only.
 
 ## Art
 
-Until the generated plates land (V2-03), every art slot draws the geometric Kerbstone: an inline SVG made from the Kerb mark. No stock imagery is used anywhere.
+Every art slot uses one of the operator's own plates (docs/v2/ART.md). A slot without a plate draws the geometric Kerbstone: an inline SVG made from the Kerb mark. No stock imagery is used anywhere.

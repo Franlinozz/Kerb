@@ -161,7 +161,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
             AND observed_at > ${new Date(now() - hours * 3_600_000).toISOString()}
           ORDER BY observed_at DESC LIMIT 3000`;
 
-    // The pinned bundle behind this report, so a reader can go from a number to its exact inputs.
+    // The published bundle behind this report, so a reader can go from a number to its exact inputs.
     const [pin] = await deps.sql<{ bundle_cid: string | null; pin_status: string | null }[]>`
       SELECT bundle_cid, pin_status FROM terms_posts
       WHERE chain_id = ${chainId} AND lower(inputs_hash) = lower(${r.inputs_hash})
@@ -572,7 +572,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     };
   });
 
-  /** Serve a pinned input bundle by its keccak inputs hash or its report id. */
+  /** Serve a published input bundle by its keccak inputs hash or its report id. */
   app.get("/v1/bundle/:hash", async (req, reply) => {
     const { hash } = req.params as { hash: string };
 

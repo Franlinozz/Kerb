@@ -29,7 +29,7 @@ Screen: `/board`, full list, Session Strip at the top.
 
 Screen: hover the depth column, then the coverage ratio.
 
-> "Tokenized markets run around the clock. Liquidity does not. This pool can absorb about X thousand dollars at one percent price impact right now. Two hours from now that number is different. Every lending protocol in production treats those two moments as identical collateral."
+> "Tokenized markets run around the clock. Liquidity does not. This pool can absorb about X thousand dollars at one percent price impact right now. Two hours from now that number is different. Kerb sizes credit against the exit that is there, not only against the price."
 
 **0:40 to 1:05 - An asset, and where the numbers come from**
 

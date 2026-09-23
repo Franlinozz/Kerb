@@ -1,6 +1,6 @@
 /**
- * The Kerbstone art manifest. Six operator-approved masters (docs/v2/ART.md); five are placed,
- * P4 (The Seal) has no approved master yet and falls back to the geometric Kerbstone.
+ * The Kerbstone art manifest: the operator-approved masters (docs/v2/ART.md), P4 (The Seal)
+ * included since 22 Sep. A slot with no manifest entry falls back to the geometric Kerbstone.
  * Focal points were chosen by looking at each master, not from its filename: x/y are the CSS
  * object-position used at each breakpoint.
  */

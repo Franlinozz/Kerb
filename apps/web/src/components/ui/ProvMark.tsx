@@ -7,7 +7,7 @@ export const PROVENANCE_MEANING: Record<ProvenanceLabel, string> = {
   Verified: "Read from the chain and checked.",
   Observed: "Read from a named source, with a timestamp and a hash of the payload.",
   Attested: "Signed by the Kerb attester and posted on chain inside the contract guardrails.",
-  Computed: "Produced by KTS from a pinned input bundle.",
+  Computed: "Produced by KTS from a published input bundle.",
 };
 
 /**
