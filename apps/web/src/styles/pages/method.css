@@ -139,3 +139,7 @@
   .wp-refs a { word-break: break-word; }
   @media (max-width: 760px) { .wp-meta { grid-template-columns: 1fr 1fr; } .wp-figures { grid-template-columns: 1fr 1fr; } }
 }
+
+@layer pages {
+  .formula { font-family: var(--font-mono); font-size: 13.5px; line-height: 1.7; color: var(--ink); padding: 14px 16px; margin: var(--s-4) 0; border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); overflow-x: auto; white-space: pre; }
+}
