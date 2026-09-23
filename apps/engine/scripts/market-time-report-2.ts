@@ -127,6 +127,18 @@ try {
         ceilingBefore: b.capacity?.debtCeiling ?? null, ceilingAfter: a.capacity?.debtCeiling ?? null, ceilingChangePct: pct(b.capacity?.debtCeiling, a.capacity?.debtCeiling),
       };
     });
+    // V3-09: one word per asset, from C(1%) and C(3%) together, the only words a finding may use.
+    // An hour later (the last capture of the morning) is reported beside it, so a slow move shows too.
+    const last = [...snaps].filter((x) => Date.parse(x.capturedAt) > cliffMs).pop();
+    for (const r of crow as (typeof crow[number] & { verdict?: string; c1Later?: string | null; c1LaterChangePct?: string | null; laterAt?: string | null })[]) {
+      const moved = (p: string | null): -1 | 0 | 1 | null => (p === null ? null : !atLeast(p, 1n) ? 0 : neg(p) ? -1 : 1);
+      const m1 = moved(r.c1ChangePct), m3 = moved(r.c3ChangePct);
+      r.verdict = m1 === null || m3 === null ? "insufficient evidence" : m1 === 0 && m3 === 0 ? "held" : m1 <= 0 && m3 <= 0 ? "fell" : m1 >= 0 && m3 >= 0 ? "rose" : "mixed";
+      const l = last && last !== post ? last.assets[r.symbol] : undefined;
+      r.laterAt = last && last !== post ? last.capturedAt : null;
+      r.c1Later = l && !l.error ? l.depth?.C_1 ?? null : null;
+      r.c1LaterChangePct = pct(r.c1Before, r.c1Later);
+    }
     const fellC1 = crow.filter((r) => neg(r.c1ChangePct) && atLeast(r.c1ChangePct, 1n));
     const roseC1 = crow.filter((r) => !neg(r.c1ChangePct) && atLeast(r.c1ChangePct, 1n));
     const regimeChanges = crow.filter((r) => r.regimeChanged).length;
@@ -134,6 +146,7 @@ try {
       before: { capturedAt: pre.capturedAt, label: pre.label }, after: { capturedAt: post.capturedAt, label: post.label }, rows: crow,
       summary: {
         assets: crow.length, depthMovedAtLeastOnePercent: fellC1.length + roseC1.length, regimeChanges,
+        verdicts: Object.fromEntries(["held", "fell", "rose", "mixed", "insufficient evidence"].map((v) => [v, (crow as { verdict?: string }[]).filter((r) => r.verdict === v).length])),
         statement: fellC1.length === 0
           ? `executable depth at 1% did not fall by one percent or more for any of the ${crow.length} assets; ${roseC1.length} rose by at least one percent and ${regimeChanges} changed regime.`
           : `executable depth at 1% fell by at least one percent for ${fellC1.length} of ${crow.length} assets and rose by at least one percent for ${roseC1.length}; ${regimeChanges} changed regime.`,
@@ -194,8 +207,15 @@ try {
   };
 
   mkdirSync(OUT, { recursive: true });
-  const path = resolve(OUT, process.argv.includes("--dry-run") ? "market-time-2.dry.json" : "market-time-2.json");
-  writeFileSync(path, `${JSON.stringify(report, null, 2)}\n`);
+  const dry = process.argv.includes("--dry-run");
+  const path = resolve(OUT, dry ? "market-time-2.dry.json" : "market-time-2.json");
+  const body = `${JSON.stringify({ ...report, status: partial ? "partial" : "final" }, null, 2)}\n`;
+  writeFileSync(path, body);
+  // V3-09: every published version is kept beside the current one; nothing is overwritten away.
+  if (!dry) {
+    mkdirSync(resolve(OUT, "versions"), { recursive: true });
+    writeFileSync(resolve(OUT, "versions", `market-time-2.${report.generatedAt.replace(/[:.]/g, "-")}.json`), body);
+  }
   console.log(`wrote ${path}${partial ? " (partial)" : ""}`);
   for (const f of findings) console.log(`- ${f.claim}\n    ${f.evidence.slice(0, 300)}`);
 } finally {

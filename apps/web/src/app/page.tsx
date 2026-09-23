@@ -120,7 +120,7 @@ export default async function Home(): Promise<React.ReactElement> {
             <Kpi size="xl" label="Terms posted on X Layer mainnet" value={mainnetPosts === null ? null : group(String(mainnetPosts))} prov="Verified" source="TermsPosted events on KerbTerms, chain 196, counted by /v1/stats" observedAt={stats.ok ? stats.data.generatedAt ?? null : null} href="/proof" />
             {stats.data.latestReport ? (
               <div className="kpi">
-                <span className="t-label">Market-Time Report #{stats.data.latestReport.id} · largest fall</span>
+                <span className="t-label">Market-Time Report #{stats.data.latestReport.id}{stats.data.latestReport.status === "partial" ? " (partial)" : ""} · {stats.data.latestReport.figureLabel ?? "largest fall"}</span>
                 <span className="kpi-value"><span className="t-num-xl">{stats.data.latestReport.figure ?? "Not measured"}</span><ProvMark label="Observed" source={`Market-Time Report #${stats.data.latestReport.id}, from the observation store`} href={`/research/${stats.data.latestReport.id}`} hrefLabel="Read the report" /></span>
                 <span className="kpi-delta">{stats.data.latestReport.headline} <Link href={`/research/${stats.data.latestReport.id}`}>Read it</Link></span>
               </div>

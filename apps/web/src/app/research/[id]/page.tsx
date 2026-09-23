@@ -95,14 +95,15 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       {r.campaign ? (
         <section className="section">
           <h2>Before and after the campaign end</h2>
-          <p className="t-small ink-2">Two full engine captures, {utcStamp(r.campaign.before.capturedAt)} and {utcStamp(r.campaign.after.capturedAt)}. {r.campaign.summary.statement}</p>
+          <p className="t-small ink-2">Two full engine captures, {utcStamp(r.campaign.before.capturedAt)} and {utcStamp(r.campaign.after.capturedAt)}. {r.campaign.summary.statement} A verdict is held when C(1%) and C(3%) both moved less than 1%, fell or rose when they moved together, mixed when they disagreed.</p>
           <div className="scroll-x">
             <table className="ptable report-table">
-              <thead><tr><th>Asset</th><th>Regime</th><th className="num">C(1%) before</th><th className="num">C(1%) after</th><th>C(1%)</th><th>C(3%)</th><th>Credit Mark</th><th>Debt ceiling</th></tr></thead>
+              <thead><tr><th>Asset</th><th>Verdict</th><th>Regime</th><th className="num">C(1%) before</th><th className="num">C(1%) after</th><th>C(1%)</th><th>C(3%)</th><th>Credit Mark</th><th>Debt ceiling</th></tr></thead>
               <tbody>
                 {r.campaign.rows.map((c) => (
                   <tr key={c.symbol}>
                     <td data-label="Asset"><Link href={`/asset/${c.symbol}`}>{c.symbol}</Link></td>
+                    <td data-label="Verdict" className="ink-2">{c.verdict ? c.verdict.charAt(0).toUpperCase() + c.verdict.slice(1) : "Not computed"}</td>
                     <td data-label="Regime" className="ink-2">{c.regimeChanged ? `${c.regimeBefore} to ${c.regimeAfter}` : c.regimeBefore ?? "Not recorded"}</td>
                     <td data-label="C(1%) before" className="num mono">{usd(c.c1Before) ?? "Not measured"}</td>
                     <td data-label="C(1%) after" className="num mono">{usd(c.c1After) ?? "Not measured"}</td>
@@ -232,6 +233,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       <section className="section">
         <h2>Reproduce it</h2>
         <p className="t-small ink-2">{r.reproduce}</p>
+        <p className="t-small ink-2 mt-3">The hourly record behind every Market-Time Report, gaps included: <a href={`${PUBLIC_API}/v1/datasets/depth-hourly.csv`} download>Download the dataset (CSV)</a> · <a href={`${PUBLIC_API}/v1/datasets/depth-hourly.json`} target="_blank" rel="noreferrer">JSON</a>.</p>
         <CodeBlock variants={[{ lang: "shell", code: "pnpm --filter @kerb/engine market-time-report" }]} />
         <p className="mt-4"><a className="btn btn-sm" href={`${PUBLIC_API}/v1/market-time/${r.id}`} target="_blank" rel="noreferrer">Download the report JSON</a> <Link href="/proof" className="t-small">The live row counts behind it</Link></p>
       </section>

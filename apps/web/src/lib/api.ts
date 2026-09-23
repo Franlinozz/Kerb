@@ -183,7 +183,7 @@ export const getTape = (limit = 20): Promise<Read<{ label: ProvenanceLabel; gene
 
 export interface Stats {
   label: ProvenanceLabel; generatedAt?: string; obsPoolRows: number; obsTotalRows: number; postsByChain: { chainId: number; count: number }[]; assets: number; markets: number;
-  marketMeta: MarketMeta[]; latestReport: { id: string; title: string; headline: string | null; figure: string | null } | null;
+  marketMeta: MarketMeta[]; latestReport: { id: string; title: string; headline: string | null; figure: string | null; figureLabel?: string; status?: string | null } | null;
 }
 export const getStats = (): Promise<Read<Stats>> => read<Stats>("/v1/stats", 60);
 export const getTerms = (symbol: string, chainId = CHAIN_ID, historyHours?: number): Promise<Read<Terms>> =>
@@ -424,6 +424,8 @@ export interface MarketTimeReport {
       symbol: string;
       regimeBefore: string | null; regimeAfter: string | null; regimeChanged: boolean;
       c1Before: string | null; c1After: string | null; c1ChangePct: string | null;
+      /** V3-09: held, fell, rose, mixed or insufficient evidence, from C(1%) and C(3%) together. */
+      verdict?: string; laterAt?: string | null; c1Later?: string | null; c1LaterChangePct?: string | null;
       c3Before: string | null; c3After: string | null; c3ChangePct: string | null;
       markBefore: string | null; markAfter: string | null; markChangePct: string | null;
       ceilingBefore: string | null; ceilingAfter: string | null; ceilingChangePct: string | null;

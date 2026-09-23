@@ -566,12 +566,20 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     const latest = existsSync(dir)
       ? readdirSync(dir).filter((f) => /^market-time-\d+\.json$/.test(f)).sort((a, b) => Number(b.match(/\d+/)?.[0]) - Number(a.match(/\d+/)?.[0]))[0]
       : undefined;
-    let latestReport: { id: string; title: string; headline: string | null; figure: string | null } | null = null;
+    let latestReport: { id: string; title: string; headline: string | null; figure: string | null; figureLabel: string; status: string | null } | null = null;
     if (latest) {
-      const r = JSON.parse(readFileSync(resolve(dir, latest), "utf8")) as { id: string; title: string; findings?: { claim: string }[]; pools?: { symbol: string; role: string; changePct: string | null }[] };
-      const falls = (r.pools ?? []).filter((x) => x.role === "asset" && x.changePct !== null).sort((a, b) => Number(a.changePct) - Number(b.changePct));
-      const worst = falls[0];
-      latestReport = { id: String(r.id), title: r.title, headline: r.findings?.[0]?.claim ?? null, figure: worst ? `${worst.symbol} ${worst.changePct}%` : null };
+      const r = JSON.parse(readFileSync(resolve(dir, latest), "utf8")) as { id: string; title: string; status?: string; findings?: { claim: string }[]; pools?: { symbol: string; role: string; changePct: string | null }[]; campaign?: { rows: { symbol: string; c1ChangePct: string | null }[] } | null };
+      if (r.campaign?.rows.length) {
+        // V3-09: a report built around one event leads with executable depth across it, the largest move either way.
+        const moves = r.campaign.rows.filter((x) => x.c1ChangePct !== null).sort((a, b) => Math.abs(Number(b.c1ChangePct)) - Math.abs(Number(a.c1ChangePct)));
+        const top = moves[0];
+        const claim = r.findings?.find((f) => f.claim.startsWith("Between the"))?.claim ?? r.findings?.[0]?.claim ?? null;
+        latestReport = { id: String(r.id), title: r.title, headline: claim, figure: top ? `${top.symbol} ${top.c1ChangePct}%` : null, figureLabel: "largest C(1%) move across the campaign end", status: r.status ?? null };
+      } else {
+        const falls = (r.pools ?? []).filter((x) => x.role === "asset" && x.changePct !== null).sort((a, b) => Number(a.changePct) - Number(b.changePct));
+        const worst = falls[0];
+        latestReport = { id: String(r.id), title: r.title, headline: r.findings?.[0]?.claim ?? null, figure: worst ? `${worst.symbol} ${worst.changePct}%` : null, figureLabel: "largest fall", status: r.status ?? null };
+      }
     }
     const n = (x: string | undefined): number => Number(x ?? 0);
     return {
@@ -725,6 +733,21 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
   });
 
   /** Market-Time Reports: measured write-ups generated from the observation store. */
+  /** Every published version of a Market-Time Report, oldest first (V3-09: append, never overwrite). */
+  app.get("/v1/market-time/:id/versions", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    if (!/^[0-9]{1,4}$/.test(id)) return reply.status(400).send({ error: "bad report id" });
+    const dir = resolve(repoRoot(), "data/reports/versions");
+    const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.startsWith(`market-time-${id}.`) && f.endsWith(".json")).sort() : [];
+    return {
+      id: Number(id),
+      versions: files.map((f) => {
+        const r = JSON.parse(readFileSync(resolve(dir, f), "utf8")) as { generatedAt?: string; status?: string; window?: { to?: string } };
+        return { file: f, generatedAt: r.generatedAt ?? null, status: r.status ?? null, windowTo: r.window?.to ?? null };
+      }),
+    };
+  });
+
   app.get("/v1/market-time/:id", async (req, reply) => {
     const { id } = req.params as { id: string };
     if (!/^[0-9]{1,4}$/.test(id)) return reply.status(400).send({ error: "bad report id" });
