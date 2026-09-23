@@ -30,9 +30,9 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 | Phase | Lane | Target (UTC) | Priority | Status |
 |---|---|---|---|---|
 | V3-00 Kickoff, current truth, truth sweep | A | Wed morning | A0 | done 23 Sep: CHECKPOINT 0 below, truth sweep, `scripts/claims-check.sh` in CI |
-| V3-01 Freshness guarantee | B (+A warmer) | Wed morning | A0 | not started |
-| V3-02 Standing demo position | A | Wed morning | A0 | not started; keeper wallet unfunded |
-| V3-03 Kerb for Agents (x402, OKX.AI, MCP) | A | Wed afternoon, register by 18:00 | A1 | not started; OKX.AI listing on hold (operator) |
+| V3-01 Freshness guarantee | B (+A warmer) | Wed morning | A0 | **done 23 Sep**, live `3423fab`: first paint 9 to 32 s old (was 2 h 17 m), warmer `kerb-web-warmer` running, E2E `freshness.idle.spec.ts` green in CI incl. the lagged-render case (`--grep @lag`, run alone) |
+| V3-02 Standing demo position | A | Wed morning | A0 | **running 23 Sep** (operator: go keeper, 0.025 test OKB): cycle 1 opened 11:32 UTC (borrow `0x6b3bf5f1…86ca`), stranger cure in a real browser on www 12:00 UTC (`0x5468b5ed…89ca`, data/keeper-cure-2026-09-23.json); 3-cycle observation continuing |
+| V3-03 Kerb for Agents (x402, OKX.AI, MCP) | A | Wed afternoon, register by 18:00 | A1 | **live on testnet x402** 23 Sep: `kerb-agents` behind api.usekerb.xyz, public 402 verified, MCP 6 tools, facilitator accepts the existing OKX key on 196 and 1952. Listing skipped (operator). Settled payment waits on test USDT0 or the mainnet go (Requests) |
 | V3-04 Term attribution | A then B | Wed evening | A1 | not started |
 | V3-05 Onchain consumers | A | Wed night, deploy Thu after 09:00 | A1 | not started |
 | V3-06 Exit evidence | A then B | Wed night or Thu | A2 | not started |
@@ -47,27 +47,32 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 
 | # | Action | Deadline | Answer |
 |---|---|---|---|
-| 1 | Claim 0.02 test OKB from the X Layer faucet to the keeper `0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4`, write "go keeper" | Wed 23, when V3-02 asks | |
+| 1 | Claim 0.02 test OKB from the X Layer faucet to the keeper `0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4`, write "go keeper" | Wed 23, when V3-02 asks | done: 0.025 test OKB, go keeper (23 Sep) |
 | 2 | Onchain OS install and Agentic Wallet email login | Wed 23, early | |
-| 3 | Confirm the OKX Developer Portal key (existing DEX key or a new one with Payments) and a receive-only X Layer address for payments | Wed 23 | |
-| 4 | Register the A2MCP ASP and request listing (agent drives, operator approves) | Wed 23 by 18:00 UTC | on hold: operator is inclined to suspend the OKX.AI listing (23 Sep); nothing else in V3 depends on it |
+| 3 | Confirm the OKX Developer Portal key (existing DEX key or a new one with Payments) and a receive-only X Layer address for payments | Wed 23 | resolved by test 23 Sep: the existing DEX key is accepted by the facilitator (getSupported lists 196 and 1952); payTo is the deployer address (the service holds no key) |
+| 4 | Register the A2MCP ASP and request listing (agent drives, operator approves) | Wed 23 by 18:00 UTC | skipped by the operator (23 Sep); Kerb for Agents ladder rung 2 or 3, stated as such |
 | 5 | About 2 USDT0 on X Layer mainnet in the Agentic Wallet | Thu 24 | |
 | 6 | "go consumers mainnet" for KerbQuote and KerbMarkFeed | Thu 24 | |
 | 7 | Hands off production Thu 24 05:00 to 09:00 UTC | Thu 24 | |
 | 8 | Record the video, Fri 25 07:30 to 08:00 UTC | Fri 25 | |
 | 9 | Fill and submit the form from `docs/v3/V3-SUBMISSION.md` | Fri 25 by 16:00 UTC | |
-| 10 | Top up the mainnet poster `0x1b9587AD7e0bd6E1AC3588799999C62d0f0f0816` (added by V3-00, see CHECKPOINT 0) | before Fri 25 | |
+| 10 | Top up the mainnet poster `0x1b9587AD7e0bd6E1AC3588799999C62d0f0f0816` (added by V3-00, see CHECKPOINT 0) | before Fri 25 | done: 0.01 OKB from the deployer on the operator's word, `0x15b13b49…7ce3`; poster 0.01865 OKB, about 7 days |
 
 ### Requests
 
 | Date | From | To | Request | Status |
 |---|---|---|---|---|
+| 23 Sep | A | B | Credit empty state: replace "Kerb does not keep a standing demo position" with V3-POSITIONING section 2 copy, reading `/v1/credit/1952/keeper` | open (V3-07) |
+| 23 Sep | A | operator | x402 settled payment: either test USDT0 from the faucet to a payer wallet, or "go x402 mainnet" plus about 0.10 USDT0 moved from the deployer (holds 3.73) to a throwaway payer | open |
 
 ### V3 deviations
 
 | Date | Deviation | Why |
 |---|---|---|
 | 23 Sep | The engine report's provenance note ("Produced by KTS-0.1 from the pinned input bundle") is left as it is; claims-check exempts that exact string | It is inside every posted report's byte-identical recompute (`apps/engine/test/recompute.test.ts` fails if it changes), so it is frozen engine output; UI and docs now say "published" |
+| 23 Sep | One test row (`network = 't'`, id 1) sits in `agent_calls`: the append-only trigger was checked with a real insert and, correctly, refused the delete. `/v1/agents/stats` counts only `eip155:*` networks | Append-only by design; rolled forward, not deleted |
+| 23 Sep | The warmer requests the Next server on 127.0.0.1:3300 with the production Host header, not through Caddy | The ISR cache lives in Next; going through Caddy adds TLS and nothing else |
+| 23 Sep | An empty paid request (no parameters) gets the 402 rather than a 400 | x402 clients and directories probe that way; a paid empty request is a 400 and is never settled |
 | 23 Sep | `docs/planning/BUILD_PLAN.md` is exempt from claims-check like the master plan | It is the dated V1 plan and records what was intended on 18 Sep |
 
 ---
