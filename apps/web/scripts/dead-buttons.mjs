@@ -4,7 +4,7 @@
 // visible reason nearby). Prints one line per suspect; exit code 1 if any.
 import { chromium } from "playwright";
 const BASE = process.env.KERB_WEB_URL ?? "https://v2.usekerb.xyz";
-const ROUTES = ["/", "/board", "/asset/BRK.Bx", "/credit", "/research", "/research/1", "/methodology", "/proof", "/developers", "/changelog", "/no-such-page"];
+const ROUTES = ["/", "/board", "/asset/BRK.Bx", "/credit", "/research", "/research/1", "/methodology", "/proof", "/developers", "/account", "/docs", "/faq", "/whitepaper", "/legal/terms", "/changelog", "/no-such-page"];
 const b = await chromium.launch();
 const suspects = [];
 let pressed = 0;

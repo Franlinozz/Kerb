@@ -22,7 +22,7 @@ jobs:
           BASE: ${{ inputs.base }}
         run: |
           mkdir -p lh
-          for r in / /board /asset/BRK.Bx /credit /research /research/1 /methodology /proof /developers /changelog; do
+          for r in / /board /asset/BRK.Bx /credit /account /research /research/1 /methodology /proof /developers /docs /faq /whitepaper /legal/terms /changelog; do
             n=$(echo "$r" | tr '/.' '__')
             for i in 1 2 3; do
               lighthouse "$BASE$r" --quiet --chrome-flags="--headless=new --no-sandbox" --only-categories=performance,accessibility,best-practices --output=json --output-path="lh/$n-$i.json" || true
