@@ -10,13 +10,35 @@ import type { TermChange } from "@/lib/api";
 const CHIPS: { id: TermChange["field"] | "all"; label: string }[] = [
   { id: "all", label: "All" }, { id: "carryLTV", label: "Carry" }, { id: "sessionMaxLTV", label: "Session Max" }, { id: "debtCeiling", label: "Ceiling" }, { id: "regime", label: "Regime" },
 ];
+/**
+ * A routine step: only the attester's loosening cap moved it, by under half a point (or 5% of the
+ * ceiling). Terms loosen one small step per cooldown, so these are many and say little; they stay
+ * one click away rather than drowning the moves that matter.
+ */
+export function isRoutine(c: TermChange): boolean {
+  if (c.field === "regime") return false;
+  const onlyLoosen = c.causes.every((x) => x.kind === "LOOSEN_CAP");
+  if (!onlyLoosen || c.delta === null) return false;
+  if (c.field === "debtCeiling") return Math.abs(Number(c.delta)) < Math.abs(Number(c.from)) * 0.05;
+  return Math.abs(Number(c.delta)) < 0.5;
+}
+/** Major: worth a chart marker. At least a point on an LTV, 10% on the ceiling, or a regime change. */
+export function isMajor(c: TermChange): boolean {
+  if (c.field === "regime") return true;
+  if (c.delta === null) return false;
+  if (c.field === "debtCeiling") return Math.abs(Number(c.delta)) >= Math.abs(Number(c.from)) * 0.1;
+  return Math.abs(Number(c.delta)) >= 1;
+}
+
 const FIELD: Record<TermChange["field"], string> = { carryLTV: "Carry", sessionMaxLTV: "Session Max", debtCeiling: "Ceiling", regime: "Regime" };
 
 export function ChangeTimeline({ changes, hours = 72 }: { changes: TermChange[] | null; hours?: number }): React.ReactElement {
   const [f, setF] = useState<TermChange["field"] | "all">("all");
   const [all, setAll] = useState(false);
+  const [routine, setRoutine] = useState(false);
   if (changes === null) return <p className="t-small ink-3">The change record could not be read right now.</p>;
-  const rows = changes.filter((c) => f === "all" || c.field === f);
+  const hidden = changes.filter(isRoutine).length;
+  const rows = changes.filter((c) => (f === "all" || c.field === f) && (routine || !isRoutine(c)));
   const shown = all ? rows : rows.slice(0, 12);
   return (
     <section className="change-tl" aria-label="What changed">
@@ -37,6 +59,7 @@ export function ChangeTimeline({ changes, hours = 72 }: { changes: TermChange[] 
           ))}
         </ol>
       )}
+      {hidden > 0 ? <button type="button" className="btn btn-sm btn-quiet mt-3" aria-pressed={routine} onClick={() => setRoutine((r) => !r)}>{routine ? "Hide" : "Show"} {hidden} routine loosening {hidden === 1 ? "step" : "steps"}</button> : null}
       {rows.length > 12 ? <button type="button" className="btn btn-sm mt-3" onClick={() => setAll((a) => !a)}>{all ? "Show twelve" : `Show all ${rows.length}`}</button> : null}
     </section>
   );

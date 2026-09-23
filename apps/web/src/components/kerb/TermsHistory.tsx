@@ -7,7 +7,7 @@
  */
 import { useState } from "react";
 import type { Regime, TermChange, Terms } from "@/lib/api";
-import { ChangeTimeline } from "./ChangeTimeline";
+import { ChangeTimeline, isMajor } from "./ChangeTimeline";
 import { explorerTx } from "@/lib/api";
 import { ltv, round, scale, usd } from "@/lib/format";
 import { REGIME_WORD, RegimePill } from "./RegimePill";
@@ -64,10 +64,10 @@ export function TermsHistory({ history, symbol, changes = null }: { history: H[]
       </div>
       <div className="th-scroll">
         <span className="t-label th-title">Debt ceiling and C(1%), USDG</span>
-        <Chart rows={rows} marks={(changes ?? []).filter((c) => c.field === "debtCeiling")} label={`${symbol} debt ceiling and C(1%) over the window`} fmt={(v) => usd(round(String(v), 2)) ?? ""}
+        <Chart rows={rows} marks={(changes ?? []).filter((c) => c.field === "debtCeiling" && isMajor(c))} label={`${symbol} debt ceiling and C(1%) over the window`} fmt={(v) => usd(round(String(v), 2)) ?? ""}
         series={[{ key: "debtCeiling", name: "Debt ceiling", color: "var(--ink)", scaleBy: (h) => money(h.debtCeiling) }, { key: "executableDepth1", name: "C(1%)", color: "var(--moss)", scaleBy: (h) => money(h.executableDepth1) }]} />
         <span className="t-label th-title">Carry and Session Max, LTV</span>
-        <Chart rows={rows} marks={(changes ?? []).filter((c) => c.field === "carryLTV" || c.field === "sessionMaxLTV")} label={`${symbol} Carry and Session Max over the window`} fmt={(v) => `${(v * 100).toFixed(1)}%`}
+        <Chart rows={rows} marks={(changes ?? []).filter((c) => (c.field === "carryLTV" || c.field === "sessionMaxLTV") && isMajor(c))} label={`${symbol} Carry and Session Max over the window`} fmt={(v) => `${(v * 100).toFixed(1)}%`}
         series={[{ key: "carryLTV", name: "Carry", color: "var(--ink)", scaleBy: (h) => wad(h.carryLTV) }, { key: "sessionMaxLTV", name: "Session Max", color: "var(--brass)", scaleBy: (h) => wad(h.sessionMaxLTV) }]} />
       </div>
       <ChangeTimeline changes={changes} />

@@ -36,7 +36,7 @@ export function TermsHover({ symbol, children }: { symbol: string; children: Rea
         <span role="tooltip" className="prov-card terms-card">
           <strong>Why these terms</strong>
           {why?.sentences ? why.sentences.filter((s) => s.field !== "debtCeiling").map((s) => <span key={s.field} className="ink-2">{s.sentence}</span>) : <span className="ink-3">{why?.note ?? "Reading."}</span>}
-          {why ? <span className="t-label">Computed from bundle {why.inputsHash.slice(0, 10)}</span> : null}
+          {why ? <span className="t-small ink-3">Computed from input bundle <span className="mono">{why.inputsHash.slice(0, 10)}</span></span> : null}
         </span>
       ) : null}
     </span>

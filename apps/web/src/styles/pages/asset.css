@@ -47,9 +47,9 @@
   .change-tl { margin-top: var(--s-6); }
   .change-tl .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
   .change-list { list-style: none; margin: var(--s-4) 0 0; padding: 0; border-top: 1px solid var(--hair); }
-  .change-list li { display: grid; grid-template-columns: 116px 96px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--hair); }
+  .change-list li { display: grid; grid-template-columns: 136px 104px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--hair); }
   .change-list p { color: var(--ink-2); }
-  .change-when { font-size: 12.5px; }
+  .change-when { font-size: 12.5px; white-space: nowrap; }
   .th-marker { cursor: help; }
   @media (max-width: 760px) {
     .change-list li { grid-template-columns: 1fr; gap: 4px; }
