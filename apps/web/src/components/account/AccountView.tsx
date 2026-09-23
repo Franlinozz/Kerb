@@ -51,7 +51,7 @@ export function AccountView(): React.ReactElement {
       <div className="row"><span className="fld-box"><input id="acct-addr" className="left mono" placeholder="0x..." value={lookup} onChange={(e) => setLookup(e.target.value)} spellCheck={false} /></span><button type="submit" className="btn">Open</button></div>
     </form>
   );
-  if (!addr) return <div className="acct"><EmptyState title="Connect a wallet to see your account">Your holdings, positions and history in Kerb Credit, read from X Layer testnet. Or look up any address below.</EmptyState>{look}</div>;
+  if (!addr) return <div className="acct"><EmptyState title="Connect a wallet to see your account">Your holdings, positions and history in Kerb Credit, read from X Layer testnet. Or look up any address below, or open <a href="/account?addr=0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4">the demo keeper</a>, which borrows at Session Max every demo cycle.</EmptyState>{look}</div>;
   const a = q.data;
   if (!a) return <div className="acct"><p className="t-small ink-3">{q.failed ? "The account could not be read from chain right now." : "Reading the chain. The first read of an address can take a few seconds."}</p>{look}</div>;
   const dec = a.loanAsset.decimals, sym = a.loanAsset.symbol;
