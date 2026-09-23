@@ -39,7 +39,7 @@ V3 makes Kerb Terms consumed by more than Kerb Credit (agents through x402, cont
 | V3-07 Consumers and positioning surfaces | B | Thu | A1 | **done 23 Sep**: Home consumers, Developers four tabs with live KerbQuote read, Proof Agents tile and Consumers group, keeper-aware Credit, README first screen + FAQ, CLAIM_EVIDENCE rows |
 | V3-08 Last Call alerts | B (+A) | Thu, cut first | A2 | **done 23 Sep** (browser notifications, open tab; no Telegram bot, no token given) |
 | V3-09 Report #2 and dataset | A then B | Thu after 09:00 | A0 | prepared 23 Sep: generator gives per-asset verdicts, versions every run, marks partial/final; dataset `/v1/datasets/depth-hourly.{csv,json}` (hourly cron at :25, skips Thu 05-09 UTC); Research links, Home KPI label. Data half runs Thu after 09:00 |
-| V3-10 Hardening, freeze 22:00 | both | Thu 16:00 to 22:00 | A0 | not started |
+| V3-10 Hardening, freeze 22:00 | both | Thu 16:00 to 22:00 | A0 | started 23 Sep: secret scan of full history clean (every live key value, incl. the payer key, absent); agent_calls, term_changes, exit_checks refuse UPDATE, DELETE, TRUNCATE (checked in rolled-back transactions); full credit cycle passed on production. Rest Thu |
 | V3-11 Certification, tag v3.0.0 | both | Fri 00:00 to 04:00 | A0 | not started |
 | V3-12 Film and submit | operator + both | Fri 06:00 to 16:00 | A0 | not started |
 
