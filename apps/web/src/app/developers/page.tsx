@@ -35,7 +35,7 @@ export default async function DevelopersPage(): Promise<React.ReactElement> {
   // KerbQuote on mainnet when it is there, else testnet (V3-05); the demo-clock copy is for Credit only.
   const q = deps.find((d) => d.chainId === 196 && d.contract === "KerbQuote") ?? deps.find((d) => d.chainId === 1952 && d.contract === "KerbQuote");
   const consumer: ConsumerInfo | null = q ? {
-    quote: getAddress(q.address), chainId: q.chainId, token: getAddress("0x12992613fDd35aBe95DEc5a4964331b1ee23B50d"), symbol: "BRK.Bx", verification: q.verification,
+    quote: getAddress(q.address), chainId: q.chainId, token: getAddress("0x12992613fDd35aBe95DEc5a4964331b1ee23B50d"), assetId: "0xc41fc9c6ee0af5f7f915c31452ee7b1c351302a87e12702053c1de8ddeec8cc2", symbol: "BRK.Bx", verification: q.verification,
     feeds: deps.filter((d) => d.chainId === q.chainId && d.contract.startsWith("KerbMarkFeed:")).map((d) => ({ symbol: d.contract.split(":")[1] ?? "", address: d.address, explorer: d.explorer })),
   } : null;
   const terms196 = deps.find((d) => d.chainId === 196 && d.contract === "KerbTerms");

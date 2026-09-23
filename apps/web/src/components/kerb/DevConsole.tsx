@@ -12,7 +12,7 @@ import { shortHash, utcStamp } from "@/lib/format";
 import type { AgentStats } from "@/lib/api";
 import { QuoteLive } from "./QuoteLive";
 
-export interface ConsumerInfo { quote: `0x${string}`; chainId: number; token: `0x${string}`; symbol: string; feeds: { symbol: string; address: string; explorer: string }[]; verification: string | null }
+export interface ConsumerInfo { quote: `0x${string}`; chainId: number; token: `0x${string}`; assetId: `0x${string}`; symbol: string; feeds: { symbol: string; address: string; explorer: string }[]; verification: string | null }
 
 type Live = { state: "loading" } | { state: "ok"; at: string; body: string } | { state: "error" };
 
@@ -105,8 +105,9 @@ contract Lender {
   const kq = consumer ? `KerbQuote.Quote memory q = KerbQuote(${consumer.quote}).quoteToken(TOKEN, amount, KerbQuote.Mode.Carry);
 require(q.usable, "Kerb: terms not usable");
 require(debt <= q.maxBorrow, "Kerb: above Carry capacity");
-// q.cureDeadline (Session Max), q.inputsHash: the bundle that recomputes these numbers` : "";
-  const cast = consumer ? `cast call ${consumer.quote} "quoteToken(address,uint256,uint8)((bool,uint16,uint64,uint128,uint64,uint64,uint256,uint256,uint128,uint128,uint128,uint64,uint64,bytes32))" ${consumer.token} 10000000000000000000 0 --rpc-url ${consumer.chainId === 196 ? "https://rpc.xlayer.tech" : "https://testrpc.xlayer.tech"}` : "";
+// q.cureDeadline (Session Max), q.inputsHash: the bundle that recomputes these numbers
+// quote(assetId, amount, mode) takes the assetId directly: keccak256(abi.encode(196, token))` : "";
+  const cast = consumer ? `cast call ${consumer.quote} "maxBorrow(bytes32,uint256,uint8)(uint256)" ${consumer.assetId} 10000000000000000000 0 --rpc-url ${consumer.chainId === 196 ? "https://rpc.xlayer.tech" : "https://testrpc.xlayer.tech"}` : "";
   const mcp = `{
   "mcpServers": {
     "kerb": { "type": "http", "url": "${api}/mcp" }
@@ -144,7 +145,7 @@ require(debt <= q.maxBorrow, "Kerb: above Carry capacity");
               <h3>Use Kerb from your contract</h3>
               <p className="t-small ink-2">KerbQuote reads the posted terms and the clock and returns max borrow, cure deadline and usability in one call, valuing collateral exactly as Kerb Credit does. It holds nothing and has no owner. {consumer.chainId === 196 ? "On X Layer mainnet" : "On X Layer testnet for now; the mainnet deployment is pending"}, <a className="mono" href={`https://www.oklink.com/${consumer.chainId === 196 ? "xlayer" : "x-layer-testnet"}/address/${consumer.quote}`} target="_blank" rel="noreferrer">{shortHash(consumer.quote, 8, 6)}</a>{consumer.verification ? `, ${consumer.verification}` : ""}.</p>
               <CodeBlock variants={[{ lang: "solidity", code: kq }]} />
-              <QuoteLive quote={consumer.quote} chainId={consumer.chainId} token={consumer.token} symbol={consumer.symbol} />
+              <QuoteLive quote={consumer.quote} chainId={consumer.chainId} assetId={consumer.assetId} symbol={consumer.symbol} />
               <CodeBlock variants={[{ lang: "shell", code: cast }]} />
               {consumer.feeds.length ? (
                 <>

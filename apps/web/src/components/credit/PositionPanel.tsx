@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { LtvLadder } from "@/components/kerb/LtvLadder";
 import { useLive, useNow } from "@/components/kerb/useLive";
 import { fmtUnits, hfWad, pctWad, WAD, type PositionState } from "./usePosition";
+import { LastCallNotify } from "./LastCallNotify";
 
 interface Cure { tx: string | null; repaid: string; target: string; block: number }
 const OKLINK = "https://www.oklink.com/x-layer-testnet";
@@ -73,6 +74,7 @@ export function PositionPanel({ market, c, pos, demo, onRepay, onAddCollateral }
         <div><dt className="t-label">Owing</dt><dd>{fmtUnits(pos.owed, dec, 2)} {sym}</dd></div>
         <div><dt className="t-label">Next Last Call</dt><dd suppressHydrationWarning>{utcHm(Date.parse(demo.nextCureOpensAt))} UTC{now === null ? "" : `, in ${countdown(Date.parse(demo.nextCureOpensAt), now)}`}</dd></div>
       </dl>
+      <LastCallNotify active={pos.mode === 1 && pos.owed > 0n} opensAt={Date.parse(demo.nextCureOpensAt)} closesAt={Date.parse(demo.nextCureClosesAt)} what={`Your Session Max position on k${c.mirrors}`} />
       {pos.mode === 1 && pos.ltv !== null && pos.ltv > pos.carryTarget ? <p className="t-small brass">Above the Carry target: when Last Call opens, {fmtUnits(pos.cureRequired, dec, 2)} {sym} or more will be curable unless you repay first.</p> : null}
       {cured && lastCure ? (
         <div className="cure-line t-small">
