@@ -108,7 +108,7 @@ export function Tour(): React.ReactElement | null {
   );
 }
 
-/** The header's help button: restarts the tour from anywhere. */
-export function TourButton(): React.ReactElement {
-  return <button type="button" className="icon-btn" aria-label="Take the tour" title="Take the tour" onClick={() => window.dispatchEvent(new Event("kerb-tour"))}><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.9M12 16.8h.01" strokeLinecap="round" /></svg></button>;
+/** A link-styled button that starts the tour, for pages and menus. */
+export function TourLink({ className, children }: { className?: string; children: React.ReactNode }): React.ReactElement {
+  return <button type="button" className={className} onClick={() => window.dispatchEvent(new Event("kerb-tour"))}>{children}</button>;
 }

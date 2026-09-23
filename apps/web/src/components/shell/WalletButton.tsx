@@ -1,5 +1,5 @@
 "use client";
-import { ExternalLink, LogOut, UserRound, Wallet as WalletIcon } from "lucide-react";
+import { Compass, ExternalLink, LogOut, UserRound, Wallet as WalletIcon } from "lucide-react";
 import Link from "@/components/ui/Link";
 import { useEffect, useRef, useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSwitchChain, type Connector } from "wagmi";
@@ -97,7 +97,6 @@ export function WalletButton({ compact = false, openOnLoad = false }: { compact?
   const onChain = chainId === xLayerTestnet.id;
   return (
     <div className="wallet-menu" ref={ref}>
-      {compact ? null : <Link href="/account" className="btn btn-sm btn-quiet wallet-account"><UserRound size={14} />Account</Link>}
       <button type="button" className="net-badge" data-ok={onChain} aria-haspopup="menu" aria-expanded={menu} onClick={() => setMenu((m) => !m)}>
         <span className="status-dot" aria-hidden="true" style={onChain ? undefined : { background: "var(--brass)" }} />
         {compact ? shortHash(address, 4, 3) : <>{shortHash(address, 6, 4)} · {onChain ? "X Layer testnet" : "Wrong network"}</>}
@@ -111,6 +110,7 @@ export function WalletButton({ compact = false, openOnLoad = false }: { compact?
             }}>Switch to X Layer testnet</button>
           ) : null}
           <Link role="menuitem" className="menu-link" href="/account" onClick={() => setMenu(false)}><UserRound />Your account</Link>
+          <button type="button" role="menuitem" onClick={() => { setMenu(false); window.dispatchEvent(new Event("kerb-tour")); }}><Compass />Take the tour</button>
           <button type="button" role="menuitem" onClick={() => { disconnect(); setMenu(false); }}><LogOut />Disconnect</button>
         </div>
       ) : null}

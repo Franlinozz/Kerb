@@ -65,3 +65,77 @@
   .prose .formula { font-family: var(--font-mono); font-size: 14px; padding: 12px 14px; border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); overflow-x: auto; white-space: pre; }
   .legal-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--s-4); }
 }
+
+@layer pages {
+  /* Help and reference pages (V3 audit): FAQ, legal, whitepaper. */
+  .doc-head { max-width: 860px; }
+  .doc-callout { display: grid; gap: 6px; padding: var(--s-5); border: 1px solid var(--hair-2); border-left: 2px solid var(--moss); border-radius: var(--r-2); background: var(--panel); }
+  .doc-callout p { color: var(--ink-2); margin: 0; }
+  .doc-callout strong { color: var(--ink); font-weight: 500; }
+  .faqb-search { display: grid; gap: 8px; max-width: 560px; margin-bottom: var(--s-6); }
+  .faqb-search .fld-box input { font-size: 15px; }
+  .faqb-group { padding-top: var(--s-5); }
+  .faqb-head h2 { margin: 0 0 6px; }
+  .faqb-head p { margin: 0 0 var(--s-4); max-width: 64ch; }
+  .faqb-list { border-top: 1px solid var(--hair); }
+  .faqb-item { border-bottom: 1px solid var(--hair); }
+  .faqb-item > summary { list-style: none; display: grid; grid-template-columns: 40px 1fr 20px; align-items: baseline; gap: 12px; padding: 18px 0; cursor: pointer; }
+  .faqb-item > summary::-webkit-details-marker { display: none; }
+  .faqb-n { font-size: 12px; color: var(--ink-3); }
+  .faqb-q { font-size: 17px; color: var(--ink); line-height: 1.4; }
+  .faqb-item > summary:hover .faqb-q { color: var(--ink); text-decoration: underline; text-decoration-color: var(--hair-2); text-underline-offset: 4px; }
+  .faqb-chev { color: var(--ink-3); transition: transform var(--t-fast) var(--ease); align-self: center; }
+  .faqb-item[open] .faqb-chev { transform: rotate(180deg); }
+  .faqb-a { padding: 0 0 20px 52px; display: grid; gap: 10px; }
+  .faqb-a p { color: var(--ink-2); line-height: 1.65; max-width: 68ch; margin: 0; }
+  .faqb-link { width: fit-content; font-size: 14px; }
+  @media (max-width: 600px) { .faqb-item > summary { grid-template-columns: 30px 1fr 16px; } .faqb-a { padding-left: 42px; } }
+}
+
+@layer pages {
+  .legal-switch { display: flex; gap: 22px; margin-top: var(--s-6); border-bottom: 1px solid var(--hair); overflow-x: auto; }
+  .legal-tab { padding: 0 0 12px; color: var(--ink-2); border-bottom: 2px solid transparent; white-space: nowrap; font-size: 14.5px; }
+  .legal-tab[aria-current="page"] { color: var(--ink); border-bottom-color: var(--moss); }
+  .legal-body { max-width: 760px; }
+  .legal-short { padding: var(--s-5); border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); }
+  .legal-short ul { margin: var(--s-3) 0 0; padding-left: 1.1em; display: grid; gap: 8px; color: var(--ink); }
+  .legal-sec { padding-top: var(--s-6); scroll-margin-top: 96px; }
+  .legal-sec h2 { display: flex; align-items: baseline; gap: 14px; margin: 0 0 var(--s-4); font-size: 22px; }
+  .legal-num { font-size: 13px; color: var(--ink-3); }
+  .legal-sec p, .legal-sec li { color: var(--ink-2); line-height: 1.7; max-width: 68ch; }
+  .legal-sec p + p, .legal-sec ul + p { margin-top: var(--s-3); }
+  .legal-sec ul { padding-left: 1.2em; display: grid; gap: 6px; margin: var(--s-3) 0; }
+  .legal-foot { margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--hair); }
+}
+
+@layer pages {
+  /* Whitepaper as a paper. */
+  .wp-title { max-width: 900px; padding: var(--s-7) 0 var(--s-6); border-bottom: 1px solid var(--hair); }
+  .wp-title h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(36px, 5vw, 60px); line-height: 1.05; margin: var(--s-4) 0 var(--s-3); }
+  .wp-sub { color: var(--ink-2); font-size: 19px; margin: 0; }
+  .wp-meta { display: grid; grid-template-columns: repeat(4, minmax(0, auto)); gap: var(--s-6); margin: var(--s-6) 0 0; justify-content: start; }
+  .wp-meta dd { margin: 4px 0 0; color: var(--ink); }
+  .wp-body { max-width: 780px; }
+  .wp-body p, .wp-body li { color: var(--ink-2); line-height: 1.7; }
+  .wp-body h3 { font-size: 17px; margin: var(--s-5) 0 var(--s-2); color: var(--ink); }
+  .wp-body ul, .wp-body ol { padding-left: 1.2em; display: grid; gap: 8px; }
+  .wp-abstract { padding: var(--s-5) var(--s-6); border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); }
+  .wp-abstract p { margin: var(--s-3) 0 0; color: var(--ink); font-size: 16px; }
+  .wp-figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-4); margin: var(--s-6) 0 var(--s-2); }
+  .wp-figures dd { margin: 6px 0 0; font-size: 26px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .wp-quote { margin: 0 0 var(--s-4); padding-left: var(--s-4); border-left: 2px solid var(--olive, var(--moss)); font-family: var(--font-serif); font-size: 26px; color: var(--ink); }
+  .wp-fig { margin: var(--s-6) 0 0; padding: var(--s-5); border: 1px solid var(--hair-2); border-radius: var(--r-2); }
+  .wp-fig svg { width: 100%; height: auto; display: block; }
+  .wp-fig figcaption { margin-top: var(--s-3); font-size: 13px; color: var(--ink-3); }
+  .wp-box { fill: var(--panel); stroke: var(--hair-2); }
+  .wp-out { stroke: var(--moss); }
+  .wp-t { fill: var(--ink); font-size: 16px; font-weight: 500; }
+  .wp-t2 { fill: var(--ink); font-size: 14px; }
+  .wp-s { fill: var(--ink-3); font-size: 11.5px; }
+  .wp-arrow { stroke: var(--ink-3); fill: none; stroke-width: 1.2; }
+  .wp-head { fill: var(--ink-3); }
+  .wp-none { display: none; }
+  .wp-table { margin-top: var(--s-5); width: 100%; }
+  .wp-refs a { word-break: break-word; }
+  @media (max-width: 760px) { .wp-meta { grid-template-columns: 1fr 1fr; } .wp-figures { grid-template-columns: 1fr 1fr; } }
+}

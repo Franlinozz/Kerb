@@ -7,6 +7,9 @@ import type { Metadata } from "next";
 import Link from "@/components/ui/Link";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { ScrollSpy } from "@/components/kerb/ScrollSpy";
+import { FaqBrowser } from "@/components/kerb/FaqBrowser";
+import { TourLink } from "@/components/shell/Tour";
+import { FAQ } from "@/lib/faq";
 import { getProof, PUBLIC_API } from "@/lib/api";
 import { shortHash } from "@/lib/format";
 
@@ -16,7 +19,7 @@ export const revalidate = 300;
 const SECTIONS = [
   { id: "overview", label: "Overview" }, { id: "concepts", label: "Concepts" }, { id: "borrow", label: "Borrow and cure" },
   { id: "rest", label: "REST and SDK" }, { id: "contracts", label: "From a contract" }, { id: "agents", label: "From an agent" },
-  { id: "verify", label: "Verify a number" }, { id: "addresses", label: "Addresses" }, { id: "limits", label: "Limits" }, { id: "glossary", label: "Glossary" },
+  { id: "verify", label: "Verify a number" }, { id: "addresses", label: "Addresses" }, { id: "limits", label: "Limits" }, { id: "glossary", label: "Glossary" }, { id: "faq", label: "FAQ" },
 ];
 
 const CONCEPTS: [string, string][] = [
@@ -51,6 +54,7 @@ export default async function DocsPage(): Promise<React.ReactElement> {
         <span className="t-label">Docs · Kerb Terms and its consumers</span>
         <h1>How to use Kerb.</h1>
         <p className="lede">Kerb measures how much of a tokenized-stock position could really be sold in X Layer pools and how long a loan must survive before the next deep market, and posts both as credit terms on X Layer mainnet every few minutes. Here is how to use them: as a borrower, from code, from a contract, and from an agent.</p>
+        <div className="row mt-5" style={{ gap: 10 }}><TourLink className="btn btn-primary">Take the 60-second tour</TourLink><Link className="btn" href="/whitepaper">Read the whitepaper</Link></div>
       </header>
       <div className="method-grid">
         <aside className="method-toc"><ScrollSpy items={SECTIONS} /></aside>
@@ -128,6 +132,12 @@ require(debt <= q.maxBorrow, "Kerb: above Carry capacity");` }]} />
             <dl className="docs-concepts">
               {[["KTS", "The Kerb Terms Standard: the formula, now version 0.2."], ["Input bundle", "Every observation a post was computed from, canonicalised and hashed; the hash is on chain."], ["Mirror collateral", "Testnet tokens that track a mainnet asset's terms, so credit can be shown without production assets."], ["mUSDG", "The testnet loan asset, a labelled stand-in for USDG."], ["Builder Code", "An ERC-8021 suffix on every Kerb transaction: kt0hl6xyhlx8xmt."], ["x402", "HTTP 402 payments: the server answers with requirements, the client pays and retries."]].map(([t, d]) => <div key={t}><dt>{t}</dt><dd className="ink-2">{d}</dd></div>)}
             </dl>
+          </section>
+
+          <section id="faq" className="method-section">
+            <h2>FAQ</h2>
+            <p>The questions people ask most, answered with the page that shows each answer. <Link href="/faq">Open the FAQ on its own page</Link>.</p>
+            <FaqBrowser groups={FAQ} />
           </section>
         </div>
       </div>
