@@ -24,11 +24,14 @@ for (const route of LIVE) {
     await page.goto(route, { waitUntil: "domcontentloaded" });
     const first = await asOfAge(page);
     expect(first, "every live route stamps data-asof").not.toBeNull();
-    if ((first as number) > 60_000) {
+    const stale = (first as number) > 60_000;
+    if (stale) {
       // Stale on arrival: the guard must say so as soon as the page hydrates.
       await expect(page.locator(".live-guard")).toBeVisible({ timeout: 3_000 });
     }
-    await expect.poll(async () => (await state(page)) === "fresh" && ((await asOfAge(page)) ?? 0) < 60_000 ? "fresh" : "stale", { timeout: 5_000 }).toBe("fresh");
+    // Fresh within 5 s. A stale server-only page waits on an ISR regeneration, which the warmer
+    // makes rare in production; there it may take the guard's whole 15 s grace.
+    await expect.poll(async () => (await state(page)) === "fresh" && ((await asOfAge(page)) ?? 0) < 60_000 ? "fresh" : "stale", { timeout: stale ? 15_000 : 5_000 }).toBe("fresh");
   });
 }
 
@@ -43,7 +46,7 @@ test("no raw enum (UPPER_SNAKE) is visible outside code on any route (L-02)", as
         const el = n.parentElement;
         if (!el || el.closest("pre, code, script, style, [aria-hidden='true'], .mono-code")) continue;
         if (!el.checkVisibility?.()) continue;
-        const m = (n.textContent ?? "").match(/\b[A-Z][A-Z0-9]*_[A-Z0-9_]+\b/g);
+        const m = (n.textContent ?? "").match(/\b[A-Z][A-Z0-9]*_[A-Z0-9_]+\b(?!\.\w)/g); // BUILD_PERIOD.md is a file name
         if (m) out.push(...m);
       }
       return out;
