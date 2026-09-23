@@ -128,6 +128,22 @@ module.exports = {
       error_file: "/root/.kerb/logs/mirror-relay.err.log",
     },
     {
+      // Term attribution (V3-04): appends term_changes for new mainnet posts. Reads only.
+      name: "kerb-attribution",
+      cwd: __dirname + "/apps/api",
+      script: "src/attribution-main.ts",
+      interpreter: "node",
+      interpreter_args: `--env-file=${process.env.KERB_API_ENV_FILE || "/root/.kerb/api.env"} --import tsx`,
+      autorestart: true,
+      restart_delay: 10000,
+      max_restarts: 50,
+      min_uptime: 60000,
+      max_memory_restart: "600M",
+      time: true,
+      out_file: "/root/.kerb/logs/attribution.out.log",
+      error_file: "/root/.kerb/logs/attribution.err.log",
+    },
+    {
       // Kerb for Agents (V3-03): x402 credit and exit checks on X Layer, and the MCP server.
       name: "kerb-agents",
       cwd: __dirname + "/apps/agents",

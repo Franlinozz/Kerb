@@ -19,7 +19,8 @@ import { MarkWaterfall } from "@/components/kerb/MarkWaterfall";
 import { REGIME_MEANING, RegimePill } from "@/components/kerb/RegimePill";
 import { AssetRail } from "@/components/kerb/SessionRail";
 import { TermsHistory } from "@/components/kerb/TermsHistory";
-import { explorerAddress, explorerTx, getBoard, getClock, getReport, getTerms, PUBLIC_API } from "@/lib/api";
+import { explorerAddress, explorerTx, getBoard, getChanges, getClock, getReport, getTerms, getWhy, PUBLIC_API } from "@/lib/api";
+import { WhyTerms } from "@/components/kerb/WhyTerms";
 import { ltv, price, round, scale, shortHash, usd } from "@/lib/format";
 import { instrument } from "@/lib/instruments";
 import { dayHm, localHm, railWindow, transitionWord, utcHm } from "@/lib/time";
@@ -41,7 +42,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
   const row = board.ok ? board.data.rows.find((r) => r.symbol.toLowerCase() === wanted.toLowerCase()) : undefined;
   if (board.ok && !row) notFound();
   const symbol = row?.symbol ?? wanted;
-  const [clock, terms, report] = await Promise.all([getClock(symbol, 196, railWindow(Date.now())), getTerms(symbol, 196, 72), getReport(symbol)]);
+  const [clock, terms, report, why, changes] = await Promise.all([getClock(symbol, 196, railWindow(Date.now())), getTerms(symbol, 196, 72), getReport(symbol), getWhy(symbol), getChanges(symbol, 72)]);
   const inst = instrument(symbol);
   const tz = row?.market?.tz ?? (clock.ok ? clock.data.timezone : "UTC");
   const home = row?.underlying.market === "XHKG" ? "XHKG" : "XNYS";
@@ -103,7 +104,7 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
   ) : <ErrorState source="The report for this asset" />;
 
   const mark = report.ok ? <MarkWaterfall mark={report.data.mark} regime={report.data.regime} /> : <ErrorState source="The report for this asset" />;
-  const history = terms.ok ? <TermsHistory history={terms.data.history} symbol={symbol} /> : <ErrorState source="Terms history" />;
+  const history = terms.ok ? <TermsHistory history={terms.data.history} symbol={symbol} changes={changes.ok ? changes.data.changes : null} /> : <ErrorState source="Terms history" />;
   const onchain = terms.ok ? (
     <dl className="facts">
       <div><dt className="t-label">Latest post</dt><dd><a href={explorerTx(terms.data.tx)} target="_blank" rel="noreferrer" className="mono">{shortHash(terms.data.tx, 10, 8)}</a> · {terms.data.observedAt.slice(0, 16).replace("T", " ")} UTC · {terms.data.usable ? "usable for new risk" : "not usable for new risk (stale or halted)"}</dd></div>
@@ -140,6 +141,10 @@ export default async function AssetPage({ params }: { params: Promise<{ symbol: 
         </div>
       ) : null}
 
+      <section className="why-block" aria-labelledby="why-title">
+        <span className="t-label" id="why-title">Why these terms</span>
+        <WhyTerms why={why.ok ? why.data : null} />
+      </section>
       {row ? <div className="mt-6"><LtvLadder carry={row.carryLTV.value} session={row.sessionMaxLTV.value} lt={row.lt?.value ?? null} kts={row.kts ?? null} margins={row.margins ?? null} /></div> : null}
       <div className="mt-6">{clock.ok ? <AssetRail symbol={symbol} initial={clock.data} regime={row?.regime.value ?? null} tz={tz} /> : <ErrorState source="The Clock" />}</div>
 

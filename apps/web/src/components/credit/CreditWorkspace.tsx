@@ -24,6 +24,7 @@ import { WalletSheet } from "@/components/shell/WalletButton";
 import { RegimePill } from "@/components/kerb/RegimePill";
 import { scheduleAt } from "@/components/kerb/SessionRail";
 import { useNow } from "@/components/kerb/useLive";
+import { ModeWhy } from "@/components/kerb/WhyLive";
 import { fmtUnits, toInput, hfOf, hfWad, ltvOf, MAX, parseAmount, pctWad, usePosition, valueOf, WAD, type PositionState } from "./usePosition";
 import { PositionPanel } from "./PositionPanel";
 
@@ -160,6 +161,7 @@ function BorrowTab({ market, c, pos, demo }: { market: CreditMarket; c: CreditCo
             <span className="t-small ink-2">Cure back to Carry when the demo Last Call opens at {utcHm(cureAt)} UTC, or anyone may cure it for a {pctWad(BigInt(c.cureBonus))} bonus.</span>
           </button>
         </div>
+        <ModeWhy mirrors={c.mirrors} />
       </fieldset>
       <Field label={`Borrow (${sym})`} value={amount} onChange={setAmount} unit={sym} onMax={() => setAmount(toInput(mode === 1 ? smaxRoom : carryRoom, dec, 2))}
         error={over ? `Above the ${mode === 1 ? "Session Max" : "Carry"} limit of ${pctWad(limit)}. ${mode === 0 && ltvAfter !== null && ltvAfter <= smax ? "Session Max allows it, with the cure covenant." : "Borrow less or add collateral."}` : overCap ? `One position may owe at most ${fmtUnits(BigInt(c.terms.maxPositionDebt), dec, 2)} ${sym}.` : null} />

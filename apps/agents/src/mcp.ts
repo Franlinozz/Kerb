@@ -36,8 +36,9 @@ export function mcpServer(up: Upstream, pay: PayConfig, publicBase: string): Mcp
   s.registerTool("kerb_why", { description: `Why an asset's terms are what they are now: the margin sentences with their numbers, computed from the posted input bundle. ${NOTE}`, inputSchema: { asset }, annotations: { readOnlyHint: true } }, async ({ asset: q }) => {
     const a = resolveAsset(q, up.assets());
     const t = await up.terms(a.symbol);
-    const r = await up.report(t.inputsHash);
-    return text({ asset: a.symbol, asOf: t.observedAt, why: explainNow(r), whyKind: "now", inputsHash: t.inputsHash, tx: t.tx });
+    const attributed = up.why ? await up.why(a.symbol) : null;
+    const why = attributed?.length ? attributed : explainNow(await up.report(t.inputsHash));
+    return text({ asset: a.symbol, asOf: t.observedAt, why, whyKind: attributed?.length ? "attribution" : "now", inputsHash: t.inputsHash, tx: t.tx });
   });
 
   s.registerTool("kerb_position", {

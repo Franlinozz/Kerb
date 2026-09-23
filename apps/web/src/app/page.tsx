@@ -4,6 +4,7 @@
  * stands alone: a source that fails shows its own ErrorState and the page still renders.
  */
 import { LiveRoot } from "@/components/kerb/LiveRoot";
+import { WhyTerms } from "@/components/kerb/WhyTerms";
 import Link from "@/components/ui/Link";
 import { Suspense } from "react";
 import { ArtPlate } from "@/components/ui/ArtPlate";
@@ -20,7 +21,7 @@ import { MarketClocks } from "@/components/kerb/MarketClocks";
 import { REGIME_WORD } from "@/components/kerb/RegimePill";
 import { LanesRail } from "@/components/kerb/SessionRail";
 import { Tape } from "@/components/kerb/Tape";
-import { getBoard, getClock, getProof, getReport, getStats, getTape, type BoardRow } from "@/lib/api";
+import { getBoard, getClock, getProof, getReport, getStats, getTape, getWhy, type BoardRow } from "@/lib/api";
 import { BUILDER_CODE } from "@/lib/builderCode";
 import { byDecimalDesc, group, price, shift, shortHash, round, usd, usdFull, ltv } from "@/lib/format";
 import { dayHm, railWindow, utcHm, localHm, transitionWord } from "@/lib/time";
@@ -49,7 +50,7 @@ export default async function Home(): Promise<React.ReactElement> {
   const rows: BoardRow[] = board.ok ? [...board.data.rows].sort(byDecimalDesc((r) => r.debtCeiling.value)) : [];
   const lead = rows[0];
   const hkLead = rows.find((r) => r.underlying.market === "XHKG" && r !== lead);
-  const report = lead ? await getReport(lead.symbol) : null;
+  const [report, why] = lead ? await Promise.all([getReport(lead.symbol), getWhy(lead.symbol)]) : [null, null];
   const mainnetPosts = stats.ok ? stats.data.postsByChain.find((p) => p.chainId === 196)?.count ?? null : null;
   const deployments = proof.ok ? proof.data.onchain.deployments.filter((d) => d.chainId === 196) : [];
   const tests = proof.ok ? proof.data.build.tests : null;
@@ -162,7 +163,8 @@ export default async function Home(): Promise<React.ReactElement> {
                 <p className="ink-2">More now, with a promise: cure back to Carry {lead.cure ? `by ${utcHm(Date.parse(lead.cure.closesAt))} UTC (${localHm(Date.parse(lead.cure.closesAt), lead.market?.tz ?? "UTC")})` : "before the session weakens"}, while liquidity is deep.</p>
               </div>
             </div>
-            <div className="mt-6"><LtvLadder carry={lead.carryLTV.value} session={lead.sessionMaxLTV.value} lt={lead.lt?.value ?? null} kts={lead.kts ?? null} margins={lead.margins ?? null} /></div>
+            <div className="mt-6"><LtvLadder carry={lead.carryLTV.value} session={lead.sessionMaxLTV.value} lt={lead.lt?.value ?? null} kts={lead.kts ?? null} margins={lead.margins ?? null} why={!(why?.ok && why.data.sentences)} /></div>
+            {why?.ok && why.data.sentences ? <div className="ladder-why mt-3"><WhyTerms why={why.data} only={["carryLTV"]} /></div> : null}
             <div className="row mt-5"><ButtonLink href="/credit" variant="primary">Try it on testnet</ButtonLink><span className="t-small ink-3">Computed from the posted terms for {lead.symbol}. Borrowing power is LTV times $10,000 of collateral at the Credit Mark.</span></div>
           </>
         ) : <ErrorState source="The Board" />}

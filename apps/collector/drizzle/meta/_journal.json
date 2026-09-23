@@ -50,6 +50,13 @@
       "when": 1790150400000,
       "tag": "0006_agent_calls",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790154000000,
+      "tag": "0007_term_changes",
+      "breakpoints": true
     }
   ]
 }

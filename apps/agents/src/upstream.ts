@@ -25,6 +25,8 @@ export interface Upstream {
   board(): Promise<{ generatedAt: string; rows: (BoardFields & Record<string, unknown> & { symbol: string })[] }>;
   report(inputsHash: string): Promise<Report>;
   json<T>(path: string, ttlMs?: number): Promise<T>;
+  /** The attributed sentences for the latest post (V3-04), or null when unavailable. */
+  why?(symbol: string): Promise<string[] | null>;
 }
 
 export function httpUpstream(base = process.env["KERB_API_INTERNAL"] ?? "http://127.0.0.1:8720"): Upstream {
@@ -78,5 +80,11 @@ export function httpUpstream(base = process.env["KERB_API_INTERNAL"] ?? "http://
       return report;
     },
     json,
+    async why(symbol) {
+      try {
+        const w = await json<{ sentences: { sentence: string }[] | null }>(`/v1/terms/196/${encodeURIComponent(symbol)}/why`, 15_000);
+        return w.sentences?.map((x) => x.sentence) ?? null;
+      } catch { return null; }
+    },
   };
 }

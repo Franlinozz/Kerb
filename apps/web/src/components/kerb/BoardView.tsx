@@ -20,6 +20,7 @@ import { LtvLadder } from "./LtvLadder";
 import { REGIME_WORD, RegimePill } from "./RegimePill";
 import { AssetRail } from "./SessionRail";
 import { useLive, useNow } from "./useLive";
+import { TermsHover } from "./WhyLive";
 
 const MARKETS = [
   { id: "all", label: "All" },
@@ -75,7 +76,7 @@ export function BoardView({ initial, initialClock }: { initial: Board; initialCl
     { key: "c1", head: "C(1%)", align: "right", sort: (r) => r.executableDepth1.value, cell: (r) => (
       <span className="dt-c1"><DepthSpark points={r.spark ?? []} label={`${r.symbol} C(1%) over 24 hours`} /><span>{usd(r.executableDepth1.value) ?? "Not yet posted"}<ProvMark label={r.executableDepth1.label} source="Tick-walk of the X Layer pool, posted in the terms" observedAt={r.executableDepth1.observedAt ?? null} /></span></span>
     ) },
-    { key: "terms", head: "Terms", sort: (r) => r.carryLTV.value, cell: (r) => <LtvLadder compact carry={r.carryLTV.value} session={r.sessionMaxLTV.value} lt={r.lt?.value ?? null} label={r.symbol} /> },
+    { key: "terms", head: "Terms", sort: (r) => r.carryLTV.value, cell: (r) => <TermsHover symbol={r.symbol}><LtvLadder compact carry={r.carryLTV.value} session={r.sessionMaxLTV.value} lt={r.lt?.value ?? null} label={r.symbol} /></TermsHover> },
     { key: "ceiling", head: "Debt ceiling", align: "right", sort: (r) => r.debtCeiling.value, cell: (r) => <>{usd(r.debtCeiling.value) ?? "Not yet posted"}<ProvMark label={r.debtCeiling.label} source="KerbTerms 196" observedAt={r.debtCeiling.observedAt ?? null} /></> },
     { key: "coverage", head: "Coverage", align: "right", sort: (r) => r.coverageRatio.value, cell: (r) => <>{ratio(r.coverageRatio.value) ?? "Not yet posted"}<ProvMark label="Computed" source="C(1%) divided by the debt ceiling" /></> },
     { key: "next", head: "Next", align: "right", sort: (r) => r.next?.at ?? null, cell: (r) => r.next ? <span suppressHydrationWarning>{now === null ? "" : nextPhrase(r.next.type, Date.parse(r.next.at), now)}</span> : "Reading the clock" },

@@ -464,3 +464,19 @@ export interface KtsParams {
 }
 
 export const getParams = (): Promise<Read<KtsParams>> => read<KtsParams>("/v1/params", 60);
+
+// ---- V3-04 term attribution --------------------------------------------------------------------
+
+export type WhyField = "carryLTV" | "sessionMaxLTV" | "debtCeiling";
+export interface Why {
+  chainId: number; symbol: string; asOf: string; tx: string; explorer: string; inputsHash: string; kts: string; label: ProvenanceLabel;
+  sentences: { field: WhyField; sentence: string }[] | null; note?: string;
+}
+export interface TermCause { kind: string; contribution: string; sentence: string }
+export interface TermChange {
+  at: string; field: "carryLTV" | "sessionMaxLTV" | "debtCeiling" | "regime"; from: string; to: string; delta: string | null;
+  headline: string; causes: TermCause[]; residual: string | null; tx: string; explorer: string; prevTx: string; inputsHash: string;
+}
+export interface TermChanges { chainId: number; symbol: string; hours: number; label: ProvenanceLabel; generatedAt: string; changes: TermChange[] }
+export const getWhy = (symbol: string): Promise<Read<Why>> => read<Why>(`/v1/terms/196/${encodeURIComponent(symbol)}/why`);
+export const getChanges = (symbol: string, hours = 72): Promise<Read<TermChanges>> => read<TermChanges>(`/v1/terms/196/${encodeURIComponent(symbol)}/changes?hours=${hours}`, 30);

@@ -72,8 +72,8 @@ export function createApp(d: AppDeps): express.Express {
     const p = params(req);
     const asset = resolveAsset(p["asset"], d.upstream.assets());
     const terms = await d.upstream.terms(asset.symbol);
-    const [report, board] = await Promise.all([d.upstream.report(terms.inputsHash), d.upstream.boardRow(asset.symbol)]);
-    res.json(creditCheck({ asset: p["asset"], amount: p["amount"], unit: p["unit"], mode: p["mode"], chain: p["chain"] }, { asset: { ...asset, assetId: terms.assetId }, terms, report, board }));
+    const [report, board, why] = await Promise.all([d.upstream.report(terms.inputsHash), d.upstream.boardRow(asset.symbol), d.upstream.why ? d.upstream.why(asset.symbol) : Promise.resolve(null)]);
+    res.json(creditCheck({ asset: p["asset"], amount: p["amount"], unit: p["unit"], mode: p["mode"], chain: p["chain"] }, { asset: { ...asset, assetId: terms.assetId }, terms, report, board, why }));
   };
   const answerExit = async (req: Request, res: Response): Promise<void> => {
     const p = params(req);

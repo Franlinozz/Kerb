@@ -92,7 +92,7 @@ function crosscheckOf(report: Report): Record<string, string | null> {
 
 export function creditCheck(
   input: { asset: unknown; amount: unknown; unit?: unknown; mode?: unknown; chain?: unknown },
-  ctx: { asset: AssetRef; terms: PostedTerms; report: Report; board: BoardFields },
+  ctx: { asset: AssetRef; terms: PostedTerms; report: Report; board: BoardFields; why?: string[] | null },
 ): Record<string, unknown> {
   const amount = decimalInput(input.amount, "amount");
   const unit = input.unit === undefined || input.unit === "" ? "token" : input.unit;
@@ -132,8 +132,9 @@ export function creditCheck(
       : { cureRequired: false },
     carrySurvivesUntil: board.margins?.carry.horizonEndsAt ?? r.regimeInputs.nextWeakening.at,
     exit: { c1USDG: usdg(BigInt(t.executableDepth1.raw)), crosscheck: crosscheckOf(r) },
-    why: explainNow(r),
-    whyKind: "now",
+    why: ctx.why?.length ? ctx.why : explainNow(r),
+    // "attribution": the V3-04 sentences for this post; "now": the margin sentences, when those are unavailable.
+    whyKind: ctx.why?.length ? "attribution" : "now",
     provenance: provenance(t, r.kts),
     disclaimer: DISCLAIMER,
   };

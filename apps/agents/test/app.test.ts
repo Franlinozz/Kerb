@@ -84,7 +84,7 @@ describe("Kerb for Agents (V3-03)", () => {
     expect(b.mode).toBe("session_max");
     expect(b.maxBorrowUSDG).toMatch(/^\d+\.\d{2}$/);
     expect(Number(b.maxBorrowUSDG)).toBeLessThanOrEqual(Number(b.collateralValueUSDG));
-    expect(b.why.length).toBe(2);
+    expect(b.why.length).toBeGreaterThanOrEqual(2);
     expect(b.why.join(" ")).not.toMatch(/[{}]|undefined|NaN/);
     expect(calls.settle).toBe(1);
     expect(recorded[0]).toMatchObject({ network: "eip155:1952", settlementTx: "0xsettled", inputsHash: t.inputsHash });

@@ -11,9 +11,10 @@ import { assetId as toAssetId, keccakText, regimeName } from "@kerb/types";
 import { connect, type Sql } from "@kerb/collector/db";
 import { loadDeployments } from "@kerb/attester";
 import { resolveClock, timeline, type Segment } from "@kerb/calendar";
-import { buildBundle, computeReport, engineConfig, identifyBundle, loadParams } from "@kerb/engine";
+import { buildBundle, computeReport, engineConfig, explainNow, identifyBundle, loadParams } from "@kerb/engine";
 import { buildProof, decodeLatestBuilderCode } from "./proof.js";
 import { verifyPosted, type VerifyResult } from "./verify.js";
+import { sideOf, type PostRow } from "./attribution.js";
 import { buildCreditMarket, buildCreditPosition } from "./credit.js";
 import { buildBoard, type Board } from "./board.js";
 import { buildDemoClock, defaultReader, readOpenPositions, syncCreditLogs, type ChainReader } from "./v2credit.js";
@@ -124,6 +125,59 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     cache.set(chainId, { at: now(), board });
     void reply.header("x-kerb-cache", "miss");
     return board;
+  });
+
+  /**
+   * Why the current terms are what they are (V3-04, SPEC-TERM-ATTRIBUTION.md section 5): three
+   * sentences with their numbers, computed from the latest post's own input bundle. Cached by its
+   * inputsHash, so a sentence never outlives the post it describes.
+   */
+  const whyCache = new Map<string, unknown>();
+  app.get("/v1/terms/:chain/:asset/why", async (req, reply) => {
+    const { chain, asset } = req.params as { chain: string; asset: string };
+    if (chain !== "196") return reply.status(404).send({ error: "attribution covers the mainnet terms, chain 196" });
+    const found = findAsset(asset);
+    if (!found) return reply.status(404).send({ error: "unknown asset" });
+    const [row] = await deps.sql<PostRow[]>`SELECT id, ts, chain_id, symbol, tx_hash, inputs_hash, regime, carry_ltv, session_max_ltv, debt_ceiling, clamped
+      FROM terms_posts WHERE chain_id = 196 AND symbol = ${found.symbol} ORDER BY id DESC LIMIT 1`;
+    if (!row) return reply.status(404).send({ error: "no posted terms yet" });
+    void reply.header("cache-control", "public, max-age=15");
+    const hit = whyCache.get(row.inputs_hash);
+    if (hit) return hit;
+    const side = sideOf(row);
+    const sentences = explainNow(side);
+    const body = {
+      chainId: 196, symbol: found.symbol, asOf: side.at, tx: row.tx_hash, explorer: explorerTx(196, row.tx_hash as `0x${string}`),
+      inputsHash: row.inputs_hash, kts: side.kts, label: "Computed" as const,
+      sentences: sentences.length ? sentences : null,
+      ...(sentences.length ? {} : { note: side.report ? "This post is not under KTS 0.2, so its margins have no horizon to explain." : "This post's input bundle is not retrievable, so its causes are unavailable." }),
+    };
+    whyCache.set(row.inputs_hash, body);
+    if (whyCache.size > 200) whyCache.delete(whyCache.keys().next().value as string);
+    return body;
+  });
+
+  /** Every material term change in the last hours, newest first, with its computed causes (V3-04). */
+  app.get("/v1/terms/:chain/:asset/changes", async (req, reply) => {
+    const { chain, asset } = req.params as { chain: string; asset: string };
+    if (chain !== "196") return reply.status(404).send({ error: "attribution covers the mainnet terms, chain 196" });
+    const found = findAsset(asset);
+    if (!found) return reply.status(404).send({ error: "unknown asset" });
+    const hours = Math.min(168, Math.max(1, Number((req.query as { hours?: string }).hours ?? 72) || 72));
+    void reply.header("cache-control", "public, max-age=30");
+    return cached(`changes:${found.symbol}:${hours}`, 30_000, async () => {
+      const rows = await deps.sql<{ at: Date; field: string; from_value: string; to_value: string; delta: string | null; headline: string; causes: unknown; residual: string | null; prev_tx: string; next_tx: string; next_inputs_hash: string }[]>`
+        SELECT at, field, from_value, to_value, delta, headline, causes, residual, prev_tx, next_tx, next_inputs_hash
+        FROM term_changes WHERE chain_id = 196 AND symbol = ${found.symbol} AND at > now() - make_interval(hours => ${hours})
+        ORDER BY at DESC, field LIMIT 500`;
+      return {
+        chainId: 196, symbol: found.symbol, hours, label: "Computed" as const, generatedAt: new Date().toISOString(),
+        changes: rows.map((r) => ({
+          at: new Date(r.at).toISOString(), field: r.field, from: r.from_value, to: r.to_value, delta: r.delta, headline: r.headline,
+          causes: r.causes, residual: r.residual, tx: r.next_tx, explorer: explorerTx(196, r.next_tx as `0x${string}`), prevTx: r.prev_tx, inputsHash: r.next_inputs_hash,
+        })),
+      };
+    });
   });
 
   app.get("/v1/terms/:chain/:asset", async (req, reply) => {

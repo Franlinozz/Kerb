@@ -2,7 +2,7 @@
 """Regenerate docs/API.md: every endpoint with one real response captured from production.
 Arrays are cut to their first items and long strings shortened, and the doc says so; nothing is
 invented. Usage: python3 scripts/api-doc.py [base-url]"""
-import json, sys, urllib.request, datetime
+import json, sys, urllib.request, urllib.error, datetime
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "https://api.usekerb.xyz"
 
@@ -48,6 +48,11 @@ E = [
     ("GET", "/v1/reports", "Stored KTS report ids.", "/v1/reports"),
     ("GET", "/v1/reports/:id", "One stored KTS report.", f"/v1/reports/{latest}"),
     ("GET", "/v1/bundle/:hash", "The exact input bundle posted under an inputsHash (or a report id). keccak256 of the bytes equals the hash.", f"/v1/bundle/{bundle_hash}" if bundle_hash else None),
+    ("GET", "/v1/terms/:chain/:asset/why", "Why the current terms are what they are (V3-04): three sentences with their numbers, computed from the latest post's own input bundle. Chain 196. Cached by inputsHash.", "/v1/terms/196/KOx/why"),
+    ("GET", "/v1/terms/:chain/:asset/changes?hours=72", "Every material term change in the window (1 to 168 hours), newest first, each with its computed causes and the post that made it (V3-04). Cache 30 s.", "/v1/terms/196/KOx/changes?hours=72"),
+    ("GET", "/v1/credit/:chain/keeper", "The demo keeper's status line (V3-02): its address, the demo state, its position, the last action with its transaction, and what it does next. Read-only. Testnet 1952.", "/v1/credit/1952/keeper"),
+    ("GET", "/v1/agents/stats", "Kerb for Agents (V3-03): settled x402 calls by network with the latest settlement, the OKX.AI listing status, and the endpoints. Cache 15 s.", "/v1/agents/stats"),
+    ("GET", "/agents/terms/:asset", "Kerb for Agents, free: the latest posted terms for one asset with the why sentences. Served by kerb-agents.", "/agents/terms/HKEXCx"),
 ]
 
 now = datetime.datetime.now(datetime.timezone.utc).strftime("%d %b %Y %H:%M UTC")
@@ -69,6 +74,18 @@ for m, p, what, sample in E:
         out += ["No live example available at capture time.", ""]
         continue
     out += [f"`{sample}`", "", "```json", json.dumps(trim(get(sample)), indent=1), "```"]
+# The paid endpoints answer only after an x402 payment, so their 402 challenge is captured here instead.
+req = urllib.request.Request(BASE + "/agents/credit-check", method="POST")
+try:
+    urllib.request.urlopen(req, timeout=30)
+    challenge = None
+except urllib.error.HTTPError as e:
+    import base64
+    h = e.headers.get("payment-required")
+    challenge = json.loads(base64.b64decode(h)) if h else None
+out += ["", "## Kerb for Agents: paid checks over x402 (V3-03)", "",
+    "`GET` or `POST /agents/credit-check` (asset, amount, unit token|usdg, mode carry|session_max) and `/agents/exit-check` (asset, sizeUSDG) are priced at $0.01 in USDT0 on X Layer and settled through the OKX facilitator. Bad input is a 400 or 404 before any payment is asked for; a 4xx or 5xx is never settled. The answer carries the posted tx, the inputsHash and the command that recomputes it. No model is in the path. Free MCP tools (kerb_terms, kerb_board, kerb_clock, kerb_why, kerb_position, kerb_paid_tools) are at `POST /mcp`, 60 calls a minute per address.", "",
+    "`curl -i -X POST " + BASE + "/agents/credit-check` answers 402 with this `PAYMENT-REQUIRED` header, decoded:", "", "```json", json.dumps(challenge, indent=1), "```"]
 open("docs/API.md", "w").write("\n".join(out) + "\n")
 print("wrote docs/API.md")
 

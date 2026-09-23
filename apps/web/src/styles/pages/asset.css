@@ -37,3 +37,22 @@
 }
 @layer pages { @media (max-width: 700px) { .impact { overflow-x: auto; -webkit-overflow-scrolling: touch; } .impact svg { min-width: 680px; } } }
 @layer pages { .th-title { display: block; margin-top: 18px; } @media (max-width: 700px) { .th-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; } .th-scroll .th-chart { min-width: 680px; } } }
+
+@layer pages {
+  /* V3-04: why these terms, and what changed. */
+  .why-block { margin-top: var(--s-6); padding: var(--s-5); border: 1px solid var(--hair-2); border-radius: var(--r-2); background: var(--panel); }
+  .why-list { list-style: none; margin: var(--s-3) 0 0; padding: 0; display: grid; gap: var(--s-4); }
+  .why-list li { display: grid; gap: 4px; }
+  .why-list p { color: var(--ink-2); max-width: 88ch; }
+  .change-tl { margin-top: var(--s-6); }
+  .change-tl .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .change-list { list-style: none; margin: var(--s-4) 0 0; padding: 0; border-top: 1px solid var(--hair); }
+  .change-list li { display: grid; grid-template-columns: 116px 96px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--hair); }
+  .change-list p { color: var(--ink-2); }
+  .change-when { font-size: 12.5px; }
+  .th-marker { cursor: help; }
+  @media (max-width: 760px) {
+    .change-list li { grid-template-columns: 1fr; gap: 4px; }
+    .change-tl .row.between { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+}

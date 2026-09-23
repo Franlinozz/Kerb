@@ -6,7 +6,8 @@
  * regime bands. Then the posts themselves, ten at a time.
  */
 import { useState } from "react";
-import type { Regime, Terms } from "@/lib/api";
+import type { Regime, TermChange, Terms } from "@/lib/api";
+import { ChangeTimeline } from "./ChangeTimeline";
 import { explorerTx } from "@/lib/api";
 import { ltv, round, scale, usd } from "@/lib/format";
 import { REGIME_WORD, RegimePill } from "./RegimePill";
@@ -15,7 +16,7 @@ type H = Terms["history"][number];
 const BAND: Partial<Record<Regime, string>> = { REFERENCE_CLOSED: "var(--r-closed)", PRE_TRANSITION: "var(--brass-dim)", STALE: "var(--r-stale)", HALTED: "var(--oxide)", THIN: "var(--stone)", RECOVERY: "var(--moss-dim)" };
 const W = 900, HH = 150, P = { t: 12, r: 16, b: 22, l: 56 };
 
-function Chart({ rows, series, fmt, label }: { rows: H[]; series: { key: keyof H; name: string; color: string; scaleBy: (h: H) => number }[]; fmt: (v: number) => string; label: string }): React.ReactElement {
+function Chart({ rows, series, fmt, label, marks = [] }: { rows: H[]; series: { key: keyof H; name: string; color: string; scaleBy: (h: H) => number }[]; fmt: (v: number) => string; label: string; marks?: TermChange[] }): React.ReactElement {
   const ts = rows.map((r) => Date.parse(r.observedAt));
   const t0 = Math.min(...ts), t1 = Math.max(...ts);
   const vals = rows.flatMap((r) => series.map((s) => s.scaleBy(r)));
@@ -34,12 +35,19 @@ function Chart({ rows, series, fmt, label }: { rows: H[]; series: { key: keyof H
       {series.map((s) => (
         <path key={String(s.key)} d={rows.map((r, i) => `${i ? "L" : "M"}${X(ts[i]!).toFixed(1)},${Y(s.scaleBy(r)).toFixed(1)}`).join("")} fill="none" stroke={s.color} strokeWidth={2} strokeLinejoin="round" />
       ))}
+      {/* V3-04: each material change is a marker; its computed sentence shows on hover. */}
+      {marks.filter((m) => { const t = Date.parse(m.at); return t >= t0 && t <= t1; }).map((m) => (
+        <g key={`${m.tx}${m.field}`} className="th-marker">
+          <line x1={X(Date.parse(m.at))} x2={X(Date.parse(m.at))} y1={P.t} y2={HH - P.b} stroke="var(--brass)" strokeDasharray="2 3" opacity={0.7} />
+          <circle cx={X(Date.parse(m.at))} cy={P.t + 4} r={4} fill="var(--brass)"><title>{`${m.at.slice(5, 16).replace("T", " ")} UTC. ${m.headline}`}</title></circle>
+        </g>
+      ))}
       {[0, 0.5, 1].map((f) => { const t = t0 + (t1 - t0) * f; return <text key={f} x={X(t)} y={HH - 6} textAnchor={f === 0 ? "start" : f === 1 ? "end" : "middle"} className="axis">{new Date(t).toISOString().slice(5, 16).replace("T", " ")} UTC</text>; })}
     </svg>
   );
 }
 
-export function TermsHistory({ history, symbol }: { history: H[]; symbol: string }): React.ReactElement {
+export function TermsHistory({ history, symbol, changes = null }: { history: H[]; symbol: string; changes?: TermChange[] | null }): React.ReactElement {
   const [all, setAll] = useState(false);
   const rows = [...history].sort((a, b) => a.observedAt.localeCompare(b.observedAt));
   if (rows.length < 2) return <p className="t-small ink-3">Not enough posts in the window to draw a history yet.</p>;
@@ -56,12 +64,13 @@ export function TermsHistory({ history, symbol }: { history: H[]; symbol: string
       </div>
       <div className="th-scroll">
         <span className="t-label th-title">Debt ceiling and C(1%), USDG</span>
-        <Chart rows={rows} label={`${symbol} debt ceiling and C(1%) over the window`} fmt={(v) => usd(round(String(v), 2)) ?? ""}
+        <Chart rows={rows} marks={(changes ?? []).filter((c) => c.field === "debtCeiling")} label={`${symbol} debt ceiling and C(1%) over the window`} fmt={(v) => usd(round(String(v), 2)) ?? ""}
         series={[{ key: "debtCeiling", name: "Debt ceiling", color: "var(--ink)", scaleBy: (h) => money(h.debtCeiling) }, { key: "executableDepth1", name: "C(1%)", color: "var(--moss)", scaleBy: (h) => money(h.executableDepth1) }]} />
         <span className="t-label th-title">Carry and Session Max, LTV</span>
-        <Chart rows={rows} label={`${symbol} Carry and Session Max over the window`} fmt={(v) => `${(v * 100).toFixed(1)}%`}
+        <Chart rows={rows} marks={(changes ?? []).filter((c) => c.field === "carryLTV" || c.field === "sessionMaxLTV")} label={`${symbol} Carry and Session Max over the window`} fmt={(v) => `${(v * 100).toFixed(1)}%`}
         series={[{ key: "carryLTV", name: "Carry", color: "var(--ink)", scaleBy: (h) => wad(h.carryLTV) }, { key: "sessionMaxLTV", name: "Session Max", color: "var(--brass)", scaleBy: (h) => wad(h.sessionMaxLTV) }]} />
       </div>
+      <ChangeTimeline changes={changes} />
       <div className="dt-wrap mt-5">
         <table className="dt" style={{ minWidth: 820 }}>
           <caption className="sr-only">{symbol} terms posts, newest first</caption>
