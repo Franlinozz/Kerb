@@ -424,6 +424,25 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
     };
   }));
 
+  /**
+   * The demo keeper's status line (V3-02): the standing Session Max position that becomes curable
+   * at every demo Last Call. Read-only, from the status file the keeper rewrites every minute; a
+   * file older than three minutes means the keeper is not running, and the answer says so.
+   */
+  app.get("/v1/credit/:chain/keeper", async (req, reply) => {
+    if ((req.params as { chain: string }).chain !== "1952") return reply.status(404).send({ error: "the demo keeper runs on X Layer testnet 1952 only" });
+    const file = resolve(repoRoot(), "data/keeper-status.json");
+    void reply.header("cache-control", "public, max-age=15");
+    if (!existsSync(file)) return { running: false, address: KEEPER_ADDRESS, label: "Observed" as const, note: "The demo keeper has not started." };
+    try {
+      const s = JSON.parse(readFileSync(file, "utf8")) as { updatedAt: string } & Record<string, unknown>;
+      const ageSec = Math.round((Date.now() - Date.parse(s.updatedAt)) / 1000);
+      return { ...s, running: ageSec < 180, ageSec, label: "Observed" as const };
+    } catch {
+      return reply.status(503).send({ error: "the keeper status could not be read" });
+    }
+  });
+
   /** The compressed demo clock the testnet credit plane runs on, as a schedule. */
   app.get("/v1/credit/:chain/demo-clock", async (req, reply) => {
     const chainId = Number((req.params as { chain: string }).chain);
@@ -632,6 +651,8 @@ async function readLiquidationThresholds(reader: ChainReader, chainId: number, i
   ltCache.set(chainId, { at: Date.now(), lts });
   return lts;
 }
+
+const KEEPER_ADDRESS = "0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4";
 
 export async function start(): Promise<void> {
   const { sql } = connect();
