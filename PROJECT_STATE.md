@@ -588,3 +588,9 @@ Deviations: late start (no data Fri 20:00 to Sat 06:37 UTC), wrapper pools, SLVx
 Blocked: none
 Next: phase 1
 ```
+
+### 24 Sep 16:10 UTC
+- Report #2 corrected (captures sorted by capturedAt): C(1%) held at the 07:00 cliff for all 10; by 08:30, 5 of 10 fell 10% or more (HKEXCx -82.80%), KOx +100.13%; HK close at 08:00 UTC noted as a confounder. Status partial; final regenerates Fri 07:15 UTC. Research page has a "C(1%) later" column; Home KPI shows the largest fall.
+- npm: `kerb-sdk@0.1.0` published (`npm i kerb-sdk`), Developers updated. L-07 done.
+- Telegram: @KerbAlertsBot live, linked from Credit (Last Call line), Docs and FAQ.
+- Live and staging serve 4fe7061. OKX.AI: waiting on operator login (session d2b2e7c3).
