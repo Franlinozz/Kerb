@@ -106,7 +106,9 @@ try {
   // Every window capture inside the window, with executable depth in USDG per asset.
   const snaps: Snap[] = existsSync(WINDOWS) ? readdirSync(WINDOWS).filter((f) => /^(campaign|window)-.*Z\.json$/.test(f)).sort()
     .map((f) => JSON.parse(readFileSync(resolve(WINDOWS, f), "utf8")) as Snap)
-    .filter((s) => { const t = Date.parse(s.capturedAt); return t >= fromMs - 3_600_000 && t <= toMs + 3_600_000; }) : [];
+    .filter((s) => { const t = Date.parse(s.capturedAt); return t >= fromMs - 3_600_000 && t <= toMs + 3_600_000; })
+    // In time order, not file-name order: "window-start" sorts after "campaign-" but was taken a day earlier.
+    .sort((a, b) => Date.parse(a.capturedAt) - Date.parse(b.capturedAt)) : [];
   const snapshots = snaps.map((s) => ({
     label: s.label, capturedAt: s.capturedAt,
     assets: Object.entries(s.assets).map(([symbol, v]) => v.error ? { symbol, error: "not captured" } : { symbol, regime: v.regime ?? null, c1: v.depth?.C_1 ?? null, c3: v.depth?.C_3 ?? null, creditMark: v.mark?.creditMark ?? null, debtCeiling: v.capacity?.debtCeiling ?? null }),
@@ -177,6 +179,18 @@ try {
     claim: `Between the ${campaign.before.label} capture at ${campaign.before.capturedAt.slice(11, 16)} and the ${campaign.after.label} capture at ${campaign.after.capturedAt.slice(11, 16)} UTC, ${campaign.summary.statement}`,
     evidence: "Full engine captures of every asset: executable depth at 1% and 3% by tick walk, the Credit Mark, the regime and the debt ceiling Kerb would publish.",
   });
+  // V3-09: the slower story. The last capture of the morning against the last one before the cliff.
+  const laterRows = (campaign?.rows ?? []) as { symbol: string; c1LaterChangePct?: string | null; laterAt?: string | null }[];
+  const withLater = laterRows.filter((r) => r.c1LaterChangePct !== null && r.c1LaterChangePct !== undefined);
+  if (campaign && withLater.length) {
+    const fellLater = withLater.filter((r) => neg(r.c1LaterChangePct!) && atLeast(r.c1LaterChangePct!, 10n)).sort((x, y) => Number(x.c1LaterChangePct) - Number(y.c1LaterChangePct));
+    const roseLater = withLater.filter((r) => !neg(r.c1LaterChangePct!) && atLeast(r.c1LaterChangePct!, 10n));
+    const laterAt = withLater[0]?.laterAt ?? null;
+    findings.push({
+      claim: `By the ${laterAt ? laterAt.slice(11, 16) : "later"} UTC capture, executable depth at 1% had fallen by 10% or more for ${fellLater.length} of ${withLater.length} assets${fellLater[0] ? `, the largest ${fellLater[0].symbol} at ${fellLater[0].c1LaterChangePct}%` : ""}, and risen by 10% or more for ${roseLater.length}.`,
+      evidence: `C(1%) at the last capture before the cliff against the last capture of the morning, per asset: ${withLater.map((r) => `${r.symbol} ${r.c1LaterChangePct}%`).join(", ")}. The Hong Kong market closes at 08:00 UTC, inside this interval, so for its assets the incentive end and the close cannot be told apart from these readings alone.`,
+    });
+  }
   if (cmp.length) findings.push({
     claim: `Now that the record holds sessions, it can compare them: for ${busierOpen.length} of ${cmp.length} assets, in-range liquidity moved more from minute to minute while the underlying market was in its regular session than while it was shut.`,
     evidence: `Mean absolute change between consecutive readings, never across a hole: ${cmp.map((s) => `${s.symbol} ${s.meanAbsMoveBpRegular} bp open, ${s.meanAbsMoveBpClosed} bp closed`).join("; ")}.`,
@@ -199,6 +213,7 @@ try {
     limitations: [
       ...(partial ? [`The window is partial: the record reaches ${to.toISOString().slice(0, 16)} UTC of a planned ${PLANNED_TO.slice(0, 16)} UTC. The report is regenerated as it fills.`] : []),
       "Two days either side of one event is one observation of that event. It shows what happened here, not what always happens.",
+      "The later comparison spans the Hong Kong close at 08:00 UTC; for HKEXCx, KUAIx, MIXUx and SHEINx the end of incentives and the market close overlap.",
       "In-range liquidity L is in protocol units, not dollars; executable depth C(1%) in the captures is the dollar measure.",
       "The session comparison measures how much L moved, not why. Liquidity providers act for reasons the record does not hold.",
       ...(gaps.length ? [`The record has ${gaps.length} hole${gaps.length === 1 ? "" : "s"} longer than five minutes; they are listed and nothing is interpolated across them.`] : []),

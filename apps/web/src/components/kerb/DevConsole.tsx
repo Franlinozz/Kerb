@@ -65,7 +65,7 @@ export function DevConsole({ api, kerbTerms, symbol, consumer = null, agents = n
     const read = (): void => { const h = window.location.hash.slice(1); if (h === "sdk" || h === "rest" || h === "solidity" || h === "agents") setTab(h); };
     read(); window.addEventListener("hashchange", read); return () => window.removeEventListener("hashchange", read);
   }, []);
-  const sdk = `import { Kerb, toDecimalString } from "./kerb";
+  const sdk = `import { Kerb, toDecimalString } from "kerb-sdk";
 
 const kerb = new Kerb();                       // X Layer mainnet, ${api}
 const t = await kerb.terms("${symbol}");
@@ -124,8 +124,8 @@ require(debt <= q.maxBorrow, "Kerb: above Carry capacity");
     <Tabs label="Integration" {...(tab ? { value: tab } : {})} onChange={(id) => { setTab(id); history.replaceState(null, "", `#${id}`); }} tabs={[
       { id: "sdk", label: "SDK", content: (
         <div className="dev-tab">
-          <p className="t-small ink-2">One TypeScript file with no dependencies. It is not on npm yet, so take it from the repository, as one file or the whole package:</p>
-          <CodeBlock variants={[{ lang: "shell", code: "curl -o kerb.ts https://raw.githubusercontent.com/Franlinozz/Kerb/main/packages/sdk/src/index.ts" }, { lang: "degit", code: "npx degit Franlinozz/Kerb/packages/sdk kerb-sdk" }]} />
+          <p className="t-small ink-2">One TypeScript module with no dependencies, on npm as <a href="https://www.npmjs.com/package/kerb-sdk" target="_blank" rel="noreferrer">kerb-sdk</a>, or taken from the repository as one file:</p>
+          <CodeBlock variants={[{ lang: "npm", code: "npm i kerb-sdk" }, { lang: "shell", code: "curl -o kerb.ts https://raw.githubusercontent.com/Franlinozz/Kerb/main/packages/sdk/src/index.ts" }, { lang: "degit", code: "npx degit Franlinozz/Kerb/packages/sdk kerb-sdk" }]} />
           <CodeBlock variants={[{ lang: "typescript", code: sdk }]} />
           <LivePanel url={`${api}/v1/terms/196/${encodeURIComponent(symbol)}`} pick={pickTerms} />
         </div>

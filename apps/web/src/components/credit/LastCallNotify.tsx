@@ -24,7 +24,7 @@ export function LastCallNotify({ opensAt, closesAt, active, what }: { opensAt: n
     return () => timers.forEach((t) => window.clearTimeout(t));
   }, [state, active, opensAt, closesAt, what]);
   if (!active) return null;
-  if (state === "unsupported") return <p className="t-small ink-3">This browser cannot show notifications; the countdown above is the reminder.</p>;
+  if (state === "unsupported") return <p className="t-small ink-3">This browser cannot show notifications; the countdown above is the reminder.<span className="ink-3"> Away from the tab? <a href="https://t.me/KerbAlertsBot" target="_blank" rel="noreferrer">@KerbAlertsBot</a> on Telegram: send /watch with your address.</span></p>;
   const arm = async (): Promise<void> => {
     const p = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
     setState(p === "granted" ? "armed" : "denied");
@@ -38,6 +38,7 @@ export function LastCallNotify({ opensAt, closesAt, active, what }: { opensAt: n
       ) : (
         <><button type="button" className="btn btn-sm" onClick={() => void arm()}>Notify me when Last Call opens</button> <span className="ink-3">Works while this tab stays open.</span></>
       )}
+      <span className="ink-3"> Away from the tab? <a href="https://t.me/KerbAlertsBot" target="_blank" rel="noreferrer">@KerbAlertsBot</a> on Telegram: send /watch with your address.</span>
     </div>
   );
 }

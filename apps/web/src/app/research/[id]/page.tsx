@@ -98,7 +98,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           <p className="t-small ink-2">Two full engine captures, {utcStamp(r.campaign.before.capturedAt)} and {utcStamp(r.campaign.after.capturedAt)}. {r.campaign.summary.statement} A verdict is held when C(1%) and C(3%) both moved less than 1%, fell or rose when they moved together, mixed when they disagreed.</p>
           <div className="scroll-x">
             <table className="ptable report-table">
-              <thead><tr><th>Asset</th><th>Verdict</th><th>Regime</th><th className="num">C(1%) before</th><th className="num">C(1%) after</th><th>C(1%)</th><th>C(3%)</th><th>Credit Mark</th><th>Debt ceiling</th></tr></thead>
+              <thead><tr><th>Asset</th><th>Verdict</th><th>Regime</th><th className="num">C(1%) before</th><th className="num">C(1%) after</th><th>C(1%)</th><th className="num">C(1%) later</th><th>C(3%)</th><th>Credit Mark</th><th>Debt ceiling</th></tr></thead>
               <tbody>
                 {r.campaign.rows.map((c) => (
                   <tr key={c.symbol}>
@@ -108,6 +108,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                     <td data-label="C(1%) before" className="num mono">{usd(c.c1Before) ?? "Not measured"}</td>
                     <td data-label="C(1%) after" className="num mono">{usd(c.c1After) ?? "Not measured"}</td>
                     <td data-label="C(1%)"><ChangeBar v={c.c1ChangePct} max={campaignMax} /></td>
+                    <td data-label="C(1%) later" className="num mono">{c.c1Later ? `${usd(c.c1Later)} (${c.c1LaterChangePct ?? "n/a"}%)` : "Not captured"}</td>
                     <td data-label="C(3%)"><ChangeBar v={c.c3ChangePct} max={campaignMax} /></td>
                     <td data-label="Credit Mark"><ChangeBar v={c.markChangePct} max={campaignMax} /></td>
                     <td data-label="Debt ceiling"><ChangeBar v={c.ceilingChangePct} max={campaignMax} /></td>

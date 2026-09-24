@@ -76,7 +76,7 @@ export default async function DocsPage(): Promise<React.ReactElement> {
               <li>Open <Link href="/credit">Credit</Link> and connect a browser wallet; the page adds X Layer testnet (1952).</li>
               <li>Get test OKB for gas from the <a href="https://www.okx.com/xlayer/faucet" target="_blank" rel="noreferrer">X Layer faucet</a>, then mint mirror collateral and mUSDG with the buttons in Get set up.</li>
               <li>Deposit, choose Carry or Session Max, and borrow. The page shows why each limit is what it is.</li>
-              <li>The demo clock runs a trading week every hour. When its Last Call opens, a Session Max position above its Carry target appears in Curable now. Repay the difference, or let anyone cure it. You can ask the page to notify you.</li>
+              <li>The demo clock runs a trading week every hour. When its Last Call opens, a Session Max position above its Carry target appears in Curable now. Repay the difference, or let anyone cure it. You can ask the page to notify you, or follow your address on Telegram with <a href="https://t.me/KerbAlertsBot" target="_blank" rel="noreferrer">@KerbAlertsBot</a> (send /watch and your address).</li>
               <li>Follow everything on <Link href="/account">Your account</Link>: holdings, positions, and each borrow, repay and cure.</li>
             </ol>
             <p className="t-small ink-3">A standing demo position opens every cycle, so there is always something to cure at a demo Last Call, even on your first visit.</p>

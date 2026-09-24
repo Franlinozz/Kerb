@@ -1,0 +1,1217 @@
+{
+  "id": 2,
+  "title": "What happened when the X Liquidity incentives ended",
+  "generatedAt": "2026-09-24T15:57:05.698Z",
+  "window": {
+    "from": "2026-09-23T07:00:00.000Z",
+    "to": "2026-09-24T15:56:12.724Z",
+    "hours": "32.94",
+    "observations": 29640,
+    "pools": 15,
+    "largestGap": null,
+    "underlyingOpenDuringWindow": true,
+    "partial": true,
+    "plannedTo": "2026-09-25T07:00:00Z",
+    "cliff": "2026-09-24T07:00:00.000Z"
+  },
+  "method": "Every 60 seconds the collector reads each X Layer pool's slot0, in-range liquidity and initialised ticks and appends the reading. Around the campaign end, full engine captures were taken at 06:30, 06:55, 07:05, 07:30 and 08:30 UTC: executable depth at 1% and 3% by walking the pool's ticks, the Credit Mark, the regime and the debt ceiling. Every figure below is one of those stored readings or captures, or exact integer arithmetic on them.",
+  "pools": [
+    {
+      "pool": "0x273DA512f76129ED59a2D93D68dFe198423a3114",
+      "symbol": "KOx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.086Z",
+      "lastAt": "2026-09-24T15:56:10.777Z",
+      "liquidityAtStart": "137352345460879829",
+      "liquidityAtEnd": "295544705982131944",
+      "liquidityMin": "66484550687107045",
+      "liquidityMax": "295544705982131944",
+      "changePct": "115.17",
+      "swingPct": "344.53",
+      "liquidityBeforeCliff": "68850231142779077",
+      "liquidityAfterCliff": "134686614493493486",
+      "cliffChangePct": "95.62"
+    },
+    {
+      "pool": "0x293A6167Bed3A474b99f450dE817BC4474087Ed4",
+      "symbol": "HKEXCx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.161Z",
+      "lastAt": "2026-09-24T15:56:10.474Z",
+      "liquidityAtStart": "233977242256795463",
+      "liquidityAtEnd": "1589378825872815",
+      "liquidityMin": "1589378825872815",
+      "liquidityMax": "250948135122357724",
+      "changePct": "-99.32",
+      "swingPct": "15689.06",
+      "liquidityBeforeCliff": "158948965512444351",
+      "liquidityAfterCliff": "51670556246257360",
+      "cliffChangePct": "-67.49"
+    },
+    {
+      "pool": "0x34Fa7515d3364648F558aa876F73feC12e2bA507",
+      "symbol": "BRK.Bx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.011Z",
+      "lastAt": "2026-09-24T15:56:11.104Z",
+      "liquidityAtStart": "84975948110571109",
+      "liquidityAtEnd": "98334271665512611",
+      "liquidityMin": "47800406064495110",
+      "liquidityMax": "951076672786602234",
+      "changePct": "15.72",
+      "swingPct": "1889.68",
+      "liquidityBeforeCliff": "74107103716281466",
+      "liquidityAfterCliff": "76210376687268550",
+      "cliffChangePct": "2.83"
+    },
+    {
+      "pool": "0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5",
+      "symbol": null,
+      "role": "route",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.297Z",
+      "lastAt": "2026-09-24T15:56:10.673Z",
+      "liquidityAtStart": "37493661032737448",
+      "liquidityAtEnd": "66490939738313859",
+      "liquidityMin": "37493661032737448",
+      "liquidityMax": "66490939738313859",
+      "changePct": "77.33",
+      "swingPct": "77.33",
+      "liquidityBeforeCliff": "37536212850913469",
+      "liquidityAfterCliff": "37934776833231870",
+      "cliffChangePct": "1.06"
+    },
+    {
+      "pool": "0x70131C43684B9Ba44677345f9b05f16E2b555edF",
+      "symbol": "COINx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.218Z",
+      "lastAt": "2026-09-24T15:56:10.903Z",
+      "liquidityAtStart": "1453451331970589304278",
+      "liquidityAtEnd": "1037033270688545733529",
+      "liquidityMin": "811343560466686939421",
+      "liquidityMax": "1601586841397325294407",
+      "changePct": "-28.65",
+      "swingPct": "97.39",
+      "liquidityBeforeCliff": "1601586841397325294407",
+      "liquidityAfterCliff": "1574678522997080336225",
+      "cliffChangePct": "-1.68"
+    },
+    {
+      "pool": "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f",
+      "symbol": "ICEx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.112Z",
+      "lastAt": "2026-09-24T15:56:12.724Z",
+      "liquidityAtStart": "58179348669945501",
+      "liquidityAtEnd": "87473802969785163",
+      "liquidityMin": "33202776645704546",
+      "liquidityMax": "87473802969785163",
+      "changePct": "50.35",
+      "swingPct": "163.45",
+      "liquidityBeforeCliff": "52068400522237015",
+      "liquidityAfterCliff": "52399915102014133",
+      "cliffChangePct": "0.63"
+    },
+    {
+      "pool": "0x91db1a80bd51FcBD30c6BFa398EEe0De24eE2663",
+      "symbol": null,
+      "role": "route",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.466Z",
+      "lastAt": "2026-09-24T15:56:10.914Z",
+      "liquidityAtStart": "17922794180278883",
+      "liquidityAtEnd": "16502992410891042",
+      "liquidityMin": "16502992410891042",
+      "liquidityMax": "17922794180278883",
+      "changePct": "-7.92",
+      "swingPct": "8.60",
+      "liquidityBeforeCliff": "16502992410891042",
+      "liquidityAfterCliff": "16502992410891042",
+      "cliffChangePct": "0.00"
+    },
+    {
+      "pool": "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8",
+      "symbol": "MIXUx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.859Z",
+      "lastAt": "2026-09-24T15:56:11.527Z",
+      "liquidityAtStart": "107213411892835297",
+      "liquidityAtEnd": "10259979971626431",
+      "liquidityMin": "10259979971626431",
+      "liquidityMax": "130988760383931152",
+      "changePct": "-90.43",
+      "swingPct": "1176.69",
+      "liquidityBeforeCliff": "59729325508801119",
+      "liquidityAfterCliff": "59287527965884909",
+      "cliffChangePct": "-0.73"
+    },
+    {
+      "pool": "0x9D5d95416412643004af849e012c894D4689a0f2",
+      "symbol": "KUAIx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.154Z",
+      "lastAt": "2026-09-24T15:56:11.050Z",
+      "liquidityAtStart": "422816737428488826",
+      "liquidityAtEnd": "181072807767705766",
+      "liquidityMin": "181072807767705766",
+      "liquidityMax": "473891346517934054",
+      "changePct": "-57.17",
+      "swingPct": "161.71",
+      "liquidityBeforeCliff": "212239407360828235",
+      "liquidityAfterCliff": "211136985866086859",
+      "cliffChangePct": "-0.51"
+    },
+    {
+      "pool": "0xF1ef85ce4691E94a32064b59E766c42183B44497",
+      "symbol": "SHEINx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.361Z",
+      "lastAt": "2026-09-24T15:56:11.146Z",
+      "liquidityAtStart": "815474009216803489",
+      "liquidityAtEnd": "84416242822874446",
+      "liquidityMin": "84416242822874446",
+      "liquidityMax": "989914054193673560",
+      "changePct": "-89.64",
+      "swingPct": "1072.65",
+      "liquidityBeforeCliff": "272061922341394934",
+      "liquidityAfterCliff": "227464435681390858",
+      "cliffChangePct": "-16.39"
+    },
+    {
+      "pool": "0xFD69Fd884BD7c35DF86D2eC80ae74Cbe774C00ab",
+      "symbol": null,
+      "role": "route",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:55.749Z",
+      "lastAt": "2026-09-24T15:56:10.509Z",
+      "liquidityAtStart": "169380577128",
+      "liquidityAtEnd": "169380577128",
+      "liquidityMin": "169380577128",
+      "liquidityMax": "169380577128",
+      "changePct": "0.00",
+      "swingPct": "0.00",
+      "liquidityBeforeCliff": "169380577128",
+      "liquidityAfterCliff": "169380577128",
+      "cliffChangePct": "0.00"
+    },
+    {
+      "pool": "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40",
+      "symbol": null,
+      "role": "route",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.614Z",
+      "lastAt": "2026-09-24T15:56:11.464Z",
+      "liquidityAtStart": "1001809604992411",
+      "liquidityAtEnd": "1001809604992411",
+      "liquidityMin": "1001809604992411",
+      "liquidityMax": "1001809604992411",
+      "changePct": "0.00",
+      "swingPct": "0.00",
+      "liquidityBeforeCliff": "1001809604992411",
+      "liquidityAfterCliff": "1001809604992411",
+      "cliffChangePct": "0.00"
+    },
+    {
+      "pool": "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b",
+      "symbol": "BMNRx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.650Z",
+      "lastAt": "2026-09-24T15:56:11.554Z",
+      "liquidityAtStart": "4189300059282010892287",
+      "liquidityAtEnd": "8335296585945678989061",
+      "liquidityMin": "4189300059282010892287",
+      "liquidityMax": "8335296585945678989061",
+      "changePct": "98.96",
+      "swingPct": "98.96",
+      "liquidityBeforeCliff": "6882019038871692440501",
+      "liquidityAfterCliff": "6989729805096604730105",
+      "cliffChangePct": "1.56"
+    },
+    {
+      "pool": "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6",
+      "symbol": "SLVx",
+      "role": "asset",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.121Z",
+      "lastAt": "2026-09-24T15:56:10.659Z",
+      "liquidityAtStart": "103934011485631833",
+      "liquidityAtEnd": "43727014725219231",
+      "liquidityMin": "43727014725219231",
+      "liquidityMax": "112163610009814269",
+      "changePct": "-57.92",
+      "swingPct": "156.50",
+      "liquidityBeforeCliff": "112163610009814269",
+      "liquidityAfterCliff": "66104491881332705",
+      "cliffChangePct": "-41.06"
+    },
+    {
+      "pool": "0xf05577E469d04Cc8FD84A79C1fE5661b3394cC0e",
+      "symbol": null,
+      "role": "route",
+      "observations": 1976,
+      "firstAt": "2026-09-23T07:00:56.411Z",
+      "lastAt": "2026-09-24T15:56:10.525Z",
+      "liquidityAtStart": "128159600677927",
+      "liquidityAtEnd": "129187826967235",
+      "liquidityMin": "128159600677927",
+      "liquidityMax": "132408433947948",
+      "changePct": "0.80",
+      "swingPct": "3.31",
+      "liquidityBeforeCliff": "130827168077540",
+      "liquidityAfterCliff": "130827168077540",
+      "cliffChangePct": "0.00"
+    }
+  ],
+  "sessionVsClosed": [
+    {
+      "symbol": "BRK.Bx",
+      "market": "XNYS",
+      "regularReadings": 536,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "305.52",
+      "meanAbsMoveBpClosed": "2.16"
+    },
+    {
+      "symbol": "HKEXCx",
+      "market": "XHKG",
+      "regularReadings": 389,
+      "closedReadings": 1476,
+      "meanAbsMoveBpRegular": "23.07",
+      "meanAbsMoveBpClosed": "15.16"
+    },
+    {
+      "symbol": "COINx",
+      "market": "XNAS",
+      "regularReadings": 536,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "23.75",
+      "meanAbsMoveBpClosed": "2.40"
+    },
+    {
+      "symbol": "KUAIx",
+      "market": "XHKG",
+      "regularReadings": 389,
+      "closedReadings": 1476,
+      "meanAbsMoveBpRegular": "22.78",
+      "meanAbsMoveBpClosed": "2.32"
+    },
+    {
+      "symbol": "ICEx",
+      "market": "XNYS",
+      "regularReadings": 536,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "11.57",
+      "meanAbsMoveBpClosed": "11.91"
+    },
+    {
+      "symbol": "MIXUx",
+      "market": "XHKG",
+      "regularReadings": 389,
+      "closedReadings": 1476,
+      "meanAbsMoveBpRegular": "41.43",
+      "meanAbsMoveBpClosed": "8.48"
+    },
+    {
+      "symbol": "KOx",
+      "market": "XNYS",
+      "regularReadings": 536,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "56.89",
+      "meanAbsMoveBpClosed": "15.61"
+    },
+    {
+      "symbol": "SHEINx",
+      "market": "XHKG",
+      "regularReadings": 389,
+      "closedReadings": 1476,
+      "meanAbsMoveBpRegular": "64.11",
+      "meanAbsMoveBpClosed": "2.64"
+    },
+    {
+      "symbol": "BMNRx",
+      "market": "XNYS",
+      "regularReadings": 536,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "27.64",
+      "meanAbsMoveBpClosed": "5.50"
+    },
+    {
+      "symbol": "SLVx",
+      "market": "ARCX",
+      "regularReadings": 536,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "2.30",
+      "meanAbsMoveBpClosed": "7.85"
+    }
+  ],
+  "snapshots": [
+    {
+      "label": "window-start",
+      "capturedAt": "2026-09-23T07:00:01Z",
+      "assets": [
+        {
+          "symbol": "BRK.Bx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "18302.216796",
+          "c3": "52704.804687",
+          "creditMark": "495.35998335254928129",
+          "debtCeiling": "13726.662597"
+        },
+        {
+          "symbol": "HKEXCx",
+          "regime": "NORMAL",
+          "c1": "15905.467773",
+          "c3": "47483.078124",
+          "creditMark": "49.883884005453901347",
+          "debtCeiling": "11929.10083"
+        },
+        {
+          "symbol": "COINx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "7005.683592",
+          "c3": "22466.705468",
+          "creditMark": "198.121361401177083751",
+          "debtCeiling": "5254.262694"
+        },
+        {
+          "symbol": "KUAIx",
+          "regime": "NORMAL",
+          "c1": "8042.213378",
+          "c3": "19729.140624",
+          "creditMark": "3.876465589925786536",
+          "debtCeiling": "6031.660034"
+        },
+        {
+          "symbol": "ICEx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6847.057617",
+          "c3": "19961.564453",
+          "creditMark": "149.504526278726930809",
+          "debtCeiling": "5135.293213"
+        },
+        {
+          "symbol": "MIXUx",
+          "regime": "NORMAL",
+          "c1": "5035.012207",
+          "c3": "14516.892578",
+          "creditMark": "23.623595429376423237",
+          "debtCeiling": "3776.259155"
+        },
+        {
+          "symbol": "KOx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "12563.804687",
+          "c3": "39329.902343",
+          "creditMark": "87.318803792817312785",
+          "debtCeiling": "9422.853515"
+        },
+        {
+          "symbol": "SHEINx",
+          "regime": "NORMAL",
+          "c1": "17251.163085",
+          "c3": "54280.613281",
+          "creditMark": "4.835894916647253418",
+          "debtCeiling": "12938.372314"
+        },
+        {
+          "symbol": "BMNRx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "7298.679199",
+          "c3": "26595.324218",
+          "creditMark": "28.351393646599638215",
+          "debtCeiling": "5474.009399"
+        },
+        {
+          "symbol": "SLVx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "7657.705078",
+          "c3": "24351.781249",
+          "creditMark": "58.954197144221383928",
+          "debtCeiling": "5743.278808"
+        }
+      ]
+    },
+    {
+      "label": "campaign-pre",
+      "capturedAt": "2026-09-24T06:30:02Z",
+      "assets": [
+        {
+          "symbol": "BRK.Bx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "16106.05957",
+          "c3": "49329.648437",
+          "creditMark": "500.249650236286821452",
+          "debtCeiling": "12079.544678"
+        },
+        {
+          "symbol": "HKEXCx",
+          "regime": "NORMAL",
+          "c1": "10791.721679",
+          "c3": "32573.656249",
+          "creditMark": "49.911043960358827143",
+          "debtCeiling": "8093.791259"
+        },
+        {
+          "symbol": "COINx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6720.288866",
+          "c3": "21847.342576",
+          "creditMark": "193.975890519429383662",
+          "debtCeiling": "5040.21665"
+        },
+        {
+          "symbol": "KUAIx",
+          "regime": "THIN",
+          "c1": "4031.062471",
+          "c3": "7793.882324",
+          "creditMark": "3.88684354431427702",
+          "debtCeiling": "3023.296853"
+        },
+        {
+          "symbol": "ICEx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6281.641601",
+          "c3": "19587.904296",
+          "creditMark": "153.234879902360813028",
+          "debtCeiling": "4711.231201"
+        },
+        {
+          "symbol": "MIXUx",
+          "regime": "THIN",
+          "c1": "1077.08374",
+          "c3": "2510.999023",
+          "creditMark": "23.423263333960889277",
+          "debtCeiling": "807.812805"
+        },
+        {
+          "symbol": "KOx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6052.731933",
+          "c3": "17764.126953",
+          "creditMark": "86.661530610054462987",
+          "debtCeiling": "4539.54895"
+        },
+        {
+          "symbol": "SHEINx",
+          "regime": "NORMAL",
+          "c1": "5697.745605",
+          "c3": "17702.885742",
+          "creditMark": "4.760232987010173547",
+          "debtCeiling": "4273.309204"
+        },
+        {
+          "symbol": "BMNRx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8466.098632",
+          "c3": "27769.947265",
+          "creditMark": "27.03567357725861135",
+          "debtCeiling": "6349.573974"
+        },
+        {
+          "symbol": "SLVx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8008.525878",
+          "c3": "18933.440429",
+          "creditMark": "56.849657704810793796",
+          "debtCeiling": "6006.394408"
+        }
+      ]
+    },
+    {
+      "label": "campaign-pre",
+      "capturedAt": "2026-09-24T06:55:01Z",
+      "assets": [
+        {
+          "symbol": "BRK.Bx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "16106.344726",
+          "c3": "49314.480468",
+          "creditMark": "500.335037736286821452",
+          "debtCeiling": "12079.758544"
+        },
+        {
+          "symbol": "HKEXCx",
+          "regime": "NORMAL",
+          "c1": "10791.721679",
+          "c3": "32573.656249",
+          "creditMark": "49.924604563824321639",
+          "debtCeiling": "8093.791259"
+        },
+        {
+          "symbol": "COINx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "7063.641698",
+          "c3": "22987.899608",
+          "creditMark": "194.062604477765970886",
+          "debtCeiling": "5297.731274"
+        },
+        {
+          "symbol": "KUAIx",
+          "regime": "THIN",
+          "c1": "4031.062471",
+          "c3": "7793.882324",
+          "creditMark": "3.873466276848891507",
+          "debtCeiling": "3023.296853"
+        },
+        {
+          "symbol": "ICEx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6281.560058",
+          "c3": "19587.443359",
+          "creditMark": "153.242762834827330295",
+          "debtCeiling": "4711.170044"
+        },
+        {
+          "symbol": "MIXUx",
+          "regime": "THIN",
+          "c1": "1077.08374",
+          "c3": "2510.999023",
+          "creditMark": "23.408430107429746599",
+          "debtCeiling": "807.812805"
+        },
+        {
+          "symbol": "KOx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6274.144042",
+          "c3": "18527.582031",
+          "creditMark": "86.782266393697676216",
+          "debtCeiling": "4705.608032"
+        },
+        {
+          "symbol": "SHEINx",
+          "regime": "NORMAL",
+          "c1": "5693.237304",
+          "c3": "17687.173828",
+          "creditMark": "4.762528176844789022",
+          "debtCeiling": "4269.927978"
+        },
+        {
+          "symbol": "BMNRx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8676.49121",
+          "c3": "28446.593749",
+          "creditMark": "27.00405373536756665",
+          "debtCeiling": "6507.368408"
+        },
+        {
+          "symbol": "SLVx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8008.507324",
+          "c3": "18933.396484",
+          "creditMark": "56.871802970378269339",
+          "debtCeiling": "6006.380493"
+        }
+      ]
+    },
+    {
+      "label": "campaign-post",
+      "capturedAt": "2026-09-24T07:05:02Z",
+      "assets": [
+        {
+          "symbol": "BRK.Bx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "16106.344726",
+          "c3": "49314.480468",
+          "creditMark": "500.145700236286821452",
+          "debtCeiling": "12079.758544"
+        },
+        {
+          "symbol": "HKEXCx",
+          "regime": "NORMAL",
+          "c1": "10791.721679",
+          "c3": "32573.656249",
+          "creditMark": "49.919174021063801005",
+          "debtCeiling": "8093.791259"
+        },
+        {
+          "symbol": "COINx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "7053.340819",
+          "c3": "22941.548827",
+          "creditMark": "193.534938700582348761",
+          "debtCeiling": "5290.005614"
+        },
+        {
+          "symbol": "KUAIx",
+          "regime": "THIN",
+          "c1": "4031.062471",
+          "c3": "7793.882324",
+          "creditMark": "3.863734403704421896",
+          "debtCeiling": "3023.296853"
+        },
+        {
+          "symbol": "ICEx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6281.560058",
+          "c3": "19587.443359",
+          "creditMark": "153.049712834827330295",
+          "debtCeiling": "4711.170044"
+        },
+        {
+          "symbol": "MIXUx",
+          "regime": "THIN",
+          "c1": "1077.08374",
+          "c3": "2510.999023",
+          "creditMark": "23.429542168093412943",
+          "debtCeiling": "807.812805"
+        },
+        {
+          "symbol": "KOx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6274.144042",
+          "c3": "18527.582031",
+          "creditMark": "86.797499054181845142",
+          "debtCeiling": "4705.608032"
+        },
+        {
+          "symbol": "SHEINx",
+          "regime": "NORMAL",
+          "c1": "5693.237304",
+          "c3": "17687.173828",
+          "creditMark": "4.761025720260141043",
+          "debtCeiling": "4269.927978"
+        },
+        {
+          "symbol": "BMNRx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8662.760253",
+          "c3": "28367.263671",
+          "creditMark": "27.002959377026736278",
+          "debtCeiling": "6497.07019"
+        },
+        {
+          "symbol": "SLVx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8008.58496",
+          "c3": "18933.579101",
+          "creditMark": "56.88257326472573948",
+          "debtCeiling": "6006.43872"
+        }
+      ]
+    },
+    {
+      "label": "campaign-post",
+      "capturedAt": "2026-09-24T07:30:01Z",
+      "assets": [
+        {
+          "symbol": "BRK.Bx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "16145.99707",
+          "c3": "49411.578124",
+          "creditMark": "500.120274578810450134",
+          "debtCeiling": "12109.497802"
+        },
+        {
+          "symbol": "HKEXCx",
+          "regime": "NORMAL",
+          "c1": "10791.721679",
+          "c3": "32573.656249",
+          "creditMark": "49.872070074795118837",
+          "debtCeiling": "8093.791259"
+        },
+        {
+          "symbol": "COINx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "7050.279868",
+          "c3": "22944.51328",
+          "creditMark": "194.22179138738008469",
+          "debtCeiling": "5287.709901"
+        },
+        {
+          "symbol": "KUAIx",
+          "regime": "THIN",
+          "c1": "4031.062471",
+          "c3": "7793.882324",
+          "creditMark": "3.870046649904436246",
+          "debtCeiling": "3023.296853"
+        },
+        {
+          "symbol": "ICEx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "6279.112792",
+          "c3": "19573.857421",
+          "creditMark": "153.065476335195902763",
+          "debtCeiling": "4709.334594"
+        },
+        {
+          "symbol": "MIXUx",
+          "regime": "PRE_TRANSITION",
+          "c1": "1302.489746",
+          "c3": "2767.790771",
+          "creditMark": "23.488317500641998585",
+          "debtCeiling": "976.86731"
+        },
+        {
+          "symbol": "KOx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "9539.796874",
+          "c3": "29023.507812",
+          "creditMark": "86.809613402615616802",
+          "debtCeiling": "7154.847656"
+        },
+        {
+          "symbol": "SHEINx",
+          "regime": "NORMAL",
+          "c1": "5720.435058",
+          "c3": "17787.238281",
+          "creditMark": "4.777118892196693743",
+          "debtCeiling": "4290.326294"
+        },
+        {
+          "symbol": "BMNRx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8776.104492",
+          "c3": "28805.859374",
+          "creditMark": "27.058491576096456993",
+          "debtCeiling": "6582.078369"
+        },
+        {
+          "symbol": "SLVx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "8008.569335",
+          "c3": "18933.542968",
+          "creditMark": "56.824096294367766831",
+          "debtCeiling": "6006.427001"
+        }
+      ]
+    },
+    {
+      "label": "campaign-post",
+      "capturedAt": "2026-09-24T08:30:02Z",
+      "assets": [
+        {
+          "symbol": "BRK.Bx",
+          "regime": "NORMAL",
+          "c1": "16739.176757",
+          "c3": "51439.933593",
+          "creditMark": "506.089530731281987425",
+          "debtCeiling": "12554.382568"
+        },
+        {
+          "symbol": "HKEXCx",
+          "regime": "STALE",
+          "c1": "1856.06574",
+          "c3": "5613.168945",
+          "creditMark": "47.164263704327645792",
+          "debtCeiling": "1392.049305"
+        },
+        {
+          "symbol": "COINx",
+          "regime": "NORMAL",
+          "c1": "6044.942576",
+          "c3": "19502.953124",
+          "creditMark": "193.869108969655765972",
+          "debtCeiling": "4533.706932"
+        },
+        {
+          "symbol": "KUAIx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "3521.252197",
+          "c3": "6289.020507",
+          "creditMark": "3.816991055189710712",
+          "debtCeiling": "2640.939148"
+        },
+        {
+          "symbol": "ICEx",
+          "regime": "NORMAL",
+          "c1": "6320.589355",
+          "c3": "19697.996093",
+          "creditMark": "155.046876229079422353",
+          "debtCeiling": "4740.442016"
+        },
+        {
+          "symbol": "MIXUx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "1046.301513",
+          "c3": "2018.13623",
+          "creditMark": "23.265359981996117394",
+          "debtCeiling": "784.726135"
+        },
+        {
+          "symbol": "KOx",
+          "regime": "NORMAL",
+          "c1": "12556.540039",
+          "c3": "38613.392578",
+          "creditMark": "87.959414977334351062",
+          "debtCeiling": "9417.405029"
+        },
+        {
+          "symbol": "SHEINx",
+          "regime": "REFERENCE_CLOSED",
+          "c1": "2043.765258",
+          "c3": "6129.685058",
+          "creditMark": "4.696326235830055678",
+          "debtCeiling": "1532.823944"
+        },
+        {
+          "symbol": "BMNRx",
+          "regime": "NORMAL",
+          "c1": "8751.307617",
+          "c3": "28599.671874",
+          "creditMark": "27.169857661087780595",
+          "debtCeiling": "6563.480713"
+        },
+        {
+          "symbol": "SLVx",
+          "regime": "THIN",
+          "c1": "3549.118652",
+          "c3": "6958.327636",
+          "creditMark": "57.16665077315767971",
+          "debtCeiling": "2661.838989"
+        }
+      ]
+    }
+  ],
+  "gaps": [],
+  "sources": [
+    {
+      "source": "xstocks:price-data",
+      "observations": 26576,
+      "firstAt": "2026-09-23T07:00:05.349Z",
+      "lastAt": "2026-09-24T15:55:58.136Z"
+    },
+    {
+      "source": "yahoo:chart:0388.HK",
+      "observations": 3951,
+      "firstAt": "2026-09-23T07:00:06.641Z",
+      "lastAt": "2026-09-24T15:55:48.599Z"
+    },
+    {
+      "source": "yahoo:chart:0625.HK",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.646Z",
+      "lastAt": "2026-09-24T15:55:48.609Z"
+    },
+    {
+      "source": "yahoo:chart:1024.HK",
+      "observations": 3951,
+      "firstAt": "2026-09-23T07:00:06.643Z",
+      "lastAt": "2026-09-24T15:55:48.602Z"
+    },
+    {
+      "source": "yahoo:chart:2097.HK",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.645Z",
+      "lastAt": "2026-09-24T15:55:48.605Z"
+    },
+    {
+      "source": "yahoo:chart:BMNR",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.649Z",
+      "lastAt": "2026-09-24T15:55:48.610Z"
+    },
+    {
+      "source": "yahoo:chart:BRK-B",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.639Z",
+      "lastAt": "2026-09-24T15:55:48.595Z"
+    },
+    {
+      "source": "yahoo:chart:COIN",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.642Z",
+      "lastAt": "2026-09-24T15:55:48.601Z"
+    },
+    {
+      "source": "yahoo:chart:HKD=X",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.652Z",
+      "lastAt": "2026-09-24T15:55:48.616Z"
+    },
+    {
+      "source": "yahoo:chart:ICE",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.644Z",
+      "lastAt": "2026-09-24T15:55:48.603Z"
+    },
+    {
+      "source": "yahoo:chart:KO",
+      "observations": 3950,
+      "firstAt": "2026-09-23T07:00:06.645Z",
+      "lastAt": "2026-09-24T15:55:48.607Z"
+    },
+    {
+      "source": "yahoo:chart:SLV",
+      "observations": 3951,
+      "firstAt": "2026-09-23T07:00:06.651Z",
+      "lastAt": "2026-09-24T15:55:48.611Z"
+    }
+  ],
+  "campaign": {
+    "before": {
+      "capturedAt": "2026-09-24T06:55:01Z",
+      "label": "campaign-pre"
+    },
+    "after": {
+      "capturedAt": "2026-09-24T07:05:02Z",
+      "label": "campaign-post"
+    },
+    "rows": [
+      {
+        "symbol": "BRK.Bx",
+        "regimeBefore": "REFERENCE_CLOSED",
+        "regimeAfter": "REFERENCE_CLOSED",
+        "regimeChanged": false,
+        "c1Before": "16106.344726",
+        "c1After": "16106.344726",
+        "c1ChangePct": "0.00",
+        "c3Before": "49314.480468",
+        "c3After": "49314.480468",
+        "c3ChangePct": "0.00",
+        "markBefore": "500.335037736286821452",
+        "markAfter": "500.145700236286821452",
+        "markChangePct": "-0.03",
+        "ceilingBefore": "12079.758544",
+        "ceilingAfter": "12079.758544",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "16739.176757",
+        "c1LaterChangePct": "3.92"
+      },
+      {
+        "symbol": "HKEXCx",
+        "regimeBefore": "NORMAL",
+        "regimeAfter": "NORMAL",
+        "regimeChanged": false,
+        "c1Before": "10791.721679",
+        "c1After": "10791.721679",
+        "c1ChangePct": "0.00",
+        "c3Before": "32573.656249",
+        "c3After": "32573.656249",
+        "c3ChangePct": "0.00",
+        "markBefore": "49.924604563824321639",
+        "markAfter": "49.919174021063801005",
+        "markChangePct": "-0.01",
+        "ceilingBefore": "8093.791259",
+        "ceilingAfter": "8093.791259",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "1856.06574",
+        "c1LaterChangePct": "-82.80"
+      },
+      {
+        "symbol": "COINx",
+        "regimeBefore": "REFERENCE_CLOSED",
+        "regimeAfter": "REFERENCE_CLOSED",
+        "regimeChanged": false,
+        "c1Before": "7063.641698",
+        "c1After": "7053.340819",
+        "c1ChangePct": "-0.14",
+        "c3Before": "22987.899608",
+        "c3After": "22941.548827",
+        "c3ChangePct": "-0.20",
+        "markBefore": "194.062604477765970886",
+        "markAfter": "193.534938700582348761",
+        "markChangePct": "-0.27",
+        "ceilingBefore": "5297.731274",
+        "ceilingAfter": "5290.005614",
+        "ceilingChangePct": "-0.14",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "6044.942576",
+        "c1LaterChangePct": "-14.42"
+      },
+      {
+        "symbol": "KUAIx",
+        "regimeBefore": "THIN",
+        "regimeAfter": "THIN",
+        "regimeChanged": false,
+        "c1Before": "4031.062471",
+        "c1After": "4031.062471",
+        "c1ChangePct": "0.00",
+        "c3Before": "7793.882324",
+        "c3After": "7793.882324",
+        "c3ChangePct": "0.00",
+        "markBefore": "3.873466276848891507",
+        "markAfter": "3.863734403704421896",
+        "markChangePct": "-0.25",
+        "ceilingBefore": "3023.296853",
+        "ceilingAfter": "3023.296853",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "3521.252197",
+        "c1LaterChangePct": "-12.64"
+      },
+      {
+        "symbol": "ICEx",
+        "regimeBefore": "REFERENCE_CLOSED",
+        "regimeAfter": "REFERENCE_CLOSED",
+        "regimeChanged": false,
+        "c1Before": "6281.560058",
+        "c1After": "6281.560058",
+        "c1ChangePct": "0.00",
+        "c3Before": "19587.443359",
+        "c3After": "19587.443359",
+        "c3ChangePct": "0.00",
+        "markBefore": "153.242762834827330295",
+        "markAfter": "153.049712834827330295",
+        "markChangePct": "-0.12",
+        "ceilingBefore": "4711.170044",
+        "ceilingAfter": "4711.170044",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "6320.589355",
+        "c1LaterChangePct": "0.62"
+      },
+      {
+        "symbol": "MIXUx",
+        "regimeBefore": "THIN",
+        "regimeAfter": "THIN",
+        "regimeChanged": false,
+        "c1Before": "1077.08374",
+        "c1After": "1077.08374",
+        "c1ChangePct": "0.00",
+        "c3Before": "2510.999023",
+        "c3After": "2510.999023",
+        "c3ChangePct": "0.00",
+        "markBefore": "23.408430107429746599",
+        "markAfter": "23.429542168093412943",
+        "markChangePct": "0.09",
+        "ceilingBefore": "807.812805",
+        "ceilingAfter": "807.812805",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "1046.301513",
+        "c1LaterChangePct": "-2.85"
+      },
+      {
+        "symbol": "KOx",
+        "regimeBefore": "REFERENCE_CLOSED",
+        "regimeAfter": "REFERENCE_CLOSED",
+        "regimeChanged": false,
+        "c1Before": "6274.144042",
+        "c1After": "6274.144042",
+        "c1ChangePct": "0.00",
+        "c3Before": "18527.582031",
+        "c3After": "18527.582031",
+        "c3ChangePct": "0.00",
+        "markBefore": "86.782266393697676216",
+        "markAfter": "86.797499054181845142",
+        "markChangePct": "0.01",
+        "ceilingBefore": "4705.608032",
+        "ceilingAfter": "4705.608032",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "12556.540039",
+        "c1LaterChangePct": "100.13"
+      },
+      {
+        "symbol": "SHEINx",
+        "regimeBefore": "NORMAL",
+        "regimeAfter": "NORMAL",
+        "regimeChanged": false,
+        "c1Before": "5693.237304",
+        "c1After": "5693.237304",
+        "c1ChangePct": "0.00",
+        "c3Before": "17687.173828",
+        "c3After": "17687.173828",
+        "c3ChangePct": "0.00",
+        "markBefore": "4.762528176844789022",
+        "markAfter": "4.761025720260141043",
+        "markChangePct": "-0.03",
+        "ceilingBefore": "4269.927978",
+        "ceilingAfter": "4269.927978",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "2043.765258",
+        "c1LaterChangePct": "-64.10"
+      },
+      {
+        "symbol": "BMNRx",
+        "regimeBefore": "REFERENCE_CLOSED",
+        "regimeAfter": "REFERENCE_CLOSED",
+        "regimeChanged": false,
+        "c1Before": "8676.49121",
+        "c1After": "8662.760253",
+        "c1ChangePct": "-0.15",
+        "c3Before": "28446.593749",
+        "c3After": "28367.263671",
+        "c3ChangePct": "-0.27",
+        "markBefore": "27.00405373536756665",
+        "markAfter": "27.002959377026736278",
+        "markChangePct": "0.00",
+        "ceilingBefore": "6507.368408",
+        "ceilingAfter": "6497.07019",
+        "ceilingChangePct": "-0.15",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "8751.307617",
+        "c1LaterChangePct": "0.86"
+      },
+      {
+        "symbol": "SLVx",
+        "regimeBefore": "REFERENCE_CLOSED",
+        "regimeAfter": "REFERENCE_CLOSED",
+        "regimeChanged": false,
+        "c1Before": "8008.507324",
+        "c1After": "8008.58496",
+        "c1ChangePct": "0.00",
+        "c3Before": "18933.396484",
+        "c3After": "18933.579101",
+        "c3ChangePct": "0.00",
+        "markBefore": "56.871802970378269339",
+        "markAfter": "56.88257326472573948",
+        "markChangePct": "0.01",
+        "ceilingBefore": "6006.380493",
+        "ceilingAfter": "6006.43872",
+        "ceilingChangePct": "0.00",
+        "verdict": "held",
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "3549.118652",
+        "c1LaterChangePct": "-55.68"
+      }
+    ],
+    "summary": {
+      "assets": 10,
+      "depthMovedAtLeastOnePercent": 0,
+      "regimeChanges": 0,
+      "verdicts": {
+        "held": 10,
+        "fell": 0,
+        "rose": 0,
+        "mixed": 0,
+        "insufficient evidence": 0
+      },
+      "statement": "executable depth at 1% did not fall by one percent or more for any of the 10 assets; 0 rose by at least one percent and 0 changed regime."
+    }
+  },
+  "findings": [
+    {
+      "claim": "6 of 10 asset pools had less in-range liquidity in the hour after the campaign ended at 07:00 UTC on 24 Sep than just before it.",
+      "evidence": "Last reading at or before 07:00 against the last reading at or before 08:00, per pool; KOx 95.62%, HKEXCx -67.49%, BRK.Bx 2.83%, COINx -1.68%, ICEx 0.63%, MIXUx -0.73%, KUAIx -0.51%, SHEINx -16.39%, BMNRx 1.56%, SLVx -41.06%."
+    },
+    {
+      "claim": "Between the campaign-pre capture at 06:55 and the campaign-post capture at 07:05 UTC, executable depth at 1% did not fall by one percent or more for any of the 10 assets; 0 rose by at least one percent and 0 changed regime.",
+      "evidence": "Full engine captures of every asset: executable depth at 1% and 3% by tick walk, the Credit Mark, the regime and the debt ceiling Kerb would publish."
+    },
+    {
+      "claim": "Now that the record holds sessions, it can compare them: for 8 of 10 assets, in-range liquidity moved more from minute to minute while the underlying market was in its regular session than while it was shut.",
+      "evidence": "Mean absolute change between consecutive readings, never across a hole: BRK.Bx 305.52 bp open, 2.16 bp closed; HKEXCx 23.07 bp open, 15.16 bp closed; COINx 23.75 bp open, 2.40 bp closed; KUAIx 22.78 bp open, 2.32 bp closed; ICEx 11.57 bp open, 11.91 bp closed; MIXUx 41.43 bp open, 8.48 bp closed; KOx 56.89 bp open, 15.61 bp closed; SHEINx 64.11 bp open, 2.64 bp closed; BMNRx 27.64 bp open, 5.50 bp closed; SLVx 2.30 bp open, 7.85 bp closed."
+    }
+  ],
+  "limitations": [
+    "The window is partial: the record reaches 2026-09-24T15:56 UTC of a planned 2026-09-25T07:00 UTC. The report is regenerated as it fills.",
+    "Two days either side of one event is one observation of that event. It shows what happened here, not what always happens.",
+    "In-range liquidity L is in protocol units, not dollars; executable depth C(1%) in the captures is the dollar measure.",
+    "The session comparison measures how much L moved, not why. Liquidity providers act for reasons the record does not hold."
+  ],
+  "reproduce": "pnpm --filter @kerb/engine exec tsx scripts/market-time-report-2.ts regenerates this file from the observation store and the window captures in data/windows. Every row is a SELECT over append-only tables.",
+  "status": "partial"
+}

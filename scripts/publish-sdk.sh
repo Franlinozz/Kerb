@@ -5,7 +5,7 @@
 #   bash scripts/publish-sdk.sh [--dry-run]
 set -euo pipefail
 cd "$(dirname "$0")/.."
-NAME="${KERB_SDK_NAME:-@usekerb/sdk}"
+NAME="${KERB_SDK_NAME:-kerb-sdk}"
 VERSION=$(node -p "require('./packages/sdk/package.json').version")
 OUT=$(mktemp -d)
 npx tsc packages/sdk/src/index.ts --outDir "$OUT" --declaration --module es2022 --target es2022 --moduleResolution bundler --strict --skipLibCheck

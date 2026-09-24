@@ -15,8 +15,8 @@ These are the items most likely to surprise the operator late. Each is stated pl
 | Contract verification on OKLink | OKLink source verification needs an OKLink API key; Sourcify was used instead | All 34 Kerb deployments are Sourcify exact match; OKLink pages show bytecode without source | **Operator (optional):** an OKLink API key (free account) lets the contracts show verified source on OKLink, which is the explorer judges click |
 | Chainlink reference price | Rung 1 needs Data Streams credentials | Rung 2: issuer price data plus Yahoo as an independent check, stated on `/proof` | Nothing before the deadline |
 | xStocks corporate-action schedule | The full schedule endpoint needs an issuer API key | Rung 1 partial plus onchain polling of `multiplier()` every ten minutes | Nothing before the deadline |
-| SDK on npm | Needs an npm account | SDK taken from the repo by `curl` or `npx degit`, said so on Developers | **Operator (optional):** npm account or token; then `npm i @kerb/sdk` |
-| Telegram Last Call alerts | Needs a bot token | Browser notifications only (V3-08) | **Operator (optional):** a bot token |
+| SDK on npm | Needed an npm account | **Done 24 Sep:** `kerb-sdk@0.1.0` on npm (`npm i kerb-sdk`), shown first on Developers | Nothing |
+| Telegram Last Call alerts | Needed a bot token | **Done 24 Sep:** @KerbAlertsBot live (`/watch`, `/status`, `/stop`), linked from Credit, Docs and FAQ | Nothing |
 | Demo video | Operator's step | Not recorded | **Operator:** Fri 25 Sep 07:30 to 08:00 UTC per `docs/v3/V3-DEMO.md` |
 | Mainnet credit | Kill-listed: unaudited, guardrail 9, jurisdiction guardrail 10 | Credit runs on testnet with mirror collateral; the risk plane, KerbQuote, feeds and x402 are on mainnet | Declined by design (see section 4) |
 
@@ -52,7 +52,7 @@ These are the items most likely to surprise the operator late. Each is stated pl
 | L-04 false claims | Done | |
 | L-05 true live line | Done | |
 | L-06 Day header visible | Partial | not yet asserted by E2E (V3-10) |
-| L-07 SDK installable | Partial | degit path added; npm needs operator |
+| L-07 SDK installable | Done | `npm i kerb-sdk` |
 | L-08 relay age on Credit cards | **Open** | cards say "relayed from mainnet" without the age; fixing |
 | L-09 counts agree | Done | |
 | L-10 Research #2 flips | Partial | code path ready; proven when Report #2 publishes |
@@ -63,7 +63,7 @@ These are the items most likely to surprise the operator late. Each is stated pl
 | V3-05 KerbQuote, feeds | Done, mainnet | `0x223d5e2a…e52a` |
 | V3-06 exit evidence | Done | |
 | V3-07 consumers surfaces | Done, but under-signposted | a visitor does not see "what is new" without knowing where to look; addressed in section 5 |
-| V3-08 Last Call alerts | Done (browser) | Telegram needs a token |
+| V3-08 Last Call alerts | Done | browser notifications plus @KerbAlertsBot on Telegram |
 | V3-09 Report #2, dataset | Partial | dataset live; report after Thu 09:00 UTC |
 | V3-10 hardening | Partial | secret scan and append-only checks done; axe, Lighthouse, dead buttons, full screenshot set Thu |
 | V3-11 certification, display picture | Open | Fri 00:00 to 04:00 UTC |
