@@ -618,13 +618,13 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
         type Row = { symbol: string; c1ChangePct: string | null; c1LaterChangePct?: string | null; laterAt?: string | null };
         const rows = r.campaign.rows as Row[];
         // Lead with the later capture when there is one: depth held at the cliff and moved within the hour.
-        const later = rows.filter((x) => x.c1LaterChangePct !== null && x.c1LaterChangePct !== undefined).sort((a, b) => Math.abs(Number(b.c1LaterChangePct)) - Math.abs(Number(a.c1LaterChangePct)));
+        const later = rows.filter((x) => x.c1LaterChangePct !== null && x.c1LaterChangePct !== undefined).sort((a, b) => Number(a.c1LaterChangePct) - Number(b.c1LaterChangePct));
         const moves = rows.filter((x) => x.c1ChangePct !== null).sort((a, b) => Math.abs(Number(b.c1ChangePct)) - Math.abs(Number(a.c1ChangePct)));
         const top = later[0] ?? moves[0];
         const useLater = Boolean(later[0]);
         const claim = (useLater ? r.findings?.find((f) => f.claim.startsWith("By the")) : r.findings?.find((f) => f.claim.startsWith("Between the")))?.claim ?? r.findings?.[0]?.claim ?? null;
         const at = useLater && later[0]?.laterAt ? later[0].laterAt.slice(11, 16) : null;
-        latestReport = { id: String(r.id), title: r.title, headline: claim, figure: top ? `${top.symbol} ${useLater ? top.c1LaterChangePct : top.c1ChangePct}%` : null, figureLabel: at ? `largest C(1%) move by ${at} UTC` : "largest C(1%) move across the campaign end", status: r.status ?? null };
+        latestReport = { id: String(r.id), title: r.title, headline: claim, figure: top ? `${top.symbol} ${useLater ? top.c1LaterChangePct : top.c1ChangePct}%` : null, figureLabel: at ? `largest C(1%) fall by ${at} UTC` : "largest C(1%) move across the campaign end", status: r.status ?? null };
       } else {
         const falls = (r.pools ?? []).filter((x) => x.role === "asset" && x.changePct !== null).sort((a, b) => Number(a.changePct) - Number(b.changePct));
         const worst = falls[0];
