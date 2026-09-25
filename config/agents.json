@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "Kerb for Agents (V3-03). listingStatus is set by the operator: unregistered, registered, under_review, listed. It changes only when OKX's email confirms it (AGENTS.md 13.7).",
-  "listingStatus": "unregistered",
+  "listingStatus": "under_review",
   "network": "eip155:196",
   "price": "$0.01",
   "currency": "USDT0",
@@ -10,5 +10,18 @@
     "exitCheck": "https://api.usekerb.xyz/agents/exit-check",
     "terms": "https://api.usekerb.xyz/agents/terms",
     "mcp": "https://api.usekerb.xyz/mcp"
+  },
+  "okxai": {
+    "agentId": "13887",
+    "role": "ASP",
+    "chainId": 196,
+    "registeredAt": "2026-09-25T01:02Z",
+    "registrationTx": "0x942ea858c0afb2e8aaadcd0588c02646ef9a3eff9f7c14087a93878a18b558e6",
+    "avatarUpdateTx": "0x22576fbd4f14a3e8b375e0489cf4ec9a9aeb27d637d8891d721152f19f6bcbaa",
+    "services": [
+      "Kerb Credit Check (A2MCP, 0.01 USDT per call)",
+      "Kerb Exit Check (A2MCP, 0.01 USDT per call)"
+    ],
+    "listingSubmittedAt": "2026-09-25T01:05Z"
   }
 }

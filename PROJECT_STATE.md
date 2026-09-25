@@ -594,3 +594,8 @@ Next: phase 1
 - npm: `kerb-sdk@0.1.0` published (`npm i kerb-sdk`), Developers updated. L-07 done.
 - Telegram: @KerbAlertsBot live, linked from Credit (Last Call line), Docs and FAQ.
 - Live and staging serve 4fe7061. OKX.AI: waiting on operator login (session d2b2e7c3).
+
+### 25 Sep 01:15 UTC
+- OKX.AI: ASP agent #13887 "Kerb" registered on X Layer (tx 0x942ea858…58e6) with two A2MCP services (Kerb Credit Check, Kerb Exit Check, 0.01 USDT per call); avatar set to the operator's logo (tx 0x22576fbd…baa); listing submitted, status under review (OKX: up to 48 h, notices to the linked email). config/agents.json listingStatus = under_review; flip to listed only on OKX's approval email.
+- Owner wallet: OKX Agentic Wallet 0xce283b5c2b850ab8c4a6e635ea5add0c9a52d0ef. okx-a2a daemon installed (systemd user autostart) because listing requires A2A readiness.
+- Brand: operator's mark and wordmark (docs/brand-assets) live in header, drawer, footer, large footer word, favicon, apple icon, OG cards, README banner; team-display.png is now the new mark. Live = d8ea531.
