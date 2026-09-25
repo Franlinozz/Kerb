@@ -1,0 +1,101 @@
+{
+  "status": "TEMPLATE_REQUIRES_VISUAL_AUDIT",
+  "target_runtime_seconds": 198,
+  "notes": [
+    "Claude must replace null source_in and source_out values only after reviewing contact sheets and source footage.",
+    "Do not render final with null trims.",
+    "06 is primary. 06b is salvage only. 11 is optional."
+  ],
+  "scenes": [
+    {
+      "id": "S01",
+      "final_start": 0,
+      "final_end": 13,
+      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "cold_open"
+    },
+    {
+      "id": "S02",
+      "final_start": 13,
+      "final_end": 35,
+      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "board"
+    },
+    {
+      "id": "S03",
+      "final_start": 35,
+      "final_end": 58,
+      "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "exit_measurement"
+    },
+    {
+      "id": "S04",
+      "final_start": 58,
+      "final_end": 74,
+      "source": "docs/demo_video_scenes/04_KTS_METHOD.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "methodology"
+    },
+    {
+      "id": "S05",
+      "final_start": 74,
+      "final_end": 97,
+      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "borrow"
+    },
+    {
+      "id": "S06",
+      "final_start": 97,
+      "final_end": 125,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "last_call_cure"
+    },
+    {
+      "id": "S07",
+      "final_start": 125,
+      "final_end": 147,
+      "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "proof"
+    },
+    {
+      "id": "S08",
+      "final_start": 147,
+      "final_end": 164,
+      "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "consumers"
+    },
+    {
+      "id": "S09",
+      "final_start": 164,
+      "final_end": 182,
+      "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "research"
+    },
+    {
+      "id": "S10",
+      "final_start": 182,
+      "final_end": 198,
+      "source": "docs/demo_video_scenes/10_HOME_CLOSER.mov.mp4",
+      "source_in": null,
+      "source_out": null,
+      "role": "close"
+    }
+  ]
+}

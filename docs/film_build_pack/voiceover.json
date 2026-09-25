@@ -1,0 +1,78 @@
+{
+  "voice_preference": [
+    "Antoni",
+    "Adam",
+    "Sam",
+    "Noah"
+  ],
+  "model_id": "eleven_multilingual_v2",
+  "voice_settings": {
+    "stability": 0.58,
+    "similarity_boost": 0.78,
+    "style": 0.0,
+    "use_speaker_boost": true,
+    "speed": 0.96
+  },
+  "segments": [
+    {
+      "id": "01_cold_open",
+      "target_start": 0.0,
+      "target_end": 13.0,
+      "text": "Tokenized stocks can trade around the clock. Their underlying markets and executable exits do not. Kerb is the market-time risk layer for tokenized stocks on X Layer."
+    },
+    {
+      "id": "02_board",
+      "target_start": 13.0,
+      "target_end": 35.0,
+      "text": "The Board shows that mismatch live. Each asset keeps its own market clock, its own liquidity regime, and its own executable capacity. Kerb measures how much the real X Layer pool can absorb now, not how much liquidity a dashboard says exists in theory."
+    },
+    {
+      "id": "03_exit",
+      "target_start": 35.0,
+      "target_end": 58.0,
+      "text": "For every asset, Kerb walks the Uniswap V3 liquidity tick by tick to measure the sale that could actually clear. It cross-checks that exit against OKX DEX quotes and uses the conservative answer. That becomes C one percent: the amount that can be exited within one percent price impact."
+    },
+    {
+      "id": "04_kts",
+      "target_start": 58.0,
+      "target_end": 74.0,
+      "text": "Then the Kerb Terms Standard binds capacity to time. Carry is sized to survive until the next weak market without the borrower touching the position. Session Max can provide more credit now because it only has to survive to Last Call. The liquidation threshold stays fixed."
+    },
+    {
+      "id": "05_borrow",
+      "target_start": 74.0,
+      "target_end": 97.0,
+      "text": "Here, the borrower chooses Session Max. Before anything is signed, Kerb shows the amount, the resulting loan to value, the fixed liquidation line, and exactly when the covenant changes. The borrow confirms on X Layer testnet."
+    },
+    {
+      "id": "06_last_call",
+      "target_start": 97.0,
+      "target_end": 125.0,
+      "text": "Now the clock crosses into Last Call. The position is still above its durable Carry target, so only the excess becomes curable. A second wallet can repay that difference and earn the cure bonus. This is not a full liquidation. The position is repaired before the weak session, while the liquidation threshold never moves."
+    },
+    {
+      "id": "07_proof",
+      "target_start": 125.0,
+      "target_end": 147.0,
+      "text": "Every Kerb term is published with the hash of the inputs that produced it. The Proof surface recomputes the report from those inputs and compares the result with what Kerb posted on X Layer. Recent posts also carry the Kerb Builder Code."
+    },
+    {
+      "id": "08_consumers",
+      "target_start": 147.0,
+      "target_end": 164.0,
+      "text": "Kerb Terms are not tied to Kerb Credit. Agents can buy a credit check over x four oh two. Contracts can read KerbQuote directly. Developers can use the public API or SDK. Kerb Credit is the reference consumer that proves the terms can govern real behavior."
+    },
+    {
+      "id": "09_research",
+      "target_start": 164.0,
+      "target_end": 182.0,
+      "text": "And the system has already seen why this matters. When the X Liquidity campaign ended, executable depth changed materially across the same pools Kerb had been measuring. By the later capture, at least five of ten assets had lost ten percent or more of C one percent, and HKEXCx showed the largest move. Kerb measured that change. It did not predict it."
+    },
+    {
+      "id": "10_close",
+      "target_start": 182.0,
+      "target_end": 198.0,
+      "text": "The risk plane is live on X Layer mainnet. Kerb Credit is a testnet reference market using mirror collateral and mUSDG, and the contracts are unaudited. Most systems ask what an asset is worth. Kerb also asks whether the exit will still be there. Never lend more than you can liquidate."
+    }
+  ]
+}
