@@ -1,3 +1,5 @@
+<p align="center"><a href="https://www.usekerb.xyz"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/media/kerb-banner-dark.webp"><img alt="Kerb, market-time risk infrastructure" src="docs/media/kerb-banner-light.webp" width="100%"></picture></a></p>
+
 # Kerb
 
 [![CI](https://github.com/Franlinozz/Kerb/actions/workflows/ci.yml/badge.svg)](https://github.com/Franlinozz/Kerb/actions/workflows/ci.yml)

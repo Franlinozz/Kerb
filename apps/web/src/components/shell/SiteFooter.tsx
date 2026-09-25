@@ -1,5 +1,6 @@
 import Link from "@/components/ui/Link";
 import { Mark } from "@/components/ui/Mark";
+import { Wordmark } from "@/components/ui/Wordmark";
 import { MarketClocks } from "@/components/kerb/MarketClocks";
 import { ArrowUpRight } from "lucide-react";
 
@@ -18,7 +19,7 @@ export function SiteFooter(): React.ReactElement {
       <div className="wrap">
         <div className="footer-top">
           <div className="footer-brand">
-            <Link href="/" className="brand" aria-label="Kerb home"><Mark />Kerb</Link>
+            <Link href="/" className="brand" aria-label="Kerb home"><Mark /><Wordmark /></Link>
             <p className="ink-2">Credit terms for tokenized stocks that follow the market&apos;s clock: how much, for how long, and what happens at the close.</p>
           </div>
           <div className="footer-cta">
@@ -42,7 +43,7 @@ export function SiteFooter(): React.ReactElement {
           <p className="footer-legal">© 2026 Xyndicate Labs · Built for OKX Dev Day 2026</p>
         </div>
       </div>
-      <div className="footer-giant" aria-hidden="true"><span>Kerb</span></div>
+      <div className="footer-giant" aria-hidden="true"><Wordmark className="footer-giant-word" height={420} /></div>
     </footer>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "@/components/ui/Link";
 import { Mark } from "@/components/ui/Mark";
+import { Wordmark } from "@/components/ui/Wordmark";
 import { MobileMenu } from "./MobileMenu";
 import { NavLinks } from "./NavLinks";
 import { StatusPill } from "./StatusPill";
@@ -11,7 +12,7 @@ export function SiteHeader(): React.ReactElement {
   return (
     <header className="site-header">
       <div className="wrap site-header-inner">
-        <Link href="/" className="brand" aria-label="Kerb home"><Mark />Kerb</Link>
+        <Link href="/" className="brand" aria-label="Kerb home"><Mark /><Wordmark /></Link>
         <NavLinks className="main-nav" pill />
         <div className="header-tools">
           <StatusPill />

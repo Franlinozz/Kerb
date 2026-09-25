@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { MARK_LOWER, MARK_UPPER, MARK_VIEWBOX, WORDMARK_PATH, WORDMARK_VIEWBOX } from "@/lib/brand";
 import { resolve } from "node:path";
 import { ImageResponse } from "next/og";
 import type { PlateId } from "./art";
@@ -24,8 +25,8 @@ export function ogCard(section: string, line = "Credit on the market's clock.", 
         <div style={{ position: "absolute", top: 0, left: 0, width: 1200, height: 630, display: "flex", backgroundImage: "linear-gradient(90deg, rgba(11,12,10,0.96) 0%, rgba(11,12,10,0.86) 38%, rgba(11,12,10,0.25) 70%, rgba(11,12,10,0.05) 100%)" }} />
         <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, width: "100%" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 40, letterSpacing: -1 }}>
-            <svg viewBox="0 0 24 24" width="48" height="48"><path d="M2 8.5h11v5h9V20H2z" fill="#ECE8DE" /><rect x="15.5" y="4" width="4" height="4" fill="#D6A64F" /></svg>
-            Kerb
+            <svg viewBox={MARK_VIEWBOX} width="66" height="32"><path d={MARK_UPPER} fill="#ECE8DE" /><path d={MARK_LOWER} fill="#ECE8DE" fillOpacity="0.6" /></svg>
+            <svg viewBox={WORDMARK_VIEWBOX} width="158" height="24"><path d={WORDMARK_PATH} fill="#ECE8DE" fillRule="evenodd" /></svg>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div style={{ fontSize: 22, letterSpacing: 6, color: "#B8B3A6", textTransform: "uppercase" }}>{section}</div>

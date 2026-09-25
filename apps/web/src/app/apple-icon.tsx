@@ -1,14 +1,15 @@
 import { ImageResponse } from "next/og";
+import { MARK_LOWER, MARK_UPPER, MARK_VIEWBOX } from "@/lib/brand";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** The mark in bone on the Night canvas, 3 px inset at 32 px scaled up. */
+/** The mark in bone on the Night canvas. */
 export default function AppleIcon(): ImageResponse {
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#0B0C0A" }}>
-        <svg viewBox="0 0 24 24" width="140" height="140"><path d="M2 8.5h11v5h9V20H2z" fill="#ECE8DE" /><rect x="15.5" y="4" width="4" height="4" fill="#ECE8DE" /></svg>
+        <svg viewBox={MARK_VIEWBOX} width="140" height="68"><path d={MARK_UPPER} fill="#ECE8DE" /><path d={MARK_LOWER} fill="#ECE8DE" fillOpacity="0.6" /></svg>
       </div>
     ),
     size,
