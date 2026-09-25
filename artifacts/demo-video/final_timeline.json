@@ -1,649 +1,1162 @@
 {
-  "status": "FINAL",
+  "status": "FINAL_V2",
   "fps": 30,
   "resolution": "1920x1080",
-  "runtime_seconds": 200.55,
-  "shots": [
+  "runtime_seconds": 206.617,
+  "presentation": "browser window on the Kerb p5-fog art plate; close on p1-kerbstone-night",
+  "takes": [
     {
-      "id": "S01",
-      "name": "hero",
-      "final_start": 0.0,
-      "final_end": 3.9,
+      "name": "home",
       "source": "docs/demo_video_scenes/10_HOME_CLOSER.mov.mp4",
+      "url": "usekerb.xyz",
+      "final_start": 14.36,
+      "final_end": 16.65,
       "source_in": 0.0,
-      "source_out": 3.198,
-      "speed": 0.82,
-      "transition_in": "fade from canvas",
-      "transition_seconds": 0.0
+      "source_out": 1.42,
+      "remap": [
+        [
+          0,
+          0.0
+        ]
+      ],
+      "tail_speed": 0.62,
+      "dissolve_in": 0.0
     },
     {
-      "id": "S02",
-      "name": "own hours",
-      "final_start": 3.9,
-      "final_end": 8.5,
-      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
-      "source_in": 4.85,
-      "source_out": 6.92,
-      "speed": 0.45,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S03",
-      "name": "record",
-      "final_start": 8.5,
-      "final_end": 14.7,
-      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
-      "source_in": 7.95,
-      "source_out": 11.298,
-      "speed": 0.54,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S04",
-      "name": "board header",
-      "final_start": 14.15,
-      "final_end": 18.55,
+      "name": "board1",
       "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
+      "url": "usekerb.xyz/board",
+      "final_start": 16.65,
+      "final_end": 20.05,
       "source_in": 0.3,
-      "source_out": 3.6,
-      "speed": 0.75,
-      "transition_in": "seam",
-      "transition_seconds": 0.55
+      "source_out": 3.19,
+      "remap": [
+        [
+          0,
+          0.3
+        ]
+      ],
+      "tail_speed": 0.85,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S05",
-      "name": "market per asset",
-      "final_start": 18.55,
-      "final_end": 21.85,
+      "name": "board2",
       "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
-      "source_in": 21.6,
-      "source_out": 24.9,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "url": "usekerb.xyz/board",
+      "final_start": 20.05,
+      "final_end": 34.15,
+      "source_in": 21.55,
+      "source_out": 32.837,
+      "remap": [
+        [
+          0,
+          21.55
+        ],
+        [
+          7.85,
+          29.4
+        ]
+      ],
+      "tail_speed": 0.55,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S06",
-      "name": "table",
-      "final_start": 21.85,
-      "final_end": 24.85,
-      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
-      "source_in": 8.5,
-      "source_out": 11.5,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S07",
-      "name": "table capacity",
-      "final_start": 24.85,
-      "final_end": 27.25,
-      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
-      "source_in": 14.2,
-      "source_out": 16.6,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S08",
-      "name": "hk closed",
-      "final_start": 27.25,
-      "final_end": 32.15,
-      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
-      "source_in": 31.2,
-      "source_out": 32.964,
-      "speed": 0.36,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S09",
-      "name": "method text",
-      "final_start": 31.65,
-      "final_end": 35.15,
+      "name": "exit1",
       "source": "docs/demo_video_scenes/04_KTS_METHOD.mov.mp4",
-      "source_in": 17.75,
-      "source_out": 19.78,
-      "speed": 0.58,
-      "transition_in": "seam",
-      "transition_seconds": 0.5
+      "url": "usekerb.xyz/methodology",
+      "final_start": 34.15,
+      "final_end": 46.31,
+      "source_in": 8.6,
+      "source_out": 18.472,
+      "remap": [
+        [
+          0,
+          8.6
+        ],
+        [
+          7.1,
+          15.7
+        ],
+        [
+          8.0,
+          16.6
+        ]
+      ],
+      "tail_speed": 0.45,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S10",
-      "name": "depth curve",
-      "final_start": 35.15,
-      "final_end": 41.95,
-      "source": "docs/demo_video_scenes/04_KTS_METHOD.mov.mp4",
-      "source_in": 8.9,
-      "source_out": 15.7,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S11",
-      "name": "exit check",
-      "final_start": 41.95,
-      "final_end": 46.95,
+      "name": "exit2",
       "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
+      "url": "usekerb.xyz/asset/KOx",
+      "final_start": 46.31,
+      "final_end": 52.92,
       "source_in": 20.1,
-      "source_out": 22.3,
-      "speed": 0.44,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 22.347,
+      "remap": [
+        [
+          0,
+          20.1
+        ]
+      ],
+      "tail_speed": 0.34,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S12",
-      "name": "aggregate",
-      "final_start": 46.95,
-      "final_end": 50.45,
-      "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
-      "source_in": 23.9,
-      "source_out": 25.405,
-      "speed": 0.43,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S13",
-      "name": "term made",
-      "final_start": 49.95,
-      "final_end": 53.55,
+      "name": "terms1",
       "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "url": "usekerb.xyz",
+      "final_start": 52.92,
+      "final_end": 69.04,
       "source_in": 12.5,
-      "source_out": 13.868,
-      "speed": 0.38,
-      "transition_in": "seam",
-      "transition_seconds": 0.5
+      "source_out": 14.434,
+      "remap": [
+        [
+          0,
+          12.5
+        ]
+      ],
+      "tail_speed": 0.12,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S14",
-      "name": "carry vs sm",
-      "final_start": 53.55,
-      "final_end": 57.35,
-      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
-      "source_in": 17.85,
-      "source_out": 19.218,
-      "speed": 0.36,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S15",
-      "name": "kts rail",
-      "final_start": 57.35,
-      "final_end": 65.75,
+      "name": "terms2",
       "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
+      "url": "usekerb.xyz/asset/KOx",
+      "final_start": 69.04,
+      "final_end": 72.64,
       "source_in": 7.5,
-      "source_out": 9.852,
-      "speed": 0.28,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 9.12,
+      "remap": [
+        [
+          0,
+          7.5
+        ]
+      ],
+      "tail_speed": 0.45,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S16",
-      "name": "never the line",
-      "final_start": 65.75,
-      "final_end": 70.65,
-      "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
-      "source_in": 15.0,
-      "source_out": 19.9,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S17",
-      "name": "collateral + sm",
-      "final_start": 70.15,
-      "final_end": 73.65,
+      "name": "borrow1",
       "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 72.64,
+      "final_end": 84.34,
       "source_in": 7.5,
-      "source_out": 11.0,
-      "speed": 1.0,
-      "transition_in": "seam",
-      "transition_seconds": 0.5
+      "source_out": 20.8,
+      "remap": [
+        [
+          0,
+          7.5
+        ],
+        [
+          3.6,
+          11.1
+        ],
+        [
+          4.2,
+          11.7
+        ],
+        [
+          5.9,
+          14.3
+        ],
+        [
+          10.5,
+          19.6
+        ],
+        [
+          11.7,
+          20.8
+        ]
+      ],
+      "tail_speed": 0.6,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S18",
-      "name": "preview",
-      "final_start": 73.65,
-      "final_end": 77.65,
+      "name": "wal1",
       "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
-      "source_in": 12.5,
-      "source_out": 16.5,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S19",
-      "name": "borrow click",
-      "final_start": 77.65,
-      "final_end": 79.45,
-      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
-      "source_in": 19.2,
-      "source_out": 21.0,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S20",
-      "name": "wallet deposit",
-      "final_start": 79.45,
-      "final_end": 81.25,
-      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 84.34,
+      "final_end": 86.14,
       "source_in": 29.9,
       "source_out": 31.43,
-      "speed": 0.85,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "remap": [
+        [
+          0,
+          29.9
+        ]
+      ],
+      "tail_speed": 0.85,
+      "dissolve_in": 0.2
     },
     {
-      "id": "S21",
-      "name": "wallet borrow",
-      "final_start": 81.25,
-      "final_end": 83.05,
+      "name": "wal2",
       "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 86.14,
+      "final_end": 87.94,
       "source_in": 43.8,
       "source_out": 45.6,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "remap": [
+        [
+          0,
+          43.8
+        ]
+      ],
+      "tail_speed": 1.0,
+      "dissolve_in": 0.2
     },
     {
-      "id": "S22",
       "name": "position",
-      "final_start": 83.05,
-      "final_end": 87.05,
       "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 87.94,
+      "final_end": 89.62,
       "source_in": 48.2,
-      "source_out": 50.6,
-      "speed": 0.6,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 49.124,
+      "remap": [
+        [
+          0,
+          48.2
+        ]
+      ],
+      "tail_speed": 0.55,
+      "dissolve_in": 0.25
     },
     {
-      "id": "S23",
       "name": "countdown",
-      "final_start": 86.45,
-      "final_end": 102.55,
       "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
-      "source_in": 14.4,
-      "source_out": 30.5,
-      "speed": 1.0,
-      "transition_in": "dip",
-      "transition_seconds": 0.6
+      "url": "usekerb.xyz/credit",
+      "final_start": 89.62,
+      "final_end": 108.5,
+      "source_in": 16.0,
+      "source_out": 33.89,
+      "remap": [
+        [
+          0,
+          16.0
+        ],
+        [
+          12.0,
+          28.0
+        ],
+        [
+          12.8,
+          30.45
+        ],
+        [
+          13.600000000000001,
+          31.25
+        ]
+      ],
+      "tail_speed": 0.5,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S24",
-      "name": "the excess",
-      "final_start": 102.55,
-      "final_end": 106.15,
+      "name": "cure",
       "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
-      "source_in": 31.3,
-      "source_out": 34.9,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S25",
-      "name": "another wallet cures",
-      "final_start": 106.15,
-      "final_end": 109.55,
-      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 108.5,
+      "final_end": 111.7,
       "source_in": 41.0,
-      "source_out": 44.4,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 44.2,
+      "remap": [
+        [
+          0,
+          41.0
+        ]
+      ],
+      "tail_speed": 1.0,
+      "dissolve_in": 0.3
     },
     {
-      "id": "S26",
-      "name": "wallet cure",
-      "final_start": 109.55,
-      "final_end": 111.75,
+      "name": "walcure",
       "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 111.7,
+      "final_end": 113.8,
       "source_in": 52.4,
-      "source_out": 53.94,
-      "speed": 0.7,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 53.912,
+      "remap": [
+        [
+          0,
+          52.4
+        ]
+      ],
+      "tail_speed": 0.72,
+      "dissolve_in": 0.2
     },
     {
-      "id": "S27",
       "name": "cured",
-      "final_start": 111.75,
-      "final_end": 114.35,
       "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 113.8,
+      "final_end": 117.557,
       "source_in": 56.8,
-      "source_out": 59.4,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 60.557,
+      "remap": [
+        [
+          0,
+          56.8
+        ]
+      ],
+      "tail_speed": 1.0,
+      "dissolve_in": 0.2
     },
     {
-      "id": "S28",
-      "name": "oklink",
-      "final_start": 114.35,
-      "final_end": 116.05,
+      "name": "carry",
       "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
-      "source_in": 70.6,
-      "source_out": 72.3,
-      "speed": 1.0,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S29",
-      "name": "back at carry",
-      "final_start": 116.05,
-      "final_end": 122.05,
-      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "url": "usekerb.xyz/credit",
+      "final_start": 117.557,
+      "final_end": 124.517,
       "source_in": 76.4,
-      "source_out": 77.48,
-      "speed": 0.18,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 77.792,
+      "remap": [
+        [
+          0,
+          76.4
+        ]
+      ],
+      "tail_speed": 0.2,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S30",
-      "name": "verifiable",
-      "final_start": 121.55,
-      "final_end": 123.95,
+      "name": "proof1",
       "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "url": "usekerb.xyz/proof",
+      "final_start": 124.517,
+      "final_end": 126.227,
       "source_in": 0.1,
-      "source_out": 1.108,
-      "speed": 0.42,
-      "transition_in": "seam",
-      "transition_seconds": 0.5
+      "source_out": 0.716,
+      "remap": [
+        [
+          0,
+          0.1
+        ]
+      ],
+      "tail_speed": 0.36,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S31",
-      "name": "tiles",
-      "final_start": 123.95,
-      "final_end": 127.25,
+      "name": "proof2",
       "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "url": "usekerb.xyz/proof",
+      "final_start": 126.227,
+      "final_end": 134.987,
       "source_in": 4.8,
-      "source_out": 7.11,
-      "speed": 0.7,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 7.954,
+      "remap": [
+        [
+          0,
+          4.8
+        ]
+      ],
+      "tail_speed": 0.36,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S32",
-      "name": "reproduce",
-      "final_start": 127.25,
-      "final_end": 131.65,
+      "name": "proof3",
       "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "url": "usekerb.xyz/proof",
+      "final_start": 134.987,
+      "final_end": 138.967,
       "source_in": 13.6,
-      "source_out": 15.096,
-      "speed": 0.34,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 14.794,
+      "remap": [
+        [
+          0,
+          13.6
+        ]
+      ],
+      "tail_speed": 0.3,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S33",
-      "name": "verify band",
-      "final_start": 131.65,
-      "final_end": 135.95,
-      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
-      "source_in": 23.3,
-      "source_out": 25.063,
-      "speed": 0.41,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S34",
-      "name": "builder code",
-      "final_start": 135.95,
-      "final_end": 139.95,
+      "name": "proof4",
       "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "url": "usekerb.xyz/proof",
+      "final_start": 138.967,
+      "final_end": 142.867,
       "source_in": 5.2,
-      "source_out": 7.08,
-      "speed": 0.47,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 6.76,
+      "remap": [
+        [
+          0,
+          5.2
+        ]
+      ],
+      "tail_speed": 0.4,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S35",
-      "name": "four consumers",
-      "final_start": 139.45,
-      "final_end": 144.05,
+      "name": "con1",
       "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "url": "usekerb.xyz",
+      "final_start": 142.867,
+      "final_end": 148.087,
       "source_in": 15.25,
-      "source_out": 16.377,
-      "speed": 0.245,
-      "transition_in": "seam",
-      "transition_seconds": 0.5
+      "source_out": 16.294,
+      "remap": [
+        [
+          0,
+          15.25
+        ]
+      ],
+      "tail_speed": 0.2,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S36",
-      "name": "x402",
-      "final_start": 144.05,
-      "final_end": 147.45,
+      "name": "con2",
       "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "url": "usekerb.xyz/developers#agents",
+      "final_start": 148.087,
+      "final_end": 152.067,
       "source_in": 0.8,
-      "source_out": 3.588,
-      "speed": 0.82,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 3.785,
+      "remap": [
+        [
+          0,
+          0.8
+        ]
+      ],
+      "tail_speed": 0.75,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S37",
-      "name": "kerbquote",
-      "final_start": 147.45,
-      "final_end": 150.75,
+      "name": "con3",
       "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "url": "usekerb.xyz/developers#agents",
+      "final_start": 152.067,
+      "final_end": 156.187,
       "source_in": 25.6,
-      "source_out": 27.118,
-      "speed": 0.46,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 27.454,
+      "remap": [
+        [
+          0,
+          25.6
+        ]
+      ],
+      "tail_speed": 0.45,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S38",
-      "name": "mcp build",
-      "final_start": 150.75,
-      "final_end": 153.65,
+      "name": "con4",
       "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "url": "usekerb.xyz/developers#agents",
+      "final_start": 156.187,
+      "final_end": 161.157,
       "source_in": 8.9,
-      "source_out": 11.22,
-      "speed": 0.8,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 13.679,
+      "remap": [
+        [
+          0,
+          8.9
+        ],
+        [
+          2.3,
+          11.2
+        ],
+        [
+          4.0,
+          13.0
+        ]
+      ],
+      "tail_speed": 0.7,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S39",
-      "name": "endpoints",
-      "final_start": 153.65,
-      "final_end": 157.65,
-      "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
-      "source_in": 13.0,
-      "source_out": 15.8,
-      "speed": 0.7,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S40",
-      "name": "report 2",
-      "final_start": 157.15,
-      "final_end": 162.15,
+      "name": "ev1",
       "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "url": "usekerb.xyz/research/2",
+      "final_start": 161.157,
+      "final_end": 165.007,
       "source_in": 6.7,
-      "source_out": 9.5,
-      "speed": 0.56,
-      "transition_in": "seam",
-      "transition_seconds": 0.5
+      "source_out": 8.625,
+      "remap": [
+        [
+          0,
+          6.7
+        ]
+      ],
+      "tail_speed": 0.5,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S41",
-      "name": "held then fell",
-      "final_start": 162.15,
-      "final_end": 168.15,
+      "name": "ev2",
       "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "url": "usekerb.xyz/research/2",
+      "final_start": 165.007,
+      "final_end": 177.867,
       "source_in": 14.7,
-      "source_out": 16.5,
-      "speed": 0.3,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 16.243,
+      "remap": [
+        [
+          0,
+          14.7
+        ]
+      ],
+      "tail_speed": 0.12,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S42",
-      "name": "by pool",
-      "final_start": 168.15,
-      "final_end": 172.35,
+      "name": "ev3",
       "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
-      "source_in": 11.4,
-      "source_out": 13.374,
-      "speed": 0.47,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
-    },
-    {
-      "id": "S43",
-      "name": "every capture",
-      "final_start": 172.35,
-      "final_end": 177.85,
-      "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "url": "usekerb.xyz/research/2",
+      "final_start": 177.867,
+      "final_end": 182.097,
       "source_in": 18.6,
-      "source_out": 19.898,
-      "speed": 0.236,
-      "transition_in": "cut",
-      "transition_seconds": 0.0
+      "source_out": 19.784,
+      "remap": [
+        [
+          0,
+          18.6
+        ]
+      ],
+      "tail_speed": 0.28,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S44",
-      "name": "limitations",
-      "final_start": 177.35,
-      "final_end": 185.75,
+      "name": "lim",
       "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
-      "source_in": 17.0,
-      "source_out": 20.024,
-      "speed": 0.36,
-      "transition_in": "seam",
-      "transition_seconds": 0.5
+      "url": "usekerb.xyz/proof",
+      "final_start": 182.097,
+      "final_end": 192.077,
+      "source_in": 17.2,
+      "source_out": 20.493,
+      "remap": [
+        [
+          0,
+          17.2
+        ]
+      ],
+      "tail_speed": 0.33,
+      "dissolve_in": 0.45
     },
     {
-      "id": "S45",
-      "name": "thesis",
-      "final_start": 184.95,
-      "final_end": 200.55,
+      "name": "home2",
       "source": "artifacts/demo-video/captures/home_hero_live.mkv",
+      "url": "usekerb.xyz",
+      "final_start": 192.077,
+      "final_end": 206.617,
       "source_in": 0.4,
-      "source_out": 16.0,
-      "speed": 1.0,
-      "transition_in": "fade",
-      "transition_seconds": 0.8
+      "source_out": 14.94,
+      "remap": [
+        [
+          0,
+          0.4
+        ]
+      ],
+      "tail_speed": 1.0,
+      "dissolve_in": 0.45
+    }
+  ],
+  "cards": [
+    {
+      "take": "board1",
+      "rect": [
+        165,
+        712,
+        1575,
+        172
+      ],
+      "start": 17.74,
+      "end": 19.95,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "board2",
+      "rect": [
+        165,
+        188,
+        1575,
+        182
+      ],
+      "start": 20.4,
+      "end": 24.27,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "board2",
+      "rect": [
+        838,
+        418,
+        470,
+        600
+      ],
+      "start": 24.86,
+      "end": 27.16,
+      "label": "C(1%) \u00b7 TERMS \u00b7 DEBT CEILING",
+      "mode": "lifted"
+    },
+    {
+      "take": "board2",
+      "rect": [
+        165,
+        772,
+        1110,
+        118
+      ],
+      "start": 30.88,
+      "end": 34.1,
+      "label": "POSTED ON X LAYER MAINNET \u00b7 CHAIN 196",
+      "mode": "in place"
+    },
+    {
+      "take": "exit2",
+      "rect": [
+        188,
+        402,
+        1552,
+        112
+      ],
+      "start": 47.11,
+      "end": 52.82,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "terms1",
+      "rect": [
+        698,
+        595,
+        1040,
+        78
+      ],
+      "start": 54.72,
+      "end": 56.94,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "terms2",
+      "rect": [
+        160,
+        640,
+        1580,
+        128
+      ],
+      "start": 69.58,
+      "end": 72.54,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "borrow1",
+      "rect": [
+        620,
+        595,
+        585,
+        270
+      ],
+      "start": 74.36,
+      "end": 76.44,
+      "label": "TWO HORIZONS \u00b7 CHOOSE ONE",
+      "mode": "lifted"
+    },
+    {
+      "take": "borrow1",
+      "rect": [
+        612,
+        770,
+        600,
+        138
+      ],
+      "start": 78.69,
+      "end": 81.64,
+      "label": "BEFORE SIGNING",
+      "mode": "lifted"
+    },
+    {
+      "take": "borrow1",
+      "rect": [
+        915,
+        372,
+        288,
+        265
+      ],
+      "start": 82.25,
+      "end": 84.24,
+      "label": "SESSION MAX \u00b7 THE COVENANT",
+      "mode": "lifted"
+    },
+    {
+      "take": "wal1",
+      "rect": [
+        1446,
+        0,
+        474,
+        965
+      ],
+      "start": 84.39,
+      "end": 86.14,
+      "label": "OKX WALLET \u00b7 X LAYER TESTNET",
+      "mode": "lifted"
+    },
+    {
+      "take": "wal2",
+      "rect": [
+        1446,
+        0,
+        474,
+        965
+      ],
+      "start": 86.14,
+      "end": 87.94,
+      "label": "OKX WALLET \u00b7 X LAYER TESTNET",
+      "mode": "lifted"
+    },
+    {
+      "take": "position",
+      "rect": [
+        1255,
+        228,
+        480,
+        690
+      ],
+      "start": 88.24,
+      "end": 89.52,
+      "label": "SESSION MAX POSITION \u00b7 OPEN",
+      "mode": "in place"
+    },
+    {
+      "take": "countdown",
+      "rect": [
+        1486,
+        550,
+        244,
+        84
+      ],
+      "start": 90.32,
+      "end": 96.837,
+      "label": "NEXT LAST CALL \u00b7 DEMO CLOCK",
+      "mode": "lifted"
+    },
+    {
+      "take": "countdown",
+      "rect": [
+        170,
+        544,
+        1520,
+        62
+      ],
+      "start": 103.32,
+      "end": 108.8,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "cure",
+      "rect": [
+        170,
+        544,
+        1520,
+        62
+      ],
+      "start": 108.5,
+      "end": 111.7,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "walcure",
+      "rect": [
+        1446,
+        0,
+        474,
+        965
+      ],
+      "start": 111.75,
+      "end": 113.8,
+      "label": "OKX WALLET \u00b7 X LAYER TESTNET",
+      "mode": "lifted"
+    },
+    {
+      "take": "cured",
+      "rect": [
+        170,
+        626,
+        265,
+        76
+      ],
+      "start": 114.917,
+      "end": 116.017,
+      "label": "CURE CONFIRMED",
+      "mode": "lifted"
+    },
+    {
+      "take": "oklink",
+      "rect": [
+        98,
+        120,
+        1704,
+        958
+      ],
+      "start": 115.867,
+      "end": 117.507,
+      "label": null,
+      "mode": "window"
+    },
+    {
+      "take": "carry",
+      "rect": [
+        170,
+        795,
+        1520,
+        70
+      ],
+      "start": 117.857,
+      "end": 124.417,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "carry",
+      "rect": [
+        915,
+        318,
+        330,
+        52
+      ],
+      "start": 121.937,
+      "end": 124.417,
+      "label": "kKOx LIQUIDATION LINE \u00b7 FIXED",
+      "mode": "in place"
+    },
+    {
+      "take": "proof2",
+      "rect": [
+        168,
+        438,
+        396,
+        208
+      ],
+      "start": 126.577,
+      "end": 128.807,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "proof2",
+      "rect": [
+        168,
+        688,
+        396,
+        185
+      ],
+      "start": 129.057,
+      "end": 131.157,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "proof3",
+      "rect": [
+        168,
+        908,
+        1565,
+        128
+      ],
+      "start": 136.377,
+      "end": 138.867,
+      "label": "RECOMPUTED FROM THE BUNDLE \u00b7 COMPARED WITH THE POSTED TRANSACTION",
+      "mode": "in place"
+    },
+    {
+      "take": "proof4",
+      "rect": [
+        948,
+        438,
+        394,
+        208
+      ],
+      "start": 140.397,
+      "end": 142.767,
+      "label": "KERB BUILDER CODE",
+      "mode": "lifted"
+    },
+    {
+      "take": "con1",
+      "rect": [
+        163,
+        588,
+        388,
+        200
+      ],
+      "start": 145.147,
+      "end": 147.987,
+      "label": "THE REFERENCE CONSUMER",
+      "mode": "in place"
+    },
+    {
+      "take": "con2",
+      "rect": [
+        160,
+        890,
+        1000,
+        158
+      ],
+      "start": 148.647,
+      "end": 151.967,
+      "label": "AGENTS \u00b7 PAY PER CALL",
+      "mode": "in place"
+    },
+    {
+      "take": "con3",
+      "rect": [
+        163,
+        368,
+        880,
+        44
+      ],
+      "start": 152.567,
+      "end": 156.087,
+      "label": "CONTRACTS \u00b7 ONE READ",
+      "mode": "in place"
+    },
+    {
+      "take": "ev2",
+      "rect": [
+        163,
+        740,
+        808,
+        302
+      ],
+      "start": 167.977,
+      "end": 171.557,
+      "label": "24 SEP \u00b7 06:55 AND 07:05 UTC \u00b7 HELD",
+      "mode": "lifted"
+    },
+    {
+      "take": "ev2",
+      "rect": [
+        985,
+        740,
+        218,
+        302
+      ],
+      "start": 171.757,
+      "end": 173.947,
+      "label": "A DAY LATER \u00b7 25 SEP 07:00 UTC",
+      "mode": "lifted"
+    },
+    {
+      "take": "ev1",
+      "rect": [
+        163,
+        598,
+        1275,
+        118
+      ],
+      "start": 174.097,
+      "end": 177.767,
+      "label": "MARKET-TIME REPORT #2 \u00b7 FINAL",
+      "mode": "lifted"
+    },
+    {
+      "take": "lim",
+      "rect": [
+        163,
+        712,
+        1585,
+        66
+      ],
+      "start": 182.897,
+      "end": 189.757,
+      "label": null,
+      "mode": "in place"
+    },
+    {
+      "take": "lim",
+      "rect": [
+        163,
+        884,
+        1585,
+        48
+      ],
+      "start": 189.857,
+      "end": 191.977,
+      "label": null,
+      "mode": "in place"
     }
   ],
   "narration": [
     {
-      "segment": "01_cold_open",
-      "start": 0.9,
-      "end": 14.0
+      "seg": "01_cold_open",
+      "wf": 0,
+      "wt": 6,
+      "cut_from": 0.0,
+      "cut_to": 3.06,
+      "place": 1.4
     },
     {
-      "segment": "02_board",
-      "start": 15.05,
-      "end": 31.35
+      "seg": "01_cold_open",
+      "wf": 7,
+      "wt": 19,
+      "cut_from": 3.06,
+      "cut_to": 8.31,
+      "place": 4.82
     },
     {
-      "segment": "03_exit",
-      "start": 32.1,
-      "end": 49.62
+      "seg": "01_cold_open",
+      "wf": 20,
+      "wt": 32,
+      "cut_from": 8.31,
+      "cut_to": 13.5,
+      "place": 10.61
     },
     {
-      "segment": "04_kts",
-      "start": 50.4,
-      "end": 68.82
+      "seg": "02_board",
+      "wf": 0,
+      "wt": 40,
+      "cut_from": 0.0,
+      "cut_to": 16.7,
+      "place": 17.0
     },
     {
-      "segment": "05_borrow",
-      "start": 70.5,
-      "end": 84.38
+      "seg": "03_exit",
+      "wf": 0,
+      "wt": 42,
+      "cut_from": 0.0,
+      "cut_to": 17.92,
+      "place": 34.65
     },
     {
-      "segment": "06a_last_call",
-      "start": 86.55,
-      "end": 93.21
+      "seg": "04_kts",
+      "wf": 0,
+      "wt": 49,
+      "cut_from": 0.0,
+      "cut_to": 18.82,
+      "place": 53.52
     },
     {
-      "segment": "06b_curable",
-      "start": 96.35,
-      "end": 106.73
+      "seg": "05_borrow",
+      "wf": 0,
+      "wt": 35,
+      "cut_from": 0.0,
+      "cut_to": 14.28,
+      "place": 73.44
     },
     {
-      "segment": "06c_cured",
-      "start": 112.65,
-      "end": 121.15
+      "seg": "06a_last_call",
+      "wf": 0,
+      "wt": 5,
+      "cut_from": 0.0,
+      "cut_to": 2.18,
+      "place": 93.317
     },
     {
-      "segment": "07_proof",
-      "start": 122.0,
-      "end": 139.0
+      "seg": "06a_last_call",
+      "wf": 6,
+      "wt": 16,
+      "cut_from": 2.18,
+      "cut_to": 7.06,
+      "place": 96.927
     },
     {
-      "segment": "08_consumers",
-      "start": 139.85,
-      "end": 156.79
+      "seg": "06b_curable",
+      "wf": 0,
+      "wt": 11,
+      "cut_from": 0.0,
+      "cut_to": 4.62,
+      "place": 102.02
     },
     {
-      "segment": "09_research",
-      "start": 157.6,
-      "end": 177.14
+      "seg": "06b_curable",
+      "wf": 12,
+      "wt": 16,
+      "cut_from": 4.62,
+      "cut_to": 6.65,
+      "place": 106.56
     },
     {
-      "segment": "10_close",
-      "start": 177.75,
-      "end": 193.39
+      "seg": "06b_curable",
+      "wf": 17,
+      "wt": 27,
+      "cut_from": 6.65,
+      "cut_to": 10.78,
+      "place": 108.56
     },
     {
-      "segment": "10b_final_line",
-      "start": 194.55,
-      "end": 196.39
+      "seg": "06c_cured",
+      "wf": 0,
+      "wt": 24,
+      "cut_from": 0.0,
+      "cut_to": 8.9,
+      "place": 115.217
+    },
+    {
+      "seg": "07_proof",
+      "wf": 0,
+      "wt": 45,
+      "cut_from": 0.0,
+      "cut_to": 17.4,
+      "place": 125.317
+    },
+    {
+      "seg": "08_consumers",
+      "wf": 0,
+      "wt": 39,
+      "cut_from": 0.0,
+      "cut_to": 17.34,
+      "place": 143.667
+    },
+    {
+      "seg": "09_research",
+      "wf": 0,
+      "wt": 50,
+      "cut_from": 0.0,
+      "cut_to": 19.94,
+      "place": 161.957
+    },
+    {
+      "seg": "10_close",
+      "wf": 0,
+      "wt": 23,
+      "cut_from": 0.0,
+      "cut_to": 9.16,
+      "place": 182.897
+    },
+    {
+      "seg": "10_close",
+      "wf": 24,
+      "wt": 41,
+      "cut_from": 9.16,
+      "cut_to": 16.04,
+      "place": 192.197
+    },
+    {
+      "seg": "10b_final_line",
+      "wf": 0,
+      "wt": 6,
+      "cut_from": 0.0,
+      "cut_to": 2.2204,
+      "place": 200.377
     }
   ],
-  "accents": [
-    {
-      "name": "structural swell into the Board",
-      "peak": 14.15
-    },
-    {
-      "name": "low impact, Last Call opens",
-      "at": 94.017
-    },
-    {
-      "name": "confirmation tone, Cure done",
-      "at": 112.817
-    }
-  ],
+  "accents": {
+    "window_in": 14.36,
+    "last_call_flip": 95.587,
+    "cured": 114.867
+  },
+  "loudness": {
+    "integrated_lufs": "-14.02",
+    "true_peak_dbtp": "-1.60",
+    "lra": "3.30"
+  },
+  "voice": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice": "Adam (premade)"
+  },
   "music": {
     "source": "docs/audio_background/Audio compilation.mp3",
     "from": 0,
     "removed_silence": [
       149.5,
       152.9
-    ],
-    "fade_in": 1.3,
-    "fade_out": 3.0
-  },
-  "loudness": {
-    "integrated_lufs": "-14.02",
-    "true_peak_dbtp": "-1.60"
-  },
-  "voice": {
-    "provider": "ElevenLabs",
-    "model": "eleven_multilingual_v2",
-    "voice": "Adam (premade)",
-    "reason": "Antoni, Sam and Noah are not available in the connected account"
+    ]
   }
 }

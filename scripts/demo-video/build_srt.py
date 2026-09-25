@@ -9,7 +9,6 @@ import re
 import sys
 
 sys.path.insert(0, "/root/kerb/scripts/demo-video")
-import kerb_film as kf  # noqa: E402
 
 ROOT = "/root/kerb"
 MAXLINE = 42
@@ -79,10 +78,19 @@ def main() -> None:
             t = t.replace(a, b)
         text[seg["id"]] = t
     asr = json.load(open(f"{ROOT}/artifacts/demo-video/voice/asr.json"))
-    S, _ = kf.build()
+    plan = json.load(open(f"{ROOT}/artifacts/demo-video/vo_plan.json"))
+    clips = plan["clips"]
+
+    def wt(seg, i, key):
+        for c in clips:
+            if c["seg"] == seg and c["wf"] <= i <= c["wt"]:
+                return c["place"] + asr[seg]["words"][i][key] - c["cut_from"]
+        raise KeyError((seg, i))
+
     cues = []
-    for seg, t0 in kf.vo_schedule(S):
-        words = asr[seg]["words"]
+    for seg in dict.fromkeys(c["seg"] for c in clips):
+        words = [dict(s=wt(seg, i, "s"), e=wt(seg, i, "e")) for i in range(len(asr[seg]["words"]))]
+        t0 = 0.0
         cs = chunks(text[seg])
         # distribute ASR words over chunks by word count of the script chunks
         counts = [len(c.split()) for c in cs]

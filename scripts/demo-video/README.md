@@ -39,3 +39,14 @@ KERB_DEMO_RUNTIME=198 node scripts/demo-video/build-music-bed.mjs
 `qa-render.mjs` checks basic technical output after the final edit.
 
 The final motion edit is intentionally not reduced to a one-command blind render. Claude must inspect the actual footage and build the exact edit from the EDL because source timecodes and visual quality determine the correct cut.
+
+## v2 film (the submitted cut)
+
+```bash
+python scripts/demo-video/kerb_film2.py export   # vo_plan.json, EDL
+python scripts/demo-video/build_audio2.py        # narration + music + accents, -14 LUFS
+python scripts/demo-video/build_srt.py           # captions from vo_plan.json
+python scripts/demo-video/kerb_film2.py master   # video, five parallel chunks (~10 min)
+```
+
+Needs `artifacts/demo-video/fonts` (TTFs of General Sans, IBM Plex Mono, Instrument Serif converted from the site's fonts) and `artifacts/demo-video/brand` (mark and wordmark rasterised from `docs/brand-assets/*.svg`).

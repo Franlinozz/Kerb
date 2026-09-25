@@ -49,3 +49,9 @@
 ## M8 Export (17:50 UTC)
 - Changed: `Kerb_OKX_Dev_Day_Demo_MASTER.mp4` (117.5 MB), `Kerb_OKX_Dev_Day_Demo_WEB.mp4` (49.0 MB), `Kerb_OKX_Dev_Day_Demo.srt` (51 cues, written forms), `final_timeline.json`, `docs/demo_video/EDL.json`.
 - Runtime: 3:20.5.
+
+## v2 (25 Sep, 17:30 to 18:30 UTC), after the operator's review
+- Review: the opening had too many cuts, the constant zooms read as a screenshot being pushed at, and the cropped page looked plain.
+- Changed: new compositor (`scripts/demo-video/filmkit2.py`) and edit (`kerb_film2.py`): every recording plays at one size inside a browser window on Kerb's own art plates (p5 fog; the close pushes into the p1 Kerbstone arch). No page zooms; emphasis by lift-out cards and leader tags. New opening graphic of a UTC day with New York and Hong Kong sessions. Takes, cards and graphics placed on spoken words (ASR word timings); narration cut per sentence (`vo_plan.json`, `build_audio2.py`).
+- Evidence: `FINAL_QA.md` (v2), review sheets in `review_v2/`, frame-difference scan, accent cross-correlation, mix ASR 96.6%.
+- Runtime: 3:26.6.
