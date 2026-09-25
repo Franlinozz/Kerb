@@ -37,10 +37,43 @@ function sentence(a: AccountActivity, sym: string, dec: number): string {
   }
 }
 
+const STEPS = ["Connecting to X Layer testnet", "Reading KerbCredit positions", "Reading mirror tokens and mUSDG", "Scanning this address's history"];
+
+/** While the chain is read: the page's own layout in placeholders, and what is being read right now. */
+function Loading({ what, failed }: { what: string; failed?: boolean }): React.ReactElement {
+  const [t, setT] = useState(0);
+  useEffect(() => { const id = window.setInterval(() => setT((x) => x + 1), 1000); return () => window.clearInterval(id); }, []);
+  const step = Math.min(STEPS.length - 1, Math.floor(t / 2));
+  return (
+    <div className="acct" aria-busy="true">
+      <div className="acct-loading" role="status" aria-live="polite">
+        <span className="acct-spin" aria-hidden="true" />
+        <div>
+          <strong>{failed ? "The chain did not answer yet. Retrying." : `${what}`}</strong>
+          <span className="t-small ink-3">{STEPS[step]}… {t}s. A first read of an address takes a few seconds.</span>
+        </div>
+        <ol className="acct-steps" aria-hidden="true">{STEPS.map((x, i) => <li key={x} data-state={i < step ? "done" : i === step ? "now" : undefined} />)}</ol>
+      </div>
+      <section className="acct-section"><span className="t-label">Holdings</span>
+        <div className="acct-cards">{[0, 1, 2, 3].map((i) => <div key={i}><span className="skel" style={{ display: "block", width: "40%", height: 10 }} /><span className="skel" style={{ display: "block", width: "70%", height: 26, marginTop: 10 }} /></div>)}</div>
+      </section>
+      <section className="acct-section"><span className="t-label">Positions</span><span className="skel" style={{ display: "block", height: 96, marginTop: 12 }} /></section>
+      <section className="acct-section"><span className="t-label">Real xStocks on X Layer mainnet</span><span className="skel" style={{ display: "block", height: 64, marginTop: 12 }} /></section>
+      <section className="acct-section"><span className="t-label">History in Kerb Credit</span>
+        {[0, 1, 2, 3].map((i) => <span key={i} className="skel" style={{ display: "block", height: 14, width: `${80 - i * 12}%`, marginTop: 12 }} />)}
+      </section>
+    </div>
+  );
+}
+
 export function AccountView(): React.ReactElement {
-  const { address: connected } = useHydratedAccount(useAccount());
+  const acct = useAccount();
+  const { address: connected } = useHydratedAccount(acct);
   const [param, setParam] = useState<string | null>(null);
-  useEffect(() => { const a = new URLSearchParams(window.location.search).get("addr"); setParam(a && /^0x[0-9a-fA-F]{40}$/.test(a) ? a : null); }, []);
+  const [paramRead, setParamRead] = useState(false);
+  useEffect(() => { const a = new URLSearchParams(window.location.search).get("addr"); setParam(a && /^0x[0-9a-fA-F]{40}$/.test(a) ? a : null); setParamRead(true); }, []);
+  // Until the URL is read and the wallet has had its chance to reconnect, the page is loading, not empty.
+  const settling = !paramRead || acct.status === "reconnecting" || acct.status === "connecting";
   const addr = param ?? connected ?? null;
   const q = useLive<Account>(addr ? `/v1/credit/1952/account/${addr}` : null, null, 30_000, { asOf: (x) => x.generatedAt });
   const hq = useLive<Holdings>(addr ? `/v1/holdings/196/${addr}` : null, null, 60_000, { asOf: (x) => x.generatedAt });
@@ -52,9 +85,10 @@ export function AccountView(): React.ReactElement {
       <div className="row"><span className="fld-box"><input id="acct-addr" className="left mono" placeholder="0x..." value={lookup} onChange={(e) => setLookup(e.target.value)} spellCheck={false} /></span><button type="submit" className="btn">Open</button></div>
     </form>
   );
+  if (!addr && settling) return <Loading what="Finding your wallet" />;
   if (!addr) return <div className="acct"><EmptyState title="Connect a wallet to see your account">Your holdings, positions and history in Kerb Credit, read from X Layer testnet. Or look up any address below, or open <a href="/account?addr=0xacCd2b8B681eF9C5BeB1A2d08872652170EfC0f4">the demo keeper</a>, which borrows at Session Max every demo cycle.</EmptyState>{look}</div>;
   const a = q.data;
-  if (!a) return <div className="acct"><p className="t-small ink-3">{q.failed ? "The account could not be read from chain right now." : "Reading the chain. The first read of an address can take a few seconds."}</p>{look}</div>;
+  if (!a) return <Loading what={`Reading ${shortHash(addr, 6, 4)} from the chain`} failed={q.failed} />;
   const dec = a.loanAsset.decimals, sym = a.loanAsset.symbol;
   const src = "Read from X Layer testnet 1952: KerbCredit, the mirror tokens and mUSDG";
   return (
@@ -97,7 +131,7 @@ export function AccountView(): React.ReactElement {
       <section className="acct-section" aria-labelledby="acct-mainnet">
         <h2 id="acct-mainnet" className="t-label">Real xStocks on X Layer mainnet <ProvMark label="Verified" source="Token and wrapper balances on X Layer mainnet, each priced through KerbQuote on mainnet at one block" observedAt={hq.data?.generatedAt ?? null} /></h2>
         <p className="t-small ink-3">What this address could borrow against the real tokens it holds, under the live Kerb Terms. Read only: Kerb never holds these tokens, and mainnet credit is not offered.</p>
-        {!hq.data ? <p className="t-small ink-3">{hq.failed ? "X Layer mainnet did not answer; try again in a moment." : "Reading ten xStocks on mainnet."}</p> : hq.data.holdings.length === 0 ? (
+        {!hq.data ? (hq.failed ? <p className="t-small ink-3">X Layer mainnet did not answer; retrying.</p> : <div className="acct-subload" role="status"><span className="acct-spin" aria-hidden="true" /><span className="t-small ink-3">Reading ten xStocks on X Layer mainnet and pricing them through KerbQuote…</span><span className="skel" style={{ display: "block", height: 44, width: "100%" }} /></div>) : hq.data.holdings.length === 0 ? (
           <p className="ink-2">No xStocks held on X Layer mainnet (all {hq.data.assetsChecked} checked at block {hq.data.block}). For a worked example, open <a href={`/account?addr=0x34Fa7515d3364648F558aa876F73feC12e2bA507`}>the BRK.Bx pool</a>.</p>
         ) : (
           <div className="dt-wrap"><table className="dt" style={{ minWidth: 640 }}>
