@@ -4,6 +4,7 @@
  * the live deployment list, never typed by hand.
  */
 import type { Metadata } from "next";
+import { ArchitectureFigure } from "@/components/kerb/ArchitectureFigure";
 import Link from "@/components/ui/Link";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { ScrollSpy } from "@/components/kerb/ScrollSpy";
@@ -63,6 +64,7 @@ export default async function DocsPage(): Promise<React.ReactElement> {
             <h2>Overview</h2>
             <p>One set of terms, four consumers. <Link href="/credit">Kerb Credit</Link> is the reference market that lends against them on testnet. Agents buy a decision-ready credit check for one cent over x402. Any X Layer contract reads them in one call through KerbQuote. Developers read them over REST with no key, or through the SDK and the MCP server.</p>
             <p>The rules behind every number are the Kerb Terms Standard, on <Link href="/methodology">Methodology</Link>. The evidence for every claim is on <Link href="/proof">Proof</Link>.</p>
+            <div className="mt-5"><ArchitectureFigure /></div>
           </section>
 
           <section id="concepts" className="method-section">

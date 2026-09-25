@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1010" width="1600" height="1010" role="img" aria-labelledby="t d">
+<title id="t">Kerb architecture</title>
+<desc id="d">Market data flows from X Layer pools, OKX DEX quotes, reference prices and exchange calendars into the Kerb collector and an append-only store. The deterministic KTS 0.2 engine turns it into terms and an input bundle; the attester signs and posts them to KerbTerms on X Layer mainnet with the Builder Code. A relay mirrors the terms to X Layer testnet, where Kerb Credit lends against them. Contracts, agents over x402 and MCP, and developers over REST and the SDK read the same terms.</desc>
+<defs>
+<marker id="arrow-data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A887F"/></marker>
+<marker id="arrow-post" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#A7771E"/></marker>
+<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#DAD5C8" stroke-width="0.6" opacity="0.45"/></pattern>
+</defs>
+<style>
+.bgc{fill:#F5F2EB}
+.box rect{fill:#FFFFFF;stroke:#DAD5C8;stroke-width:1.2}
+.box.core rect{fill:#FBF9F4;stroke:#8A887F}
+.box.chain rect{fill:#FBF9F4;stroke:#A7771E;stroke-width:1.4}
+.box.chain2 rect{fill:#FBF9F4;stroke:#5B7340;stroke-width:1.4}
+.box.consumer rect{fill:#FFFFFF;stroke:#DAD5C8}
+.title{font:600 16px Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;fill:#16170F;letter-spacing:-0.01em}
+.line{font:400 13px Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;fill:#55544C}
+.tag{font:500 10.5px 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;fill:#A7771E;letter-spacing:0.12em;text-transform:uppercase}
+.chain2 .tag{fill:#5B7340}
+.col{font:500 11.5px 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;fill:#8A887F;letter-spacing:0.16em;text-transform:uppercase}
+.head{font:600 30px Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;fill:#16170F;letter-spacing:-0.03em}
+.sub{font:400 15px Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;fill:#55544C}
+.note{font:400 12px 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;fill:#8A887F}
+.flow,.flow-post{fill:none;stroke-width:1.6;stroke-linecap:round}
+.flow{stroke:#8A887F;stroke-dasharray:5 7}
+.flow-post{stroke:#A7771E;stroke-width:2;stroke-dasharray:7 7}
+@media (prefers-reduced-motion:no-preference){.flow{animation:run 1.6s linear infinite}.flow-post{animation:run 1.1s linear infinite}}
+@keyframes run{to{stroke-dashoffset:-24}}
+.chip rect{fill:none;stroke:#DAD5C8}
+.chip text{font:500 11.5px 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;fill:#55544C}
+.brand-a{fill:#16170F}.brand-b{fill:#16170F;opacity:0.5}
+</style>
+<rect class="bgc" width="1600" height="1010"/><rect width="1600" height="1010" fill="url(#grid)"/>
+<g transform="translate(48 40) scale(0.052)"><path class="brand-a" d="M263.4 47.3Q315.0 0.0 385.0 0.0L636.0 0.0Q658.0 0.0 641.7 14.8L390.9 242.0Q339.0 289.0 269.0 289.0L22.0 289.0Q0.0 289.0 16.2 274.1Z"/><path class="brand-b" d="M506.4 171.3Q558.0 124.0 628.0 124.0L832.0 124.0Q854.0 124.0 837.8 138.9L590.6 365.7Q539.0 413.0 469.0 413.0L265.0 413.0Q243.0 413.0 259.2 398.1Z"/></g>
+<text class="head" x="100" y="62">Kerb · system architecture</text>
+<text class="sub" x="48" y="96">One measured, deterministic term, posted on X Layer and read by a credit market, contracts, agents and code.</text>
+<text class="col" x="48" y="150">1 · Sources</text>
+<text class="col" x="400" y="150">2 · Measure and compute (off chain, recomputable)</text>
+<text class="col" x="948" y="150">3 · Post (X Layer)</text>
+<text class="col" x="1300" y="150">4 · Consumers</text>
+<g class="box panel">
+<rect x="48" y="172" width="290" height="94" rx="8"/>
+<text class="title" x="64" y="200">X Layer pools</text>
+<text class="line" x="64" y="222">10 xStocks Uniswap V3 pools</text>
+<text class="line" x="64" y="241">slot0, liquidity, ticks, every minute</text>
+</g>
+<g class="box panel">
+<rect x="48" y="284" width="290" height="94" rx="8"/>
+<text class="title" x="64" y="312">OKX DEX aggregator</text>
+<text class="line" x="64" y="334">sell quotes at fixed sizes</text>
+<text class="line" x="64" y="353">cross-checks the tick-walk</text>
+</g>
+<g class="box panel">
+<rect x="48" y="396" width="290" height="94" rx="8"/>
+<text class="title" x="64" y="424">Reference prices</text>
+<text class="line" x="64" y="446">xStocks issuer data, Yahoo as a</text>
+<text class="line" x="64" y="465">second, independent check</text>
+</g>
+<g class="box panel">
+<rect x="48" y="508" width="290" height="94" rx="8"/>
+<text class="title" x="64" y="536">Exchange calendars</text>
+<text class="line" x="64" y="558">XNYS · XNAS · ARCX · XHKG</text>
+<text class="line" x="64" y="577">sessions, lunch, DST, holidays</text>
+</g>
+<g class="box core">
+<rect x="400" y="172" width="490" height="94" rx="8"/>
+<text class="tag" x="416" y="194">apps/collector</text>
+<text class="title" x="416" y="218">kerb-collector → observation store</text>
+<text class="line" x="416" y="240">Postgres, append-only (triggers reject UPDATE and DELETE)</text>
+<text class="line" x="416" y="259">every row kept; bundles cut from it byte for byte</text>
+</g>
+<g class="box core">
+<rect x="400" y="296" width="490" height="150" rx="8"/>
+<text class="tag" x="416" y="318">apps/engine · no model, no floats</text>
+<text class="title" x="416" y="342">KTS 0.2 engine (pure functions)</text>
+<text class="line" x="416" y="364">Clock: regime and the next weakening, per asset</text>
+<text class="line" x="416" y="383">Depth: C(1%) by tick-walk, the exit that is really there</text>
+<text class="line" x="416" y="402">Mark: the lower of reference and pool, less a haircut</text>
+<text class="line" x="416" y="421">Terms: Carry, Session Max, fixed LT, debt ceiling</text>
+</g>
+<g class="box core">
+<rect x="400" y="476" width="490" height="94" rx="8"/>
+<text class="tag" x="416" y="498">published by the API</text>
+<text class="title" x="416" y="522">Input bundle</text>
+<text class="line" x="416" y="544">canonical JSON, hashed; anyone recomputes the same</text>
+<text class="line" x="416" y="563">report byte for byte (kerb verify &lt;hash&gt;)</text>
+</g>
+<g class="box core">
+<rect x="400" y="600" width="490" height="94" rx="8"/>
+<text class="tag" x="416" y="622">apps/attester</text>
+<text class="title" x="416" y="646">kerb-attester</text>
+<text class="line" x="416" y="668">guardrails (tighten fast, loosen slow) · EIP-712 sign</text>
+<text class="line" x="416" y="687">post with Builder Code kt0hl6xyhlx8xmt (ERC-8021)</text>
+</g>
+<g class="box chain">
+<rect x="948" y="172" width="300" height="214" rx="8"/>
+<text class="tag" x="964" y="194">risk plane · real xStocks</text>
+<text class="title" x="964" y="218">X Layer mainnet · 196</text>
+<text class="line" x="964" y="240">KerbTerms: signed terms + inputs hash</text>
+<text class="line" x="964" y="259">KerbClock: calendars and regimes</text>
+<text class="line" x="964" y="278">KerbQuote: max borrow, cure</text>
+<text class="line" x="964" y="297">   deadline, usability in one call</text>
+<text class="line" x="964" y="316">KerbMarkFeed × 10: Credit Mark</text>
+<text class="line" x="964" y="335">   as a Chainlink-shaped feed</text>
+<text class="line" x="964" y="354">Sourcify exact match, all 34</text>
+</g>
+<g class="box chain2">
+<rect x="948" y="468" width="300" height="226" rx="8"/>
+<text class="tag" x="964" y="490">credit plane · mirror terms</text>
+<text class="title" x="964" y="514">X Layer testnet · 1952</text>
+<text class="line" x="964" y="536">KerbCredit: Carry, Session Max,</text>
+<text class="line" x="964" y="555">   Last Call, public cure</text>
+<text class="line" x="964" y="574">KerbMirror: mirror collateral</text>
+<text class="line" x="964" y="593">mUSDG loan asset · demo clock</text>
+<text class="line" x="964" y="612">kerb-demo-keeper: a standing</text>
+<text class="line" x="964" y="631">   position to cure every cycle</text>
+</g>
+<g class="box consumer">
+<rect x="1300" y="172" width="252" height="88" rx="8"/>
+<text class="title" x="1316" y="200">Kerb Credit</text>
+<text class="line" x="1316" y="222">borrow, Last Call, cure on testnet</text>
+</g>
+<g class="box consumer">
+<rect x="1300" y="278" width="252" height="88" rx="8"/>
+<text class="title" x="1316" y="306">Any contract</text>
+<text class="line" x="1316" y="328">KerbQuote and Credit Mark feeds</text>
+</g>
+<g class="box consumer">
+<rect x="1300" y="384" width="252" height="88" rx="8"/>
+<text class="title" x="1316" y="412">Agents</text>
+<text class="line" x="1316" y="434">x402 paid checks · MCP · OKX.AI</text>
+</g>
+<g class="box consumer">
+<rect x="1300" y="490" width="252" height="88" rx="8"/>
+<text class="title" x="1316" y="518">Developers</text>
+<text class="line" x="1316" y="540">REST (no key) · npm i kerb-sdk</text>
+</g>
+<g class="box consumer">
+<rect x="1300" y="596" width="252" height="88" rx="8"/>
+<text class="title" x="1316" y="624">People</text>
+<text class="line" x="1316" y="646">usekerb.xyz · Telegram alerts</text>
+</g>
+<path class="flow" d="M338 219 C 368 219, 368 219, 396 219" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M338 331 C 368 331, 368 219, 396 219" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M338 443 C 368 443, 368 219, 396 219" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M338 555 C 368 555, 368 219, 396 219" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M645 266 L645 292" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M645 446 L645 472" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M645 570 L645 596" marker-end="url(#arrow-data)"/>
+<path class="flow-post" d="M890 647 C 925 647, 915 300, 944 300" marker-end="url(#arrow-post)"/>
+<path class="flow-post" d="M1098 386 L1098 464" marker-end="url(#arrow-post)"/>
+<text class="note" x="1110" y="430">kerb-mirror-relay</text>
+<path class="flow" d="M1248 580 H1264 Q1270 580 1270 572 V224 Q1270 216 1278 216 H1296" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M1248 280 H1278 Q1286 280 1286 288 V632"/>
+<path class="flow" d="M1286 322 H1296" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M1286 428 H1296" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M1286 534 H1296" marker-end="url(#arrow-data)"/>
+<path class="flow" d="M1286 632 Q1286 640 1294 640 H1296" marker-end="url(#arrow-data)"/>
+<text class="col" x="48" y="760">Explain · observe · alert (run beside the core, never in the posting path)</text>
+<g class="box panel">
+<rect x="48" y="776" width="290" height="94" rx="8"/>
+<text class="title" x="64" y="804">kerb-attribution</text>
+<text class="line" x="64" y="826">why each term moved: horizon,</text>
+<text class="line" x="64" y="845">volatility, exit cost, caps</text>
+</g>
+<g class="box panel">
+<rect x="350" y="776" width="290" height="94" rx="8"/>
+<text class="title" x="366" y="804">kerb-indexer + API</text>
+<text class="line" x="366" y="826">events to Postgres, 24 REST</text>
+<text class="line" x="366" y="845">endpoints, free MCP server</text>
+</g>
+<g class="box panel">
+<rect x="652" y="776" width="290" height="94" rx="8"/>
+<text class="title" x="668" y="804">kerb-agents</text>
+<text class="line" x="668" y="826">x402 on X Layer through the</text>
+<text class="line" x="668" y="845">OKX facilitator, USDT0</text>
+</g>
+<g class="box panel">
+<rect x="954" y="776" width="290" height="94" rx="8"/>
+<text class="title" x="970" y="804">Market-Time Reports</text>
+<text class="line" x="970" y="826">what the market clock did to</text>
+<text class="line" x="970" y="845">real exit capacity, versioned</text>
+</g>
+<g class="box panel">
+<rect x="1256" y="776" width="290" height="94" rx="8"/>
+<text class="title" x="1272" y="804">Last Call alerts</text>
+<text class="line" x="1272" y="826">browser notifications and</text>
+<text class="line" x="1272" y="845">@KerbAlertsBot on Telegram</text>
+</g>
+<g class="chip"><rect x="48" y="904" width="146" height="30" rx="15"/><text x="60" y="924">Chain is canonical</text></g>
+<g class="chip"><rect x="203.6" y="904" width="232" height="30" rx="15"/><text x="215.6" y="924">Postgres is a rebuildable view</text></g>
+<g class="chip"><rect x="445.6" y="904" width="261" height="30" rx="15"/><text x="457.6" y="924">Bundles are the irreplaceable data</text></g>
+<g class="chip"><rect x="716.4000000000001" y="904" width="196" height="30" rx="15"/><text x="728.4000000000001" y="924">No model near the numbers</text></g>
+<g class="chip"><rect x="922.4000000000001" y="904" width="203" height="30" rx="15"/><text x="934.4000000000001" y="924">Unaudited · testnet credit</text></g>
+<g><path class="flow" d="M1236 919 L1276 919"/><text class="note" x="1284" y="923">data</text><path class="flow-post" d="M1336 919 L1376 919"/><text class="note" x="1384" y="923">signed post on chain</text></g>
+<text class="note" x="48" y="978">github.com/Franlinozz/Kerb · usekerb.xyz · api.usekerb.xyz</text>
+</svg>

@@ -1,0 +1,9 @@
+@layer components {
+  .arch-fig { margin: 0; display: grid; gap: 12px; }
+  .arch-frame { overflow-x: auto; border: 1px solid var(--hair); border-radius: var(--r-3); background: var(--canvas); scrollbar-width: thin; }
+  .arch-frame:focus-visible { outline: 2px solid var(--moss); outline-offset: 2px; }
+  .arch-img { display: block; width: 100%; min-width: 880px; height: auto; }
+  .arch-light { display: none; }
+  :root[data-theme="day"] .arch-dark { display: none; }
+  :root[data-theme="day"] .arch-light { display: block; }
+}

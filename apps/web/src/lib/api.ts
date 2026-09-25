@@ -498,7 +498,7 @@ export const getExit = (symbol: string, hours = 72): Promise<Read<ExitCheck>> =>
 export interface AgentStats {
   label: ProvenanceLabel; generatedAt: string; listingStatus: "unregistered" | "registered" | "under_review" | "listed";
   live: { network: string; price: string; currency: string }; endpoints: Record<string, string>;
-  paidCalls: { network: string; count: number; latest: { tx: string; at: string | null; explorer: string } | null }[];
+  paidCalls: { network: string; count: number; unconfirmed?: number; latest: { tx: string; at: string | null; explorer: string } | null }[];
 }
 export const getAgentStats = (): Promise<Read<AgentStats>> => read<AgentStats>("/v1/agents/stats", 30);
 

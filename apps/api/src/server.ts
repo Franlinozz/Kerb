@@ -671,9 +671,14 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
    */
   app.get("/v1/agents/stats", async () => cached("agents-stats", 15_000, async () => {
     const cfg = JSON.parse(readFileSync(resolve(repoRoot(), "config/agents.json"), "utf8")) as { listingStatus: string; network: string; price: string; currency: string; endpoints: Record<string, string> };
-    const rows = await deps.sql<{ network: string; n: string; last_tx: string | null; last_at: Date | null }[]>`
-      SELECT network, count(*) AS n,
-        (array_agg(settlement_tx ORDER BY ts DESC))[1] AS last_tx, max(ts) AS last_at
+    // Only calls with a settlement transaction count as settled. Calls the facilitator reported as
+    // settled without a transaction hash (four on 25 Sep, from the OKX.AI review's payer) are
+    // reported apart as "unconfirmed", never as settled.
+    const rows = await deps.sql<{ network: string; n: string; unconfirmed: string; last_tx: string | null; last_at: Date | null }[]>`
+      SELECT network, count(*) FILTER (WHERE settlement_tx IS NOT NULL AND settlement_tx <> '') AS n,
+        count(*) FILTER (WHERE settlement_tx IS NULL OR settlement_tx = '') AS unconfirmed,
+        (array_agg(settlement_tx ORDER BY ts DESC) FILTER (WHERE settlement_tx IS NOT NULL AND settlement_tx <> ''))[1] AS last_tx,
+        max(ts) FILTER (WHERE settlement_tx IS NOT NULL AND settlement_tx <> '') AS last_at
       FROM agent_calls WHERE network LIKE 'eip155:%' GROUP BY network ORDER BY network`;
     const explorer = (network: string, tx: string): string => `${network === "eip155:196" ? "https://www.oklink.com/xlayer" : "https://www.oklink.com/x-layer-testnet"}/tx/${tx}`;
     return {
@@ -682,7 +687,7 @@ export function buildServer(deps: ServerDeps): FastifyInstance {
       listingStatus: cfg.listingStatus,
       live: { network: cfg.network, price: cfg.price, currency: cfg.currency },
       endpoints: cfg.endpoints,
-      paidCalls: rows.map((r) => ({ network: r.network, count: Number(r.n), latest: r.last_tx ? { tx: r.last_tx, at: r.last_at ? new Date(r.last_at).toISOString() : null, explorer: explorer(r.network, r.last_tx) } : null })),
+      paidCalls: rows.map((r) => ({ network: r.network, count: Number(r.n), unconfirmed: Number(r.unconfirmed), latest: r.last_tx ? { tx: r.last_tx, at: r.last_at ? new Date(r.last_at).toISOString() : null, explorer: explorer(r.network, r.last_tx) } : null })),
     };
   }));
 

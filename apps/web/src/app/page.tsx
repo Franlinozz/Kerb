@@ -7,6 +7,7 @@ import { LiveRoot } from "@/components/kerb/LiveRoot";
 import { WhyTerms } from "@/components/kerb/WhyTerms";
 import { Consumers } from "@/components/kerb/Consumers";
 import { RevealOnScroll } from "@/components/kerb/RevealOnScroll";
+import { ArchitectureFigure } from "@/components/kerb/ArchitectureFigure";
 import ENDPOINTS from "@/lib/endpoints.json";
 import Link from "@/components/ui/Link";
 import { Suspense } from "react";
@@ -149,6 +150,12 @@ export default async function Home(): Promise<React.ReactElement> {
             </ol>
           ) : <div className="layers"><ErrorState source="The report for the lead asset" /></div>}
         </div>
+      </section>
+
+      {/* ---------------------------------------------------------------- the system */}
+      <section className="home-section">
+        <SectionHead label="The system · four stages · two planes" title="From a pool tick to a term anyone can read." lede="Measured off chain by deterministic code, posted on X Layer mainnet with its inputs hash, mirrored to testnet for credit, and read by everything to the right." />
+        <ArchitectureFigure />
       </section>
 
       {/* ---------------------------------------------------------------- consumers (V3-07) */}

@@ -259,7 +259,7 @@ describe("V2 API additions (V2-02)", () => {
     const b = (await app.inject({ method: "GET", url: "/v1/stats" })).json();
     expect(b).toMatchObject({ obsPoolRows: 100, obsTotalRows: 334, assets: resolvedAssets(cfg).length, label: "Observed" });
     expect(b.postsByChain[0]).toMatchObject({ chainId: 196, count: 44 });
-    expect(b.latestReport?.id).toBe("1");
+    expect(b.latestReport?.id).toBe("2"); // Report #2 published 24 Sep
   });
 
   it("GET /v1/credit/1952/demo-clock returns the compressed schedule", async () => {
