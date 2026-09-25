@@ -30,6 +30,7 @@ export const NAV: readonly NavItem[] = [
       { label: "Learn", items: [
         { href: "/docs", label: "Docs", note: "Start to finish", icon: "book" },
         { href: "/faq", label: "FAQ", note: "Quick answers", icon: "help" },
+        { href: "/film", label: "The film", note: "Kerb in 3½ minutes", icon: "play" },
         { href: "/whitepaper", label: "Whitepaper", note: "Design and formula", icon: "paper" },
         { href: "/changelog", label: "Changelog", note: "What changed, when", icon: "history" },
         { href: "#tour", label: "Take the tour", note: "Sixty seconds", icon: "compass", tour: true },
@@ -46,5 +47,5 @@ export const NAV: readonly NavItem[] = [
 
 export const isActive = (pathname: string, href: string): boolean =>
   pathname === href || pathname.startsWith(`${href}/`) || (href === "/board" && pathname.startsWith("/asset/")) ||
-  (href === "/docs" && (pathname === "/faq" || pathname === "/whitepaper" || pathname === "/changelog" || pathname.startsWith("/legal/"))) ||
+  (href === "/docs" && (pathname === "/faq" || pathname === "/film" || pathname === "/whitepaper" || pathname === "/changelog" || pathname.startsWith("/legal/"))) ||
   (href === "/developers" && pathname === "/proof");

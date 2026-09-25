@@ -9,9 +9,10 @@ const BODY = `# Kerb
 
 > Kerb is the market-time risk layer for tokenized stocks on X Layer. It measures the exit that is really there in X Layer pools (executable depth at 1% price impact, by tick-walk, cross-checked against OKX DEX quotes) and how long a loan must survive before the next deep market session, and posts both as signed credit terms on X Layer mainnet every few minutes. Kerb Credit lends against those terms on X Layer testnet with mirror collateral. Any contract, agent or app can read the same terms.
 
-Built for OKX Dev Day 2026, Build a Market track, remote. Studio: Xyndicate Labs. Source: https://github.com/Franlinozz/Kerb (public). Unaudited; credit runs on testnet only.
+Built for OKX Dev Day 2026, Build a Market track, remote. Studio: Xyndicate Labs. Source: https://github.com/Franlinozz/Kerb (public). On X: https://x.com/usekerb. Unaudited; credit runs on testnet only.
 
 ## What to check first
+- [The film](https://www.usekerb.xyz/film): three and a half minutes of the live product, from the Board to a public Cure, with chapters and captions
 - [Home](https://www.usekerb.xyz/): the idea, live KPIs, the system diagram, four consumers of one term
 - [Board](https://www.usekerb.xyz/board): every asset's regime, Credit Mark, C(1%), Carry and Session Max, right now
 - [Asset: HKEXCx](https://www.usekerb.xyz/asset/HKEXCx): "why these terms" sentences computed from the post's own inputs; the exit check against the OKX DEX quote

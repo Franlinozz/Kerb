@@ -8,9 +8,9 @@ const COLS: { label: string; links: { href: string; label: string; external?: bo
   { label: "Product", links: [{ href: "/board", label: "Board" }, { href: "/credit", label: "Credit" }, { href: "/account", label: "Your account" }, { href: "/research", label: "Research" }] },
   { label: "Protocol", links: [{ href: "/methodology", label: "Methodology" }, { href: "/proof#contracts", label: "Contracts" }, { href: "/proof", label: "Proof" }, { href: "/changelog", label: "Changelog" }] },
   { label: "Developers", links: [{ href: "/docs", label: "Docs" }, { href: "/developers", label: "SDK" }, { href: "/developers#agents", label: "Agents" }, { href: "/developers#rest", label: "REST" }, { href: "/llms.txt", label: "llms.txt", external: true }, { href: "https://github.com/Franlinozz/Kerb", label: "GitHub", external: true }] },
-  // Studio: the operator confirmed @xyndicatepro (22 Sep). Kerb has no X handle yet.
-  { label: "Learn", links: [{ href: "/faq", label: "FAQ" }, { href: "/whitepaper", label: "Whitepaper" }, { href: "/legal/terms", label: "Terms" }, { href: "/legal/privacy", label: "Privacy" }, { href: "/legal/risk", label: "Risk disclosure" }] },
-  { label: "Studio", links: [{ href: "https://github.com/Franlinozz/Kerb", label: "Xyndicate Labs", external: true }, { href: "https://x.com/xyndicatepro", label: "@xyndicatepro on X", external: true }] },
+  { label: "Learn", links: [{ href: "/film", label: "The film" }, { href: "/faq", label: "FAQ" }, { href: "/whitepaper", label: "Whitepaper" }, { href: "/legal/terms", label: "Terms" }, { href: "/legal/privacy", label: "Privacy" }, { href: "/legal/risk", label: "Risk disclosure" }] },
+  // Kerb on X is @usekerb (operator, 25 Sep); the studio is @xyndicatepro (22 Sep).
+  { label: "Follow", links: [{ href: "https://x.com/usekerb", label: "@usekerb on X", external: true }, { href: "https://t.me/KerbAlertsBot", label: "Alerts on Telegram", external: true }, { href: "https://x.com/xyndicatepro", label: "Studio: @xyndicatepro", external: true }] },
 ];
 
 export function SiteFooter(): React.ReactElement {

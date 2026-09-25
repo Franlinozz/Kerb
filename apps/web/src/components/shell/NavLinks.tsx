@@ -2,14 +2,14 @@
 import Link from "@/components/ui/Link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AlertTriangle, ArrowUpRight, Blocks, Bot, BookOpen, Braces, ChevronDown, CircleHelp, Code2, Compass, FileText, GitBranch, History, Layers, Package, Scale, ShieldCheck, ShieldHalf } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, Blocks, Bot, BookOpen, Braces, ChevronDown, CircleHelp, Code2, Compass, FileText, GitBranch, History, Layers, Package, PlayCircle, Scale, ShieldCheck, ShieldHalf } from "lucide-react";
 import { NAV, isActive, type NavItem, type NavSub } from "./nav";
 
 const useIso = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 const ICONS: Record<string, React.ComponentType<{ size?: number; "aria-hidden"?: boolean }>> = {
   package: Package, braces: Braces, code: Code2, bot: Bot, check: ShieldCheck, layers: Layers, git: GitBranch,
-  book: BookOpen, help: CircleHelp, paper: FileText, history: History, compass: Compass, scale: Scale, shield: ShieldHalf, alert: AlertTriangle, blocks: Blocks,
+  book: BookOpen, help: CircleHelp, paper: FileText, history: History, compass: Compass, scale: Scale, shield: ShieldHalf, alert: AlertTriangle, blocks: Blocks, play: PlayCircle,
 };
 
 /** Same-page hash links do not fire hashchange through the router; the Developers tabs listen for it. */

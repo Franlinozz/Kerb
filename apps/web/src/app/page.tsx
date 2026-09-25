@@ -14,6 +14,7 @@ import { ArtPlate } from "@/components/ui/ArtPlate";
 import { mobileSrcSet, srcSet } from "@/lib/art";
 import { AddressChip } from "@/components/ui/AddressChip";
 import { ButtonLink } from "@/components/ui/Button";
+import { PlayCircle } from "lucide-react";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { Kpi } from "@/components/ui/Kpi";
 import { ProvMark } from "@/components/ui/ProvMark";
@@ -91,6 +92,7 @@ export default async function Home(): Promise<React.ReactElement> {
           <div className="row hero-actions">
             <ButtonLink href="/board" variant="primary">Open the Board</ButtonLink>
             <ButtonLink href="/credit">Borrow on testnet</ButtonLink>
+            <Link href="/film" className="hero-film"><PlayCircle size={18} aria-hidden="true" />Watch the film<span className="ink-3">3:27</span></Link>
           </div>
           <div className="hero-clocks-m show-sm"><MarketClocks compact /></div>
           <div className="t-label ink-3 hero-creed">Never lend more than you can liquidate.</div>

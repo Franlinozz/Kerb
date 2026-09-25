@@ -143,3 +143,9 @@
   }
 }
 @layer pages { .band-verify .row .band-btn { margin-top: 0; } }
+@layer pages {
+  .hero-film { display: inline-flex; align-items: center; gap: 8px; padding: 0 6px; min-height: 44px; color: var(--ink-2); font-size: 15px; transition: color var(--t-fast) var(--ease); }
+  .hero-film:hover { color: var(--ink); }
+  .hero-film svg { color: var(--brass); }
+  .hero-film .ink-3 { font-family: var(--font-mono); font-size: 13px; }
+}

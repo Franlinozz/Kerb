@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://usekerb.xyz"),
   applicationName: "Kerb",
   openGraph: { type: "website", siteName: "Kerb", url: "https://usekerb.xyz" },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", site: "@usekerb", creator: "@usekerb" },
 };
 
 export const viewport: Viewport = {
