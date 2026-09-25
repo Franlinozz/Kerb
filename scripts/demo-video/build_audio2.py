@@ -33,14 +33,26 @@ def main() -> None:
         place(vo, x * f[:, None], c["place"], ref - lv[c["seg"]])
     vo_lufs = loudness(vo)
 
-    a0, a1 = MUSIC_CUT
-    A = decode(MUSIC, 0, a0 + 0.3)
-    B = decode(MUSIC, a1, total + 1.0 - a0 + 0.3)
-    xf = int(0.3 * SR)
-    r = np.linspace(0, 1, xf, dtype=np.float32)[:, None]
-    music = np.concatenate([A[:-xf], A[-xf:] * (1 - r) + B[:xf] * r, B[xf:]])[:N]
-    if len(music) < N:
-        music = np.concatenate([music, np.zeros((N - len(music), 2), np.float32)])
+    # Music cut to picture. The compilation's first two pieces play from 0:00 as recorded (their natural
+    # gap at 1:32 falls on the final seconds of the Last Call countdown). The second piece is faded out
+    # over the pause before the "Four consumers" chapter, and the third piece enters from its own start
+    # on that chapter change, instead of arriving mid-sentence where the second piece ends (2:28).
+    S = plan["music_seam"]
+    P3 = 152.75                                 # start of the third piece in the compilation
+    A = decode(MUSIC, 0, S + 0.4)
+    B = decode(MUSIC, P3, total - S + 1.5)
+    music = np.zeros((N, 2), np.float32)
+    nA = min(N, len(A))
+    fo0, fo1 = S - 1.5, S + 0.2
+    tA = np.arange(nA) / SR
+    gA = np.clip((fo1 - tA) / (fo1 - fo0), 0, 1)
+    gA = np.sin(gA * np.pi / 2).astype(np.float32)          # equal-power fade out
+    music[:nA] += A[:nA] * gA[:, None]
+    i0 = int(round((S - 0.15) * SR))
+    nB = min(N - i0, len(B))
+    tB = np.arange(nB) / SR
+    gB = np.sin(np.clip(tB / 0.6, 0, 1) * np.pi / 2).astype(np.float32)
+    music[i0:i0 + nB] += B[:nB] * gB[:, None]
     music *= db(MUSIC_BASE_GAIN)
     offset = (vo_lufs + MUSIC_UNDER_SPEECH) - loudness(music)
 

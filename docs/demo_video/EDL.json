@@ -46,15 +46,19 @@
       "final_start": 20.05,
       "final_end": 34.15,
       "source_in": 21.55,
-      "source_out": 32.837,
+      "source_out": 32.905,
       "remap": [
         [
           0,
           21.55
         ],
         [
-          7.85,
-          29.4
+          7.9,
+          27.1
+        ],
+        [
+          11.0,
+          31.2
         ]
       ],
       "tail_speed": 0.55,
@@ -66,23 +70,19 @@
       "url": "usekerb.xyz/methodology",
       "final_start": 34.15,
       "final_end": 46.31,
-      "source_in": 8.6,
-      "source_out": 18.472,
+      "source_in": 8.9,
+      "source_out": 15.6,
       "remap": [
         [
           0,
-          8.6
+          8.9
         ],
         [
-          7.1,
-          15.7
-        ],
-        [
-          8.0,
-          16.6
+          6.7,
+          15.6
         ]
       ],
-      "tail_speed": 0.45,
+      "tail_speed": 0.0,
       "dissolve_in": 0.45
     },
     {
@@ -143,34 +143,34 @@
       "final_start": 72.64,
       "final_end": 84.34,
       "source_in": 7.5,
-      "source_out": 20.8,
+      "source_out": 20.4,
       "remap": [
         [
           0,
           7.5
         ],
         [
-          3.6,
+          2.4,
+          10.3
+        ],
+        [
+          3.4,
           11.1
         ],
         [
-          4.2,
-          11.7
+          3.9,
+          11.6
         ],
         [
-          5.9,
+          6.0,
           14.3
         ],
         [
-          10.5,
-          19.6
-        ],
-        [
-          11.7,
-          20.8
+          11.6,
+          20.3
         ]
       ],
-      "tail_speed": 0.6,
+      "tail_speed": 1.0,
       "dissolve_in": 0.45
     },
     {
@@ -345,14 +345,14 @@
       "final_start": 126.227,
       "final_end": 134.987,
       "source_in": 4.8,
-      "source_out": 7.954,
+      "source_out": 6.902,
       "remap": [
         [
           0,
           4.8
         ]
       ],
-      "tail_speed": 0.36,
+      "tail_speed": 0.24,
       "dissolve_in": 0.45
     },
     {
@@ -413,14 +413,14 @@
       "final_start": 148.087,
       "final_end": 152.067,
       "source_in": 0.8,
-      "source_out": 3.785,
+      "source_out": 3.268,
       "remap": [
         [
           0,
           0.8
         ]
       ],
-      "tail_speed": 0.75,
+      "tail_speed": 0.62,
       "dissolve_in": 0.45
     },
     {
@@ -487,9 +487,9 @@
       "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
       "url": "usekerb.xyz/research/2",
       "final_start": 165.007,
-      "final_end": 177.867,
+      "final_end": 173.767,
       "source_in": 14.7,
-      "source_out": 16.243,
+      "source_out": 15.751,
       "remap": [
         [
           0,
@@ -497,6 +497,23 @@
         ]
       ],
       "tail_speed": 0.12,
+      "dissolve_in": 0.45
+    },
+    {
+      "name": "ev1b",
+      "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "url": "usekerb.xyz/research/2",
+      "final_start": 173.767,
+      "final_end": 177.867,
+      "source_in": 7.0,
+      "source_out": 9.255,
+      "remap": [
+        [
+          0,
+          7.0
+        ]
+      ],
+      "tail_speed": 0.55,
       "dissolve_in": 0.45
     },
     {
@@ -553,136 +570,6 @@
   ],
   "cards": [
     {
-      "take": "board1",
-      "rect": [
-        165,
-        712,
-        1575,
-        172
-      ],
-      "start": 17.74,
-      "end": 19.95,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "board2",
-      "rect": [
-        165,
-        188,
-        1575,
-        182
-      ],
-      "start": 20.4,
-      "end": 24.27,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "board2",
-      "rect": [
-        838,
-        418,
-        470,
-        600
-      ],
-      "start": 24.86,
-      "end": 27.16,
-      "label": "C(1%) \u00b7 TERMS \u00b7 DEBT CEILING",
-      "mode": "lifted"
-    },
-    {
-      "take": "board2",
-      "rect": [
-        165,
-        772,
-        1110,
-        118
-      ],
-      "start": 30.88,
-      "end": 34.1,
-      "label": "POSTED ON X LAYER MAINNET \u00b7 CHAIN 196",
-      "mode": "in place"
-    },
-    {
-      "take": "exit2",
-      "rect": [
-        188,
-        402,
-        1552,
-        112
-      ],
-      "start": 47.11,
-      "end": 52.82,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "terms1",
-      "rect": [
-        698,
-        595,
-        1040,
-        78
-      ],
-      "start": 54.72,
-      "end": 56.94,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "terms2",
-      "rect": [
-        160,
-        640,
-        1580,
-        128
-      ],
-      "start": 69.58,
-      "end": 72.54,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "borrow1",
-      "rect": [
-        620,
-        595,
-        585,
-        270
-      ],
-      "start": 74.36,
-      "end": 76.44,
-      "label": "TWO HORIZONS \u00b7 CHOOSE ONE",
-      "mode": "lifted"
-    },
-    {
-      "take": "borrow1",
-      "rect": [
-        612,
-        770,
-        600,
-        138
-      ],
-      "start": 78.69,
-      "end": 81.64,
-      "label": "BEFORE SIGNING",
-      "mode": "lifted"
-    },
-    {
-      "take": "borrow1",
-      "rect": [
-        915,
-        372,
-        288,
-        265
-      ],
-      "start": 82.25,
-      "end": 84.24,
-      "label": "SESSION MAX \u00b7 THE COVENANT",
-      "mode": "lifted"
-    },
-    {
       "take": "wal1",
       "rect": [
         1446,
@@ -709,58 +596,6 @@
       "mode": "lifted"
     },
     {
-      "take": "position",
-      "rect": [
-        1255,
-        228,
-        480,
-        690
-      ],
-      "start": 88.24,
-      "end": 89.52,
-      "label": "SESSION MAX POSITION \u00b7 OPEN",
-      "mode": "in place"
-    },
-    {
-      "take": "countdown",
-      "rect": [
-        1486,
-        550,
-        244,
-        84
-      ],
-      "start": 90.32,
-      "end": 96.837,
-      "label": "NEXT LAST CALL \u00b7 DEMO CLOCK",
-      "mode": "lifted"
-    },
-    {
-      "take": "countdown",
-      "rect": [
-        170,
-        544,
-        1520,
-        62
-      ],
-      "start": 103.32,
-      "end": 108.8,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "cure",
-      "rect": [
-        170,
-        544,
-        1520,
-        62
-      ],
-      "start": 108.5,
-      "end": 111.7,
-      "label": null,
-      "mode": "in place"
-    },
-    {
       "take": "walcure",
       "rect": [
         1446,
@@ -774,19 +609,6 @@
       "mode": "lifted"
     },
     {
-      "take": "cured",
-      "rect": [
-        170,
-        626,
-        265,
-        76
-      ],
-      "start": 114.917,
-      "end": 116.017,
-      "label": "CURE CONFIRMED",
-      "mode": "lifted"
-    },
-    {
       "take": "oklink",
       "rect": [
         98,
@@ -794,192 +616,10 @@
         1704,
         958
       ],
-      "start": 115.867,
+      "start": 116.437,
       "end": 117.507,
       "label": null,
       "mode": "window"
-    },
-    {
-      "take": "carry",
-      "rect": [
-        170,
-        795,
-        1520,
-        70
-      ],
-      "start": 117.857,
-      "end": 124.417,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "carry",
-      "rect": [
-        915,
-        318,
-        330,
-        52
-      ],
-      "start": 121.937,
-      "end": 124.417,
-      "label": "kKOx LIQUIDATION LINE \u00b7 FIXED",
-      "mode": "in place"
-    },
-    {
-      "take": "proof2",
-      "rect": [
-        168,
-        438,
-        396,
-        208
-      ],
-      "start": 126.577,
-      "end": 128.807,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "proof2",
-      "rect": [
-        168,
-        688,
-        396,
-        185
-      ],
-      "start": 129.057,
-      "end": 131.157,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "proof3",
-      "rect": [
-        168,
-        908,
-        1565,
-        128
-      ],
-      "start": 136.377,
-      "end": 138.867,
-      "label": "RECOMPUTED FROM THE BUNDLE \u00b7 COMPARED WITH THE POSTED TRANSACTION",
-      "mode": "in place"
-    },
-    {
-      "take": "proof4",
-      "rect": [
-        948,
-        438,
-        394,
-        208
-      ],
-      "start": 140.397,
-      "end": 142.767,
-      "label": "KERB BUILDER CODE",
-      "mode": "lifted"
-    },
-    {
-      "take": "con1",
-      "rect": [
-        163,
-        588,
-        388,
-        200
-      ],
-      "start": 145.147,
-      "end": 147.987,
-      "label": "THE REFERENCE CONSUMER",
-      "mode": "in place"
-    },
-    {
-      "take": "con2",
-      "rect": [
-        160,
-        890,
-        1000,
-        158
-      ],
-      "start": 148.647,
-      "end": 151.967,
-      "label": "AGENTS \u00b7 PAY PER CALL",
-      "mode": "in place"
-    },
-    {
-      "take": "con3",
-      "rect": [
-        163,
-        368,
-        880,
-        44
-      ],
-      "start": 152.567,
-      "end": 156.087,
-      "label": "CONTRACTS \u00b7 ONE READ",
-      "mode": "in place"
-    },
-    {
-      "take": "ev2",
-      "rect": [
-        163,
-        740,
-        808,
-        302
-      ],
-      "start": 167.977,
-      "end": 171.557,
-      "label": "24 SEP \u00b7 06:55 AND 07:05 UTC \u00b7 HELD",
-      "mode": "lifted"
-    },
-    {
-      "take": "ev2",
-      "rect": [
-        985,
-        740,
-        218,
-        302
-      ],
-      "start": 171.757,
-      "end": 173.947,
-      "label": "A DAY LATER \u00b7 25 SEP 07:00 UTC",
-      "mode": "lifted"
-    },
-    {
-      "take": "ev1",
-      "rect": [
-        163,
-        598,
-        1275,
-        118
-      ],
-      "start": 174.097,
-      "end": 177.767,
-      "label": "MARKET-TIME REPORT #2 \u00b7 FINAL",
-      "mode": "lifted"
-    },
-    {
-      "take": "lim",
-      "rect": [
-        163,
-        712,
-        1585,
-        66
-      ],
-      "start": 182.897,
-      "end": 189.757,
-      "label": null,
-      "mode": "in place"
-    },
-    {
-      "take": "lim",
-      "rect": [
-        163,
-        884,
-        1585,
-        48
-      ],
-      "start": 189.857,
-      "end": 191.977,
-      "label": null,
-      "mode": "in place"
     }
   ],
   "narration": [

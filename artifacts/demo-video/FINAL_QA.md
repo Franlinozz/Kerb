@@ -1,6 +1,15 @@
-# Final QA (v2)
+# Final QA (v3)
 
-Film: `Kerb_OKX_Dev_Day_Demo_MASTER.mp4` (submission master) and `Kerb_OKX_Dev_Day_Demo_WEB.mp4`. Checked 25 Sep 2026, 18:25 UTC. v2 replaces v1 (release `demo-film-v1`) after the operator's review.
+Film: `Kerb_OKX_Dev_Day_Demo_MASTER.mp4` (submission master) and `Kerb_OKX_Dev_Day_Demo_WEB.mp4`. Checked 25 Sep 2026, 19:45 UTC. v3 is v2 after the operator's second review; v1 and v2 are on their own releases.
+
+## What changed in v3, and why
+
+| v2 problem (operator review) | v3 answer |
+|---|---|
+| A visual glitch at 1:16 to 1:18 | A lifted card showed live page content while the page scrolled under it (source 05, 11.1 to 11.6 s). Cards are gone; the camera is wide whenever a page scrolls, and the borrow take is retimed so the scroll plays in a wide shot |
+| Audio distortion at 2:27 to 2:30 | Not the limiter (it takes at most 1.3 dB) and not the voice (no clipping, no noise bursts in the take). It was the music: the second piece ended and the third crashed in mid-sentence at 2:29, where v2 had spliced out the gap between them. The music is now cut to picture: the second piece fades out over the pause before "Four consumers" and the third starts from its own beginning on that chapter change |
+| Cards cropped out of the page and zoomed | A camera: the whole window pushes in (up to 2.0x, one resample from the source frame, so text stays sharp), holds, moves within a take, and pulls back before any page change or scroll. A brass presenter pointer, distinct from the recorded mouse, travels to each value as it is spoken, with a small ripple on arrival |
+| (found in review) The methodology take bounced at 0:41 to 0:44 | The operator's wheel scroll at source 15.7 s was being played at 0.45x under a zoom. The take now holds before the scroll |
 
 ## What changed from v1, and why
 
@@ -17,11 +26,12 @@ Film: `Kerb_OKX_Dev_Day_Demo_MASTER.mp4` (submission master) and `Kerb_OKX_Dev_D
 | Check | Result |
 |---|---|
 | Runtime | 3:26.6 (206.62 s, 6,199 frames). Inside 2:00 to 4:00; 8.6 s over the 3:18 target |
+| Camera | Every zoom checked against take boundaries: none spans a page dissolve; 32 pointer targets checked against the frame shown at that moment |
 | Video | 1920x1080, 30 fps CFR, H.264 High, yuv420p, BT.709, fast start |
 | Audio | AAC 48 kHz stereo, 320 kb/s (web 160 kb/s) |
-| Loudness | -14.0 LUFS integrated, LRA 3.4 LU, true peak -1.6 dBTP |
+| Loudness | -14.0 LUFS integrated, LRA 3.4 LU, true peak -1.6 dBTP; limiter gain reduction at most 1.3 dB |
 | Black | Only the 0.4 s fade in and the fade out |
-| Pops | Frame-difference scan of all 6,199 frames: remaining steps are the Last Call flip (intended), the cut between the two wallet confirmations (intended) and a scroll inside the live recording at 1:38 |
+| Pops | Frame-difference scan of all 6,199 frames: remaining steps are hover changes in the Board recording, the Last Call flip, the cut between the two wallet confirmations and one scroll in a wide shot; all intended |
 | Sync | Last Call impact found in the mix 4 ms after the flip frame (95.587 s); Cure tone 4 ms after the "Done" frame (114.867 s) |
 | Speech | ASR of the finished mix: 96.6% word match with the script, every difference a spelling (C1, x4 02, 10) |
 | `qa-render.mjs` | No issues, both files |

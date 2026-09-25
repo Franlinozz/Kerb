@@ -55,3 +55,9 @@
 - Changed: new compositor (`scripts/demo-video/filmkit2.py`) and edit (`kerb_film2.py`): every recording plays at one size inside a browser window on Kerb's own art plates (p5 fog; the close pushes into the p1 Kerbstone arch). No page zooms; emphasis by lift-out cards and leader tags. New opening graphic of a UTC day with New York and Hong Kong sessions. Takes, cards and graphics placed on spoken words (ASR word timings); narration cut per sentence (`vo_plan.json`, `build_audio2.py`).
 - Evidence: `FINAL_QA.md` (v2), review sheets in `review_v2/`, frame-difference scan, accent cross-correlation, mix ASR 96.6%.
 - Runtime: 3:26.6.
+
+## v3 (25 Sep, 19:00 to 20:00 UTC), after the operator's second review
+- Review: a glitch at 1:16, audio distortion at 2:27, and a request to zoom the page like a professional editor with a pointer instead of cropped cards.
+- Changed: `kerb_film2.py` camera (push in, move, pull back; never across a page change or scroll), brass presenter pointer with arrival ripple, borrow and methodology takes retimed to keep scrolls in wide shots; `build_audio2.py` music cut to picture at the "Four consumers" seam.
+- Evidence: `FINAL_QA.md` (v3), pointer target sheets, frame-difference scan, limiter gain-reduction measurement, accent cross-correlation.
+- Runtime: 3:26.6.

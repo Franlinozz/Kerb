@@ -146,14 +146,17 @@ class Film:
         self.WIN_IN = W_("01_cold_open", 30) - 0.1
         take("home", V10, "usekerb.xyz", self.WIN_IN, [(0, 0.0)], tail=0.62, xfade=0.0)
         b1 = take("board1", V02, "usekerb.xyz/board", W_("02_board", 0) - 0.35, [(0, 0.3)], tail=0.85)
-        take("board2", V02, "usekerb.xyz/board", W_("02_board", 6) - 0.25, [(0, 21.55), (7.85, 29.4)], tail=0.55)
+        take("board2", V02, "usekerb.xyz/board", W_("02_board", 6) - 0.25, [(0, 21.55), (7.9, 27.1), (11.0, 31.2)], tail=0.55)
+        # the depth curve with the cursor reading it; held still before the wheel scroll at 15.7
         take("exit1", V04, "usekerb.xyz/methodology", W_("03_exit", 0) - 0.5,
-             [(0, 8.6), (7.1, 15.7), (8.0, 16.6)], tail=0.45)
+             [(0, 8.9), (6.7, 15.6)], tail=0.0)
         take("exit2", V03, "usekerb.xyz/asset/KOx", W_("03_exit", 28) - 0.45, [(0, 20.1)], tail=0.34)
         take("terms1", V01, "usekerb.xyz", W_("04_kts", 0) - 0.6, [(0, 12.5)], tail=0.12)
         take("terms2", V03, "usekerb.xyz/asset/KOx", W_("04_kts", 43) - 0.4, [(0, 7.5)], tail=0.45)
-        take("borrow1", V05, "usekerb.xyz/credit", W_("05_borrow", 0) - 0.8,
-             [(0, 7.5), (3.6, 11.1), (4.2, 11.7), (5.9, 14.3), (10.5, 19.6), (11.7, 20.8)], tail=0.6)
+        b0 = self.b0 = W_("05_borrow", 0) - 0.8
+        # 10.3 Session Max clicked, 11.1 to 11.6 the page scrolls (camera wide), 14.3 "100" typed, 20.3 Borrow pressed
+        take("borrow1", V05, "usekerb.xyz/credit", b0,
+             [(0, 7.5), (2.4, 10.3), (3.4, 11.1), (3.9, 11.6), (6.0, 14.3), (11.6, 20.3)], tail=1.0)
         take("wal1", V05, "usekerb.xyz/credit", W_("05_borrow", 29) - 0.5, [(0, 29.9)], tail=0.85, xfade=0.2)
         take("wal2", V05, "usekerb.xyz/credit", W_("05_borrow", 29) - 0.5 + 1.8, [(0, 43.8)], tail=1.0, xfade=0.2)
         take("position", V05, "usekerb.xyz/credit", W_("05_borrow", 29) - 0.5 + 3.6, [(0, 48.2)], tail=0.55, xfade=0.25)
@@ -164,7 +167,7 @@ class Film:
         take("cured", V06, "usekerb.xyz/credit", self.T_curedtake, [(0, 56.8)], tail=1.0, xfade=0.2)
         take("carry", V06, "usekerb.xyz/credit", W_("06c_cured", 9) - 0.4, [(0, 76.4)], tail=0.2)
         take("proof1", V07, "usekerb.xyz/proof", W_("07_proof", 0) - 0.8, [(0, 0.1)], tail=0.36)
-        take("proof2", V07, "usekerb.xyz/proof", W_("07_proof", 4) - 0.35, [(0, 4.8)], tail=0.36)
+        take("proof2", V07, "usekerb.xyz/proof", W_("07_proof", 4) - 0.35, [(0, 4.8)], tail=0.24)
         take("proof3", V07, "usekerb.xyz/proof", W_("07_proof", 27) - 0.35, [(0, 13.6)], tail=0.3)
         take("proof4", V07, "usekerb.xyz/proof", W_("07_proof", 38) - 0.35, [(0, 5.2)], tail=0.4)
         take("con1", V01, "usekerb.xyz", W_("08_consumers", 0) - 0.8, [(0, 15.25)], tail=0.2)
@@ -174,6 +177,7 @@ class Film:
              [(0, 8.9), (2.3, 11.2), (4.0, 13.0)], tail=0.7)
         take("ev1", V09, "usekerb.xyz/research/2", W_("09_research", 0) - 0.8, [(0, 6.7)], tail=0.5)
         take("ev2", V09, "usekerb.xyz/research/2", W_("09_research", 7) - 0.35, [(0, 14.7)], tail=0.12)
+        take("ev1b", V09, "usekerb.xyz/research/2", W_("09_research", 31) - 0.35, [(0, 7.0)], tail=0.55)
         take("ev3", V09, "usekerb.xyz/research/2", W_("09_research", 42) - 0.35, [(0, 18.6)], tail=0.28)
         take("lim", V07, "usekerb.xyz/proof", W_("10_close", 0) - 0.8, [(0, 17.2)], tail=0.33)
         take("home2", CAP_HOME, "usekerb.xyz", W_("10_close", 24) - 0.5, [(0, 0.4)], tail=1.0,
@@ -185,7 +189,7 @@ class Film:
 
         # Overlay takes (used by cards only)
         self.overlay = {
-            "oklink": Take("oklink", V06, "", [(0, 70.6)], 0.8, OP_CROP, "bt709", 0, W_("06c_cured", 3) - 0.35),
+            "oklink": Take("oklink", V06, "", [(0, 70.6)], 0.8, OP_CROP, "bt709", 0, W_("06c_cured", 4) - 0.1),
         }
         self.overlay["oklink"].end = W_("06c_cured", 9) - 0.45
 
@@ -195,96 +199,127 @@ class Film:
         self.FLY0 = W_("10_close", 32) + 0.35
         self.FLY1 = self.FLY0 + 2.6
 
-        # ---------------- cards and tags
+        self.gdim_kts0 = W_("04_kts", 10) - 0.75
+        self.gdim_proof0 = W_("07_proof", 18) - 0.35
+        # ---------------- floating windows, tags, camera and pointer
         C = self.cards = []
         G = self.tags = []
         K = self.by
+        Z = self.zooms = []          # (T_in, T_out, [(T, take, rect, zmax)])
+        P = self.pointers = []       # (T0, T1, take, point)
 
-        # Board
-        C.append(Card("board1", (165, 712, 1575, 172), W_("02_board", 3), K["board1"].end - 0.1))
-        C.append(Card("board2", (165, 188, 1575, 182), W_("02_board", 7) - 0.1, W_("02_board", 17) - 0.25))
-        C.append(Card("board2", (838, 418, 470, 600), W_("02_board", 19), W_("02_board", 22) - 0.3,
-                      dest=(1395, 596, 1.28), label="C(1%) · TERMS · DEBT CEILING", dim=0.55))
-        C.append(Card("board2", (165, 772, 1110, 118), W_("02_board", 34) - 0.1, K["board2"].end - 0.05,
-                      label="POSTED ON X LAYER MAINNET · CHAIN 196"))
-        # Exit capacity
+        def zoom(t_in, t_out, *keys):
+            Z.append((t_in, t_out, list(keys)))
+
+        def point(t0, t1, take_, pt):
+            P.append((t0, t1, take_, pt))
+
         self.c1_point = ("exit1", (1449, 688))
-        C.append(Card("exit2", (188, 402, 1552, 112), W_("03_exit", 29), K["exit2"].end - 0.1))
-        # Kerb Terms
-        C.append(Card("terms1", (698, 595, 1040, 78), W_("04_kts", 4), W_("04_kts", 10) - 0.9))
-        C.append(Card("terms2", (160, 640, 1580, 128), W_("04_kts", 44), K["terms2"].end - 0.1))
-        G.append(Tag("terms2", (1215, 668), "FIXED", W_("04_kts", 46), K["terms2"].end - 0.1, dx=150, dy=-2, color=OXIDE,
-                     lift_card=len(C) - 1))
-        # Borrow
-        C.append(Card("borrow1", (620, 595, 585, 270), W_("05_borrow", 3) - 0.1, W_("05_borrow", 6) - 0.2,
-                      dest=(960, 590, 1.55), label="TWO HORIZONS · CHOOSE ONE", dim=0.5))
-        C.append(Card("borrow1", (612, 770, 600, 138), max(W_("05_borrow", 9), K["borrow1"].start + 6.05), W_("05_borrow", 22) - 0.2,
-                      dest=(960, 640, 1.6), label="BEFORE SIGNING", dim=0.55))
-        C.append(Card("borrow1", (915, 372, 288, 265), W_("05_borrow", 23) - 0.15, K["borrow1"].end - 0.1,
-                      dest=(960, 560, 1.6), label="SESSION MAX · THE COVENANT", dim=0.55))
+        cd = K["countdown"]
         pip = dict(dest=(1230, 578, 0.92), label="OKX WALLET · X LAYER TESTNET", dim=0.76, fin=0.35, fout=0.2)
+
+        # 01 Board
+        zoom(W_("02_board", 2) - 0.1, K["board1"].end - 0.95, (0, "board1", (170, 500, 1560, 110), 1.6))
+        point(W_("02_board", 3), K["board1"].end - 0.9, "board1", (543, 574))
+        zoom(W_("02_board", 7) - 0.3, W_("02_board", 22) - 0.35,
+             (0, "board2", (170, 190, 1560, 170), 1.6),
+             (W_("02_board", 13) - 0.4, "board2", (170, 440, 700, 300), 1.6),
+             (W_("02_board", 17) - 0.3, "board2", (740, 440, 520, 300), 1.6))
+        # the table scrolls in the wide shot that follows
+        point(W_("02_board", 13), W_("02_board", 17) - 0.2, "board2", (513, 500))
+        point(W_("02_board", 17), W_("02_board", 22) - 0.4, "board2", (890, 492))
+        zoom(W_("02_board", 34) - 0.3, K["board2"].end - 0.85, (0, "board2", (170, 780, 1000, 110), 1.6))
+        point(W_("02_board", 35), K["board2"].end - 0.8, "board2", (500, 866))
+        # 02 Exit capacity
+        zoom(W_("03_exit", 3) - 0.2, K["exit2"].start - 0.9,
+             (0, "exit1", (470, 880, 820, 110), 1.6),
+             (W_("03_exit", 13) - 0.5, "exit1", (520, 420, 1220, 380), 1.6))
+        zoom(W_("03_exit", 29) - 0.2, K["exit2"].end - 0.9, (0, "exit2", (100, 420, 1440, 130), 1.6))
+        point(W_("03_exit", 29) + 0.2, W_("03_exit", 34) - 0.3, "exit2", (225, 490))
+        point(W_("03_exit", 34) - 0.1, W_("03_exit", 38) - 0.3, "exit2", (605, 490))
+        point(W_("03_exit", 38) - 0.1, K["exit2"].end - 0.85, "exit2", (1360, 490))
+        # 03 Kerb Terms
+        zoom(W_("04_kts", 3) - 0.3, self.gdim_kts0 - 0.95, (0, "terms1", (690, 470, 1060, 330), 1.5))
+        point(W_("04_kts", 4), self.gdim_kts0 - 0.9, "terms1", (915, 652))
+        zoom(W_("04_kts", 44) - 0.2, K["terms2"].end - 0.8, (0, "terms2", (160, 610, 1580, 180), 1.6))
+        point(W_("04_kts", 46) - 0.1, K["terms2"].end - 0.75, "terms2", (1230, 728))
+        # 04 Borrow
+        zoom(self.b0 + 0.25, self.b0 + 2.55, (0, "borrow1", (600, 580, 620, 300), 1.7))
+        zoom(W_("05_borrow", 8) - 0.3, K["borrow1"].end - 0.9,
+             (0, "borrow1", (600, 705, 620, 230), 1.7),
+             (W_("05_borrow", 22) - 0.5, "borrow1", (900, 280, 330, 170), 1.7))
+        point(max(W_("05_borrow", 13) - 0.2, self.b0 + 6.1), W_("05_borrow", 16) - 0.2, "borrow1", (645, 838))
+        point(W_("05_borrow", 16) - 0.15, W_("05_borrow", 18) - 0.2, "borrow1", (935, 838))
+        point(W_("05_borrow", 18) - 0.1, W_("05_borrow", 22) - 0.3, "borrow1", (975, 906))
+        point(W_("05_borrow", 23), K["borrow1"].end - 0.85, "borrow1", (1030, 356))
+        point(K["position"].start + 0.25, K["position"].end - 0.1, "position", (1600, 268))
         C.append(Card("wal1", (1446, 0, 474, 965), K["wal1"].start + 0.05, K["wal1"].end, **pip))
         C.append(Card("wal2", (1446, 0, 474, 965), K["wal2"].start, K["wal2"].end, **{**pip, "fin": 0.01}))
-        C.append(Card("position", (1255, 228, 480, 690), K["position"].start + 0.3, K["position"].end - 0.1,
-                      label="SESSION MAX POSITION · OPEN"))
-        # Last Call
-        cd = K["countdown"]
-        C.append(Card("countdown", (1486, 550, 244, 84), cd.start + 0.7, self.FLIP + 1.25, dest=(960, 575, 2.45),
-                      label="NEXT LAST CALL · DEMO CLOCK", label_color=INK2, label_after=(self.FLIP, "LAST CALL · OPEN", BRASS),
-                      dim=0.64, fin=0.6))
-        C.append(Card("countdown", (170, 544, 1520, 62), self.T_row + 1.7, cd.end + 0.3, lift=1.03, dim=0.42, fout=0.3))
-        rowc = len(C) - 1
-        G.append(Tag("countdown", (962, 606), "ABOVE ITS CARRY TARGET", W_("06b_curable", 6), cd.end + 0.25, dy=52,
-                     lift_card=rowc))
-        G.append(Tag("countdown", (1172, 606), "ONLY THE EXCESS IS DUE", W_("06b_curable", 12), cd.end + 0.25, dy=104,
-                     lift_card=rowc))
-        C.append(Card("cure", (170, 544, 1520, 62), K["cure"].start, K["cure"].end, lift=1.03, dim=0.42, fin=0.3))
-        rowc2 = len(C) - 1
-        G.append(Tag("cure", (1552, 172), "CURER · 0xc995…a4dc", K["cure"].start + 0.2, K["cure"].end, dx=-40, dy=60))
-        G.append(Tag("cure", (283, 606), "BORROWER · 0xaccd…c0f4", K["cure"].start + 0.4, K["cure"].end, dy=58,
-                     lift_card=rowc2))
-        G.append(Tag("cure", (1320, 606), "1.5% CURE BONUS", W_("06b_curable", 24) - 0.1, K["cure"].end, dy=58,
-                     lift_card=rowc2))
+        # 05 Last Call
+        zoom(cd.start + 0.5, self.FLIP + 1.3, (0, "countdown", (1486, 550, 244, 84), 2.0))
+        # the row appears (wide), the page scrolls to it (wide), then the camera goes in
+        zoom(cd.start + 13.5, self.T_cure + 0.05, (0, "countdown", (170, 546, 1520, 60), 1.25))
+        tr = max(W_("06b_curable", 6), cd.start + 15.25)
+        point(tr, W_("06b_curable", 12) - 0.25, "countdown", (935, 592))
+        point(W_("06b_curable", 12) - 0.1, self.T_cure - 0.15, "countdown", (1140, 592))
+        G.append(Tag("countdown", (960, 588), "ABOVE ITS CARRY TARGET", tr + 0.2, self.T_cure, dy=58))
+        G.append(Tag("countdown", (1167, 588), "ONLY THE EXCESS IS DUE", W_("06b_curable", 12) + 0.1, self.T_cure, dy=112))
+        G.append(Tag("cure", (1520, 168), "CURER · 0xc995…a4dc", K["cure"].start + 0.5, K["cure"].end, dx=-40, dy=60))
+        G.append(Tag("cure", (255, 590), "BORROWER · 0xaccd…c0f4", K["cure"].start + 0.7, K["cure"].end, dy=58))
+        G.append(Tag("cure", (1317, 590), "1.5% CURE BONUS", W_("06b_curable", 24) - 0.1, K["cure"].end, dy=58))
         C.append(Card("walcure", (1446, 0, 474, 965), K["walcure"].start + 0.05, K["walcure"].end, **pip))
-        C.append(Card("cured", (170, 626, 265, 76), self.CURED + 0.05, W_("06c_cured", 3) - 0.2, dest=(700, 600, 2.0),
-                      label="CURE CONFIRMED", label_color=MOSS, dim=0.5))
+        point(self.CURED + 0.1, self.overlay["oklink"].start - 0.4, "cured", (365, 662))
+        G.append(Tag("cured", (410, 643), "CURE CONFIRMED", self.CURED + 0.15, self.overlay["oklink"].start - 0.1, dx=190, dy=-12,
+                     color=MOSS))
         C.append(Card("oklink", (98, 120, 1704, 958), self.overlay["oklink"].start, self.overlay["oklink"].end,
                       dest=(1010, 612, 0.64), kind="window", url="oklink.com/x-layer-testnet/tx/0x2c16…836e", dim=0.62,
                       fin=0.45, fout=0.3))
-        C.append(Card("carry", (170, 795, 1520, 70), K["carry"].start + 0.3, K["carry"].end - 0.1, lift=1.03, dim=0.42))
-        G.append(Tag("carry", (962, 864), "BACK AT ITS CARRY TARGET", W_("06c_cured", 10), K["carry"].end - 0.1, dy=54,
-                     color=MOSS, lift_card=len(C) - 1))
-        C.append(Card("carry", (915, 318, 330, 52), W_("06c_cured", 20) - 0.1, K["carry"].end - 0.1, dim=0.0,
-                      label="kKOx LIQUIDATION LINE · FIXED", label_color=OXIDE))
-        # Proof
-        C.append(Card("proof2", (168, 438, 396, 208), W_("07_proof", 4), W_("07_proof", 11) - 0.25))
-        C.append(Card("proof2", (168, 688, 396, 185), W_("07_proof", 11), W_("07_proof", 18) - 0.5))
-        C.append(Card("proof3", (168, 908, 1565, 128), W_("07_proof", 31), K["proof3"].end - 0.1,
-                      label="RECOMPUTED FROM THE BUNDLE · COMPARED WITH THE POSTED TRANSACTION"))
-        C.append(Card("proof4", (948, 438, 394, 208), W_("07_proof", 41) - 0.1, K["proof4"].end - 0.1,
-                      dest=(960, 590, 1.75), label="KERB BUILDER CODE", dim=0.55))
-        # Consumers
-        C.append(Card("con1", (163, 588, 388, 200), W_("08_consumers", 6) - 0.1, K["con1"].end - 0.1,
-                      label="THE REFERENCE CONSUMER"))
-        C.append(Card("con2", (160, 890, 1000, 158), W_("08_consumers", 15), K["con2"].end - 0.1,
-                      label="AGENTS · PAY PER CALL"))
-        C.append(Card("con3", (163, 368, 880, 44), W_("08_consumers", 22) + 0.1, K["con3"].end - 0.1,
-                      label="CONTRACTS · ONE READ"))
-        # Evidence
-        C.append(Card("ev2", (163, 740, 808, 302), W_("09_research", 13) - 0.2, W_("09_research", 21) - 0.3,
-                      dest=(740, 600, 1.2), label="24 SEP · 06:55 AND 07:05 UTC · HELD", dim=0.55))
-        C.append(Card("ev2", (985, 740, 218, 302), W_("09_research", 21) - 0.1, W_("09_research", 32) - 0.35,
-                      dest=(1180, 600, 1.55), label="A DAY LATER · 25 SEP 07:00 UTC", dim=0.55))
-        C.append(Card("ev1", (163, 598, 1275, 118), W_("09_research", 32) - 0.2, K["ev2"].end - 0.1,
-                      dest=(960, 600, 1.1), still=("ev1", 8.4), label="MARKET-TIME REPORT #2 · FINAL", dim=0.6))
-        # Where it runs
-        C.append(Card("lim", (163, 712, 1585, 66), W_("10_close", 0), W_("10_close", 19) - 0.2))
-        C.append(Card("lim", (163, 884, 1585, 48), W_("10_close", 19) - 0.1, K["lim"].end - 0.1))
+        zoom(K["carry"].start + 0.15, K["carry"].end - 0.9,
+             (0, "carry", (170, 800, 1520, 62), 1.3),
+             (W_("06c_cured", 19) - 0.6, "carry", (800, 300, 480, 100), 1.7))
+        point(W_("06c_cured", 10), W_("06c_cured", 19) - 0.4, "carry", (935, 848))
+        point(W_("06c_cured", 20) - 0.2, K["carry"].end - 0.85, "carry", (955, 378))
+        G.append(Tag("carry", (960, 844), "BACK AT ITS CARRY TARGET", W_("06c_cured", 10) + 0.2, W_("06c_cured", 19) - 0.4,
+                     dy=58, color=MOSS))
+        # 06 Proof
+        zoom(W_("07_proof", 4) - 0.3, self.gdim_proof0 - 0.9,
+             (0, "proof2", (168, 440, 400, 200), 1.7),
+             (W_("07_proof", 11) - 0.4, "proof2", (168, 690, 400, 190), 1.7))
+        point(W_("07_proof", 4), W_("07_proof", 11) - 0.3, "proof2", (225, 518))
+        point(W_("07_proof", 11) - 0.15, self.gdim_proof0 - 0.85, "proof2", (230, 768))
+        zoom(W_("07_proof", 30) - 0.3, K["proof3"].end - 0.2, (0, "proof3", (170, 920, 1560, 130), 1.5))
+        point(W_("07_proof", 33) - 0.1, W_("07_proof", 35) - 0.2, "proof3", (500, 990))
+        point(W_("07_proof", 35) - 0.05, K["proof3"].end - 0.25, "proof3", (885, 990))
+        zoom(K["proof4"].start + 0.1, K["proof4"].end - 0.9, (0, "proof4", (948, 440, 400, 200), 1.7))
+        point(W_("07_proof", 42) - 0.1, K["proof4"].end - 0.85, "proof4", (1000, 518))
+        # 07 Consumers
+        zoom(W_("08_consumers", 5) - 0.3, K["con1"].end - 0.8, (0, "con1", (160, 620, 1560, 200), 1.5))
+        point(W_("08_consumers", 6), W_("08_consumers", 14) - 0.9, "con1", (190, 636))
+        zoom(W_("08_consumers", 15) - 0.3, K["con2"].end - 0.8, (0, "con2", (160, 895, 1000, 150), 1.6))
+        point(W_("08_consumers", 16), K["con2"].end - 0.75, "con2", (740, 936))
+        zoom(W_("08_consumers", 22) - 0.1, K["con3"].end - 0.8, (0, "con3", (160, 340, 1000, 110), 1.6))
+        point(W_("08_consumers", 25) - 0.1, K["con3"].end - 0.75, "con3", (205, 408))
+        # 08 Evidence
+        zoom(W_("09_research", 13) - 0.5, K["ev2"].end - 0.1,
+             (0, "ev2", (163, 780, 660, 280), 1.6),
+             (W_("09_research", 21) - 0.5, "ev2", (880, 780, 320, 280), 1.6))
+        point(W_("09_research", 15) - 0.1, W_("09_research", 21) - 0.35, "ev2", (262, 878))
+        point(W_("09_research", 21) - 0.1, K["ev2"].end - 0.15, "ev2", (1030, 876))
+        zoom(K["ev1b"].start + 0.2, K["ev1b"].end - 0.9, (0, "ev1b", (163, 610, 1300, 110), 1.5))
+        point(W_("09_research", 32) - 0.2, K["ev1b"].end - 0.85, "ev1b", (230, 685))
+        # 09 Where it runs
+        zoom(W_("10_close", 0) - 0.2, K["lim"].end - 0.9,
+             (0, "lim", (163, 715, 1585, 60), 1.35),
+             (W_("10_close", 19) - 0.5, "lim", (163, 885, 1585, 50), 1.35))
+        point(W_("10_close", 2), W_("10_close", 9) - 0.3, "lim", (960, 754))
+        point(W_("10_close", 9) - 0.1, W_("10_close", 19) - 0.4, "lim", (520, 754))
+        point(W_("10_close", 19) - 0.1, K["lim"].end - 0.85, "lim", (520, 921))
+        self.build_camera()
 
         # graphic windows that dim the page: (T0, T1, dim, blur)
         self.gdim = [
-            (W_("04_kts", 10) - 0.75, W_("04_kts", 43) - 0.35, 0.82, 1.0),
-            (W_("07_proof", 18) - 0.35, W_("07_proof", 27) - 0.3, 0.72, 0.6),
+            (self.gdim_kts0, W_("04_kts", 43) - 0.35, 0.82, 1.0),
+            (self.gdim_proof0, W_("07_proof", 27) - 0.3, 0.72, 0.6),
         ]
         self.chapters = [
             (K["board1"].start, "01", "The Board", "X LAYER MAINNET · LIVE"),
@@ -297,6 +332,63 @@ class Film:
             (K["ev1"].start, "08", "Evidence", "MARKET-TIME REPORT #2 · 48 H · 15 POOLS"),
             (K["lim"].start, "09", "Where it runs", "MAINNET RISK PLANE · TESTNET CREDIT"),
         ]
+
+    # ------------------------------------------------------------------ camera
+    def cam_target(self, take, rect, zmax):
+        t = self.by[take]
+        x, y, w, h = rect
+        (X0, Y0), (X1, Y1) = t.to_out(x, y), t.to_out(x + w, y + h)
+        rw, rh = X1 - X0, Y1 - Y0
+        z = max(1.15, min(zmax, 0.9 * W / rw, 0.82 * H / rh))
+        cx, cy = (X0 + X1) / 2, (Y0 + Y1) / 2
+        hw, hh = W / (2 * z), H / (2 * z)
+        # keep the view on the window; close-ups may overscan its edge a little, like a camera would
+        m = 70 if z >= 1.8 else 0
+        cx = min(max(cx, WBX - m + hw), WBX + WBW + m - hw) if WBW + 2 * m > 2 * hw else WBX + WBW / 2
+        cy = min(max(cy, WBY - m + hh), WBY + WBH + m - hh) if WBH + 2 * m > 2 * hh else WBY + WBH / 2
+        return (z, cx, cy)
+
+    def build_camera(self):
+        """Each zoom is a push in, holds and moves within one take, then a pull back to the full window.
+        Zooms never carry across a page change or a scroll."""
+        WIDE = (1.0, W / 2, H / 2)
+        D = 0.85
+        keys = [(0.0, WIDE)]
+        last_end = -99.0
+        for t_in, t_out, ks in sorted(self.zooms, key=lambda z: z[0]):
+            ta, tb = self.by[ks[0][1]], self.by[ks[-1][1]]
+            t_in = max(t_in, ta.start + ta.xfade)
+            t_out = min(t_out, tb.end - D)
+            start = max(t_in, last_end)
+            first = self.cam_target(*ks[0][1:])
+            keys.append((start, WIDE))
+            keys.append((start + D, first))
+            cur = first
+            for (tp, take, rect, zmax) in ks[1:]:
+                tgt = self.cam_target(take, rect, zmax)
+                t0 = max(tp, keys[-1][0])
+                keys.append((t0, cur))
+                keys.append((t0 + D, tgt))
+                cur = tgt
+            t_hold = max(t_out, keys[-1][0])
+            keys.append((t_hold, cur))
+            keys.append((t_hold + D, WIDE))
+            last_end = t_hold + D
+        self.cam_keys = keys
+
+    def cam(self, T):
+        k = self.cam_keys
+        if T <= k[0][0]:
+            return k[0][1]
+        for (a, va), (b, vb) in zip(k, k[1:]):
+            if T <= b:
+                if b - a < 1e-6:
+                    return vb
+                x = ease_io((T - a) / (b - a))
+                z = math.exp(lerp(math.log(va[0]), math.log(vb[0]), x))
+                # move the focus so the zoom feels anchored, not swimming
+                return (z, lerp(va[1], vb[1], x), lerp(va[2], vb[2], x))
+        return k[-1][1]
 
     # ------------------------------------------------------------------ helpers
     def active_takes(self, T):
@@ -356,6 +448,99 @@ class Renderer:
             self.stills[key] = np.frombuffer(raw, np.uint8).reshape(H, W, 3)
         return self.stills[key]
 
+    def cam_xf(self, T):
+        z, cx, cy = self.f.cam(T)
+        return z, cx, cy
+
+    def to_screen(self, T, x, y):
+        z, cx, cy = self.cam_xf(T)
+        return z * (x - cx) + W / 2, z * (y - cy) + H / 2
+
+    def pointer_sprite(self):
+        if getattr(self, "_ptr", None) is None:
+            SS, sc, pad = 4, 1.55, 12
+            pts = np.array([(0, 0), (0, 22), (5.2, 17.2), (8.8, 25.6), (12.4, 24.2), (8.8, 16.0), (15.8, 16.0)], np.float32)
+            wv, hv = int(16 * sc + 2 * pad), int(26 * sc + 2 * pad)
+            poly = ((pts * sc + pad) * SS).astype(np.int32)
+            shp = (hv * SS, wv * SS)
+            sh = np.zeros(shp, np.float32)
+            cv2.fillPoly(sh, [poly + np.array([2 * SS, 3 * SS], np.int32)], 1.0)
+            sh = cv2.GaussianBlur(sh, (0, 0), 3 * SS)
+            outer = np.zeros(shp, np.float32)
+            cv2.fillPoly(outer, [poly], 1.0)
+            cv2.polylines(outer, [poly], True, 1.0, int(2.4 * SS), cv2.LINE_AA)
+            fill = np.zeros(shp, np.float32)
+            cv2.fillPoly(fill, [poly], 1.0)
+            fill = cv2.erode(fill, np.ones((int(1.7 * SS), int(1.7 * SS)), np.uint8))
+            brass = np.array(BRASS, np.float32)
+            dark = np.array((10, 11, 10), np.float32)
+            col = dark * (outer * (1 - fill))[..., None] + brass * fill[..., None]
+            alpha = np.clip(outer + np.clip(sh * 0.6, 0, 1) * (1 - outer), 0, 1)
+            spr = cv2.resize(np.concatenate([col, alpha[..., None]], axis=2), (wv, hv), interpolation=cv2.INTER_AREA)
+            self._ptr = (spr, pad)
+        return self._ptr
+
+    def pointer_pos(self, T):
+        """Screen position and opacity of the editorial pointer."""
+        f = self.f
+        P = f.pointers
+        for i, (t0, t1, take, pt) in enumerate(P):
+            if t0 - 0.35 <= T <= t1 + 0.35:
+                tx, ty = f.by[take].to_out(*pt)
+                X, Y = self.to_screen(T, tx, ty)
+                prev = P[i - 1] if i else None
+                chained = prev is not None and 0 <= t0 - prev[1] <= 1.0
+                if T < t0:
+                    if chained:
+                        continue
+                    a = ease_out((T - (t0 - 0.35)) / 0.35)
+                    return X + 70 * (1 - a), Y + 90 * (1 - a), a
+                if chained and T < t0 + 0.7:
+                    px, py = f.by[prev[2]].to_out(*prev[3])
+                    PX, PY = self.to_screen(T, px, py)
+                    k = ease_io((T - t0) / 0.7)
+                    return lerp(PX, X, k), lerp(PY, Y, k), 1.0
+                if not chained and T < t0 + 0.5:
+                    a = ease_out((T - (t0 - 0.35)) / 0.85)
+                    return X + 70 * (1 - a), Y + 90 * (1 - a), min(1.0, (T - t0 + 0.35) / 0.35)
+                nxt = P[i + 1] if i + 1 < len(P) else None
+                if T > t1:
+                    if nxt is not None and 0 <= nxt[0] - t1 <= 1.0:
+                        return X, Y, 1.0
+                    return X, Y, 1 - ease_io((T - t1) / 0.35)
+                return X, Y, 1.0
+        # between chained segments: hold at the previous point
+        for i in range(1, len(P)):
+            if P[i - 1][1] < T < P[i][0] and P[i][0] - P[i - 1][1] <= 1.0:
+                tx, ty = f.by[P[i - 1][2]].to_out(*P[i - 1][3])
+                X, Y = self.to_screen(T, tx, ty)
+                return X, Y, 1.0
+        return None
+
+    def draw_pointer(self, stage, T):
+        pp = self.pointer_pos(T)
+        if not pp or pp[2] <= 0.003:
+            return
+        X, Y, a = pp
+        # arrival ripple: a thin brass ring once the pointer settles on a target
+        P = self.f.pointers
+        for i, (t0, t1, take, pt) in enumerate(P):
+            chained = i > 0 and 0 <= t0 - P[i - 1][1] <= 1.0
+            ta = t0 + (0.7 if chained else 0.5)
+            if ta <= T <= ta + 0.55:
+                k = (T - ta) / 0.55
+                r = 6 + 24 * ease_out(k)
+                ov = stage.copy()
+                cv2.circle(ov, (int(round(X * 16)), int(round(Y * 16))), int(r * 16), BRASS, 2, cv2.LINE_AA, 4)
+                al = 0.85 * (1 - k)
+                x0, y0 = int(max(0, X - 40)), int(max(0, Y - 40))
+                x1, y1 = int(min(W, X + 40)), int(min(H, Y + 40))
+                if x1 > x0 and y1 > y0:
+                    stage[y0:y1, x0:x1] = cv2.addWeighted(ov[y0:y1, x0:x1], al, stage[y0:y1, x0:x1], 1 - al, 0)
+                break
+        spr, pad = self.pointer_sprite()
+        blit(stage, spr, X - pad, Y - pad, a)
+
     def gc(self, T):
         f = self.f
         for name in list(self.readers):
@@ -388,6 +573,45 @@ class Renderer:
         img[:BAR] = bar_image(url)
         img[BAR:] = c
         return img, cur
+
+    def hi_content(self, take, T):
+        fr = self.frame_of(take.name, T)
+        x, y, w, h = take.crop
+        c = fr[y:y + h, x:x + w]
+        if (w, h) != (1704, 958):
+            c = cv2.resize(c, (1704, 958), interpolation=cv2.INTER_AREA)
+        return c
+
+    def window_zoomed(self, stage, T, z, cx, cy, dy, op, dim):
+        act = self.active_takes_render(T)
+        if not act:
+            return stage
+        cur = act[-1]
+        c = self.hi_content(cur, T)
+        url = cur.url
+        if len(act) == 2 and cur.xfade > 0:
+            p = ease_io((T - cur.start) / cur.xfade)
+            c = cv2.addWeighted(c, p, self.hi_content(act[0], T), 1 - p, 0)
+            if p < 0.5:
+                url = act[0].url
+        k = WW / 1704.0
+        BH = int(round(BAR / k))
+        hi = np.empty((958 + BH, 1704, 3), np.uint8)
+        hi[:BH] = cv2.resize(bar_image(url), (1704, BH), interpolation=cv2.INTER_CUBIC)
+        hi[BH:] = c
+        if dim > 0.003:
+            cv2.convertScaleAbs(hi, dst=hi, alpha=1 - dim)
+        sk = z * k
+        ox = z * (WBX - cx) + W / 2
+        oy = z * (WBY + dy - cy) + H / 2
+        M = np.array([[sk, 0, ox], [0, sk, oy]], np.float32)
+        interp = cv2.INTER_CUBIC if sk > 1.0 else cv2.INTER_LINEAR
+        warped = cv2.warpAffine(hi, M, (W, H), flags=interp)
+        mask = cv2.warpAffine(round_mask(1704, 958 + BH, int(round(RADIUS / k))), M, (W, H), flags=cv2.INTER_LINEAR)
+        # shadow of the window at its zoomed size
+        shadow(stage, ox, oy, 1704 * sk, (958 + BH) * sk, 0.62 * op, 46 * z, 26 * z)
+        m = mask[..., None] * op
+        return (warped.astype(np.float32) * m + stage.astype(np.float32) * (1 - m)).astype(np.uint8)
 
     def active_takes_render(self, T):
         return self.f.active_takes(T)
@@ -465,7 +689,8 @@ class Renderer:
         f = self.f
         t = f.by.get(g.take)
         px, py = t.to_out(*g.point)
-        if g.lift_card is not None:
+        px, py = self.to_screen(T, px, py)
+        if False:
             c = f.cards[g.lift_card]
             q = self.card_q(c, T)
             X, Y, Wd, Hd = self.card_geom(c, q, T)
@@ -682,10 +907,10 @@ class Renderer:
             return
         a = min(ease_out((T - T0) / 0.4), ease_out((T1 - T) / 0.3))
         t = self.f.by["exit1"]
-        px, py = t.to_out(1449, 690)
-        bx, by = 1262, py + 92
+        px, py = self.to_screen(T, *t.to_out(1449, 690))
+        bx, by = px - 610, py - 300
         g = ease_io((T - T0) / 0.45)
-        aa_line(stage, (px, py), (px + (bx + 150 - px) * g, py + (by - py) * g), BRASS, 1.5, a)
+        aa_line(stage, (px, py), (px + (bx + 470 - px) * g, py + (by + 150 - py) * g), BRASS, 1.5, a)
         fill_rect(stage, (px - 4, py - 4, 8, 8), BRASS, a)
         bw, bh = 470, 150
         fill_rect(stage, (bx, by, bw, bh), CANVAS, 0.92 * a)
@@ -734,6 +959,7 @@ class Renderer:
     def header(self, stage, T):
         f = self.f
         hs = clamp01((T - f.WIN_IN - 0.9) / 0.5) * (1 - clamp01((T - f.FLY0) / 0.4))
+        hs *= 1 - clamp01((f.cam(T)[0] - 1.0) / 0.12)
         if hs <= 0:
             return
         cur = None
@@ -761,7 +987,10 @@ class Renderer:
         f = self.f
         prog = T / f.END
         # backdrop: fog, slow drift; the arch at the close
-        stage = backdrop_frame("p5-fog", 0.62, 1.2, 1.0 + 0.06 * prog, -30 + 60 * prog, 0)
+        z, ccx, ccy = f.cam(T)
+        zb = 1 + (z - 1) * 0.3
+        stage = backdrop_frame("p5-fog", 0.62, 1.2, (1.0 + 0.06 * prog) * zb, -30 + 60 * prog - (ccx - W / 2) * 0.3 * zb,
+                               -(ccy - H / 2) * 0.3 * zb)
         if T > f.FLY0 + 0.5:
             k = ease_io((T - f.FLY0 - 0.5) / 1.8)
             z = 1.18 - 0.14 * ease_out((T - f.FLY0) / 7.0)
@@ -782,40 +1011,44 @@ class Renderer:
 
         op, dy, s, ox, oy = f.window_state(T)
         if op > 0.003:
-            img, cur = self.window_image(T)
-            if img is not None:
-                dim, blur = 0.0, 0.0
-                for c in f.cards:
-                    q = self.card_q(c, T)
-                    if q > 0:
-                        dim = max(dim, c.dim * q)
-                for g0, g1, gd, gb in f.gdim:
-                    if g0 <= T <= g1:
-                        q = min(ease_out((T - g0) / 0.5), ease_out((g1 - T) / 0.4))
-                        dim, blur = max(dim, gd * q), max(blur, gb * q)
-                if blur > 0.01:
-                    small = cv2.resize(img, (WBW // 4, WBH // 4), interpolation=cv2.INTER_AREA)
-                    small = cv2.GaussianBlur(small, (0, 0), 3.0)
-                    bl = cv2.resize(small, (WBW, WBH), interpolation=cv2.INTER_LINEAR)
-                    img = cv2.addWeighted(bl, blur, img, 1 - blur, 0)
-                if dim > 0.003:
-                    cv2.convertScaleAbs(img, dst=img, alpha=1 - dim)
-                if abs(s - 1) < 1e-4 and abs(ox) < 1e-3:
-                    X, Y = WBX, int(round(WBY + dy))
-                    shadow(stage, X, Y, WBW, WBH, 0.62 * op, 46, 26)
-                    paste_rounded(stage, img, X, Y, RADIUS, op)
-                    hairline_rect(stage, X, Y, WBW, WBH, INK, 0.12 * op)
-                else:
-                    cx, cy = WBX + WBW / 2 + ox, WBY + WBH / 2 + dy + oy
-                    M = np.array([[s, 0, cx - s * WBW / 2], [0, s, cy - s * WBH / 2]], np.float32)
-                    warped = cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_LINEAR)
-                    m = cv2.warpAffine(round_mask(WBW, WBH, RADIUS), M, (W, H), flags=cv2.INTER_LINEAR)[..., None] * op
-                    stage = (warped.astype(np.float32) * m + stage.astype(np.float32) * (1 - m)).astype(np.uint8)
+            dim, blur = 0.0, 0.0
+            for c in f.cards:
+                q = self.card_q(c, T)
+                if q > 0:
+                    dim = max(dim, c.dim * q)
+            for g0, g1, gd, gb in f.gdim:
+                if g0 <= T <= g1:
+                    q = min(ease_out((T - g0) / 0.5), ease_out((g1 - T) / 0.4))
+                    dim, blur = max(dim, gd * q), max(blur, gb * q)
+            if z > 1.0005 and abs(s - 1) < 1e-4:
+                stage = self.window_zoomed(stage, T, z, ccx, ccy, dy, op, dim)
+            else:
+                img, cur = self.window_image(T)
+                if img is not None:
+                    if blur > 0.01:
+                        small = cv2.resize(img, (WBW // 4, WBH // 4), interpolation=cv2.INTER_AREA)
+                        small = cv2.GaussianBlur(small, (0, 0), 3.0)
+                        bl = cv2.resize(small, (WBW, WBH), interpolation=cv2.INTER_LINEAR)
+                        img = cv2.addWeighted(bl, blur, img, 1 - blur, 0)
+                    if dim > 0.003:
+                        cv2.convertScaleAbs(img, dst=img, alpha=1 - dim)
+                    if abs(s - 1) < 1e-4 and abs(ox) < 1e-3:
+                        X, Y = WBX, int(round(WBY + dy))
+                        shadow(stage, X, Y, WBW, WBH, 0.62 * op, 46, 26)
+                        paste_rounded(stage, img, X, Y, RADIUS, op)
+                        hairline_rect(stage, X, Y, WBW, WBH, INK, 0.12 * op)
+                    else:
+                        cx, cy = WBX + WBW / 2 + ox, WBY + WBH / 2 + dy + oy
+                        M = np.array([[s, 0, cx - s * WBW / 2], [0, s, cy - s * WBH / 2]], np.float32)
+                        warped = cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_LINEAR)
+                        m = cv2.warpAffine(round_mask(WBW, WBH, RADIUS), M, (W, H), flags=cv2.INTER_LINEAR)[..., None] * op
+                        stage = (warped.astype(np.float32) * m + stage.astype(np.float32) * (1 - m)).astype(np.uint8)
 
         for c in f.cards:
             self.draw_card(stage, c, T)
         for g in f.tags:
             self.draw_tag(stage, g, T)
+        self.draw_pointer(stage, T)
         self.g_open(stage, T)
         self.g_brand(stage, T)
         self.g_c1(stage, T)
@@ -871,6 +1104,7 @@ def export(film):
         "clips": [{k: (round(x, 4) if isinstance(x, float) else x) for k, x in c.items()} for c in v.clips],
         "speech": [[round(a, 3), round(b, 3)] for a, b in v.spans()],
         "accents": {"window_in": round(film.WIN_IN, 3), "last_call_flip": round(film.FLIP, 3), "cured": round(film.CURED, 3)},
+        "music_seam": round(film.by["con1"].start, 3),
         "final_line": [round(v.W("10b_final_line", 0), 3), round(v.WE("10b_final_line", 6), 3)],
     }
     json.dump(plan, open(f"{ROOT}/artifacts/demo-video/vo_plan.json", "w"), indent=2)
