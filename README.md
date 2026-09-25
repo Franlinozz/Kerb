@@ -25,7 +25,7 @@
 <a href="https://x.com/usekerb">@usekerb on X</a>
 </p>
 
-<p align="center"><a href="https://www.usekerb.xyz/film"><img alt="Watch the Kerb demo film, 3 minutes 27 seconds" src="docs/media/film-poster.webp" width="72%"></a><br><sub><a href="https://www.usekerb.xyz/film">Watch the film</a> (3:27, chapters and captions) · <a href="https://github.com/Franlinozz/Kerb/releases/latest">1080p master</a></sub></p>
+<p align="center"><a href="https://www.usekerb.xyz/film"><img alt="Watch the Kerb demo film, 3 minutes 26 seconds" src="docs/media/film-poster.webp" width="72%"></a><br><sub><a href="https://www.usekerb.xyz/film">Watch the film</a> (3:26, chapters and captions) · <a href="https://github.com/Franlinozz/Kerb/releases/latest">1080p master</a></sub></p>
 
 <p align="center"><sub>OKX Dev Day 2026 · Build a Market · Remote · Xyndicate Labs · <a href="https://x.com/usekerb">@usekerb</a></sub></p>
 

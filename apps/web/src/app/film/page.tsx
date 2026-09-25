@@ -30,7 +30,7 @@ export default function FilmPage(): React.ReactElement {
   return (
     <div className="film-page">
       <header className="film-head">
-        <span className="t-label">The film · 3 min 27 s · recorded on X Layer</span>
+        <span className="t-label">The film · 3 min 26 s · recorded on X Layer</span>
         <h1 className="t-display">Kerb, from the Board to a Cure.</h1>
         <p className="t-body-l ink-2">Every screen is the live product. The Board and the terms are on X Layer mainnet; the borrow, Last Call and the Cure run on X Layer testnet with mirror collateral, and a second wallet makes the Cure. Pick a chapter to jump to it.</p>
       </header>

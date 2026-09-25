@@ -18,7 +18,7 @@ Film: `Kerb_OKX_Dev_Day_Demo_MASTER.mp4` (submission master) and `Kerb_OKX_Dev_D
 | The opening cut three times in 14 s between pages | The first 14 s is one designed shot: a UTC day drawn on the Kerb fog plate. A token lane runs all day while New York and Hong Kong open and close; the closes cut through every lane. Then the Kerb lockup and the category line, and the product window rises. No page cuts before the Board |
 | Constant zoom-ins on page screenshots | The page is never zoomed. Every recording plays at one fixed size inside a browser window. Emphasis comes from lift-out cards: the region of the live page rises in place, or moves to centre, over a dimmed page |
 | The page looked cropped out and plain | The window sits on Kerb's own art (the p5 fog plate), with a URL bar showing the real route, a soft shadow and rounded corners. The close pushes through the window into the Kerbstone arch |
-| Too many cuts overall | 29 takes in 3:27 (v1: 46 shots in 3:20). Changes of page inside the window are 0.45 s dissolves; wallet confirmations are hard cuts, as they should be |
+| Too many cuts overall | 29 takes in 3:26.6 (v1: 46 shots in 3:20). Changes of page inside the window are 0.45 s dissolves; wallet confirmations are hard cuts, as they should be |
 | Loose sync | Every take, card, tag and graphic is placed on a spoken word, using the ASR word timings of the narration. Narration clips are cut at word boundaries and placed per sentence |
 
 ## Technical
