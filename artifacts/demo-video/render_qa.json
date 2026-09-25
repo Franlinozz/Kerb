@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-09-25T15:48:04.030Z",
+  "file": "artifacts/demo-video/Kerb_OKX_Dev_Day_Demo_MASTER.mp4",
+  "duration": 200.533333,
+  "video": {
+    "codec": "h264",
+    "width": 1920,
+    "height": 1080,
+    "fps": "30/1",
+    "pix_fmt": "yuv420p"
+  },
+  "audio": {
+    "codec": "aac",
+    "sample_rate": "48000",
+    "channels": 2
+  },
+  "issues": []
+}

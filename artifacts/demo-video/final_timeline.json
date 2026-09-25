@@ -1,0 +1,649 @@
+{
+  "status": "FINAL",
+  "fps": 30,
+  "resolution": "1920x1080",
+  "runtime_seconds": 200.55,
+  "shots": [
+    {
+      "id": "S01",
+      "name": "hero",
+      "final_start": 0.0,
+      "final_end": 3.9,
+      "source": "docs/demo_video_scenes/10_HOME_CLOSER.mov.mp4",
+      "source_in": 0.0,
+      "source_out": 3.198,
+      "speed": 0.82,
+      "transition_in": "fade from canvas",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S02",
+      "name": "own hours",
+      "final_start": 3.9,
+      "final_end": 8.5,
+      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "source_in": 4.85,
+      "source_out": 6.92,
+      "speed": 0.45,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S03",
+      "name": "record",
+      "final_start": 8.5,
+      "final_end": 14.7,
+      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "source_in": 7.95,
+      "source_out": 11.298,
+      "speed": 0.54,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S04",
+      "name": "board header",
+      "final_start": 14.15,
+      "final_end": 18.55,
+      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
+      "source_in": 0.3,
+      "source_out": 3.6,
+      "speed": 0.75,
+      "transition_in": "seam",
+      "transition_seconds": 0.55
+    },
+    {
+      "id": "S05",
+      "name": "market per asset",
+      "final_start": 18.55,
+      "final_end": 21.85,
+      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
+      "source_in": 21.6,
+      "source_out": 24.9,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S06",
+      "name": "table",
+      "final_start": 21.85,
+      "final_end": 24.85,
+      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
+      "source_in": 8.5,
+      "source_out": 11.5,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S07",
+      "name": "table capacity",
+      "final_start": 24.85,
+      "final_end": 27.25,
+      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
+      "source_in": 14.2,
+      "source_out": 16.6,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S08",
+      "name": "hk closed",
+      "final_start": 27.25,
+      "final_end": 32.15,
+      "source": "docs/demo_video_scenes/02_BOARD_LIVE.mov.mp4",
+      "source_in": 31.2,
+      "source_out": 32.964,
+      "speed": 0.36,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S09",
+      "name": "method text",
+      "final_start": 31.65,
+      "final_end": 35.15,
+      "source": "docs/demo_video_scenes/04_KTS_METHOD.mov.mp4",
+      "source_in": 17.75,
+      "source_out": 19.78,
+      "speed": 0.58,
+      "transition_in": "seam",
+      "transition_seconds": 0.5
+    },
+    {
+      "id": "S10",
+      "name": "depth curve",
+      "final_start": 35.15,
+      "final_end": 41.95,
+      "source": "docs/demo_video_scenes/04_KTS_METHOD.mov.mp4",
+      "source_in": 8.9,
+      "source_out": 15.7,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S11",
+      "name": "exit check",
+      "final_start": 41.95,
+      "final_end": 46.95,
+      "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
+      "source_in": 20.1,
+      "source_out": 22.3,
+      "speed": 0.44,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S12",
+      "name": "aggregate",
+      "final_start": 46.95,
+      "final_end": 50.45,
+      "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
+      "source_in": 23.9,
+      "source_out": 25.405,
+      "speed": 0.43,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S13",
+      "name": "term made",
+      "final_start": 49.95,
+      "final_end": 53.55,
+      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "source_in": 12.5,
+      "source_out": 13.868,
+      "speed": 0.38,
+      "transition_in": "seam",
+      "transition_seconds": 0.5
+    },
+    {
+      "id": "S14",
+      "name": "carry vs sm",
+      "final_start": 53.55,
+      "final_end": 57.35,
+      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "source_in": 17.85,
+      "source_out": 19.218,
+      "speed": 0.36,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S15",
+      "name": "kts rail",
+      "final_start": 57.35,
+      "final_end": 65.75,
+      "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
+      "source_in": 7.5,
+      "source_out": 9.852,
+      "speed": 0.28,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S16",
+      "name": "never the line",
+      "final_start": 65.75,
+      "final_end": 70.65,
+      "source": "docs/demo_video_scenes/03_ASSET_EXIT_AND_WHY.mov.mp4",
+      "source_in": 15.0,
+      "source_out": 19.9,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S17",
+      "name": "collateral + sm",
+      "final_start": 70.15,
+      "final_end": 73.65,
+      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "source_in": 7.5,
+      "source_out": 11.0,
+      "speed": 1.0,
+      "transition_in": "seam",
+      "transition_seconds": 0.5
+    },
+    {
+      "id": "S18",
+      "name": "preview",
+      "final_start": 73.65,
+      "final_end": 77.65,
+      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "source_in": 12.5,
+      "source_out": 16.5,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S19",
+      "name": "borrow click",
+      "final_start": 77.65,
+      "final_end": 79.45,
+      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "source_in": 19.2,
+      "source_out": 21.0,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S20",
+      "name": "wallet deposit",
+      "final_start": 79.45,
+      "final_end": 81.25,
+      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "source_in": 29.9,
+      "source_out": 31.43,
+      "speed": 0.85,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S21",
+      "name": "wallet borrow",
+      "final_start": 81.25,
+      "final_end": 83.05,
+      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "source_in": 43.8,
+      "source_out": 45.6,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S22",
+      "name": "position",
+      "final_start": 83.05,
+      "final_end": 87.05,
+      "source": "docs/demo_video_scenes/05_CREDIT_BORROW.mov.mp4",
+      "source_in": 48.2,
+      "source_out": 50.6,
+      "speed": 0.6,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S23",
+      "name": "countdown",
+      "final_start": 86.45,
+      "final_end": 102.55,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": 14.4,
+      "source_out": 30.5,
+      "speed": 1.0,
+      "transition_in": "dip",
+      "transition_seconds": 0.6
+    },
+    {
+      "id": "S24",
+      "name": "the excess",
+      "final_start": 102.55,
+      "final_end": 106.15,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": 31.3,
+      "source_out": 34.9,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S25",
+      "name": "another wallet cures",
+      "final_start": 106.15,
+      "final_end": 109.55,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": 41.0,
+      "source_out": 44.4,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S26",
+      "name": "wallet cure",
+      "final_start": 109.55,
+      "final_end": 111.75,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": 52.4,
+      "source_out": 53.94,
+      "speed": 0.7,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S27",
+      "name": "cured",
+      "final_start": 111.75,
+      "final_end": 114.35,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": 56.8,
+      "source_out": 59.4,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S28",
+      "name": "oklink",
+      "final_start": 114.35,
+      "final_end": 116.05,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": 70.6,
+      "source_out": 72.3,
+      "speed": 1.0,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S29",
+      "name": "back at carry",
+      "final_start": 116.05,
+      "final_end": 122.05,
+      "source": "docs/demo_video_scenes/06_LAST_CALL_AND_CURE.mov.mp4",
+      "source_in": 76.4,
+      "source_out": 77.48,
+      "speed": 0.18,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S30",
+      "name": "verifiable",
+      "final_start": 121.55,
+      "final_end": 123.95,
+      "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "source_in": 0.1,
+      "source_out": 1.108,
+      "speed": 0.42,
+      "transition_in": "seam",
+      "transition_seconds": 0.5
+    },
+    {
+      "id": "S31",
+      "name": "tiles",
+      "final_start": 123.95,
+      "final_end": 127.25,
+      "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "source_in": 4.8,
+      "source_out": 7.11,
+      "speed": 0.7,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S32",
+      "name": "reproduce",
+      "final_start": 127.25,
+      "final_end": 131.65,
+      "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "source_in": 13.6,
+      "source_out": 15.096,
+      "speed": 0.34,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S33",
+      "name": "verify band",
+      "final_start": 131.65,
+      "final_end": 135.95,
+      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "source_in": 23.3,
+      "source_out": 25.063,
+      "speed": 0.41,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S34",
+      "name": "builder code",
+      "final_start": 135.95,
+      "final_end": 139.95,
+      "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "source_in": 5.2,
+      "source_out": 7.08,
+      "speed": 0.47,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S35",
+      "name": "four consumers",
+      "final_start": 139.45,
+      "final_end": 144.05,
+      "source": "docs/demo_video_scenes/01_HOME_MASTER.mov.mp4",
+      "source_in": 15.25,
+      "source_out": 16.377,
+      "speed": 0.245,
+      "transition_in": "seam",
+      "transition_seconds": 0.5
+    },
+    {
+      "id": "S36",
+      "name": "x402",
+      "final_start": 144.05,
+      "final_end": 147.45,
+      "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "source_in": 0.8,
+      "source_out": 3.588,
+      "speed": 0.82,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S37",
+      "name": "kerbquote",
+      "final_start": 147.45,
+      "final_end": 150.75,
+      "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "source_in": 25.6,
+      "source_out": 27.118,
+      "speed": 0.46,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S38",
+      "name": "mcp build",
+      "final_start": 150.75,
+      "final_end": 153.65,
+      "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "source_in": 8.9,
+      "source_out": 11.22,
+      "speed": 0.8,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S39",
+      "name": "endpoints",
+      "final_start": 153.65,
+      "final_end": 157.65,
+      "source": "docs/demo_video_scenes/08_AGENT_AND_CONTRACT.mov.mp4",
+      "source_in": 13.0,
+      "source_out": 15.8,
+      "speed": 0.7,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S40",
+      "name": "report 2",
+      "final_start": 157.15,
+      "final_end": 162.15,
+      "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "source_in": 6.7,
+      "source_out": 9.5,
+      "speed": 0.56,
+      "transition_in": "seam",
+      "transition_seconds": 0.5
+    },
+    {
+      "id": "S41",
+      "name": "held then fell",
+      "final_start": 162.15,
+      "final_end": 168.15,
+      "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "source_in": 14.7,
+      "source_out": 16.5,
+      "speed": 0.3,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S42",
+      "name": "by pool",
+      "final_start": 168.15,
+      "final_end": 172.35,
+      "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "source_in": 11.4,
+      "source_out": 13.374,
+      "speed": 0.47,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S43",
+      "name": "every capture",
+      "final_start": 172.35,
+      "final_end": 177.85,
+      "source": "docs/demo_video_scenes/09_RESEARCH_REPORT_2.mov.mp4",
+      "source_in": 18.6,
+      "source_out": 19.898,
+      "speed": 0.236,
+      "transition_in": "cut",
+      "transition_seconds": 0.0
+    },
+    {
+      "id": "S44",
+      "name": "limitations",
+      "final_start": 177.35,
+      "final_end": 185.75,
+      "source": "docs/demo_video_scenes/07_PROOF.mov.mp4",
+      "source_in": 17.0,
+      "source_out": 20.024,
+      "speed": 0.36,
+      "transition_in": "seam",
+      "transition_seconds": 0.5
+    },
+    {
+      "id": "S45",
+      "name": "thesis",
+      "final_start": 184.95,
+      "final_end": 200.55,
+      "source": "artifacts/demo-video/captures/home_hero_live.mkv",
+      "source_in": 0.4,
+      "source_out": 16.0,
+      "speed": 1.0,
+      "transition_in": "fade",
+      "transition_seconds": 0.8
+    }
+  ],
+  "narration": [
+    {
+      "segment": "01_cold_open",
+      "start": 0.9,
+      "end": 14.0
+    },
+    {
+      "segment": "02_board",
+      "start": 15.05,
+      "end": 31.35
+    },
+    {
+      "segment": "03_exit",
+      "start": 32.1,
+      "end": 49.62
+    },
+    {
+      "segment": "04_kts",
+      "start": 50.4,
+      "end": 68.82
+    },
+    {
+      "segment": "05_borrow",
+      "start": 70.5,
+      "end": 84.38
+    },
+    {
+      "segment": "06a_last_call",
+      "start": 86.55,
+      "end": 93.21
+    },
+    {
+      "segment": "06b_curable",
+      "start": 96.35,
+      "end": 106.73
+    },
+    {
+      "segment": "06c_cured",
+      "start": 112.65,
+      "end": 121.15
+    },
+    {
+      "segment": "07_proof",
+      "start": 122.0,
+      "end": 139.0
+    },
+    {
+      "segment": "08_consumers",
+      "start": 139.85,
+      "end": 156.79
+    },
+    {
+      "segment": "09_research",
+      "start": 157.6,
+      "end": 177.14
+    },
+    {
+      "segment": "10_close",
+      "start": 177.75,
+      "end": 193.39
+    },
+    {
+      "segment": "10b_final_line",
+      "start": 194.55,
+      "end": 196.39
+    }
+  ],
+  "accents": [
+    {
+      "name": "structural swell into the Board",
+      "peak": 14.15
+    },
+    {
+      "name": "low impact, Last Call opens",
+      "at": 94.017
+    },
+    {
+      "name": "confirmation tone, Cure done",
+      "at": 112.817
+    }
+  ],
+  "music": {
+    "source": "docs/audio_background/Audio compilation.mp3",
+    "from": 0,
+    "removed_silence": [
+      149.5,
+      152.9
+    ],
+    "fade_in": 1.3,
+    "fade_out": 3.0
+  },
+  "loudness": {
+    "integrated_lufs": "-14.02",
+    "true_peak_dbtp": "-1.60"
+  },
+  "voice": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice": "Adam (premade)",
+    "reason": "Antoni, Sam and Noah are not available in the connected account"
+  }
+}

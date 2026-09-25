@@ -1,0 +1,235 @@
+1
+00:00:00,900 --> 00:00:03,990
+Tokenized stocks can
+trade around the clock.
+
+2
+00:00:04,180 --> 00:00:09,030
+Their underlying markets, and the
+liquidity you would need to exit, do not.
+
+3
+00:00:09,640 --> 00:00:14,250
+Kerb is the market-time risk layer
+for tokenized stocks on X Layer.
+
+4
+00:00:15,050 --> 00:00:17,740
+The Board shows that mismatch, live.
+
+5
+00:00:18,350 --> 00:00:22,380
+Each asset keeps its own market
+clock, its own liquidity regime,
+
+6
+00:00:22,570 --> 00:00:24,940
+and its own executable capacity.
+
+7
+00:00:25,510 --> 00:00:28,990
+Kerb measures what the real X
+Layer pool can absorb right now,
+
+8
+00:00:29,030 --> 00:00:31,600
+and posts it on X Layer mainnet.
+
+9
+00:00:32,100 --> 00:00:37,280
+To measure an exit, Kerb walks the
+Uniswap V3 liquidity tick by tick,
+
+10
+00:00:37,320 --> 00:00:42,060
+and finds the largest sale that
+clears within 1% price impact.
+
+11
+00:00:42,100 --> 00:00:44,520
+That is C(1%).
+
+12
+00:00:44,560 --> 00:00:47,400
+It cross-checks the answer
+against OKX DEX quotes,
+
+13
+00:00:47,440 --> 00:00:49,870
+and keeps the more conservative number.
+
+14
+00:00:50,400 --> 00:00:54,090
+The Kerb Terms Standard then
+binds that capacity to time.
+
+15
+00:00:54,720 --> 00:00:58,700
+Carry is sized to survive the weak
+hours until the next deep session,
+
+16
+00:00:58,740 --> 00:01:00,570
+with no action from the borrower.
+
+17
+00:01:01,260 --> 00:01:05,990
+Session Max lends more now, because
+it only has to last until Last Call.
+
+18
+00:01:06,320 --> 00:01:09,070
+Either way, the liquidation
+line stays fixed.
+
+19
+00:01:10,500 --> 00:01:12,990
+Here, a borrower chooses Session Max.
+
+20
+00:01:13,700 --> 00:01:17,390
+Before anything is signed, Kerb
+shows the loan to value, the health,
+
+21
+00:01:17,540 --> 00:01:21,510
+the fixed liquidation line, and
+when the next Last Call opens.
+
+22
+00:01:21,900 --> 00:01:24,630
+The loan confirms on X Layer testnet.
+
+23
+00:01:26,550 --> 00:01:28,720
+Now the clock reaches Last Call.
+
+24
+00:01:28,990 --> 00:01:33,460
+On testnet, a compressed demo
+clock runs this cycle every hour.
+
+25
+00:01:36,350 --> 00:01:40,880
+A Session Max position that borrowed
+above its Carry target becomes curable.
+
+26
+00:01:41,310 --> 00:01:42,960
+Only the excess is due.
+
+27
+00:01:43,290 --> 00:01:46,980
+Any other wallet can repay
+it, and earn the cure bonus.
+
+28
+00:01:52,650 --> 00:01:57,440
+The cure confirms on X Layer, and the
+position is back at its Carry target.
+
+29
+00:01:57,770 --> 00:01:59,220
+This is not a liquidation.
+
+30
+00:01:59,470 --> 00:02:01,400
+The liquidation line never moved.
+
+31
+00:02:02,000 --> 00:02:05,080
+Every Kerb term is
+posted on X Layer mainnet
+
+32
+00:02:05,120 --> 00:02:08,210
+with the hash of the
+inputs that produced it.
+
+33
+00:02:08,340 --> 00:02:11,670
+Anyone can fetch those inputs
+and recompute the terms.
+
+34
+00:02:12,020 --> 00:02:15,790
+The Proof page shows the latest
+check matching, field by field,
+
+35
+00:02:16,000 --> 00:02:19,250
+and recent posts carry
+the Kerb Builder Code.
+
+36
+00:02:19,850 --> 00:02:24,300
+Kerb Terms are not tied to Kerb Credit,
+which is only the reference consumer.
+
+37
+00:02:24,670 --> 00:02:27,440
+Agents can buy a credit check over x402.
+
+38
+00:02:28,650 --> 00:02:31,800
+Contracts on X Layer can
+read KerbQuote directly.
+
+39
+00:02:32,770 --> 00:02:37,040
+Developers can use the
+public API, the SDK, or MCP.
+
+40
+00:02:37,600 --> 00:02:40,350
+Kerb has already measured
+why this matters.
+
+41
+00:02:41,000 --> 00:02:47,110
+When the X Liquidity campaign ended, C(1%)
+held at the moment incentives stopped.
+
+42
+00:02:47,500 --> 00:02:50,960
+A day later, it had fallen 10%
+or more for 6 of 10 assets,
+
+43
+00:02:51,000 --> 00:02:53,250
+and risen for the other four.
+
+44
+00:02:53,860 --> 00:02:55,570
+Kerb measured that change.
+
+45
+00:02:56,000 --> 00:02:57,390
+It did not predict it.
+
+46
+00:02:57,750 --> 00:03:00,720
+The risk plane is live on X Layer mainnet.
+
+47
+00:03:01,290 --> 00:03:04,640
+Kerb Credit is a testnet reference
+market with mirror collateral,
+
+48
+00:03:04,810 --> 00:03:06,780
+and the contracts are unaudited.
+
+49
+00:03:07,290 --> 00:03:09,860
+Most systems ask what an asset is worth.
+
+50
+00:03:10,510 --> 00:03:13,640
+Kerb also asks whether the
+exit will still be there.
+
+51
+00:03:14,550 --> 00:03:16,640
+Never lend more than you can liquidate.
+

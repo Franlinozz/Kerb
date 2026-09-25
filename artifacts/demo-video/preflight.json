@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-09-25T13:59:13.209Z",
+  "missing": [],
+  "tools": {
+    "ffmpeg": true,
+    "ffprobe": true,
+    "node": "v22.23.2"
+  },
+  "ok": true
+}

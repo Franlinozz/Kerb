@@ -1,0 +1,94 @@
+{
+  "segments": [
+    {
+      "id": "01_cold_open",
+      "text": "Tokenized stocks can trade around the clock. Their underlying markets, and the liquidity you would need to exit, do not. Kerb is the market-time risk layer for tokenized stocks on X Layer.",
+      "file": "artifacts/demo-video/voice/01_cold_open.mp3",
+      "generatedAt": "2026-09-25T14:32:43.337Z"
+    },
+    {
+      "id": "02_board",
+      "text": "The Board shows that mismatch, live. Each asset keeps its own market clock, its own liquidity regime, and its own executable capacity. Kerb measures what the real X Layer pool can absorb right now, and posts it on X Layer mainnet.",
+      "file": "artifacts/demo-video/voice/02_board.mp3",
+      "generatedAt": "2026-09-25T14:32:46.313Z"
+    },
+    {
+      "id": "03_exit",
+      "text": "To measure an exit, Kerb walks the Uniswap V3 liquidity tick by tick, and finds the largest sale that clears within one percent price impact. That is C one percent. It cross-checks the answer against OKX DEX quotes, and keeps the more conservative number.",
+      "file": "artifacts/demo-video/voice/03_exit.mp3",
+      "generatedAt": "2026-09-25T14:32:49.243Z"
+    },
+    {
+      "id": "04_kts",
+      "text": "The Kerb Terms Standard then binds that capacity to time. Carry is sized to survive the weak hours until the next deep session, with no action from the borrower. Session Max lends more now, because it only has to last until Last Call. Either way, the liquidation line stays fixed.",
+      "file": "artifacts/demo-video/voice/04_kts.mp3",
+      "generatedAt": "2026-09-25T14:32:52.150Z"
+    },
+    {
+      "id": "05_borrow",
+      "text": "Here, a borrower chooses Session Max. Before anything is signed, Kerb shows the loan to value, the health, the fixed liquidation line, and when the next Last Call opens. The loan confirms on X Layer testnet.",
+      "file": "artifacts/demo-video/voice/05_borrow.mp3",
+      "generatedAt": "2026-09-25T14:39:13.386Z"
+    },
+    {
+      "id": "06a_last_call",
+      "text": "Now the clock reaches Last Call. On testnet, a compressed demo clock runs this cycle every hour.",
+      "file": "artifacts/demo-video/voice/06a_last_call.mp3",
+      "generatedAt": "2026-09-25T14:32:55.660Z"
+    },
+    {
+      "id": "06b_curable",
+      "text": "A Session Max position that borrowed above its Carry target becomes curable. Only the excess is due. Any other wallet can repay it, and earn the cure bonus.",
+      "file": "artifacts/demo-video/voice/06b_curable.mp3",
+      "generatedAt": "2026-09-25T14:32:57.525Z"
+    },
+    {
+      "id": "06c_cured",
+      "text": "The cure confirms on X Layer, and the position is back at its Carry target. This is not a liquidation. The liquidation line never moved.",
+      "file": "artifacts/demo-video/voice/06c_cured.mp3",
+      "generatedAt": "2026-09-25T14:32:59.006Z"
+    },
+    {
+      "id": "07_proof",
+      "text": "Every Kerb term is posted on X Layer mainnet with the hash of the inputs that produced it. Anyone can fetch those inputs and recompute the terms. The Proof page shows the latest check matching, field by field, and recent posts carry the Kerb Builder Code.",
+      "file": "artifacts/demo-video/voice/07_proof.mp3",
+      "generatedAt": "2026-09-25T14:33:01.743Z"
+    },
+    {
+      "id": "08_consumers",
+      "text": "Kerb Terms are not tied to Kerb Credit, which is only the reference consumer. Agents can buy a credit check over x four oh two. Contracts on X Layer can read Kerb Quote directly. Developers can use the public API, the SDK, or MCP.",
+      "file": "artifacts/demo-video/voice/08_consumers.mp3",
+      "generatedAt": "2026-09-25T14:33:04.621Z"
+    },
+    {
+      "id": "09_research",
+      "text": "Kerb has already measured why this matters. When the X Liquidity campaign ended, C one percent held at the moment incentives stopped. A day later, it had fallen ten percent or more for six of ten assets, and risen for the other four. Kerb measured that change. It did not predict it.",
+      "file": "artifacts/demo-video/voice/09_research.mp3",
+      "generatedAt": "2026-09-25T14:33:07.715Z"
+    },
+    {
+      "id": "10_close",
+      "text": "The risk plane is live on X Layer mainnet. Kerb Credit is a testnet reference market with mirror collateral, and the contracts are unaudited. Most systems ask what an asset is worth. Kerb also asks whether the exit will still be there.",
+      "file": "artifacts/demo-video/voice/10_close.mp3",
+      "generatedAt": "2026-09-25T14:33:10.488Z"
+    },
+    {
+      "id": "10b_final_line",
+      "text": "Never lend more than you can liquidate.",
+      "file": "artifacts/demo-video/voice/10b_final_line.mp3",
+      "generatedAt": "2026-09-25T14:33:11.296Z"
+    }
+  ],
+  "voice": {
+    "name": "Adam - Dominant, Firm",
+    "id": "pNInz6obpgDQGcFmaJgB"
+  },
+  "model_id": "eleven_multilingual_v2",
+  "settings": {
+    "stability": 0.58,
+    "similarity_boost": 0.78,
+    "style": 0,
+    "use_speaker_boost": true,
+    "speed": 0.96
+  }
+}

@@ -15,3 +15,17 @@ contracts/broadcast/*/31337/
 # Bundles the attester writes as it posts (served by /v1/bundle). The store of record is that
 # directory on the server, not git; the committed ones are test fixtures and stay tracked.
 data/reports/bundles/
+# Demo film working files (regenerable from scripts/demo-video); the web copy, captions and reports stay tracked.
+artifacts/demo-video/*
+!artifacts/demo-video/*.md
+!artifacts/demo-video/*.json
+!artifacts/demo-video/*.srt
+!artifacts/demo-video/Kerb_OKX_Dev_Day_Demo_WEB.mp4
+!artifacts/demo-video/captures/
+artifacts/demo-video/captures/*
+!artifacts/demo-video/captures/home_hero_live.mkv
+!artifacts/demo-video/voice/
+artifacts/demo-video/voice/*
+!artifacts/demo-video/voice/*.mp3
+!artifacts/demo-video/voice/*.json
+__pycache__/
