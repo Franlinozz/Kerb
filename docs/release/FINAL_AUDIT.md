@@ -5,7 +5,7 @@ Run 25 Sep 2026, 02:20 to 03:00 UTC, against production. Evidence files are in `
 | Section | Result | Evidence |
 |---|---|---|
 | A. Eligibility | Pass (video pending) | `checks.txt`: apex, www, repo logged out, API all 200. Remote and Build a Market stated in README, RELEASE_STATE and the form draft. Video: operator, Fri 07:30 UTC |
-| B. Freshness | Pass | `freshness.idle.spec.ts` passed on the live build; with the warmer, first-paint median age 11 to 21.5 s per route (`data/freshness/20260925T025055Z.tsv`); no raw enum in any DOM (E2E regex) |
+| B. Freshness | Pass | `freshness.idle.spec.ts` passed on the live build; with the warmer, first-paint median age 14.5 to 25.5 s per route over 70 loads (max 47 s) (`data/freshness/20260925T025055Z.tsv`); no raw enum in any DOM (E2E regex) |
 | C. Golden path | Pass | Production, fresh wallets, every receipt success: `data/credit-flow-2026-09-23.json` |
 | D. Keeper | Pass, rung 1 | `data/keeper.log`: cycles with tx hashes since 23 Sep; stranger cure `0x5468b5ed…` (`data/keeper-cure-2026-09-23.json`); refuses chains other than 1952 (`apps/attester/test`); kKOx fallback opened `0x2d40ac96…edae` at 02:49 UTC |
 | E. X Layer | Pass | `/health`: last mainnet post 02:39 UTC; Builder Code decoded on /proof; 34 of 34 Sourcify exact match; `kerbquote-kox-25.txt`: KerbQuote 992393683 equals the API figures |
