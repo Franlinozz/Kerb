@@ -112,7 +112,8 @@ export function duration(ms: number): string {
 /** A short age for a freshness marker. */
 export function age(seconds: number | null): string {
   if (seconds === null) return "never";
-  return duration(seconds * 1000);
+  // Two clocks (a cached page and a fresher health read) can put the event a moment "after" now.
+  return duration(Math.max(0, seconds) * 1000);
 }
 
 export function shortHash(h: string, lead = 6, tail = 4): string {

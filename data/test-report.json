@@ -1,7 +1,7 @@
 {
-  "startedAt": "2026-09-22T12:36:06Z",
-  "finishedAt": "2026-09-22T12:37:06Z",
-  "commit": "e6d78fda6d1087ab986e55693bf9b69637a6f8ee",
-  "typescript": { "passed": 545, "suitesWithFailures": 0, "command": "pnpm -r test" },
-  "solidity": { "passed": 106, "failed": 0, "command": "forge test" }
+  "startedAt": "2026-09-25T02:31:08Z",
+  "finishedAt": "2026-09-25T02:32:28Z",
+  "commit": "1bd81784591239d24c7e706133311ba9f76cb648",
+  "typescript": { "passed": 594, "suitesWithFailures": 0, "command": "pnpm -r test" },
+  "solidity": { "passed": 120, "failed": 0, "command": "forge test" }
 }
