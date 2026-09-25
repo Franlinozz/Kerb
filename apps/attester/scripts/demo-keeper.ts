@@ -3,7 +3,9 @@
  * operator's written approval, from its own testnet-only wallet funded from faucets).
  *
  * So that every demo Last Call has at least one curable position for a visitor to cure, the keeper
- * holds one Session Max position on kHKEXCx sized between Carry and Session Max:
+ * holds one Session Max position sized between Carry and Session Max, on kHKEXCx, or on kKOx when
+ * HKEXCx has no room between the two (as after its Stale period on 24 Sep); an open position is
+ * always finished on the asset it was opened on:
  *   SESSION   (until five minutes before Last Call): open it if there is none.
  *   LAST_CALL: do nothing; the position is there to be cured by anyone.
  *   CLOSED:    repay whatever a cure left and withdraw, so the next cycle starts clean.
@@ -30,12 +32,17 @@ assertKeeperChain(await wallet.getChainId());
 const me = wallet.account.address;
 const credit = deploymentOf(CHAIN, "KerbCredit").address as Address;
 const demo = deploymentOf(CHAIN, "KerbClockDemo").address as Address;
-const mirror = deploymentOf(CHAIN, "KerbMirror:HKEXCx").address as Address;
 const loan = deploymentOf(CHAIN, "MockUSDG").address as Address;
 const creditAbi = artifact("KerbCredit").abi, termsAbi = artifact("KerbTerms").abi, erc = artifact("MockUSDG").abi, mirrorAbi = artifact("KerbMirror").abi, demoAbi = artifact("KerbClockDemo").abi;
 const terms = deploymentOf(CHAIN, "KerbTerms").address as Address;
 const suffix = dataSuffix();
-const assetId = (await import("@kerb/types")).assetId(CHAIN, mirror) as Hex;
+const { assetId: idOf } = await import("@kerb/types");
+/** The collateral the keeper may use, in order of preference. */
+const MARKETS = (["HKEXCx", "KOx"] as const).map((sym) => {
+  const mirror = deploymentOf(CHAIN, `KerbMirror:${sym}`).address as Address;
+  return { sym, label: `k${sym}`, mirror, assetId: idOf(CHAIN, mirror) as Hex };
+});
+let current = MARKETS[0]!;
 
 let last: { action: string; at: string; tx: string | null } | null = null;
 const log = (what: string, tx?: Hex): void => {
@@ -46,7 +53,7 @@ const log = (what: string, tx?: Hex): void => {
 };
 function status(s: { state: DemoState; position: "open" | "none" | "collateral only"; debt: string; next: string; nextAt: string; note: string }): void {
   const tmp = `${STATUS}.tmp`;
-  writeFileSync(tmp, JSON.stringify({ address: me, chainId: CHAIN, collateral: "kHKEXCx", updatedAt: new Date().toISOString(), ...s, lastAction: last }, null, 1));
+  writeFileSync(tmp, JSON.stringify({ address: me, chainId: CHAIN, collateral: current.label, updatedAt: new Date().toISOString(), ...s, lastAction: last }, null, 1));
   renameSync(tmp, STATUS);
 }
 
@@ -85,6 +92,17 @@ async function tick(): Promise<void> {
   const d = demoState(nowSec, epoch!, weekLength!, cureStart!, sessionEnd!);
   const cycleStart = nowSec - d.phase;
   const at = (sec: bigint): string => new Date(Number(sec) * 1000).toISOString();
+  // Finish any open position on its own asset; otherwise take the first asset with room between
+  // Carry and Session Max.
+  const views = await Promise.all(MARKETS.map(async (m) => {
+    const [pos, eff] = await Promise.all([
+      read<{ collateralShares: bigint; debtShares: bigint }>(credit, creditAbi, "position", [me, m.assetId]),
+      read<[bigint, bigint, bigint, number, boolean]>(terms, termsAbi, "effectiveTerms", [m.assetId]),
+    ]);
+    return { m, open: pos.collateralShares > 0n || pos.debtShares > 0n, room: eff[4] && eff[1] > eff[0] };
+  }));
+  current = (views.find((v) => v.open) ?? views.find((v) => v.room) ?? views[0]!).m;
+  const { mirror, assetId, label } = current;
   const [pos, debt, pendingNonce, latestNonce, eff, latest] = await Promise.all([
     read<{ collateralShares: bigint; debtShares: bigint }>(credit, creditAbi, "position", [me, assetId]),
     read<bigint>(credit, creditAbi, "debtOf", [me, assetId]),
@@ -107,11 +125,11 @@ async function tick(): Promise<void> {
   } else if (p.kind === "open") {
     if (p.debt > MAX_DEBT) throw new Error("refusing: debt above the 2,000 mUSDG cap");
     if (p.deposit) {
-      if ((await read<bigint>(mirror, mirrorAbi, "balanceOf", [me])) < p.collateral) await send(mirror, mirrorAbi, "faucet", [p.collateral], `mint ${formatUnits(p.collateral, 18)} kHKEXCx`);
-      if ((await read<bigint>(mirror, mirrorAbi, "allowance", [me, credit])) < p.collateral) await send(mirror, mirrorAbi, "approve", [credit, (1n << 255n) - 1n], "approve kHKEXCx");
-      await send(credit, creditAbi, "deposit", [assetId, p.collateral], `deposit ${formatUnits(p.collateral, 18)} kHKEXCx`);
+      if ((await read<bigint>(mirror, mirrorAbi, "balanceOf", [me])) < p.collateral) await send(mirror, mirrorAbi, "faucet", [p.collateral], `mint ${formatUnits(p.collateral, 18)} ${label}`);
+      if ((await read<bigint>(mirror, mirrorAbi, "allowance", [me, credit])) < p.collateral) await send(mirror, mirrorAbi, "approve", [credit, (1n << 255n) - 1n], `approve ${label}`);
+      await send(credit, creditAbi, "deposit", [assetId, p.collateral], `deposit ${formatUnits(p.collateral, 18)} ${label}`);
     }
-    await send(credit, creditAbi, "borrow", [assetId, p.debt, 1], `borrow ${formatUnits(p.debt, 6)} mUSDG with Session Max`);
+    await send(credit, creditAbi, "borrow", [assetId, p.debt, 1], `borrow ${formatUnits(p.debt, 6)} mUSDG with Session Max on ${label}`);
   } else if (p.reason.startsWith("a transaction") || p.reason.startsWith("terms") || p.reason.startsWith("Session Max")) {
     log(p.reason);
   }
