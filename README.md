@@ -33,7 +33,7 @@ Tokenized stocks trade around the clock on X Layer. The markets behind them do n
 
 ## Contents
 
-[At a glance](#at-a-glance) · [Five minutes for judges](#five-minutes-for-judges) · [Screens](#screens) · [Architecture](#architecture) · [How a term is made](#how-a-term-is-made) · [Why it is built this way](#why-it-is-built-this-way) · [One term, four consumers](#one-term-four-consumers) · [Try it](#try-it) · [Verify any number](#verify-any-number) · [What the live system has shown](#what-the-live-system-has-shown) · [Built on OKX and X Layer](#built-on-okx-and-x-layer) · [Engineering](#engineering) · [Deployments](#deployments) · [Documentation](#documentation) · [FAQ](#faq) · [Limitations](#limitations) · [Repository](#repository)
+[At a glance](#at-a-glance) · [Five minutes for judges](#five-minutes-for-judges) · [Screens](#screens) · [How a term is made](#how-a-term-is-made) · [Why it is built this way](#why-it-is-built-this-way) · [Architecture](#architecture) · [One term, four consumers](#one-term-four-consumers) · [Try it](#try-it) · [Verify any number](#verify-any-number) · [What the live system has shown](#what-the-live-system-has-shown) · [Built on OKX and X Layer](#built-on-okx-and-x-layer) · [Engineering](#engineering) · [Deployments](#deployments) · [Documentation](#documentation) · [FAQ](#faq) · [Limitations](#limitations) · [Repository](#repository)
 
 ## At a glance
 
@@ -64,42 +64,18 @@ The site has a sixty-second guided tour (first visit, or *Docs → Take the tour
 
 <table>
 <tr>
-<td width="50%"><a href="https://www.usekerb.xyz"><img src="docs/media/screens/home.webp" alt="Home: Credit on the market's clock"></a><br><sub><b>Home.</b> The idea, both market clocks, live pool callouts.</sub></td>
-<td width="50%"><a href="https://www.usekerb.xyz/board"><img src="docs/media/screens/board.webp" alt="The Board"></a><br><sub><b>Board.</b> Ten assets: regime, Credit Mark, C(1%), terms, ceiling, next transition.</sub></td>
+<td width="50%"><a href="https://www.usekerb.xyz"><img src="docs/media/screens/home-day.webp" alt="Home in Day"></a><br><sub><b>Home.</b> Credit on the market's clock, with both market clocks live.</sub></td>
+<td width="50%"><a href="https://www.usekerb.xyz/board"><img src="docs/media/screens/board.webp" alt="The Board in Night"></a><br><sub><b>Board.</b> Every stock's regime, Credit Mark, C(1%) and terms, right now.</sub></td>
 </tr>
 <tr>
-<td><a href="https://www.usekerb.xyz/asset/HKEXCx"><img src="docs/media/screens/asset-why.webp" alt="Why these terms"></a><br><sub><b>Why these terms.</b> Each number explained with its own inputs, computed, never written by hand.</sub></td>
-<td><a href="https://www.usekerb.xyz/asset/HKEXCx"><img src="docs/media/screens/asset-exit.webp" alt="Exit check"></a><br><sub><b>Exit check.</b> Tick-walk against the OKX DEX quote; the smaller wins when they disagree.</sub></td>
+<td><a href="https://www.usekerb.xyz/asset/KOx"><img src="docs/media/screens/asset-why-day.webp" alt="Why these terms, in Day"></a><br><sub><b>Why these terms.</b> Each number explained with its own inputs.</sub></td>
+<td><a href="https://www.usekerb.xyz/credit"><img src="docs/media/screens/credit.webp" alt="Kerb Credit in Night"></a><br><sub><b>Kerb Credit.</b> Carry or Session Max on a demo clock; the brass band is Last Call.</sub></td>
 </tr>
 <tr>
-<td><a href="https://www.usekerb.xyz/credit"><img src="docs/media/screens/credit.webp" alt="Kerb Credit"></a><br><sub><b>Kerb Credit.</b> Carry or Session Max on a demo clock; the brass band is Last Call.</sub></td>
-<td><a href="https://www.usekerb.xyz/credit"><img src="docs/media/screens/credit-curable.webp" alt="Curable now"></a><br><sub><b>Curable now.</b> Public cure, a demo keeper, and pool state read from chain.</sub></td>
-</tr>
-<tr>
-<td><a href="https://www.usekerb.xyz/proof"><img src="docs/media/screens/proof.webp" alt="Proof"></a><br><sub><b>Proof.</b> Read from live state on every load; nothing typed in by hand.</sub></td>
-<td><a href="https://www.usekerb.xyz/research/2"><img src="docs/media/screens/research-2.webp" alt="Market-Time Report #2"></a><br><sub><b>Research.</b> Market-Time Report #2: the end of the X Liquidity incentives.</sub></td>
-</tr>
-<tr>
-<td><a href="https://www.usekerb.xyz/developers#agents"><img src="docs/media/screens/developers.webp" alt="Developers"></a><br><sub><b>Developers.</b> SDK, REST, Solidity, and agents over x402.</sub></td>
-<td><a href="https://www.usekerb.xyz/board"><img src="docs/media/screens/tour.webp" alt="Guided tour"></a><br><sub><b>Guided tour.</b> Eight stops across real pages, with live numbers.</sub></td>
-</tr>
-<tr>
-<td><a href="https://www.usekerb.xyz"><img src="docs/media/screens/home-day.webp" alt="Home in Day"></a><br><sub><b>Three themes.</b> Night, Day and Market time.</sub></td>
-<td><a href="https://www.usekerb.xyz/docs"><img src="docs/media/screens/nav-docs.webp" alt="Docs menu"></a><br><sub><b>Docs menu.</b> Docs, FAQ, whitepaper, changelog, terms, privacy, risk.</sub></td>
+<td><a href="https://www.usekerb.xyz/research/2"><img src="docs/media/screens/research-2-day.webp" alt="Market-Time Report #2 in Day"></a><br><sub><b>Research.</b> What the end of the X Liquidity incentives did to exit capacity.</sub></td>
+<td><a href="https://www.usekerb.xyz/proof"><img src="docs/media/screens/proof.webp" alt="Proof in Night"></a><br><sub><b>Proof.</b> Every contract, and the latest term recomputed live.</sub></td>
 </tr>
 </table>
-
-<p align="center"><img src="docs/media/screens/m-home.webp" width="30%" alt="Home on a phone">&nbsp;<img src="docs/media/screens/m-board.webp" width="30%" alt="Board on a phone">&nbsp;<img src="docs/media/screens/m-credit.webp" width="30%" alt="Credit on a phone"></p>
-
-## Architecture
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/media/architecture-dark.svg"><img alt="Kerb architecture: sources, measure and compute, post on X Layer, consumers" src="docs/media/architecture-light.svg" width="100%"></picture>
-
-Drawn by [`scripts/architecture-svg.py`](scripts/architecture-svg.py); the site shows the same file on Home and Docs. Detail in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-
-- **The chain is canonical.** Postgres is a rebuildable view. The append-only observation store and the published input bundles are the only irreplaceable data, and they are never deleted.
-- **Two planes.** The risk plane (measurement, terms, KerbQuote, Credit Mark feeds) runs on X Layer mainnet against the real xStocks pools. The credit plane runs on X Layer testnet with mirror collateral, and its terms are relayed from mainnet.
-- **Twelve processes** under PM2 on one host: collector, two attesters, mirror relay, indexer, API, attribution, agents, demo keeper, web, web warmer, and staging. Caddy in front.
 
 ## How a term is made
 
@@ -131,6 +107,16 @@ In one sentence: *a Carry position can take k times the stressed price gap betwe
 - **Every term explains itself.** A deterministic attribution splits every move exactly into horizon, volatility and exit cost, plus caps and clamps, and the site shows it as sentences with their numbers ([spec](docs/v3/SPEC-TERM-ATTRIBUTION.md)).
 - **Measured, then published.** Market-Time Reports come from the observation store and are versioned; the dataset is downloadable.
 - **Honest labels.** Every live value carries its provenance (Observed, Verified, Computed) and age. Testnet is labelled testnet. Claims are checked by a CI denylist (`scripts/claims-check.sh`).
+
+## Architecture
+
+<img alt="Kerb architecture: sources, measure and compute, post on X Layer, consumers" src="docs/media/architecture-dark.svg" width="100%">
+
+Drawn by [`scripts/architecture-svg.py`](scripts/architecture-svg.py); the site shows it on the Docs page, in the reader's theme. Detail in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+- **The chain is canonical.** Postgres is a rebuildable view. The append-only observation store and the published input bundles are the only irreplaceable data, and they are never deleted.
+- **Two planes.** The risk plane (measurement, terms, KerbQuote, Credit Mark feeds) runs on X Layer mainnet against the real xStocks pools. The credit plane runs on X Layer testnet with mirror collateral, and its terms are relayed from mainnet.
+- **Twelve processes** under PM2 on one host: collector, two attesters, mirror relay, indexer, API, attribution, agents, demo keeper, web, web warmer, and staging. Caddy in front.
 
 ## One term, four consumers
 

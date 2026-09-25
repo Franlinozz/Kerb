@@ -20,8 +20,8 @@ Best take: the Hong Kong cold open at 07:30 to 08:00 on mainnet, then the Credit
 | Shot | Expected on screen | Tested | Fallback |
 |---|---|---|---|
 | Cold open, Board | HKEXCx and other Hong Kong rows in brass Last Call before the 08:00 UTC close, countdown ticking | Board live; HKEXCx regime history shows Pre-transition at 07:33 on 24 Sep (same window) | Hong Kong lunch Last Call 03:30 to 04:00 UTC; or 24 Sep B-roll |
-| Home hero | "Credit on the market's clock", both clocks, pool callouts | Screenshot `docs/media/screens/home.webp` | None needed |
-| Asset HKEXCx | Exit check (tick-walk, OKX DEX quote, difference, capacity used), "Why these terms", Terms history step | Screenshots `asset-why.webp`, `asset-exit.webp` | KOx, same panels |
+| Home hero | "Credit on the market's clock", both clocks, pool callouts | Screenshot `docs/media/screens/home-day.webp` | None needed |
+| Asset HKEXCx | Exit check (tick-walk, OKX DEX quote, difference, capacity used), "Why these terms", Terms history step | Live on /asset/HKEXCx; `docs/media/screens/asset-why-day.webp` (KOx) | KOx, same panels |
 | Credit hero | Profile A position at Session Max; Last Call panel; the keeper's kKOx position in Curable now; Profile B cures it; Profile A back at Carry | Keeper opened kKOx at 02:49 UTC, curable 02:53:58; golden path passed on production 23 Sep (`data/credit-flow-2026-09-23.json`) | Profile B cures Profile A's own position |
 | Proof | Cure tx on OKLink with the Builder Code decoded; `kerb verify` printing MATCHES | `data/release/crucible-2026-09-25/kerb-verify-stranger.txt` | `/proof` live recompute panel |
 | Agents | 402, payment in USDT0 on X Layer, answer; settlement on OKLink | 402 header captured (`checks.txt`); first mainnet settlement `0xb0befc3e…e982e` | Show the recorded settlement; say "registered on OKX.AI, listing under review" |

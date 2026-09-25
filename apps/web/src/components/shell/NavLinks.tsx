@@ -22,7 +22,7 @@ function SubLink({ s, onPick }: { s: NavSub; onPick: () => void }): React.ReactE
   const Icon = ICONS[s.icon] ?? BookOpen;
   const body = (
     <>
-      <span className="navm-ico"><Icon size={16} aria-hidden /></span>
+      <span className="navm-ico"><Icon size={14} aria-hidden /></span>
       <span className="navm-txt"><span className="navm-label">{s.label}{s.external ? <ArrowUpRight size={12} aria-hidden /> : null}</span><span className="navm-note">{s.note}</span></span>
     </>
   );
@@ -50,9 +50,10 @@ function MenuItem({ n, current, onPoint }: { n: NavItem; current: boolean; onPoi
   const id = `navm-${n.label.toLowerCase()}`;
   return (
     <div ref={wrap} className="navm" data-open={open || undefined}
-      onMouseEnter={() => later(true, 90)} onMouseLeave={() => later(false, 160)}
+      onMouseEnter={() => { later(true, 90); if (wrap.current) onPoint(wrap.current); }} onMouseLeave={() => later(false, 160)}
+      onFocus={() => { if (wrap.current) onPoint(wrap.current); }}
       onBlur={(e) => { if (!wrap.current?.contains(e.relatedTarget as Node)) later(false, 0); }}>
-      <Link href={n.href} aria-current={current ? "page" : undefined} onMouseEnter={(e: React.MouseEvent) => onPoint(e.currentTarget)} onFocus={(e: React.FocusEvent) => onPoint(e.currentTarget)}>
+      <Link href={n.href} aria-current={current ? "page" : undefined}>
         {n.label}
       </Link>
       <button type="button" className="navm-toggle" aria-label={`More in ${n.label}`} aria-expanded={open} aria-controls={id} onClick={() => { window.clearTimeout(t.current); setOpen((v) => !v); }}>
@@ -89,7 +90,8 @@ export function NavLinks({ className, onNavigate, pill = false }: { className: s
     const a = (el as HTMLElement).getBoundingClientRect(), n = nav.getBoundingClientRect();
     setBox({ x: a.left - n.left, w: a.width, on: true });
   }, []);
-  const settle = useCallback(() => moveTo(ref.current?.querySelector('[aria-current="page"]') ?? null), [moveTo]);
+  // A menu item's pill covers its label and its arrow together, so it sits like every other entry.
+  const settle = useCallback(() => { const a = ref.current?.querySelector('[aria-current="page"]') ?? null; moveTo(a?.closest(".navm") ?? a); }, [moveTo]);
 
   useIso(() => { if (pill) settle(); }, [pathname, pill, settle]);
   useEffect(() => {
