@@ -36,7 +36,7 @@ test("home renders its h1 and either board rows or a labelled error", async ({ p
 
 test("every nav link resolves and every route has exactly one, distinct h1", async ({ page }) => {
   await page.goto("/");
-  const hrefs = await page.locator(".main-nav a").evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+  const hrefs = await page.locator(".main-nav > .nav-entry > a, .main-nav .navm > a").evaluateAll((as) => as.map((a) => a.getAttribute("href")));
   const seen = new Map<string, string>();
   for (const r of [...new Set([...hrefs, ...ROUTES])]) {
     const res = await page.goto(r!);
@@ -47,6 +47,35 @@ test("every nav link resolves and every route has exactly one, distinct h1", asy
     expect(seen.get(h), `${r} repeats the h1 of ${seen.get(h)}`).toBeUndefined();
     seen.set(h, r!);
   }
+});
+
+test("Developers and Docs menus open on hover and by keyboard, and every entry resolves", async ({ page, request }) => {
+  await page.goto("/");
+  const docs = page.locator(".navm").filter({ has: page.locator('a[href="/docs"]') });
+  await docs.hover();
+  const panel = docs.locator(".navm-panel");
+  await expect(panel).toBeVisible();
+  for (const label of ["FAQ", "Whitepaper", "Terms of use", "Privacy", "Risk disclosure", "Take the tour"]) await expect(panel.getByRole("menuitem", { name: new RegExp(label) })).toBeVisible();
+  await page.mouse.move(5, 600);
+  await expect(panel).toBeHidden();
+  await docs.getByRole("button", { name: "More in Docs" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(panel).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(panel).toBeHidden();
+  const hrefs = await page.locator(".navm-panel a[href^='/']").evaluateAll((as) => as.map((a) => a.getAttribute("href")!.split("#")[0]!));
+  for (const h of [...new Set(hrefs)]) expect((await request.get(h)).status(), h).toBeLessThan(400);
+  await docs.hover();
+  await panel.getByRole("menuitem", { name: /FAQ/ }).click();
+  await expect(page).toHaveURL(/\/faq$/);
+});
+
+test("llms.txt, sitemap and robots answer", async ({ request }) => {
+  const l = await request.get("/llms.txt");
+  expect(l.status()).toBe(200);
+  expect(await l.text()).toContain("0x223d5e2a97d751403300b55aa92c88a42920e52a");
+  expect((await request.get("/sitemap.xml")).status()).toBe(200);
+  expect(await (await request.get("/robots.txt")).text()).toContain("sitemap.xml");
 });
 
 test("old paths redirect permanently", async ({ request }) => {
