@@ -2,7 +2,7 @@
 
 Every public claim on the site, in the README and in the submission text, mapped to something a
 reader can check. Anything that could not be backed was changed or removed from the copy.
-Checked 22 Sep 2026 on commit given in RELEASE_STATE.md; V3 rows added 23 Sep. `/proof` re-checks the live ones on every load.
+Checked 22 Sep 2026 on commit given in RELEASE_STATE.md; V3 rows added 23 Sep; README and evaluator rows added 25 Sep. `/proof` re-checks the live ones on every load.
 
 | Claim | Where it appears | Evidence |
 |---|---|---|
@@ -30,6 +30,19 @@ Checked 22 Sep 2026 on commit given in RELEASE_STATE.md; V3 rows added 23 Sep. `
 | Agents can pay Kerb one cent in USDT0 on X Layer for a credit check; the first settlement was Kerb's own test wallet | Home, Developers, Proof, README, submission | `kerb-agents` on `eip155:196` since 23 Sep 17:12 UTC (operator's "go x402 mainnet"); first paid call 23 Sep 17:13 UTC, settlement `0xb0befc3e64d4ba3e62bd2ab0b5be95ca720a1b2b787df0c6f6cf075a314e982e` (USDT0, block 71414585), payer `0xeB3e398495F52046048aa86Bea593a39bcbe2e8E`, a Kerb-owned wallet funded with 0.10 USDT0 from the deployer; evidence `data/agents/paid-call-2026-09-23T17-13-41-137Z.json`, `agent_calls`, `/v1/agents/stats`. OKX.AI: registered as ASP agent #13887 on 25 Sep 01:02 UTC (tx `0x942ea858c0afb2e8aaadcd0588c02646ef9a3eff9f7c14087a93878a18b558e6`), both services submitted for listing review; claimed only as "listing under review" until OKX confirms |
 | Any contract on X Layer can read Kerb Terms through KerbQuote, deployed and verified on mainnet; KerbMarkFeed exposes the Credit Mark behind a Chainlink-shaped feed | Home, Developers, Proof, README, submission | Mainnet KerbQuote `0x223d5e2a97d751403300b55aa92c88a42920e52a` (tx `0xd612fcdf9518f7d0f0af980f7a2cb048acf3a5fb901f62b816e50b12f1068216`), factory `0x6aababf6d83fcfb81459f8ffee3f6dd9b83d7f6f`, ten feeds, all Sourcify exact match (`config/deployments.json`, `/proof`); `cast call` of quoteToken(BRK.Bx, 10, Carry) at block 71414524: usable, value 5,065.03 USDG, max borrow 2,842.51 USDG; valuation parity with KerbCredit fuzzed and live on testnet (block 41707514); mainnet fork tests. Not claimed: integrated by any third-party lender |
 | Unaudited | Footer, Proof, README | Stated; no audit claimed anywhere |
+| 7,172 signed posts on X Layer mainnet; 457,224 observation rows (25 Sep 02:30 UTC) | README At a glance | `/v1/stats` at that time (`postsByChain`, `obsTotalRows`, `obsPoolRows`); the README dates the figures |
+| 34 deployments, every one a Sourcify exact match | README badge and text, llms.txt | `/v1/proof` deployments list with verification status; `config/deployments.json` |
+| 594 TypeScript and 120 Solidity tests, 0 failing; 79 E2E tests | README | `data/test-report.json` (commit `1bd8178`, 25 Sep 02:32 UTC); `npx playwright test --list` |
+| Anyone can recompute a post with no database, against the chain | README Verify, Judge checklist | `data/release/crucible-2026-09-25/kerb-verify-stranger.txt` and `kerb-verify-tx.txt` (run with `DATABASE_URL` unset) |
+| When the tick-walk and the OKX DEX quote differ by more than 25%, the smaller is used | README, Asset exit check | `data/release/crucible-2026-09-25/exit-conservative.txt`: 6,342 of 6,342 mainnet checks follow the rule |
+| KerbQuote gives the same max borrow as the posted terms | README, Developers | `kerbquote-kox-25.txt`: 992393683 from chain and from the API figures |
+| HKEXCx went Stale from 24 Sep 08:13 to 25 Sep 01:43 UTC on a 2.29% dispersion; borrowing stopped and loosened in capped steps | README What the live system has shown | `/v1/terms/196/HKEXCx/changes?hours=30` (regime events with rule sentences); mirror relay log shows `clamped ... (loosen step)` |
+| Report #2: C(1%) held at the 07:00 cliff; by 08:30, 5 of 10 fell 10% or more, HKEXCx −82.80%; the HK close is a confounder | README, Home KPI, Research | `data/reports/market-time-2.json` and `/v1/market-time/2`; versions in `data/reports/versions` |
+| Registered on OKX.AI as agent #13887, listing under review | README, llms.txt, Developers, Proof | Registration tx `0x942ea858c0afb2e8aaadcd0588c02646ef9a3eff9f7c14087a93878a18b558e6`; `config/agents.json` `listingStatus: under_review`; `onchainos agent activate` returned `approvalStatus 2` (under review) |
+| One settled mainnet x402 payment; four review calls unconfirmed | Home, Proof, Developers | `/v1/agents/stats` (`count: 1`, `unconfirmed: 4`); settlement `0xb0befc3e…e982e` on OKLink; no USDT0 transfer from `0xbc59…2033` on chain |
+| `npm i kerb-sdk` | README, Developers, llms.txt | https://www.npmjs.com/package/kerb-sdk (0.1.0, published 24 Sep) |
+| @KerbAlertsBot sends Last Call alerts | README, Credit, Docs, FAQ | `apps/agents/src/alerts.ts`; kerb-agents log line "Telegram Last Call alerts on" |
+| No model near the numbers | README, llms.txt, whitepaper | The engine and agents code paths (`apps/engine/src`, `apps/agents/src/compute.ts`) contain no model call; AGENTS.md 13.10 |
 
 Removed or changed during V2 because they could not be backed as written: the "Interim card" social
 card text (replaced with art), a margin sentence that described 0.1 while 0.2 is live, the Report #2

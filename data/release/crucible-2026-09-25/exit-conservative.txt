@@ -1,0 +1,3 @@
+all mainnet exit checks with both figures: 6342
+differ by more than 25%: 1849; capacity used = the smaller figure in 1849 of 1849
+within 25%: 4493; capacity used = the tick-walk in 4493 of 4493

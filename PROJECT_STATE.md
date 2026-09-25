@@ -599,3 +599,10 @@ Next: phase 1
 - OKX.AI: ASP agent #13887 "Kerb" registered on X Layer (tx 0x942ea858…58e6) with two A2MCP services (Kerb Credit Check, Kerb Exit Check, 0.01 USDT per call); avatar set to the operator's logo (tx 0x22576fbd…baa); listing submitted, status under review (OKX: up to 48 h, notices to the linked email). config/agents.json listingStatus = under_review; flip to listed only on OKX's approval email.
 - Owner wallet: OKX Agentic Wallet 0xce283b5c2b850ab8c4a6e635ea5add0c9a52d0ef. okx-a2a daemon installed (systemd user autostart) because listing requires A2A readiness.
 - Brand: operator's mark and wordmark (docs/brand-assets) live in header, drawer, footer, large footer word, favicon, apple icon, OG cards, README banner; team-display.png is now the new mark. Live = d8ea531.
+
+### 25 Sep 03:00 UTC, V3-11 certification
+- Operator requests done: Developers and Docs menus; tour rebuilt (anchored spotlight, chapters, live facts, closing card); system diagram (README, Home, Docs); README rebuilt with screens and evidence; llms.txt, sitemap, robots.
+- Fixed during certification: `kerb verify` works with no database (chain read); keeper kKOx fallback (none opened since 24 Sep 09:04); settled-call count excludes four unconfirmed review calls; Research #2 KPIs lead with 08:30; proof age clamp.
+- Crucible: FINAL_AUDIT.md, verdict SHIP, 0 critical blockers. Evidence in data/release/crucible-2026-09-25/.
+- Demo Last Call times 06:53:58, 07:53:58, 08:53:58, 09:53:58 UTC (DEMO_VERIFICATION.md). No deploys 06:00 to 10:30 UTC.
+- CODE FREEZE, tag v3.0.0.

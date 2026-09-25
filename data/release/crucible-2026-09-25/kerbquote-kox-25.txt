@@ -1,0 +1,2 @@
+992393683 [9.923e8]
+KerbQuote.maxBorrow(KOx, 25 tokens, Carry) = 992393683; API creditMark x 25 x carryLTV floored = 992393683 (25 Sep 02:52 UTC)
