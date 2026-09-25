@@ -8,6 +8,8 @@ import { resolve } from "node:path";
 import { repoRoot } from "@kerb/adapters";
 import { canonicalJson, dec, keccakText, toUnitsFloor, type DecString } from "@kerb/types";
 import { connect } from "@kerb/collector/db";
+import { createPublicClient, decodeEventLog, http, parseAbi, type Address, type Hex } from "viem";
+import { assetId as assetIdOf } from "@kerb/types";
 import { buildBundle } from "./build.js";
 import { identifyBundle, type InputBundle } from "./bundle.js";
 import { engineConfig, engineConfigFromBundle, loadParams } from "./params.js";
@@ -116,7 +118,9 @@ async function loadBundleByRef(ref: string): Promise<{ bundle: InputBundle; path
   }
 
   let cid: string | null = /^bafk[a-z2-7]+$/.test(ref) ? ref : null;
-  if (!cid && /^0x[0-9a-fA-F]{64}$/.test(ref)) {
+  // A verifier outside Kerb has no database: the API copy, checked against its own hash, is enough.
+  if (!cid && !HAS_DB && apiCopy) return apiCopy;
+  if (!cid && HAS_DB && /^0x[0-9a-fA-F]{64}$/.test(ref)) {
     const { sql } = connect();
     try {
       const rows = await sql<{ bundle_cid: string | null; pin_status: string | null }[]>`
@@ -167,7 +171,8 @@ async function loadBundleByRef(ref: string): Promise<{ bundle: InputBundle; path
  * This is the claim being tested: a stranger holding only the hash from a TermsPosted event can
  * fetch the pinned inputs and arrive at the same numbers the contract is serving.
  */
-async function comparePosted(inputsHash: string, recomputed: Report): Promise<boolean | null> {
+async function comparePosted(inputsHash: string, recomputed: Report, bundle: InputBundle, txArg: string | null): Promise<boolean | null> {
+  if (!HAS_DB || txArg) return comparePostedOnchain(inputsHash, recomputed, bundle, txArg);
   const { sql } = connect();
   try {
     const rows = await sql<{
@@ -210,6 +215,71 @@ async function comparePosted(inputsHash: string, recomputed: Report): Promise<bo
   }
 }
 
+const HAS_DB = Boolean(process.env["DATABASE_URL"]);
+const RPC: Record<number, string> = { 196: "https://rpc.xlayer.tech", 1952: "https://testrpc.xlayer.tech" };
+const TERMS_ABI = parseAbi([
+  "event TermsPosted(bytes32 indexed assetId, address indexed attester, uint64 observedAt, uint16 regime, uint128 creditMark, uint64 carryLTV, uint64 sessionMaxLTV, uint128 debtCeiling, uint128 executableDepth1, bytes32 inputsHash)",
+  "function latest(bytes32 assetId) view returns ((uint64 observedAt, uint16 regime, uint128 creditMark, uint64 carryLTV, uint64 sessionMaxLTV, uint128 debtCeiling, uint128 maxPositionDebt, uint128 executableDepth1, bytes32 inputsHash, bytes32 engineVersion))",
+]);
+
+/**
+ * The stranger's path: no database, only the chain. The posted values come from KerbTerms on
+ * X Layer, either the TermsPosted log in a transaction the verifier names (--tx), or the
+ * contract's latest terms for the asset when their inputsHash is the one being verified.
+ */
+async function comparePostedOnchain(inputsHash: string, recomputed: Report, bundle: InputBundle, txArg: string | null): Promise<boolean | null> {
+  const chainId = bundle.asset.chainId;
+  const deployments = JSON.parse(readFileSync(resolve(repoRoot(), "config/deployments.json"), "utf8")) as Record<string, { address: string }>;
+  const terms = deployments[`${chainId}:KerbTerms`]?.address as Address | undefined;
+  const rpc = process.env["KERB_RPC_URL"] ?? RPC[chainId];
+  if (!terms || !rpc) { console.log(`no KerbTerms address or RPC for chain ${chainId}`); return null; }
+  const client = createPublicClient({ transport: http(rpc) });
+  const id = assetIdOf(chainId, bundle.asset.token as Address);
+  let posted: { creditMark: bigint; carryLTV: bigint; sessionMaxLTV: bigint; debtCeiling: bigint; executableDepth1: bigint; inputsHash: Hex } | null = null;
+  let where = "";
+  if (txArg) {
+    const receipt = await client.getTransactionReceipt({ hash: txArg as Hex });
+    for (const log of receipt.logs) {
+      if (log.address.toLowerCase() !== terms.toLowerCase()) continue;
+      try {
+        const ev = decodeEventLog({ abi: TERMS_ABI, data: log.data, topics: log.topics });
+        if (ev.eventName === "TermsPosted") { posted = ev.args; where = `TermsPosted in tx ${txArg}`; }
+      } catch { /* another event */ }
+    }
+  } else {
+    posted = await client.readContract({ address: terms, abi: TERMS_ABI, functionName: "latest", args: [id] });
+    where = `KerbTerms.latest(${id.slice(0, 10)}…) at ${terms}`;
+  }
+  if (!posted) { console.log(`no TermsPosted from ${terms} in that transaction`); return null; }
+  if (posted.inputsHash.toLowerCase() !== inputsHash.toLowerCase()) {
+    console.log(`onchain    ${where} carries inputsHash ${posted.inputsHash}, a newer post; pass --tx <hash> of the post you want to check`);
+    return null;
+  }
+  console.log(`posted     chain ${chainId} ${bundle.asset.symbol} read from ${where} (no database used)`);
+  return printChecks([
+    { field: "creditMark", posted: posted.creditMark, recomputed: toUnitsFloor(dec(recomputed.mark.creditMark), 18) },
+    { field: "carryLTV", posted: posted.carryLTV, recomputed: toUnitsFloor(dec(recomputed.capacity.carryLTV), 18) },
+    { field: "sessionMaxLTV", posted: posted.sessionMaxLTV, recomputed: toUnitsFloor(dec(recomputed.capacity.sessionMaxLTV), 18) },
+    { field: "debtCeiling", posted: posted.debtCeiling, recomputed: toUnitsFloor(dec(recomputed.capacity.debtCeiling), 6) },
+    { field: "executableDepth1", posted: posted.executableDepth1, recomputed: toUnitsFloor(dec(recomputed.depth.C_1), 6) },
+  ]);
+}
+
+function printChecks(checks: { field: string; posted: bigint; recomputed: bigint }[]): boolean {
+  let ok = true;
+  for (const c of checks) {
+    // The attester clamps into the onchain guardrails, so a posted value may legitimately be
+    // tighter than the engine's. Anything looser than the recomputed value is a real failure.
+    const equal = c.posted === c.recomputed;
+    const tighter = c.field === "debtCeiling" || c.field.endsWith("LTV") ? c.posted < c.recomputed : false;
+    const verdict = equal ? "MATCHES" : tighter ? "clamped tighter onchain" : "DIFFERS";
+    if (!equal && !tighter) ok = false;
+    console.log(`  ${c.field.padEnd(18)} ${verdict.padEnd(24)} posted ${c.posted}  recomputed ${c.recomputed}`);
+  }
+  console.log(ok ? "recompute  the inputs reproduce the posted terms" : "recompute  MISMATCH against the posted terms");
+  return ok;
+}
+
 async function cmdVerify(ref: string, args: string[] = []): Promise<void> {
   const { bundle, path } = await loadBundleByRef(ref);
   const id = identifyBundle(bundle);
@@ -224,7 +294,8 @@ async function cmdVerify(ref: string, args: string[] = []): Promise<void> {
   console.log(`cid        ${id.cidV1Raw}`);
   console.log(`kts        ${bundle.kts} (params ${bundle.paramsVersion})`);
   // The check that matters: do the pinned inputs reproduce the numbers that went on chain?
-  const onchain = await comparePosted(id.inputsHash, recomputed);
+  const txAt = args.indexOf("--tx");
+  const onchain = await comparePosted(id.inputsHash, recomputed, bundle, txAt >= 0 ? args[txAt + 1] ?? null : null);
   if (onchain !== null) {
     if (args.includes("--json")) console.log(canonicalJson(recomputed));
     if (!onchain) process.exitCode = 1;

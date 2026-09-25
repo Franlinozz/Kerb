@@ -1,0 +1,11 @@
+bundle   https://api.usekerb.xyz/v1/bundle/0x2face8b32211a2988c1c24ba0491390f3b3039b5d2317b4422fdf1e0df99fbd6
+inputsHash 0x2face8b32211a2988c1c24ba0491390f3b3039b5d2317b4422fdf1e0df99fbd6
+cid        bafkreifxkbobpyrdy4nnoprcprtz2tn533xenlcgk3ql37xeehfo2voyfu
+kts        0.2 (params 2026-09-22.1)
+posted     chain 196 KOx read from KerbTerms.latest(0x2052b48f…) at 0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5 (no database used)
+  creditMark         MATCHES                  posted 86750299641130959576  recomputed 86750299641130959576
+  carryLTV           MATCHES                  posted 457586285202016380  recomputed 457586285202016380
+  sessionMaxLTV      MATCHES                  posted 563106364426488597  recomputed 563106364426488597
+  debtCeiling        clamped tighter onchain  posted 9260168422  recomputed 13744814941
+  executableDepth1   MATCHES                  posted 18326419921  recomputed 18326419921
+recompute  the inputs reproduce the posted terms

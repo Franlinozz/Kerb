@@ -1,0 +1,14 @@
+## A. reachability 2026-09-25T02:42:10Z
+https://usekerb.xyz 200
+https://www.usekerb.xyz 200
+https://github.com/Franlinozz/Kerb 200
+https://api.usekerb.xyz/health 200
+## E. health
+{"status":"ok","now":"2026-09-25T02:42:11.619Z","observations":{"poolRows":123150,"lastObservedAt":"2026-09-25T02:41:17.500Z","ageSec":54},"posts":[{"chainId":196,"count":7184,"lastAt":"2026-09-25T02:39:20.179Z"},{"chainId":1952,"count":7401,"lastAt":"2026-09-25T02:40:09.432Z"}]}
+## G. 402
+HTTP/2 402 
+payment-required: eyJ4NDAyVmVyc2lvbiI6MiwiZXJyb3IiOiJQYXltZW50IHJlcXVpcmVkIiwicmVzb3VyY2UiOnsidXJsIjoiaHR0cHM6Ly9hcGkudXNla2VyYi54eXovYWdlbnRzL2NyZWRpdC1jaGVjayIsImRlc2NyaXB0aW9uIjoiS2VyYiBDcmVkaXQgQ2
+## G. MCP tools/list
+"name":"kerb_terms" "name":"kerb_board" "name":"kerb_clock" "name":"kerb_why" "name":"kerb_position" "name":"kerb_paid_tools" 
+## F. exit
+{"chainId":196,"symbol":"KOx","hours":72,"label":"Computed","generatedAt":"2026-09-25T02:41:54.583Z","latest":{"at":"2026-09-25T02:38:59.998Z","tx":"0xa030e6caa93007ee7d28c1481f84b85ae0694326841a052487eec91230598b97","explorer":"https://www.oklink.com/xlayer/tx/0xa030e6caa93007ee7d28c1481f84b85ae0694326841a052487eec91230598b97","inputsHash":"0x2face8b32211a2988c1c24ba0491390f3b3039b5d2317b4422fdf1e0df99fbd6","simulatedC1":"18326.419921","quotedC1":"18296.670838","usedC1":"18326.419921","delta":"0.001625928742086495","bound":"tick-walk","unavailableReason":null,"quoteAgeSec":187,"router":"Unisw

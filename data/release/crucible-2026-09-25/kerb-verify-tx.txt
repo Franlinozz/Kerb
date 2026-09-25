@@ -1,0 +1,8 @@
+kts        0.2 (params 2026-09-22.1)
+posted     chain 196 HKEXCx read from TermsPosted in tx 0x9a70856640c06584c2f8aac7d04e52c3c06dace2c9495090e6bd9e4606a2cc55 (no database used)
+  creditMark         MATCHES                  posted 48826972778512447383  recomputed 48826972778512447383
+  carryLTV           clamped tighter onchain  posted 52020000000000000  recomputed 507973095473292515
+  sessionMaxLTV      clamped tighter onchain  posted 52020000000000000  recomputed 523580636767207643
+  debtCeiling        clamped tighter onchain  posted 71893217  recomputed 270922712
+  executableDepth1   MATCHES                  posted 361230283  recomputed 361230283
+recompute  the inputs reproduce the posted terms

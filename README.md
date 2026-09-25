@@ -179,14 +179,27 @@ Every endpoint is documented with a captured real response in [docs/API.md](docs
 
 ## Verify any number
 
-Take the `inputsHash` from any `TermsPosted` event, or from [/proof](https://www.usekerb.xyz/proof):
+No account, no key and no Kerb database: a clone of this repository, the public API for the bundle bytes, and the X Layer RPC for what was posted.
 
 ```bash
-pnpm install
-pnpm --filter @kerb/engine kerb verify <inputsHash>
+git clone https://github.com/Franlinozz/Kerb && cd Kerb && pnpm install
+pnpm --filter @kerb/engine kerb verify <inputsHash>                 # against KerbTerms.latest on chain
+pnpm --filter @kerb/engine kerb verify <inputsHash> --tx <txHash>   # against the TermsPosted log of any post
 ```
 
-It fetches the bundle, checks it hashes to what is on chain, recomputes every figure under the formula version the bundle names, and compares with the posted terms.
+It fetches the bundle, rejects any bytes that do not hash to `inputsHash`, recomputes every figure under the formula version the bundle names, and compares with the values KerbTerms holds on X Layer. A real run on 25 Sep, 02:50 UTC, for a live KOx post:
+
+```
+posted     chain 196 KOx read from KerbTerms.latest(0x2052b48f…) at 0x6d6eaf24c498df6cef0954f6d19ab4ea7b0102d5 (no database used)
+  creditMark         MATCHES                  posted 86750299641130959576  recomputed 86750299641130959576
+  carryLTV           MATCHES                  posted 457586285202016380  recomputed 457586285202016380
+  sessionMaxLTV      MATCHES                  posted 563106364426488597  recomputed 563106364426488597
+  debtCeiling        clamped tighter onchain  posted 9260168422  recomputed 13744814941
+  executableDepth1   MATCHES                  posted 18326419921  recomputed 18326419921
+recompute  the inputs reproduce the posted terms
+```
+
+"Clamped tighter onchain" is the guardrail at work: a posted value may be tighter than the engine's, never looser. The same check runs live on [/proof](https://www.usekerb.xyz/proof). Evidence files: [data/release/crucible-2026-09-25](data/release/crucible-2026-09-25).
 
 ## What the live system has shown
 

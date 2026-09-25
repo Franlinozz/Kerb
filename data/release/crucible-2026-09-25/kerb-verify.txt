@@ -1,0 +1,20 @@
+
+> @kerb/engine@0.1.0 kerb /root/kerb/apps/engine
+> tsx src/cli.ts verify 0x2face8b32211a2988c1c24ba0491390f3b3039b5d2317b4422fdf1e0df99fbd6
+
+/root/kerb/apps/collector/src/db/client.ts:7
+  if (!u) throw new Error("DATABASE_URL is not set");
+                ^
+
+Error: DATABASE_URL is not set
+    at databaseUrl (/root/kerb/apps/collector/src/db/client.ts:7:17)
+    at connect (/root/kerb/apps/collector/src/db/client.ts:11:31)
+    at loadBundleByRef (/root/kerb/apps/engine/src/cli.ts:120:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async cmdVerify (/root/kerb/apps/engine/src/cli.ts:214:28)
+    at async <anonymous> (/root/kerb/apps/engine/src/cli.ts:258:35)
+
+Node.js v22.23.2
+/root/kerb/apps/engine:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @kerb/engine@0.1.0 kerb: `tsx src/cli.ts verify 0x2face8b32211a2988c1c24ba0491390f3b3039b5d2317b4422fdf1e0df99fbd6`
+Exit status 1
