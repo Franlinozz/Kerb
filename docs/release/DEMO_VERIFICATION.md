@@ -26,7 +26,7 @@ Best take: the Hong Kong cold open at 07:30 to 08:00 on mainnet, then the Credit
 | Proof | Cure tx on OKLink with the Builder Code decoded; `kerb verify` printing MATCHES | `data/release/crucible-2026-09-25/kerb-verify-stranger.txt` | `/proof` live recompute panel |
 | Agents | 402, payment in USDT0 on X Layer, answer; settlement on OKLink | 402 header captured (`checks.txt`); first mainnet settlement `0xb0befc3e…e982e` | Show the recorded settlement; say "registered on OKX.AI, listing under review" |
 | Contracts | `cast call` KerbQuote on mainnet returns max borrow | `kerbquote-kox-25.txt`: 992393683 for 25 KOx at Carry | Drop the beat |
-| Research | Report #2 headline: held at the cliff, 5 of 10 fell 10% or more by 08:30 UTC, HKEXCx −82.80%, HK close caveat | `/research/2` live; final regeneration Fri 07:15 UTC | Say the partial finding with its window |
+| Research | Report #2 final: held at the cliff; 5 of 10 fell 10% or more by 08:30 UTC (HKEXCx −82.80%); 6 of 10 by 25 Sep 07:00 UTC (KUAIx −99.44%), 4 rose; HK close caveat | `/research/2` live; final regeneration Fri 07:15 UTC, `data/reports/market-time-2.json` | The film states the final finding |
 
 ## Terminal 2, pre-typed
 

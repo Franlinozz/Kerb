@@ -1,16 +1,16 @@
 {
   "id": 2,
   "title": "What happened when the X Liquidity incentives ended",
-  "generatedAt": "2026-09-25T07:15:12.293Z",
+  "generatedAt": "2026-09-24T19:00:15.352Z",
   "window": {
     "from": "2026-09-23T07:00:00.000Z",
-    "to": "2026-09-25T07:00:00.000Z",
-    "hours": "48.00",
-    "observations": 43185,
+    "to": "2026-09-24T19:00:12.894Z",
+    "hours": "36.00",
+    "observations": 32400,
     "pools": 15,
     "largestGap": null,
     "underlyingOpenDuringWindow": true,
-    "partial": false,
+    "partial": true,
     "plannedTo": "2026-09-25T07:00:00Z",
     "cliff": "2026-09-24T07:00:00.000Z"
   },
@@ -20,14 +20,14 @@
       "pool": "0x273DA512f76129ED59a2D93D68dFe198423a3114",
       "symbol": "KOx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.086Z",
-      "lastAt": "2026-09-25T06:59:18.163Z",
+      "lastAt": "2026-09-24T19:00:12.454Z",
       "liquidityAtStart": "137352345460879829",
-      "liquidityAtEnd": "206355246469406915",
+      "liquidityAtEnd": "194423995137210002",
       "liquidityMin": "66484550687107045",
       "liquidityMax": "300198394612901693",
-      "changePct": "50.23",
+      "changePct": "41.55",
       "swingPct": "351.53",
       "liquidityBeforeCliff": "68850231142779077",
       "liquidityAfterCliff": "134686614493493486",
@@ -37,15 +37,15 @@
       "pool": "0x293A6167Bed3A474b99f450dE817BC4474087Ed4",
       "symbol": "HKEXCx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.161Z",
-      "lastAt": "2026-09-25T06:59:17.886Z",
+      "lastAt": "2026-09-24T19:00:12.619Z",
       "liquidityAtStart": "233977242256795463",
-      "liquidityAtEnd": "3507744005923482",
-      "liquidityMin": "1142456916895274",
+      "liquidityAtEnd": "1589378825872815",
+      "liquidityMin": "1589378825872815",
       "liquidityMax": "250948135122357724",
-      "changePct": "-98.50",
-      "swingPct": "21865.65",
+      "changePct": "-99.32",
+      "swingPct": "15689.06",
       "liquidityBeforeCliff": "158948965512444351",
       "liquidityAfterCliff": "51670556246257360",
       "cliffChangePct": "-67.49"
@@ -54,14 +54,14 @@
       "pool": "0x34Fa7515d3364648F558aa876F73feC12e2bA507",
       "symbol": "BRK.Bx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.011Z",
-      "lastAt": "2026-09-25T06:59:17.956Z",
+      "lastAt": "2026-09-24T19:00:12.443Z",
       "liquidityAtStart": "84975948110571109",
-      "liquidityAtEnd": "98942741570305449",
+      "liquidityAtEnd": "102715909278766478",
       "liquidityMin": "47800406064495110",
       "liquidityMax": "951076672786602234",
-      "changePct": "16.43",
+      "changePct": "20.87",
       "swingPct": "1889.68",
       "liquidityBeforeCliff": "74107103716281466",
       "liquidityAfterCliff": "76210376687268550",
@@ -71,15 +71,15 @@
       "pool": "0x6E18CEbFb9C5BBcf127b97a6daB026E941FfF6D5",
       "symbol": null,
       "role": "route",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.297Z",
-      "lastAt": "2026-09-25T06:59:18.065Z",
+      "lastAt": "2026-09-24T19:00:12.806Z",
       "liquidityAtStart": "37493661032737448",
-      "liquidityAtEnd": "70855591872023846",
+      "liquidityAtEnd": "69013184823938508",
       "liquidityMin": "37493661032737448",
-      "liquidityMax": "70929692696093720",
-      "changePct": "88.98",
-      "swingPct": "89.17",
+      "liquidityMax": "69144850012536260",
+      "changePct": "84.06",
+      "swingPct": "84.41",
       "liquidityBeforeCliff": "37536212850913469",
       "liquidityAfterCliff": "37934776833231870",
       "cliffChangePct": "1.06"
@@ -88,14 +88,14 @@
       "pool": "0x70131C43684B9Ba44677345f9b05f16E2b555edF",
       "symbol": "COINx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.218Z",
-      "lastAt": "2026-09-25T06:59:17.970Z",
+      "lastAt": "2026-09-24T19:00:12.818Z",
       "liquidityAtStart": "1453451331970589304278",
-      "liquidityAtEnd": "1036112753748645112981",
+      "liquidityAtEnd": "1036833686502641542821",
       "liquidityMin": "811343560466686939421",
       "liquidityMax": "1601586841397325294407",
-      "changePct": "-28.71",
+      "changePct": "-28.66",
       "swingPct": "97.39",
       "liquidityBeforeCliff": "1601586841397325294407",
       "liquidityAfterCliff": "1574678522997080336225",
@@ -105,15 +105,15 @@
       "pool": "0x8D0167755eD35c534FE59DCf5a49EC6aed56736f",
       "symbol": "ICEx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.112Z",
-      "lastAt": "2026-09-25T06:59:18.306Z",
+      "lastAt": "2026-09-24T19:00:12.615Z",
       "liquidityAtStart": "58179348669945501",
-      "liquidityAtEnd": "119030946774854790",
+      "liquidityAtEnd": "84553162718384803",
       "liquidityMin": "33202776645704546",
-      "liquidityMax": "119030946774854790",
-      "changePct": "104.59",
-      "swingPct": "258.49",
+      "liquidityMax": "87473802969785163",
+      "changePct": "45.33",
+      "swingPct": "163.45",
       "liquidityBeforeCliff": "52068400522237015",
       "liquidityAfterCliff": "52399915102014133",
       "cliffChangePct": "0.63"
@@ -122,9 +122,9 @@
       "pool": "0x91db1a80bd51FcBD30c6BFa398EEe0De24eE2663",
       "symbol": null,
       "role": "route",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.466Z",
-      "lastAt": "2026-09-25T06:59:18.164Z",
+      "lastAt": "2026-09-24T19:00:12.675Z",
       "liquidityAtStart": "17922794180278883",
       "liquidityAtEnd": "16502992410891042",
       "liquidityMin": "16502992410891042",
@@ -139,9 +139,9 @@
       "pool": "0x94D64ac04AC580a72fd481bCd1Ca7d83Bd4ac3b8",
       "symbol": "MIXUx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.859Z",
-      "lastAt": "2026-09-25T06:59:17.997Z",
+      "lastAt": "2026-09-24T19:00:12.642Z",
       "liquidityAtStart": "107213411892835297",
       "liquidityAtEnd": "10259979971626431",
       "liquidityMin": "10259979971626431",
@@ -156,15 +156,15 @@
       "pool": "0x9D5d95416412643004af849e012c894D4689a0f2",
       "symbol": "KUAIx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.154Z",
-      "lastAt": "2026-09-25T06:59:19.145Z",
+      "lastAt": "2026-09-24T19:00:12.453Z",
       "liquidityAtStart": "422816737428488826",
-      "liquidityAtEnd": "32335940662959256",
-      "liquidityMin": "12017878226308011",
+      "liquidityAtEnd": "181072807767705766",
+      "liquidityMin": "181072807767705766",
       "liquidityMax": "473891346517934054",
-      "changePct": "-92.35",
-      "swingPct": "3843.21",
+      "changePct": "-57.17",
+      "swingPct": "161.71",
       "liquidityBeforeCliff": "212239407360828235",
       "liquidityAfterCliff": "211136985866086859",
       "cliffChangePct": "-0.51"
@@ -173,15 +173,15 @@
       "pool": "0xF1ef85ce4691E94a32064b59E766c42183B44497",
       "symbol": "SHEINx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.361Z",
-      "lastAt": "2026-09-25T06:59:17.967Z",
+      "lastAt": "2026-09-24T19:00:12.646Z",
       "liquidityAtStart": "815474009216803489",
-      "liquidityAtEnd": "72027471866725443",
-      "liquidityMin": "70470730477819216",
+      "liquidityAtEnd": "83260667374987652",
+      "liquidityMin": "83260667374987652",
       "liquidityMax": "989914054193673560",
-      "changePct": "-91.16",
-      "swingPct": "1304.71",
+      "changePct": "-89.78",
+      "swingPct": "1088.93",
       "liquidityBeforeCliff": "272061922341394934",
       "liquidityAfterCliff": "227464435681390858",
       "cliffChangePct": "-16.39"
@@ -190,9 +190,9 @@
       "pool": "0xFD69Fd884BD7c35DF86D2eC80ae74Cbe774C00ab",
       "symbol": null,
       "role": "route",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:55.749Z",
-      "lastAt": "2026-09-25T06:59:19.351Z",
+      "lastAt": "2026-09-24T19:00:12.701Z",
       "liquidityAtStart": "169380577128",
       "liquidityAtEnd": "169380577128",
       "liquidityMin": "169380577128",
@@ -207,9 +207,9 @@
       "pool": "0xbB9a35F790EA6eA9763b99e885f33BCF95860d40",
       "symbol": null,
       "role": "route",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.614Z",
-      "lastAt": "2026-09-25T06:59:19.625Z",
+      "lastAt": "2026-09-24T19:00:12.894Z",
       "liquidityAtStart": "1001809604992411",
       "liquidityAtEnd": "1001809604992411",
       "liquidityMin": "1001809604992411",
@@ -224,15 +224,15 @@
       "pool": "0xcd5a3694a98986598D1F73A27438ba4BBbfa729b",
       "symbol": "BMNRx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.650Z",
-      "lastAt": "2026-09-25T06:59:18.152Z",
+      "lastAt": "2026-09-24T19:00:12.744Z",
       "liquidityAtStart": "4189300059282010892287",
-      "liquidityAtEnd": "9173330177416541459472",
+      "liquidityAtEnd": "9129981066387068838936",
       "liquidityMin": "4189300059282010892287",
-      "liquidityMax": "9545497017919909299302",
-      "changePct": "118.97",
-      "swingPct": "127.85",
+      "liquidityMax": "9129981066387068838936",
+      "changePct": "117.93",
+      "swingPct": "117.93",
       "liquidityBeforeCliff": "6882019038871692440501",
       "liquidityAfterCliff": "6989729805096604730105",
       "cliffChangePct": "1.56"
@@ -241,15 +241,15 @@
       "pool": "0xd510189E8b3684A101e0552835f3B6C2dE4af4a6",
       "symbol": "SLVx",
       "role": "asset",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.121Z",
-      "lastAt": "2026-09-25T06:59:18.034Z",
+      "lastAt": "2026-09-24T19:00:12.691Z",
       "liquidityAtStart": "103934011485631833",
-      "liquidityAtEnd": "43438851280694118",
-      "liquidityMin": "37497373146986385",
+      "liquidityAtEnd": "49668492858926964",
+      "liquidityMin": "43727014725219231",
       "liquidityMax": "112163610009814269",
-      "changePct": "-58.20",
-      "swingPct": "199.12",
+      "changePct": "-52.21",
+      "swingPct": "156.50",
       "liquidityBeforeCliff": "112163610009814269",
       "liquidityAfterCliff": "66104491881332705",
       "cliffChangePct": "-41.06"
@@ -258,9 +258,9 @@
       "pool": "0xf05577E469d04Cc8FD84A79C1fE5661b3394cC0e",
       "symbol": null,
       "role": "route",
-      "observations": 2879,
+      "observations": 2160,
       "firstAt": "2026-09-23T07:00:56.411Z",
-      "lastAt": "2026-09-25T06:59:18.181Z",
+      "lastAt": "2026-09-24T19:00:12.679Z",
       "liquidityAtStart": "128159600677927",
       "liquidityAtEnd": "129187826967235",
       "liquidityMin": "128159600677927",
@@ -276,82 +276,82 @@
     {
       "symbol": "BRK.Bx",
       "market": "XNYS",
-      "regularReadings": 779,
-      "closedReadings": 959,
-      "meanAbsMoveBpRegular": "210.78",
-      "meanAbsMoveBpClosed": "1.88"
+      "regularReadings": 720,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "228.05",
+      "meanAbsMoveBpClosed": "2.16"
     },
     {
       "symbol": "HKEXCx",
       "market": "XHKG",
-      "regularReadings": 659,
-      "closedReadings": 2019,
-      "meanAbsMoveBpRegular": "81.72",
-      "meanAbsMoveBpClosed": "368.68"
+      "regularReadings": 389,
+      "closedReadings": 1660,
+      "meanAbsMoveBpRegular": "23.07",
+      "meanAbsMoveBpClosed": "13.48"
     },
     {
       "symbol": "COINx",
       "market": "XNAS",
-      "regularReadings": 779,
-      "closedReadings": 959,
-      "meanAbsMoveBpRegular": "16.35",
-      "meanAbsMoveBpClosed": "1.36"
+      "regularReadings": 720,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "17.69",
+      "meanAbsMoveBpClosed": "2.40"
     },
     {
       "symbol": "KUAIx",
       "market": "XHKG",
-      "regularReadings": 659,
-      "closedReadings": 2019,
-      "meanAbsMoveBpRegular": "63.79",
-      "meanAbsMoveBpClosed": "1.70"
+      "regularReadings": 389,
+      "closedReadings": 1660,
+      "meanAbsMoveBpRegular": "22.78",
+      "meanAbsMoveBpClosed": "2.06"
     },
     {
       "symbol": "ICEx",
       "market": "XNYS",
-      "regularReadings": 779,
-      "closedReadings": 959,
-      "meanAbsMoveBpRegular": "16.78",
-      "meanAbsMoveBpClosed": "13.81"
+      "regularReadings": 720,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "18.12",
+      "meanAbsMoveBpClosed": "11.91"
     },
     {
       "symbol": "MIXUx",
       "market": "XHKG",
-      "regularReadings": 659,
-      "closedReadings": 2019,
-      "meanAbsMoveBpRegular": "24.46",
-      "meanAbsMoveBpClosed": "6.20"
+      "regularReadings": 389,
+      "closedReadings": 1660,
+      "meanAbsMoveBpRegular": "41.43",
+      "meanAbsMoveBpClosed": "7.54"
     },
     {
       "symbol": "KOx",
       "market": "XNYS",
-      "regularReadings": 779,
-      "closedReadings": 959,
-      "meanAbsMoveBpRegular": "44.71",
-      "meanAbsMoveBpClosed": "9.26"
+      "regularReadings": 720,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "48.18",
+      "meanAbsMoveBpClosed": "15.61"
     },
     {
       "symbol": "SHEINx",
       "market": "XHKG",
-      "regularReadings": 659,
-      "closedReadings": 2019,
-      "meanAbsMoveBpRegular": "40.61",
-      "meanAbsMoveBpClosed": "2.14"
+      "regularReadings": 389,
+      "closedReadings": 1660,
+      "meanAbsMoveBpRegular": "64.11",
+      "meanAbsMoveBpClosed": "2.58"
     },
     {
       "symbol": "BMNRx",
       "market": "XNYS",
-      "regularReadings": 779,
-      "closedReadings": 959,
-      "meanAbsMoveBpRegular": "23.35",
-      "meanAbsMoveBpClosed": "9.39"
+      "regularReadings": 720,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "22.35",
+      "meanAbsMoveBpClosed": "5.50"
     },
     {
       "symbol": "SLVx",
       "market": "ARCX",
-      "regularReadings": 779,
-      "closedReadings": 959,
-      "meanAbsMoveBpRegular": "3.33",
-      "meanAbsMoveBpClosed": "7.49"
+      "regularReadings": 720,
+      "closedReadings": 539,
+      "meanAbsMoveBpRegular": "3.60",
+      "meanAbsMoveBpClosed": "7.85"
     }
   ],
   "snapshots": [
@@ -870,167 +870,81 @@
           "debtCeiling": "2661.838989"
         }
       ]
-    },
-    {
-      "label": "window-end",
-      "capturedAt": "2026-09-25T07:00:02Z",
-      "assets": [
-        {
-          "symbol": "BRK.Bx",
-          "regime": "REFERENCE_CLOSED",
-          "c1": "21496.267578",
-          "c3": "64527.902343",
-          "creditMark": "497.220135891489060811",
-          "debtCeiling": "16122.200684"
-        },
-        {
-          "symbol": "HKEXCx",
-          "regime": "STALE",
-          "c1": "228.341738",
-          "c3": "9232.441894",
-          "creditMark": "46.804978841298312245",
-          "debtCeiling": "171.256304"
-        },
-        {
-          "symbol": "COINx",
-          "regime": "REFERENCE_CLOSED",
-          "c1": "6314.212304",
-          "c3": "20572.264061",
-          "creditMark": "194.772836874149598683",
-          "debtCeiling": "4735.659228"
-        },
-        {
-          "symbol": "KUAIx",
-          "regime": "THIN",
-          "c1": "22.230107",
-          "c3": "538.655761",
-          "creditMark": "3.702946882606439884",
-          "debtCeiling": "16.67258"
-        },
-        {
-          "symbol": "ICEx",
-          "regime": "REFERENCE_CLOSED",
-          "c1": "14277.019531",
-          "c3": "44445.871093",
-          "creditMark": "153.763585709965437971",
-          "debtCeiling": "10707.764648"
-        },
-        {
-          "symbol": "MIXUx",
-          "regime": "THIN",
-          "c1": "82.703717",
-          "c3": "898.948974",
-          "creditMark": "23.322838271506697784",
-          "debtCeiling": "62.027788"
-        },
-        {
-          "symbol": "KOx",
-          "regime": "REFERENCE_CLOSED",
-          "c1": "18821.929687",
-          "c3": "56716.992187",
-          "creditMark": "86.699734745914929131",
-          "debtCeiling": "14116.447265"
-        },
-        {
-          "symbol": "SHEINx",
-          "regime": "THIN",
-          "c1": "1483.795532",
-          "c3": "4652.560302",
-          "creditMark": "4.51466848063003305",
-          "debtCeiling": "1112.846649"
-        },
-        {
-          "symbol": "BMNRx",
-          "regime": "REFERENCE_CLOSED",
-          "c1": "13603.02539",
-          "c3": "44713.863281",
-          "creditMark": "27.488632823656543615",
-          "debtCeiling": "10202.269042"
-        },
-        {
-          "symbol": "SLVx",
-          "regime": "REFERENCE_CLOSED",
-          "c1": "2605.982666",
-          "c3": "5356.010253",
-          "creditMark": "56.528071470091300532",
-          "debtCeiling": "1954.487"
-        }
-      ]
     }
   ],
   "gaps": [],
   "sources": [
     {
       "source": "xstocks:price-data",
-      "observations": 39813,
+      "observations": 28784,
       "firstAt": "2026-09-23T07:00:05.349Z",
-      "lastAt": "2026-09-25T06:59:40.620Z"
+      "lastAt": "2026-09-24T19:00:00.946Z"
     },
     {
       "source": "yahoo:chart:0388.HK",
-      "observations": 5759,
+      "observations": 4319,
       "firstAt": "2026-09-23T07:00:06.641Z",
-      "lastAt": "2026-09-25T06:59:41.904Z"
+      "lastAt": "2026-09-24T18:59:51.905Z"
     },
     {
       "source": "yahoo:chart:0625.HK",
-      "observations": 5758,
+      "observations": 4318,
       "firstAt": "2026-09-23T07:00:06.646Z",
-      "lastAt": "2026-09-25T06:59:41.907Z"
+      "lastAt": "2026-09-24T18:59:51.914Z"
     },
     {
       "source": "yahoo:chart:1024.HK",
-      "observations": 5759,
+      "observations": 4319,
       "firstAt": "2026-09-23T07:00:06.643Z",
-      "lastAt": "2026-09-25T06:59:41.905Z"
+      "lastAt": "2026-09-24T18:59:51.908Z"
     },
     {
       "source": "yahoo:chart:2097.HK",
-      "observations": 5758,
+      "observations": 4318,
       "firstAt": "2026-09-23T07:00:06.645Z",
-      "lastAt": "2026-09-25T06:59:41.906Z"
+      "lastAt": "2026-09-24T18:59:51.910Z"
     },
     {
       "source": "yahoo:chart:BMNR",
-      "observations": 5758,
+      "observations": 4318,
       "firstAt": "2026-09-23T07:00:06.649Z",
-      "lastAt": "2026-09-25T06:59:41.908Z"
+      "lastAt": "2026-09-24T18:59:51.915Z"
     },
     {
       "source": "yahoo:chart:BRK-B",
-      "observations": 5757,
+      "observations": 4317,
       "firstAt": "2026-09-23T07:00:06.639Z",
-      "lastAt": "2026-09-25T06:59:41.903Z"
+      "lastAt": "2026-09-24T18:59:51.901Z"
     },
     {
       "source": "yahoo:chart:COIN",
-      "observations": 5758,
+      "observations": 4318,
       "firstAt": "2026-09-23T07:00:06.642Z",
-      "lastAt": "2026-09-25T06:59:41.905Z"
+      "lastAt": "2026-09-24T18:59:51.907Z"
     },
     {
       "source": "yahoo:chart:HKD=X",
-      "observations": 5758,
+      "observations": 4318,
       "firstAt": "2026-09-23T07:00:06.652Z",
-      "lastAt": "2026-09-25T06:59:41.909Z"
+      "lastAt": "2026-09-24T18:59:51.918Z"
     },
     {
       "source": "yahoo:chart:ICE",
-      "observations": 5758,
+      "observations": 4318,
       "firstAt": "2026-09-23T07:00:06.644Z",
-      "lastAt": "2026-09-25T06:59:41.906Z"
+      "lastAt": "2026-09-24T18:59:51.909Z"
     },
     {
       "source": "yahoo:chart:KO",
-      "observations": 5758,
+      "observations": 4318,
       "firstAt": "2026-09-23T07:00:06.645Z",
-      "lastAt": "2026-09-25T06:59:41.907Z"
+      "lastAt": "2026-09-24T18:59:51.913Z"
     },
     {
       "source": "yahoo:chart:SLV",
-      "observations": 5759,
+      "observations": 4319,
       "firstAt": "2026-09-23T07:00:06.651Z",
-      "lastAt": "2026-09-25T06:59:41.909Z"
+      "lastAt": "2026-09-24T18:59:51.917Z"
     }
   ],
   "campaign": {
@@ -1061,9 +975,9 @@
         "ceilingAfter": "12079.758544",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "21496.267578",
-        "c1LaterChangePct": "33.46"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "16739.176757",
+        "c1LaterChangePct": "3.92"
       },
       {
         "symbol": "HKEXCx",
@@ -1083,9 +997,9 @@
         "ceilingAfter": "8093.791259",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "228.341738",
-        "c1LaterChangePct": "-97.88"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "1856.06574",
+        "c1LaterChangePct": "-82.80"
       },
       {
         "symbol": "COINx",
@@ -1105,9 +1019,9 @@
         "ceilingAfter": "5290.005614",
         "ceilingChangePct": "-0.14",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "6314.212304",
-        "c1LaterChangePct": "-10.60"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "6044.942576",
+        "c1LaterChangePct": "-14.42"
       },
       {
         "symbol": "KUAIx",
@@ -1127,9 +1041,9 @@
         "ceilingAfter": "3023.296853",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "22.230107",
-        "c1LaterChangePct": "-99.44"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "3521.252197",
+        "c1LaterChangePct": "-12.64"
       },
       {
         "symbol": "ICEx",
@@ -1149,9 +1063,9 @@
         "ceilingAfter": "4711.170044",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "14277.019531",
-        "c1LaterChangePct": "127.28"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "6320.589355",
+        "c1LaterChangePct": "0.62"
       },
       {
         "symbol": "MIXUx",
@@ -1171,9 +1085,9 @@
         "ceilingAfter": "807.812805",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "82.703717",
-        "c1LaterChangePct": "-92.32"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "1046.301513",
+        "c1LaterChangePct": "-2.85"
       },
       {
         "symbol": "KOx",
@@ -1193,9 +1107,9 @@
         "ceilingAfter": "4705.608032",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "18821.929687",
-        "c1LaterChangePct": "199.99"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "12556.540039",
+        "c1LaterChangePct": "100.13"
       },
       {
         "symbol": "SHEINx",
@@ -1215,9 +1129,9 @@
         "ceilingAfter": "4269.927978",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "1483.795532",
-        "c1LaterChangePct": "-73.93"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "2043.765258",
+        "c1LaterChangePct": "-64.10"
       },
       {
         "symbol": "BMNRx",
@@ -1237,9 +1151,9 @@
         "ceilingAfter": "6497.07019",
         "ceilingChangePct": "-0.15",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "13603.02539",
-        "c1LaterChangePct": "56.78"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "8751.307617",
+        "c1LaterChangePct": "0.86"
       },
       {
         "symbol": "SLVx",
@@ -1259,9 +1173,9 @@
         "ceilingAfter": "6006.43872",
         "ceilingChangePct": "0.00",
         "verdict": "held",
-        "laterAt": "2026-09-25T07:00:02Z",
-        "c1Later": "2605.982666",
-        "c1LaterChangePct": "-67.45"
+        "laterAt": "2026-09-24T08:30:02Z",
+        "c1Later": "3549.118652",
+        "c1LaterChangePct": "-55.68"
       }
     ],
     "summary": {
@@ -1288,20 +1202,21 @@
       "evidence": "Full engine captures of every asset: executable depth at 1% and 3% by tick walk, the Credit Mark, the regime and the debt ceiling Kerb would publish."
     },
     {
-      "claim": "By the 07:00 UTC capture, executable depth at 1% had fallen by 10% or more for 6 of 10 assets, the largest KUAIx at -99.44%, and risen by 10% or more for 4.",
-      "evidence": "C(1%) at the last capture before the cliff against the last capture of the morning, per asset: BRK.Bx 33.46%, HKEXCx -97.88%, COINx -10.60%, KUAIx -99.44%, ICEx 127.28%, MIXUx -92.32%, KOx 199.99%, SHEINx -73.93%, BMNRx 56.78%, SLVx -67.45%. The Hong Kong market closes at 08:00 UTC, inside this interval, so for its assets the incentive end and the close cannot be told apart from these readings alone."
+      "claim": "By the 08:30 UTC capture, executable depth at 1% had fallen by 10% or more for 5 of 10 assets, the largest HKEXCx at -82.80%, and risen by 10% or more for 1.",
+      "evidence": "C(1%) at the last capture before the cliff against the last capture of the morning, per asset: BRK.Bx 3.92%, HKEXCx -82.80%, COINx -14.42%, KUAIx -12.64%, ICEx 0.62%, MIXUx -2.85%, KOx 100.13%, SHEINx -64.10%, BMNRx 0.86%, SLVx -55.68%. The Hong Kong market closes at 08:00 UTC, inside this interval, so for its assets the incentive end and the close cannot be told apart from these readings alone."
     },
     {
-      "claim": "Now that the record holds sessions, it can compare them: for 8 of 10 assets, in-range liquidity moved more from minute to minute while the underlying market was in its regular session than while it was shut.",
-      "evidence": "Mean absolute change between consecutive readings, never across a hole: BRK.Bx 210.78 bp open, 1.88 bp closed; HKEXCx 81.72 bp open, 368.68 bp closed; COINx 16.35 bp open, 1.36 bp closed; KUAIx 63.79 bp open, 1.70 bp closed; ICEx 16.78 bp open, 13.81 bp closed; MIXUx 24.46 bp open, 6.20 bp closed; KOx 44.71 bp open, 9.26 bp closed; SHEINx 40.61 bp open, 2.14 bp closed; BMNRx 23.35 bp open, 9.39 bp closed; SLVx 3.33 bp open, 7.49 bp closed."
+      "claim": "Now that the record holds sessions, it can compare them: for 9 of 10 assets, in-range liquidity moved more from minute to minute while the underlying market was in its regular session than while it was shut.",
+      "evidence": "Mean absolute change between consecutive readings, never across a hole: BRK.Bx 228.05 bp open, 2.16 bp closed; HKEXCx 23.07 bp open, 13.48 bp closed; COINx 17.69 bp open, 2.40 bp closed; KUAIx 22.78 bp open, 2.06 bp closed; ICEx 18.12 bp open, 11.91 bp closed; MIXUx 41.43 bp open, 7.54 bp closed; KOx 48.18 bp open, 15.61 bp closed; SHEINx 64.11 bp open, 2.58 bp closed; BMNRx 22.35 bp open, 5.50 bp closed; SLVx 3.60 bp open, 7.85 bp closed."
     }
   ],
   "limitations": [
+    "The window is partial: the record reaches 2026-09-24T19:00 UTC of a planned 2026-09-25T07:00 UTC. The report is regenerated as it fills.",
     "Two days either side of one event is one observation of that event. It shows what happened here, not what always happens.",
     "The later comparison spans the Hong Kong close at 08:00 UTC; for HKEXCx, KUAIx, MIXUx and SHEINx the end of incentives and the market close overlap.",
     "In-range liquidity L is in protocol units, not dollars; executable depth C(1%) in the captures is the dollar measure.",
     "The session comparison measures how much L moved, not why. Liquidity providers act for reasons the record does not hold."
   ],
   "reproduce": "pnpm --filter @kerb/engine exec tsx scripts/market-time-report-2.ts regenerates this file from the observation store and the window captures in data/windows. Every row is a SELECT over append-only tables.",
-  "status": "final"
+  "status": "partial"
 }

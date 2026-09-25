@@ -14,16 +14,20 @@
 
 <p align="center">
 <a href="https://www.usekerb.xyz"><b>Live app</b></a> ·
+<a href="https://www.usekerb.xyz/film"><b>The film</b></a> ·
 <a href="https://www.usekerb.xyz/docs">Docs</a> ·
 <a href="https://www.usekerb.xyz/whitepaper">Whitepaper</a> ·
 <a href="https://www.usekerb.xyz/methodology">KTS 0.2</a> ·
 <a href="https://www.usekerb.xyz/proof">Proof</a> ·
 <a href="https://api.usekerb.xyz/health">API</a> ·
 <a href="https://www.usekerb.xyz/faq">FAQ</a> ·
-<a href="https://www.usekerb.xyz/llms.txt">llms.txt</a>
+<a href="https://www.usekerb.xyz/llms.txt">llms.txt</a> ·
+<a href="https://x.com/usekerb">@usekerb on X</a>
 </p>
 
-<p align="center"><sub>OKX Dev Day 2026 · Build a Market · Remote · Xyndicate Labs · Demo video: linked here on submission day, 25 Sep 2026</sub></p>
+<p align="center"><a href="https://www.usekerb.xyz/film"><img alt="Watch the Kerb demo film, 3 minutes 27 seconds" src="docs/media/film-poster.webp" width="72%"></a><br><sub><a href="https://www.usekerb.xyz/film">Watch the film</a> (3:27, chapters and captions) · <a href="https://github.com/Franlinozz/Kerb/releases/latest">1080p master</a></sub></p>
+
+<p align="center"><sub>OKX Dev Day 2026 · Build a Market · Remote · Xyndicate Labs · <a href="https://x.com/usekerb">@usekerb</a></sub></p>
 
 ---
 
@@ -190,7 +194,7 @@ recompute  the inputs reproduce the posted terms
 ## What the live system has shown
 
 - **Weekend closure** ([Report #1](https://www.usekerb.xyz/research/1)). Over 42 hours and 35,130 readings of a closed weekend, in-range liquidity fell on 7 of 10 asset pools, the largest by 49%. A capacity number fixed at Friday's close would have been wrong all weekend.
-- **Incentives ending** ([Report #2](https://www.usekerb.xyz/research/2), partial until 25 Sep 07:00 UTC). At the 07:00 UTC end of the X Liquidity campaign on 24 Sep, C(1%) held for all ten assets. By the 08:30 UTC capture it had fallen by 10% or more for five of ten, the largest HKEXCx at −82.80%. The Hong Kong close at 08:00 UTC sits inside that interval, and the report says so.
+- **Incentives ending** ([Report #2](https://www.usekerb.xyz/research/2), final: 23 Sep 07:00 to 25 Sep 07:00 UTC, 43,185 readings across 15 pools). At the 07:00 UTC end of the X Liquidity campaign on 24 Sep, C(1%) held for all ten assets. By the 08:30 UTC capture it had fallen by 10% or more for five of ten, the largest HKEXCx at −82.80%; by the 25 Sep 07:00 UTC capture, for six of ten, the largest KUAIx at −99.44%, while four rose by 10% or more. The Hong Kong close at 08:00 UTC sits inside the first interval, and the report says so.
 - **The dispersion guard, in production.** From 24 Sep 08:13 to 25 Sep 01:43 UTC, HKEXCx's pool price sat more than 2% from its reference (2.29% at entry). The regime went to Stale and new borrowing stopped on its own; when the sources agreed again it moved to Recovery and loosened in capped steps. Every transition is on [the asset page](https://www.usekerb.xyz/asset/HKEXCx) with its rule.
 - **Tighten fast, loosen slow.** On 23 Sep a real pool event cut BRK.Bx liquidity by 43%; its debt ceiling tightened in the next post and may loosen only in capped steps.
 
