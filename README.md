@@ -68,8 +68,8 @@ The site has a sixty-second guided tour (first visit, or *Docs → Take the tour
 <td width="50%"><a href="https://www.usekerb.xyz/board"><img src="docs/media/screens/board.webp" alt="The Board in Night"></a><br><sub><b>Board.</b> Every stock's regime, Credit Mark, C(1%) and terms, right now.</sub></td>
 </tr>
 <tr>
-<td><a href="https://www.usekerb.xyz/asset/KOx"><img src="docs/media/screens/asset-why-day.webp" alt="Why these terms, in Day"></a><br><sub><b>Why these terms.</b> Each number explained with its own inputs.</sub></td>
 <td><a href="https://www.usekerb.xyz/credit"><img src="docs/media/screens/credit.webp" alt="Kerb Credit in Night"></a><br><sub><b>Kerb Credit.</b> Carry or Session Max on a demo clock; the brass band is Last Call.</sub></td>
+<td><a href="https://www.usekerb.xyz/asset/KOx"><img src="docs/media/screens/asset-why-day.webp" alt="Why these terms, in Day"></a><br><sub><b>Why these terms.</b> Each number explained with its own inputs.</sub></td>
 </tr>
 <tr>
 <td><a href="https://www.usekerb.xyz/research/2"><img src="docs/media/screens/research-2-day.webp" alt="Market-Time Report #2 in Day"></a><br><sub><b>Research.</b> What the end of the X Liquidity incentives did to exit capacity.</sub></td>
